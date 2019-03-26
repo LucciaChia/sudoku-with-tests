@@ -1,84 +1,75 @@
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import sudoku.Main;
+import sudoku.model.Horizontal;
+import sudoku.model.Square;
+import sudoku.model.SudokuElement;
+import sudoku.model.Vertical;
+import sudoku.processing.Solution;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
+
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 public class TestSolution {
 
-    //JEDNODUCHE SUDOKU test 1
-    int[][] data1 =
-                {
-                        {0, 3, 0, 4, 1, 0, 0, 2, 0},
-                        {5, 6, 0, 0, 0, 0, 0, 3, 0},
-                        {8, 0, 0, 0, 0, 7, 0, 0, 0},
-                        {7, 5, 6, 0, 0, 9, 0, 0, 0},
-                        {0, 1, 0, 0, 0, 0, 0, 6, 0},
-                        {0, 0, 0, 6, 0, 0, 3, 5, 7},
-                        {0, 0, 0, 5, 0, 0, 0, 0, 8},
-                        {0, 9, 0, 0, 0, 0, 0, 1, 2},
-                        {0, 7, 0, 0, 8, 2, 0, 9, 0}
-                };
-    int[][] expected1 =
-            {
-                    {9, 3, 7, 4, 1, 6, 8, 2, 5},
-                    {5, 6, 4, 9, 2, 8, 7, 3, 1},
-                    {8, 2, 1, 3, 5, 7, 9, 4, 6},
-                    {7, 5, 6, 2, 3, 9, 1, 8, 4},
-                    {4, 1, 3, 8, 7, 5, 2, 6, 9},
-                    {2, 8, 9, 6, 4, 1, 3, 5, 7},
-                    {1, 4, 2, 5, 9, 3, 6, 7, 8},
-                    {3, 9, 8, 7, 6, 4, 5, 1, 2},
-                    {6, 7, 5, 1, 8, 2, 4, 9, 3}
-            };
+    // paths to resources
+    // inputs
+    public static final String inp1 = "C:\\Users\\Lucia\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple1.txt";
+    public static final String inp2 = "C:\\Users\\Lucia\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple2.txt";
+    public static final String inp3 = "C:\\Users\\Lucia\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple3.txt";
+    public static final String inp4 = "C:\\Users\\Lucia\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple4.txt";
 
-    //JEDNODUCHE SUDOKU test 4
-    int[][] data4 =
-                {
-                        {0, 0, 4, 0, 1, 2, 0, 6, 0},
-                        {0, 3, 7, 0, 0, 0, 0, 9, 0},
-                        {9, 0, 0, 0, 0, 4, 0, 0, 8},
-                        {0, 0, 0, 3, 0, 0, 0, 0, 1},
-                        {6, 0, 0, 0, 8, 0, 0, 0, 3},
-                        {3, 0, 0, 0, 0, 9, 0, 0, 0},
-                        {7, 0, 0, 2, 0, 0, 0, 0, 4},
-                        {0, 8, 0, 0, 0, 0, 7, 2, 0},
-                        {0, 1, 0, 6, 7, 0, 5, 0, 0}
-                };
-    int[][] expected4 =
-            {
-                    {8, 5, 4, 9, 1, 2, 3, 6, 7},
-                    {1, 3, 7, 8, 6, 5, 4, 9, 2},
-                    {9, 2, 6, 7, 3, 4, 1, 5, 8},
-                    {2, 7, 5, 3, 4, 6, 9, 8, 1},
-                    {6, 9, 1, 5, 8, 7, 2, 4, 3},
-                    {3, 4, 8, 1, 2, 9, 6, 7, 5},
-                    {7, 6, 9, 2, 5, 3, 8, 1, 4},
-                    {5, 8, 3, 4, 9, 1, 7, 2, 6},
-                    {4, 1, 2, 6, 7, 8, 5, 3, 9}
-            };
+    // expected outputs
+    public final static String exp1 = "C:\\Users\\Lucia\\IdeaProjects\\sudoku-with-tests\\src\\test\\java\\expectedSolutions\\simple\\exp1.txt";
+    public final static String exp2 = "C:\\Users\\Lucia\\IdeaProjects\\sudoku-with-tests\\src\\test\\java\\expectedSolutions\\simple\\exp2.txt";
+    public final static String exp3 = "C:\\Users\\Lucia\\IdeaProjects\\sudoku-with-tests\\src\\test\\java\\expectedSolutions\\simple\\exp3.txt";
+    public final static String exp4 = "C:\\Users\\Lucia\\IdeaProjects\\sudoku-with-tests\\src\\test\\java\\expectedSolutions\\simple\\exp4.txt";
 
     @Test
-    public void testOutput4() {
+    public void testOutput() {
         Main main = new Main();
-        ArrayList<List<? extends SudokuElement>> sudokuElementsList = main.createSudokuElementObjects(data4);
+        int[][] inputData = main.readSudokuMatrix(inp4);
+        int[][] expectedOutput = main.readSudokuMatrix(exp4);
+        ArrayList<List<? extends SudokuElement>> sudokuElementsList = main.createSudokuElementObjects(inputData);
         List<Horizontal> horizontals = (List<Horizontal>)sudokuElementsList.get(0);
         List<Vertical> verticals = (List<Vertical>)sudokuElementsList.get(1);
         List<Square> squares = (List<Square>)sudokuElementsList.get(2);
-        Solution solution = new Solution(verticals, horizontals, squares, data4);
+        Solution solution = new Solution(verticals, horizontals, squares, inputData);
         solution.output();
-        assertArrayEquals(expected4, data4);
+        assertArrayEquals(expectedOutput, inputData);
     }
 
-    @Test
-    public void testOutput1() {
+    @ParameterizedTest
+//    @ValueSource(strings = { TestSolution.inp1, TestSolution.exp1 }) - nefungovala, lebo
+//    viac parametrov znamena viacnasobny test, nie druhy parameter
+//    chyba bola: ParameterResolutionException: No ParameterResolver registered for parameter
+    @MethodSource("linksToInputs")
+    public void testOutputParametrized(String inputSudokuMatrixPath, String expectedSudokuOutputPath) {
         Main main = new Main();
-        ArrayList<List<? extends SudokuElement>> sudokuElementsList = main.createSudokuElementObjects(data1);
+        int[][] inputData = main.readSudokuMatrix(inputSudokuMatrixPath);
+        int[][] expectedOutput = main.readSudokuMatrix(expectedSudokuOutputPath);
+        ArrayList<List<? extends SudokuElement>> sudokuElementsList = main.createSudokuElementObjects(inputData);
         List<Horizontal> horizontals = (List<Horizontal>)sudokuElementsList.get(0);
         List<Vertical> verticals = (List<Vertical>)sudokuElementsList.get(1);
         List<Square> squares = (List<Square>)sudokuElementsList.get(2);
-        Solution solution = new Solution(verticals, horizontals, squares, data1);
+        Solution solution = new Solution(verticals, horizontals, squares, inputData);
         solution.output();
-        assertArrayEquals(expected1, data1);
+        assertArrayEquals(expectedOutput, inputData);
     }
 
+//    https://nirajsonawane.github.io/2018/12/30/Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests/
+//    Method Source in Same class
+//    Factory methods within the test class must be static.
+//    Each factory method must generate a stream of arguments.
+    private static Stream<Arguments> linksToInputs() {
+        return Stream.of(Arguments.of(TestSolution.inp1, TestSolution.exp1),
+                         Arguments.of(TestSolution.inp2, TestSolution.exp2),
+                         Arguments.of(TestSolution.inp3, TestSolution.exp3),
+                         Arguments.of(TestSolution.inp4, TestSolution.exp4)
+        );
+    }
 }

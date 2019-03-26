@@ -2,37 +2,43 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="79281f2b-c350-4045-a919-12b7e7bcac57" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Cell.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Horizontal.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Possibility.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Solution.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Square.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SudokuElement.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Util.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Vertical.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/TestCell.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/TestSolution.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sudoku-with-tests.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Cell.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Horizontal.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/sudoku-with-tests.kotlin_module" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Main.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Possibility.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Solution.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Square.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/SudokuElement.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Util.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Vertical.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/test-classes/TestCell.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/test-classes/TestHorizontal.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/test-classes/TestSolution.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sudoku/processing/TODO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/inputs/harder1.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/inputs/simple1.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/inputs/simple2.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/inputs/simple3.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/inputs/simple4.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/expectedSolutions/harder/exp1.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/expectedSolutions/simple/exp1.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/expectedSolutions/simple/exp2.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/expectedSolutions/simple/exp3.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/expectedSolutions/simple/exp4.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Cell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sudoku/model/Cell.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Horizontal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sudoku/model/Horizontal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sudoku/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Possibility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sudoku/model/Possibility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sudoku/processing/Solution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Square.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sudoku/model/Square.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SudokuElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sudoku/model/SudokuElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sudoku/processing/Util.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Vertical.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sudoku/model/Vertical.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/TestCell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TestCell.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/TestSolution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TestSolution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Cell.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Horizontal.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/sudoku-with-tests.kotlin_module" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Possibility.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Solution.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Square.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/SudokuElement.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Util.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Vertical.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/TestCell.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/TestCell.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/TestHorizontal.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/TestSolution.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/TestSolution.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -48,26 +54,69 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Util.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/sudoku/processing/Solution.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="10" column="49" selection-start-line="10" selection-start-column="49" selection-end-line="10" selection-end-column="49" />
+            <state relative-caret-position="540">
+              <caret line="209" lean-forward="true" selection-start-line="209" selection-end-line="209" />
+              <folding>
+                <element signature="method#searchRow#0;class#Solution#0" />
+                <element signature="method#searchColumn#0;class#Solution#0" />
+                <element signature="method#searchSquare#0;class#Solution#0" />
+                <element signature="method#findCorrectSquare#0;class#Solution#0" />
+                <element signature="method#findHiddenSingleInCell#0;class#Solution#0" />
+                <element signature="method#removePossibilityFromRow#0;class#Solution#0" />
+                <element signature="method#removePossibilityFromColumn#0;class#Solution#0" />
+                <element signature="method#removePossibilityFromSquare#0;class#Solution#0" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Cell.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/sudoku/model/Possibility.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="16" column="19" selection-start-line="16" selection-start-column="19" selection-end-line="16" selection-end-column="19" />
+            <state relative-caret-position="691">
+              <caret line="49" selection-start-line="49" selection-end-line="49" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/sudoku/model/Square.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-79">
+              <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/sudoku/model/Cell.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="44">
+              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/sudoku/processing/TODO.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="44">
+              <caret line="2" column="18" lean-forward="true" selection-start-line="2" selection-start-column="18" selection-end-line="2" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/sudoku/Main.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1282">
+              <caret line="54" column="54" lean-forward="true" selection-start-line="54" selection-start-column="54" selection-end-line="54" selection-end-column="54" />
               <folding>
-                <element signature="e#588#589#0" expanded="true" />
-                <element signature="e#628#629#0" expanded="true" />
-                <element signature="e#699#700#0" expanded="true" />
-                <element signature="e#757#758#0" expanded="true" />
-                <element signature="e#793#794#0" expanded="true" />
-                <element signature="e#827#828#0" expanded="true" />
+                <element signature="method#printIt#0;class#Main#0" />
+                <element signature="method#resolveSudoku#0;class#Main#0" />
+                <element signature="method#createSudokuElementObjects#0;class#Main#0" />
               </folding>
             </state>
           </provider>
@@ -76,74 +125,31 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/TestCell.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="22">
-              <caret line="1" selection-start-line="1" selection-end-line="1" selection-end-column="60" />
+            <state relative-caret-position="330">
+              <caret line="17" column="1" lean-forward="true" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Solution.java">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="550">
-              <caret line="25" column="27" selection-start-line="25" selection-start-column="27" selection-end-line="25" selection-end-column="27" />
-              <folding>
-                <element signature="method#searchRow#0;class#Solution#0" />
-                <element signature="method#searchColumn#0;class#Solution#0" />
-                <element signature="method#searchSquare#0;class#Solution#0" />
-                <element signature="method#findCorrectSquare#0;class#Solution#0" />
-              </folding>
+            <state relative-caret-position="326">
+              <caret line="47" column="13" selection-start-line="47" selection-start-column="13" selection-end-line="47" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="736">
-              <caret line="170" selection-start-line="170" selection-end-line="170" />
-              <folding>
-                <element signature="method#printIt#0;class#Main#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Horizontal.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="176">
-                <caret line="8" column="46" lean-forward="true" selection-start-line="8" selection-start-column="46" selection-end-line="8" selection-end-column="46" />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Possibility.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="22">
-              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-            </state>
-          </provider>
+        <entry file="file://$PROJECT_DIR$/target/site/jacoco/index.html">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/TestSolution.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1584">
-              <caret line="72" column="31" selection-start-line="72" selection-start-column="31" selection-end-line="72" selection-end-column="31" />
+            <state relative-caret-position="154">
+              <caret line="10" selection-start-line="10" selection-end-line="10" />
             </state>
           </provider>
         </entry>
@@ -155,12 +161,14 @@
       <list>
         <option value="Interface" />
         <option value="Class" />
+        <option value="AnnotationType" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
       <find>amo</find>
+      <find>pa</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -169,20 +177,45 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/SudokuElement.java" />
         <option value="$PROJECT_DIR$/src/main/java/Util.java" />
         <option value="$PROJECT_DIR$/src/main/java/Vertical.java" />
         <option value="$PROJECT_DIR$/src/main/java/Square.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Horizontal.java" />
         <option value="$PROJECT_DIR$/src/main/java/MainSudoku.java" />
-        <option value="$PROJECT_DIR$/src/test/java/TestCell.java" />
         <option value="$PROJECT_DIR$/src/main/java/Solution.java" />
-        <option value="$PROJECT_DIR$/src/test/java/TestSolution.java" />
         <option value="$PROJECT_DIR$/src/main/java/Main.java" />
         <option value="$PROJECT_DIR$/README.txt" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/src/main/java/model/Horizontal.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Horizontal.java" />
+        <option value="$PROJECT_DIR$/src/main/java/sudoku/Cell.java" />
+        <option value="$PROJECT_DIR$/src/main/java/sudoku/model/Horizontal.java" />
+        <option value="$PROJECT_DIR$/src/main/java/sudoku/model/Square.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/inputData1.txt" />
+        <option value="$PROJECT_DIR$/src/main/resources/inputData4.txt" />
+        <option value="$PROJECT_DIR$/src/main/resources/inputs/inputData2.txt" />
+        <option value="$PROJECT_DIR$/src/main/resources/inputs/inputData3.txt" />
+        <option value="$PROJECT_DIR$/src/test/java/expectedSolutions/simple/exp1.txt" />
+        <option value="$PROJECT_DIR$/src/test/java/expectedSolutions/simple/exp4.txt" />
+        <option value="$PROJECT_DIR$/src/main/java/sudoku/Main.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/test/java/expectedSolutions/simple/exp2.txt" />
+        <option value="$PROJECT_DIR$/src/test/java/TestSolution.java" />
+        <option value="$PROJECT_DIR$/src/test/java/expectedSolutions/simple/exp3.txt" />
+        <option value="$PROJECT_DIR$/src/main/resources/inputs/harder1.txt" />
+        <option value="$PROJECT_DIR$/src/test/java/expectedSolutions/harder/exp1.txt" />
+        <option value="$PROJECT_DIR$/src/main/java/sudoku/processing/TODO.java" />
+        <option value="$PROJECT_DIR$/src/main/java/sudoku/model/Possibility.java" />
+        <option value="$PROJECT_DIR$/src/test/java/TestCell.java" />
+        <option value="$PROJECT_DIR$/src/main/java/sudoku/processing/Solution.java" />
       </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
@@ -198,6 +231,7 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -227,6 +261,47 @@
               <item name="sudoku-with-tests" type="b2602c69:ProjectViewProjectNode" />
               <item name="sudoku-with-tests" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sudoku" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sudoku-with-tests" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sudoku-with-tests" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sudoku" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sudoku-with-tests" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sudoku-with-tests" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sudoku" type="462c0819:PsiDirectoryNode" />
+              <item name="processing" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sudoku-with-tests" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sudoku-with-tests" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sudoku-with-tests" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sudoku-with-tests" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="inputs" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sudoku-with-tests" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sudoku-with-tests" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -238,17 +313,60 @@
             </path>
             <path>
               <item name="sudoku-with-tests" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sudoku-with-tests" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="expectedSolutions" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sudoku-with-tests" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sudoku-with-tests" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="expectedSolutions" type="462c0819:PsiDirectoryNode" />
+              <item name="harder" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sudoku-with-tests" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sudoku-with-tests" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="expectedSolutions" type="462c0819:PsiDirectoryNode" />
+              <item name="simple" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sudoku-with-tests" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sudoku-with-tests" type="462c0819:PsiDirectoryNode" />
+              <item name="target" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sudoku-with-tests" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sudoku-with-tests" type="462c0819:PsiDirectoryNode" />
+              <item name="target" type="462c0819:PsiDirectoryNode" />
+              <item name="site" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sudoku-with-tests" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sudoku-with-tests" type="462c0819:PsiDirectoryNode" />
+              <item name="target" type="462c0819:PsiDirectoryNode" />
+              <item name="site" type="462c0819:PsiDirectoryNode" />
+              <item name="jacoco" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sudoku-with-tests" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1552912792473" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553643066917" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/test" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
@@ -256,8 +374,17 @@
     <property name="settings.editor.selected.configurable" value="Settings.Markdown" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Lucia\IdeaProjects\sudoku-with-tests\src\main\java" />
+    </key>
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="sudoku.processing" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Lucia\IdeaProjects\sudoku-with-tests\src\main\resources\inputs" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -272,9 +399,9 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Maven.sudoku-with-tests [clean,test]">
     <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
+      <option name="MAIN_CLASS_NAME" value="sudoku.Main" />
       <module name="sudoku-with-tests" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -286,7 +413,48 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="test in sudoku-with-tests" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+    <configuration name="TestCell.testSetActualValue" type="JUnit" factoryName="JUnit">
+      <module name="sudoku-with-tests" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TestCell" />
+      <option name="METHOD_NAME" value="testSetActualValue" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="PARAMETERS" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestSolution.testOutput (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="sudoku-with-tests" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TestSolution" />
+      <option name="METHOD_NAME" value="testOutput(java.lang.String,java.lang.String)" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestSolution.testOutput" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="sudoku-with-tests" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TestSolution" />
+      <option name="METHOD_NAME" value="testOutput" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestSolution.testOutputParametrized" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="sudoku-with-tests" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TestSolution" />
+      <option name="METHOD_NAME" value="testOutputParametrized(java.lang.String,java.lang.String)" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tests sudoku-with-tests" type="JUnit" factoryName="JUnit">
       <module name="sudoku-with-tests" />
       <option name="MAIN_CLASS_NAME" value="" />
       <option name="METHOD_NAME" value="" />
@@ -320,10 +488,48 @@
       </MavenSettings>
       <method v="2" />
     </configuration>
+    <configuration name="sudoku-with-tests [clean,test]" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="clean" />
+                <option value="test" />
+              </list>
+            </option>
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Application.Main" />
-      <item itemvalue="JUnit.test in sudoku-with-tests" />
+      <item itemvalue="JUnit.TestCell.testSetActualValue" />
+      <item itemvalue="JUnit.tests sudoku-with-tests" />
+      <item itemvalue="JUnit.TestSolution.testOutput" />
+      <item itemvalue="JUnit.TestSolution.testOutput (1)" />
+      <item itemvalue="JUnit.TestSolution.testOutputParametrized" />
+      <item itemvalue="Maven.sudoku-with-tests [clean,test]" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.TestSolution.testOutputParametrized" />
+        <item itemvalue="JUnit.TestSolution.testOutput" />
+        <item itemvalue="JUnit.TestSolution.testOutput (1)" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -339,41 +545,42 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="test_in_sudoku-with-tests - 2019.03.18 at 12h 31m 08s.xml">
-      <configuration name="test in sudoku-with-tests" configurationId="JUnit" />
+    <history-entry file="TestSolution_testOutputParametrized - 2019.03.26 at 16h 26m 29s.xml">
+      <configuration name="TestSolution.testOutputParametrized" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="test_in_sudoku-with-tests - 2019.03.18 at 12h 40m 55s.xml">
-      <configuration name="test in sudoku-with-tests" configurationId="JUnit" />
+    <history-entry file="TestSolution_testOutputParametrized - 2019.03.26 at 16h 28m 05s.xml">
+      <configuration name="TestSolution.testOutputParametrized" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="test_in_sudoku-with-tests - 2019.03.18 at 12h 41m 36s.xml">
-      <configuration name="test in sudoku-with-tests" configurationId="JUnit" />
+    <history-entry file="TestSolution_testOutputParametrized - 2019.03.26 at 16h 29m 47s.xml">
+      <configuration name="TestSolution.testOutputParametrized" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="test_in_sudoku-with-tests - 2019.03.18 at 12h 44m 05s.xml">
-      <configuration name="test in sudoku-with-tests" configurationId="JUnit" />
+    <history-entry file="TestSolution_testOutputParametrized - 2019.03.26 at 16h 51m 56s.xml">
+      <configuration name="TestSolution.testOutputParametrized" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="test_in_sudoku-with-tests - 2019.03.18 at 12h 45m 16s.xml">
-      <configuration name="test in sudoku-with-tests" configurationId="JUnit" />
+    <history-entry file="TestSolution_testOutputParametrized - 2019.03.26 at 16h 57m 58s.xml">
+      <configuration name="TestSolution.testOutputParametrized" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="test_in_sudoku-with-tests - 2019.03.18 at 12h 45m 29s.xml">
-      <configuration name="test in sudoku-with-tests" configurationId="JUnit" />
+    <history-entry file="tests_sudoku-with-tests - 2019.03.26 at 16h 58m 22s.xml">
+      <configuration name="tests sudoku-with-tests" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="test_in_sudoku-with-tests - 2019.03.18 at 12h 45m 55s.xml">
-      <configuration name="test in sudoku-with-tests" configurationId="JUnit" />
+    <history-entry file="tests_sudoku-with-tests - 2019.03.26 at 17h 26m 33s.xml">
+      <configuration name="tests sudoku-with-tests" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="test_in_sudoku-with-tests - 2019.03.18 at 12h 46m 17s.xml">
-      <configuration name="test in sudoku-with-tests" configurationId="JUnit" />
+    <history-entry file="tests_sudoku-with-tests - 2019.03.26 at 17h 26m 57s.xml">
+      <configuration name="tests sudoku-with-tests" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="test_in_sudoku-with-tests - 2019.03.18 at 12h 46m 37s.xml">
-      <configuration name="test in sudoku-with-tests" configurationId="JUnit" />
+    <history-entry file="tests_sudoku-with-tests - 2019.03.26 at 17h 34m 56s.xml">
+      <configuration name="tests sudoku-with-tests" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="test_in_sudoku-with-tests - 2019.03.18 at 12h 57m 41s.xml">
-      <configuration name="test in sudoku-with-tests" configurationId="JUnit" />
+    <history-entry file="tests_sudoku-with-tests - 2019.03.26 at 17h 35m 22s.xml">
+      <configuration name="tests sudoku-with-tests" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="-286" y="-1088" width="1936" height="1096" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26208377" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25725028" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -381,16 +588,16 @@
       <window_info id="Capture Tool" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3197861" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32976446" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.44432548" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3993576" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.41541755" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Messages" order="10" weight="0.32941177" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.32869378" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -431,47 +638,11 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/test/java/TestHorizontal.java" />
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="16" column="17" lean-forward="true" selection-start-line="16" selection-start-column="17" selection-end-line="16" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/TestClass.java" />
     <entry file="jar://C:/Program Files/Java/jdk-11.0.2/lib/src.zip!/java.base/java/util/List.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="299">
           <caret line="571" column="6" selection-start-line="571" selection-start-column="6" selection-end-line="571" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Square.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="692">
-          <caret line="44" selection-start-line="44" selection-end-line="44" />
-          <folding>
-            <element signature="e#668#669#0" expanded="true" />
-            <element signature="e#695#696#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/SudokuElement.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="3" column="10" lean-forward="true" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Vertical.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="638">
-          <caret line="35" selection-start-line="35" selection-end-line="35" />
-          <folding>
-            <element signature="e#739#740#0" expanded="true" />
-            <element signature="e#766#767#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -483,77 +654,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Util.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="10" column="49" selection-start-line="10" selection-start-column="49" selection-end-line="10" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Cell.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="16" column="19" selection-start-line="16" selection-start-column="19" selection-end-line="16" selection-end-column="19" />
-          <folding>
-            <element signature="e#588#589#0" expanded="true" />
-            <element signature="e#628#629#0" expanded="true" />
-            <element signature="e#699#700#0" expanded="true" />
-            <element signature="e#757#758#0" expanded="true" />
-            <element signature="e#793#794#0" expanded="true" />
-            <element signature="e#827#828#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/TestCell.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
-          <caret line="1" selection-start-line="1" selection-end-line="1" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Solution.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="550">
-          <caret line="25" column="27" selection-start-line="25" selection-start-column="27" selection-end-line="25" selection-end-column="27" />
-          <folding>
-            <element signature="method#searchRow#0;class#Solution#0" />
-            <element signature="method#searchColumn#0;class#Solution#0" />
-            <element signature="method#searchSquare#0;class#Solution#0" />
-            <element signature="method#findCorrectSquare#0;class#Solution#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/TestSolution.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1584">
-          <caret line="72" column="31" selection-start-line="72" selection-start-column="31" selection-end-line="72" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="736">
-          <caret line="170" selection-start-line="170" selection-end-line="170" />
-          <folding>
-            <element signature="method#printIt#0;class#Main#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/README.txt" />
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="176">
-            <caret line="8" column="46" lean-forward="true" selection-start-line="8" selection-start-column="46" selection-end-line="8" selection-end-column="46" />
+            <caret line="8" column="46" selection-start-line="8" selection-start-column="46" selection-end-line="8" selection-end-column="46" />
           </first_editor>
           <second_editor />
         </state>
@@ -564,17 +670,192 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Possibility.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/sudoku/model/Horizontal.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
+        <state relative-caret-position="264">
+          <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sudoku/model/Vertical.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="393">
+          <caret line="37" selection-start-line="37" selection-end-line="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sudoku/model/SudokuElement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sudoku/processing/Util.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/inputs/simple4.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/inputs/simple1.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/expectedSolutions/simple/exp1.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-params/5.4.0/junit-jupiter-params-5.4.0.jar!/org/junit/jupiter/params/provider/ValueSource.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="40">
+          <caret line="23" column="18" selection-start-line="23" selection-start-column="18" selection-end-line="23" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/expectedSolutions/simple/exp4.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/expectedSolutions/simple/exp2.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/inputs/simple2.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="8" column="17" lean-forward="true" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/inputs/simple3.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/expectedSolutions/simple/exp3.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="5" column="17" lean-forward="true" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/expectedSolutions/harder/exp1">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/TestSolution.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/inputs/harder1.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/expectedSolutions/harder/exp1.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="8" column="17" lean-forward="true" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sudoku/model/Square.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-79">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sudoku/model/Cell.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
           <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Horizontal.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/sudoku/model/Possibility.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
+        <state relative-caret-position="691">
+          <caret line="49" selection-start-line="49" selection-end-line="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="47" column="13" selection-start-line="47" selection-start-column="13" selection-end-line="47" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/target/site/jacoco/index.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/TestCell.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="17" column="1" lean-forward="true" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sudoku/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1282">
+          <caret line="54" column="54" lean-forward="true" selection-start-line="54" selection-start-column="54" selection-end-line="54" selection-end-column="54" />
+          <folding>
+            <element signature="method#printIt#0;class#Main#0" />
+            <element signature="method#resolveSudoku#0;class#Main#0" />
+            <element signature="method#createSudokuElementObjects#0;class#Main#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sudoku/processing/Solution.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="209" lean-forward="true" selection-start-line="209" selection-end-line="209" />
+          <folding>
+            <element signature="method#searchRow#0;class#Solution#0" />
+            <element signature="method#searchColumn#0;class#Solution#0" />
+            <element signature="method#searchSquare#0;class#Solution#0" />
+            <element signature="method#findCorrectSquare#0;class#Solution#0" />
+            <element signature="method#findHiddenSingleInCell#0;class#Solution#0" />
+            <element signature="method#removePossibilityFromRow#0;class#Solution#0" />
+            <element signature="method#removePossibilityFromColumn#0;class#Solution#0" />
+            <element signature="method#removePossibilityFromSquare#0;class#Solution#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sudoku/processing/TODO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="2" column="18" lean-forward="true" selection-start-line="2" selection-start-column="18" selection-end-line="2" selection-end-column="18" />
         </state>
       </provider>
     </entry>
