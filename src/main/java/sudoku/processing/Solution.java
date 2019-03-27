@@ -22,7 +22,7 @@ public class Solution {
 
     public List<Possibility> output() {
         int firstRound = 1;
-        boolean sudokuUpdated = false;
+        boolean sudokuUpdated = false; // FIXME this is redundant initialization
         do {
             sudokuUpdated = false;
             for (int i = 0; i < 9; i++) {
@@ -125,10 +125,10 @@ public class Solution {
             if (columnIndex < 3) {
                 return squares.get(0);
             }
-            if (columnIndex >= 3 && columnIndex < 6) {
+            if (columnIndex >= 3 && columnIndex < 6) { // Fixme columnIndex >= 3 is still true
                 return squares.get(1);
             }
-            if (columnIndex >= 6 && columnIndex < 9) {
+            if (columnIndex >= 6 && columnIndex < 9) { // Fixme columnIndex >= 6 is still true
                 return squares.get(2);
             }
         }
@@ -136,10 +136,10 @@ public class Solution {
             if (columnIndex < 3) {
                 return squares.get(3);
             }
-            if (columnIndex >= 3 && columnIndex < 6) {
+            if (columnIndex >= 3 && columnIndex < 6) { // Fixme columnIndex >= 3 is still true
                 return squares.get(4);
             }
-            if (columnIndex >= 6 && columnIndex < 9) {
+            if (columnIndex >= 6 && columnIndex < 9) { // Fixme columnIndex >= 6 is still true
                 return squares.get(5);
             }
         }
@@ -147,10 +147,10 @@ public class Solution {
             if (columnIndex < 3) {
                 return squares.get(6);
             }
-            if (columnIndex >= 3 && columnIndex < 6) {
+            if (columnIndex >= 3 && columnIndex < 6) {// Fixme columnIndex >= 3 is still true
                 return squares.get(7);
             }
-            if (columnIndex >= 6 && columnIndex < 9) {
+            if (columnIndex >= 6 && columnIndex < 9) {// Fixme columnIndex >= 6 is still true
                 return squares.get(8);
             }
         }
@@ -163,7 +163,7 @@ public class Solution {
         int indexJ = cell.getJ();
         Square square = findCorrectSquare(indexI, indexJ);
         List<Integer> cellPossibilities = cell.getCellPossibilities().getPosibilities();
-
+//Fixme old code should be removed
 //        Map<Integer, Integer> horizMap = horizontals.get(indexI).amountOfParticularPossibilities();
 //        Map<Integer, Integer> vericalMap = verticals.get(indexJ).amountOfParticularPossibilities();
 //        Map<Integer, Integer> squareMap = square.amountOfParticularPossibilities();

@@ -6,7 +6,7 @@ public class Possibility {
     private int i;
     private int j;
     private ArrayList<Integer> posibilities;
-    Cell c;
+    Cell c; // FIXME should be private and using getter for it
 
     public Possibility(int i, int j) {
         this.i = i;
