@@ -12,10 +12,10 @@ public class Main {
     public List<Vertical> verticals = new ArrayList<>();
     public List<Horizontal> horizontals = new ArrayList<>();
     public List<Square> squares = new ArrayList<>();
-    public static String path1 = "C:\\Users\\Lucia\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple1.txt";
-    public static String path2 = "C:\\Users\\Lucia\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple2.txt";
-    public static String path3 = "C:\\Users\\Lucia\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple3.txt";
-    public static String path4 = "C:\\Users\\Lucia\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple4.txt";
+    public static String path1 = "C:\\Users\\lukr\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple1.txt";
+    public static String path2 = "C:\\Users\\lukr\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple2.txt";
+    public static String path3 = "C:\\Users\\lukr\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple3.txt";
+    public static String path4 = "C:\\Users\\lukr\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple4.txt";
 
 
     public static void main(String[] args) {

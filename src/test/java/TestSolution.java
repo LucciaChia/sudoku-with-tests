@@ -18,16 +18,16 @@ public class TestSolution {
 
     // paths to resources
     // inputs
-    public static final String inp1 = "C:\\Users\\Lucia\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple1.txt";
-    public static final String inp2 = "C:\\Users\\Lucia\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple2.txt";
-    public static final String inp3 = "C:\\Users\\Lucia\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple3.txt";
-    public static final String inp4 = "C:\\Users\\Lucia\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple4.txt";
+    public static final String inp1 = "C:\\Users\\lukr\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple1.txt";
+    public static final String inp2 = "C:\\Users\\lukr\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple2.txt";
+    public static final String inp3 = "C:\\Users\\lukr\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple3.txt";
+    public static final String inp4 = "C:\\Users\\lukr\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple4.txt";
 
     // expected outputs
-    public final static String exp1 = "C:\\Users\\Lucia\\IdeaProjects\\sudoku-with-tests\\src\\test\\java\\expectedSolutions\\simple\\exp1.txt";
-    public final static String exp2 = "C:\\Users\\Lucia\\IdeaProjects\\sudoku-with-tests\\src\\test\\java\\expectedSolutions\\simple\\exp2.txt";
-    public final static String exp3 = "C:\\Users\\Lucia\\IdeaProjects\\sudoku-with-tests\\src\\test\\java\\expectedSolutions\\simple\\exp3.txt";
-    public final static String exp4 = "C:\\Users\\Lucia\\IdeaProjects\\sudoku-with-tests\\src\\test\\java\\expectedSolutions\\simple\\exp4.txt";
+    public final static String exp1 = "C:\\Users\\lukr\\IdeaProjects\\sudoku-with-tests\\src\\test\\java\\expectedSolutions\\simple\\exp1.txt";
+    public final static String exp2 = "C:\\Users\\lukr\\IdeaProjects\\sudoku-with-tests\\src\\test\\java\\expectedSolutions\\simple\\exp2.txt";
+    public final static String exp3 = "C:\\Users\\lukr\\IdeaProjects\\sudoku-with-tests\\src\\test\\java\\expectedSolutions\\simple\\exp3.txt";
+    public final static String exp4 = "C:\\Users\\lukr\\IdeaProjects\\sudoku-with-tests\\src\\test\\java\\expectedSolutions\\simple\\exp4.txt";
 
     @Test
     public void testOutput() {

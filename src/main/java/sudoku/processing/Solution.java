@@ -22,7 +22,7 @@ public class Solution {
 
     public List<Possibility> output() {
         int firstRound = 1;
-        boolean sudokuUpdated = false; // FIXME this is redundant initialization
+        boolean sudokuUpdated;
         do {
             sudokuUpdated = false;
             for (int i = 0; i < 9; i++) {
