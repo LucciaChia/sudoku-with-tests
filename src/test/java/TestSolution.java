@@ -9,6 +9,7 @@ import sudoku.model.SudokuElement;
 import sudoku.model.Vertical;
 import sudoku.processing.Solution;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -17,11 +18,15 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 public class TestSolution {
 
     // paths to resources
-    // inputs
-    public static final String inp1 = "C:\\Users\\lukr\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple1.txt";
-    public static final String inp2 = "C:\\Users\\lukr\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple2.txt";
-    public static final String inp3 = "C:\\Users\\lukr\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple3.txt";
-    public static final String inp4 = "C:\\Users\\lukr\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple4.txt";
+    // inputs ../../main/resources/inputs
+    static ClassLoader classLoader = new TestSolution().getClass().getClassLoader();
+    static File file22 = new File(classLoader.getResource("inputs/simple1.txt").getFile());
+
+
+    public static final String inp1 = new File(classLoader.getResource("inputs/simple1.txt").getFile()).getPath();
+    public static final String inp2 = new File(classLoader.getResource("inputs/simple2.txt").getFile()).getPath();
+    public static final String inp3 = new File(classLoader.getResource("inputs/simple3.txt").getFile()).getPath();
+    public static final String inp4 = new File(classLoader.getResource("inputs/simple4.txt").getFile()).getPath();
 
     // expected outputs
     public final static String exp1 = "C:\\Users\\lukr\\IdeaProjects\\sudoku-with-tests\\src\\test\\java\\expectedSolutions\\simple\\exp1.txt";

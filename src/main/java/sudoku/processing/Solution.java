@@ -121,52 +121,17 @@ public class Solution {
     }
 
     private Square findCorrectSquare(int rowIndex, int columnIndex) {
-        if (rowIndex < 3) {
-            if (columnIndex < 3) {
-                return squares.get(0);
-            }
-            if (columnIndex >= 3 && columnIndex < 6) { // Fixme columnIndex >= 3 is still true
-                return squares.get(1);
-            }
-            if (columnIndex >= 6 && columnIndex < 9) { // Fixme columnIndex >= 6 is still true
-                return squares.get(2);
-            }
-        }
-        if (rowIndex >= 3 && rowIndex < 6) {
-            if (columnIndex < 3) {
-                return squares.get(3);
-            }
-            if (columnIndex >= 3 && columnIndex < 6) { // Fixme columnIndex >= 3 is still true
-                return squares.get(4);
-            }
-            if (columnIndex >= 6 && columnIndex < 9) { // Fixme columnIndex >= 6 is still true
-                return squares.get(5);
-            }
-        }
-        if (rowIndex >= 6 && rowIndex < 9) {
-            if (columnIndex < 3) {
-                return squares.get(6);
-            }
-            if (columnIndex >= 3 && columnIndex < 6) {// Fixme columnIndex >= 3 is still true
-                return squares.get(7);
-            }
-            if (columnIndex >= 6 && columnIndex < 9) {// Fixme columnIndex >= 6 is still true
-                return squares.get(8);
-            }
-        }
-        return null;
-    }
 
+        return squares.get((rowIndex/3)*3 + columnIndex/3);
+
+    }
 
     public int findHiddenSingleInCell(Cell cell) {
         int indexI = cell.getI();
         int indexJ = cell.getJ();
         Square square = findCorrectSquare(indexI, indexJ);
         List<Integer> cellPossibilities = cell.getCellPossibilities().getPosibilities();
-//Fixme old code should be removed
-//        Map<Integer, Integer> horizMap = horizontals.get(indexI).amountOfParticularPossibilities();
-//        Map<Integer, Integer> vericalMap = verticals.get(indexJ).amountOfParticularPossibilities();
-//        Map<Integer, Integer> squareMap = square.amountOfParticularPossibilities();
+
         Util util = new Util();
         Map<Integer, Integer> horizMap = util.amountOfParticularPossibilities(horizontals.get(indexI));
         Map<Integer, Integer> vericalMap = util.amountOfParticularPossibilities(verticals.get(indexJ));

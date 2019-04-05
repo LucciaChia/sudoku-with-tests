@@ -137,39 +137,9 @@ public class Main {
                     Square square = new Square();
                     squares.add(square);
                 }
-                if (i < 3) {
-                    if (j < 3) {
-                        squares.get(0).addCell(cell);
-                    }
-                    if (j >= 3 && j < 6) {
-                        squares.get(1).getcellsInSquare().add(cell);
-                    }
-                    if (j >= 6 && j < 9) {
-                        squares.get(2).getcellsInSquare().add(cell);
-                    }
-                }
-                if (i >= 3 && i < 6) {
-                    if (j < 3) {
-                        squares.get(3).getcellsInSquare().add(cell);
-                    }
-                    if (j >= 3 && j < 6) {
-                        squares.get(4).getcellsInSquare().add(cell);
-                    }
-                    if (j >= 6 && j < 9) {
-                        squares.get(5).getcellsInSquare().add(cell);
-                    }
-                }
-                if (i >= 6 && i < 9) {
-                    if (j < 3) {
-                        squares.get(6).getcellsInSquare().add(cell);
-                    }
-                    if (j >= 3 && j < 6) {
-                        squares.get(7).getcellsInSquare().add(cell);
-                    }
-                    if (j >= 6 && j < 9) {
-                        squares.get(8).getcellsInSquare().add(cell);
-                    }
-                }
+
+                squares.get((i/3)*3 + j/3).getcellsInSquare().add(cell);
+
             }
             horizontals.add(horizontal);
         }
@@ -197,6 +167,7 @@ public class Main {
                 }
                 i++;
             }
+
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
