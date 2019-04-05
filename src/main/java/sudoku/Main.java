@@ -12,10 +12,13 @@ public class Main {
     public List<Vertical> verticals = new ArrayList<>();
     public List<Horizontal> horizontals = new ArrayList<>();
     public List<Square> squares = new ArrayList<>();
-    public static String path1 = "C:\\Users\\lukr\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple1.txt";
-    public static String path2 = "C:\\Users\\lukr\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple2.txt";
-    public static String path3 = "C:\\Users\\lukr\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple3.txt";
-    public static String path4 = "C:\\Users\\lukr\\IdeaProjects\\sudoku-with-tests\\src\\main\\\\resources\\inputs\\simple4.txt";
+
+    static ClassLoader classLoader = new Main().getClass().getClassLoader();
+
+    public static final String path1 = new File(classLoader.getResource("inputs/simple1.txt").getFile()).getPath();
+    public static final String path2 = new File(classLoader.getResource("inputs/simple2.txt").getFile()).getPath();
+    public static final String path3 = new File(classLoader.getResource("inputs/simple3.txt").getFile()).getPath();
+    public static final String path4 = new File(classLoader.getResource("inputs/simple4.txt").getFile()).getPath();
 
 
     public static void main(String[] args) {
@@ -156,21 +159,28 @@ public class Main {
         try {
             File file = new File(path);
             BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-            String st;
-            String[] row;
-            int i = 0;
-            while ((st = bufferedReader.readLine()) != null) {
-                st = st.trim();
-                row = st.split(" ");
-                for (int j = 0; j < row.length; j++) {
-                    data[i][j] = Integer.valueOf(row[j]);
+            // v pripade new FileReader(file) = null => bufferedReader da NullPointerException =>
+            // nevytvori sa a netreba robit bufferedReader.close()
+            try {
+                String st;
+                String[] row;
+                int i = 0;
+                while ((st = bufferedReader.readLine()) != null) {
+                    st = st.trim();
+                    row = st.split(" ");
+                    for (int j = 0; j < row.length; j++) {
+                        data[i][j] = Integer.valueOf(row[j]);
+                    }
+                    i++;
                 }
-                i++;
+            } finally {
+                bufferedReader.close();
             }
-
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
+
         }
+
         return data;
     }
 }

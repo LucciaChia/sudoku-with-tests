@@ -155,7 +155,7 @@ public class Solution {
         return 0;
     }
 
-    @TODO
+    //TODO for more advacned sudokus
     public void pointingPairInCells(Cell cell) {
         // get pair cell
         Cell partnerCell = findPartnerCell(cell);
@@ -167,7 +167,7 @@ public class Solution {
         // check horizontal
     }
 
-    @TODO
+    //TODO - not completed yet - will be useful while resolving more advanced sudokus
     private Cell findPartnerCell(Cell cell) {
         int indexI = cell.getI();
         int indexJ = cell.getJ();

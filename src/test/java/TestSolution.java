@@ -17,28 +17,23 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 public class TestSolution {
 
-    // paths to resources
-    // inputs ../../main/resources/inputs
     static ClassLoader classLoader = new TestSolution().getClass().getClassLoader();
-    static File file22 = new File(classLoader.getResource("inputs/simple1.txt").getFile());
-
 
     public static final String inp1 = new File(classLoader.getResource("inputs/simple1.txt").getFile()).getPath();
     public static final String inp2 = new File(classLoader.getResource("inputs/simple2.txt").getFile()).getPath();
     public static final String inp3 = new File(classLoader.getResource("inputs/simple3.txt").getFile()).getPath();
     public static final String inp4 = new File(classLoader.getResource("inputs/simple4.txt").getFile()).getPath();
 
-    // expected outputs
-    public final static String exp1 = "C:\\Users\\lukr\\IdeaProjects\\sudoku-with-tests\\src\\test\\java\\expectedSolutions\\simple\\exp1.txt";
-    public final static String exp2 = "C:\\Users\\lukr\\IdeaProjects\\sudoku-with-tests\\src\\test\\java\\expectedSolutions\\simple\\exp2.txt";
-    public final static String exp3 = "C:\\Users\\lukr\\IdeaProjects\\sudoku-with-tests\\src\\test\\java\\expectedSolutions\\simple\\exp3.txt";
-    public final static String exp4 = "C:\\Users\\lukr\\IdeaProjects\\sudoku-with-tests\\src\\test\\java\\expectedSolutions\\simple\\exp4.txt";
+    public static final String out1 = new File(classLoader.getResource("outputs/simple1.txt").getFile()).getPath();
+    public static final String out2 = new File(classLoader.getResource("outputs/simple2.txt").getFile()).getPath();
+    public static final String out3 = new File(classLoader.getResource("outputs/simple3.txt").getFile()).getPath();
+    public static final String out4 = new File(classLoader.getResource("outputs/simple4.txt").getFile()).getPath();
 
     @Test
     public void testOutput() {
         Main main = new Main();
         int[][] inputData = main.readSudokuMatrix(inp4);
-        int[][] expectedOutput = main.readSudokuMatrix(exp4);
+        int[][] expectedOutput = main.readSudokuMatrix(out4);
         ArrayList<List<? extends SudokuElement>> sudokuElementsList = main.createSudokuElementObjects(inputData);
         List<Horizontal> horizontals = (List<Horizontal>)sudokuElementsList.get(0);
         List<Vertical> verticals = (List<Vertical>)sudokuElementsList.get(1);
@@ -71,10 +66,10 @@ public class TestSolution {
 //    Factory methods within the test class must be static.
 //    Each factory method must generate a stream of arguments.
     private static Stream<Arguments> linksToInputs() {
-        return Stream.of(Arguments.of(TestSolution.inp1, TestSolution.exp1),
-                         Arguments.of(TestSolution.inp2, TestSolution.exp2),
-                         Arguments.of(TestSolution.inp3, TestSolution.exp3),
-                         Arguments.of(TestSolution.inp4, TestSolution.exp4)
+        return Stream.of(Arguments.of(TestSolution.inp1, TestSolution.out1),
+                         Arguments.of(TestSolution.inp2, TestSolution.out2),
+                         Arguments.of(TestSolution.inp3, TestSolution.out3),
+                         Arguments.of(TestSolution.inp4, TestSolution.out4)
         );
     }
 }
