@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="79281f2b-c350-4045-a919-12b7e7bcac57" name="Default Changelist" comment="" />
+    <list default="true" id="79281f2b-c350-4045-a919-12b7e7bcac57" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -22,12 +24,12 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/sudoku/Main.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="2245">
-              <caret line="140" column="72" lean-forward="true" selection-start-line="140" selection-start-column="72" selection-end-line="140" selection-end-column="72" />
+              <caret line="140" column="72" selection-start-line="140" selection-start-column="72" selection-end-line="140" selection-end-column="72" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/sudoku/newFunctTests.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="231">
@@ -93,11 +95,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="434">
-              <caret line="45" selection-start-line="45" selection-end-line="45" />
+            <state relative-caret-position="399">
+              <caret line="19" selection-start-line="19" selection-end-line="19" />
             </state>
           </provider>
         </entry>
@@ -156,11 +158,11 @@
         <option value="$PROJECT_DIR$/src/main/java/sudoku/processing/TODO.java" />
         <option value="$PROJECT_DIR$/src/test/java/TestCell.java" />
         <option value="$PROJECT_DIR$/src/main/java/sudoku/model/Possibility.java" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/main/java/sudoku/processing/Solution.java" />
         <option value="$PROJECT_DIR$/src/main/java/sudoku/Main.java" />
         <option value="$PROJECT_DIR$/src/main/java/sudoku/newFunctTests.java" />
         <option value="$PROJECT_DIR$/src/test/java/TestSolution.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -190,6 +192,11 @@
             <path>
               <item name="sudoku-with-tests" type="b2602c69:ProjectViewProjectNode" />
               <item name="sudoku-with-tests" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sudoku-with-tests" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sudoku-with-tests" type="462c0819:PsiDirectoryNode" />
+              <item name=".idea" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="sudoku-with-tests" type="b2602c69:ProjectViewProjectNode" />
@@ -270,24 +277,6 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="expectedSolutions" type="462c0819:PsiDirectoryNode" />
               <item name="simple" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sudoku-with-tests" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sudoku-with-tests" type="462c0819:PsiDirectoryNode" />
-              <item name="target" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sudoku-with-tests" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sudoku-with-tests" type="462c0819:PsiDirectoryNode" />
-              <item name="target" type="462c0819:PsiDirectoryNode" />
-              <item name="site" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sudoku-with-tests" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sudoku-with-tests" type="462c0819:PsiDirectoryNode" />
-              <item name="target" type="462c0819:PsiDirectoryNode" />
-              <item name="site" type="462c0819:PsiDirectoryNode" />
-              <item name="jacoco" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -505,7 +494,21 @@
       <option name="project" value="LOCAL" />
       <updated>1554455589729</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="target files removed">
+      <created>1554455894982</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1554455894982</updated>
+    </task>
+    <task id="LOCAL-00004" summary="gitignore file updated - target/ removed">
+      <created>1554456046041</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1554456046041</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -551,8 +554,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1913" y="-365" width="2062" height="1136" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18013972" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18013972" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -568,7 +572,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32935324" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.41492537" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="9" visible="true" weight="0.32935324" />
+      <window_info anchor="bottom" id="Version Control" order="9" visible="true" weight="0.32935324" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.3283582" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -637,7 +641,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add gitignore" />
     <MESSAGE value="unnecessary ifs removed + classLoader applied" />
-    <option name="LAST_COMMIT_MESSAGE" value="unnecessary ifs removed + classLoader applied" />
+    <MESSAGE value="target files removed" />
+    <MESSAGE value="gitignore file updated - target/ removed" />
+    <option name="LAST_COMMIT_MESSAGE" value="gitignore file updated - target/ removed" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/test/java/TestHorizontal.java" />
@@ -802,7 +808,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/sudoku/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2245">
-          <caret line="140" column="72" lean-forward="true" selection-start-line="140" selection-start-column="72" selection-end-line="140" selection-end-column="72" />
+          <caret line="140" column="72" selection-start-line="140" selection-start-column="72" selection-end-line="140" selection-end-column="72" />
         </state>
       </provider>
     </entry>
@@ -810,13 +816,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="588">
           <caret line="37" selection-start-line="37" selection-end-line="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="434">
-          <caret line="45" selection-start-line="45" selection-end-line="45" />
         </state>
       </provider>
     </entry>
@@ -855,6 +854,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="231">
           <caret line="11" column="9" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="19" selection-start-line="19" selection-end-line="19" />
         </state>
       </provider>
     </entry>
