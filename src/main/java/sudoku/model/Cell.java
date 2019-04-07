@@ -22,7 +22,8 @@ public class Cell {
 
     public void setActualValue(int actualValue) {
         if (actualValue != 0) {
-            cellPossibilities = null;
+        //    this.cellPossibilities = null; // toto to nastavi tu, ale vobec sa to neprenesie do Solution classy
+            this.cellPossibilities.getPosibilities().clear();
         }
         this.actualValue = actualValue;
     }

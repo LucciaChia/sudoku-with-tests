@@ -4,8 +4,6 @@ import sudoku.model.Cell;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestCell {
-    private int i = 0;
-    private int j = 0;
     private int actualValue = 5;
     private Cell cell = new Cell(0,0,0);
 

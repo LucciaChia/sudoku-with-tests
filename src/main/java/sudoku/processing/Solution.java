@@ -22,13 +22,26 @@ public class Solution {
 
     public List<Possibility> output() {
         int firstRound = 1;
-        boolean sudokuUpdated = false;
+        boolean sudokuUpdated;
+        boolean triedMedium = false;
         do {
+            Possibility possibility;
             sudokuUpdated = false;
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
+
+
+
                     if (data[i][j] == 0) {
-                        Possibility possibility = new Possibility(i, j);
+                        //Possibility possibility = new Possibility(i, j);
+                        possibility = new Possibility(i, j);
+
+                        // TEST
+                        if (i == 7 && j == 0) {
+                            // big test of setting a value
+//                            System.out.println(" i = 7 , j = 0");
+                        }
+
                         if (firstRound == 1) {
                             possibilityList.add(possibility);
                             horizontals.get(i).getCellInHorizontal(j).setCellPossibilities(possibility);
@@ -43,6 +56,7 @@ public class Solution {
 
                         if (possibility.getPosibilities().size() == 1) {
                             horizontals.get(i).getCellInHorizontal(j).setActualValue(possibility.getPosibilities().get(0));
+
                             data[i][j] = horizontals.get(i).getCellInHorizontal(j).getActualValue();
                             sudokuUpdated = true;
                             possibilityList.remove(possibility);
@@ -55,19 +69,36 @@ public class Solution {
                                 sudokuUpdated = true;
                             }
 
-                            // Advanced technique - to test
-//                            if (possibility.getPosibilities().size() == 2) { // think about this cond. one more time
-//                                pointingPairInCells(horizontals.get(i).getCellInHorizontal(j));
+                            // Medium technique - to test
+//                            if (possibility.getPosibilities().size() == 2) { // good enough for primitive medium cases
+//                                System.out.println("MEDIUM");
+//                                Cell testedCell = horizontals.get(i).getCellInHorizontal(j);
+//                            //     if (testedCell.getActualValue() == 0) {
+//                                    pointingPairInCells(horizontals.get(i).getCellInHorizontal(j));
+//                            //     }
+//
 //                            }
 
-
-//                            System.out.println("TEST" + firstRound);
-//                            for (int m = 0; m < data.length; m++) {
-//                                for (int n = 0; n < data[m].length; n++) {
-//                                    System.out.print(data[m][n] + " ");
+                            // ked si v koncoch skus Medium approach
+                            if (sudokuUpdated || firstRound <= 2) {
+                            //if (!sudokuUpdated) {
+                                // skus medium
+//                                if (possibility.getPosibilities().size() == 2) { // good enough for primitive medium cases
+//                                    System.out.println("MEDIUM");
+//                                    Cell testedCell = horizontals.get(i).getCellInHorizontal(j);
+//                                    //     if (testedCell.getActualValue() == 0) {
+//                                    pointingPairInCells(horizontals.get(i).getCellInHorizontal(j));
+//                                    //     }
+//
 //                                }
-//                                System.out.println();
-//                            }
+                                System.out.println("MEDIUM");
+
+                                //pointingPairInCells(horizontals.get(i).getCellInHorizontal(j));
+
+                                pointingPairInCellsAdvanced(horizontals.get(i).getCellInHorizontal(j));
+                            //    sudokuUpdated = false;
+                                triedMedium = true;
+                            }
                         }
                     }
                 }
@@ -75,6 +106,8 @@ public class Solution {
 
 
             firstRound++;
+
+
     } while (sudokuUpdated || firstRound <= 2);
 
         return possibilityList;
@@ -177,7 +210,8 @@ public class Solution {
                     (vericalMap.containsKey(cellPosibility) && vericalMap.get(cellPosibility) == 1) ||
                     (squareMap.containsKey(cellPosibility) && squareMap.get(cellPosibility) == 1))
             {
-                cell.setActualValue(cellPosibility); // nastavenie na hodnotu a zrusenie poss pre tuto bunku
+                cell.setActualValue(cellPosibility); // nastavenie na hodnotu a zrusenie poss pre tuto bunku --- nieco je tu zle
+                cell.setCellPossibilities(null);
                 // vymazanie tejto hodnoty z possibilities v riadku, stlpci, stvorci
                 removePossibilityFromRow(cellPosibility, cell);
                 removePossibilityFromColumn(cellPosibility, cell);
@@ -190,31 +224,229 @@ public class Solution {
         return 0;
     }
 
-    @TODO
+    @TODO // OK
     public void pointingPairInCells(Cell cell) {
+        int cellI = cell.getI();
+        int cellJ = cell.getJ();
+        Square cellSquare = findCorrectSquare(cellI, cellJ);
+        // numbers to remove:
+        int removeFirst = cell.getCellPossibilities().getPosibilities().get(0);
+        int removeSecond = cell.getCellPossibilities().getPosibilities().get(1);
+
         // get pair cell
+        System.out.println(cell);
         Cell partnerCell = findPartnerCell(cell);
+
         if (partnerCell == null) {
             return;
         }
-        // check vertical
 
-        // check horizontal
+        System.out.println("cell: " + cell + " cellPos: " + cell.getCellPossibilities()
+                + " partner cell: " + partnerCell + " partnerPos: " + partnerCell.getCellPossibilities());
+
+        if (cellI == partnerCell.getI()) {
+            // check horizontal
+            for (Cell cellInRow : horizontals.get(cellI).getColumn()) {
+                int i = cellInRow.getI();
+                int j = cellInRow.getJ();
+                Square testedCellSquare = findCorrectSquare(i,j);
+                if (cellSquare != testedCellSquare && cellInRow.getActualValue() == 0) {
+                    cellInRow.getCellPossibilities().getPosibilities().remove((Integer)removeFirst);
+                    cellInRow.getCellPossibilities().getPosibilities().remove((Integer)removeSecond);
+                }
+            }
+
+
+        } else if (cellJ == partnerCell.getJ()) {
+            // check vertical
+            for (Cell cellInColumn : verticals.get(cellJ).getRow()) {
+                int i = cellInColumn.getI();
+                int j = cellInColumn.getJ();
+                Square testedCellSquare = findCorrectSquare(i,j);
+                if (cellSquare != testedCellSquare && cellInColumn.getActualValue() == 0) {
+                    cellInColumn.getCellPossibilities().getPosibilities().remove((Integer)removeFirst);
+                    cellInColumn.getCellPossibilities().getPosibilities().remove((Integer)removeSecond);
+                }
+            }
+
+        }
+
+        // check square
+        for (Cell cellInSquare : cellSquare.getcellsInSquare()) {
+            if (cellInSquare != cell && cellInSquare != partnerCell && cellInSquare.getActualValue() == 0) {
+                cellInSquare.getCellPossibilities().getPosibilities().remove((Integer)removeFirst);
+                cellInSquare.getCellPossibilities().getPosibilities().remove((Integer)removeSecond);
+            }
+        }
     }
 
-    @TODO
-    private Cell findPartnerCell(Cell cell) {
+    //TODO
+    private Cell findPartnerCell(Cell cell) { // OK
         int indexI = cell.getI();
         int indexJ = cell.getJ();
         Square targetSquare = findCorrectSquare(indexI, indexJ);
+        ArrayList<Integer> cellPosibilities = cell.getCellPossibilities().getPosibilities();
 
-        for (Cell c : targetSquare.getcellsInSquare()) {
-            if (c.getCellPossibilities().getPosibilities().size() == 2 && !c.equals(cell)) {
-                int i = c.getI();
-                int j = c.getJ();
-                if (     (i == indexI || j == indexJ) &&
-                        ((i == indexI+1 || i == indexI-1) || (j == indexJ+1 || j == indexJ-1))) {
-                    return c;
+        for (Cell candidateCell : targetSquare.getcellsInSquare()) {
+
+            if (candidateCell.getActualValue() == 0 ) {
+                ArrayList<Integer> candidatePosibilities = candidateCell.getCellPossibilities().getPosibilities();
+                if (cellPosibilities.equals(candidatePosibilities) && cell != candidateCell) {
+                    int i = candidateCell.getI();
+                    int j = candidateCell.getJ();
+                    if (i == indexI || j == indexJ) {
+                        return candidateCell;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    //TODO // OK
+    public void pointingPairInCellsAdvanced(Cell cell) {
+        int cellI = cell.getI();
+        int cellJ = cell.getJ();
+        Square cellSquare = findCorrectSquare(cellI, cellJ);
+
+        // actual number to remove:
+        if (cell.getActualValue() != 0) {
+            return;
+        }
+
+
+        for (int possibilityToCheck : cell.getCellPossibilities().getPosibilities()) {
+            boolean changesDone = false; // ?????????
+            boolean checkOnlySquare = checkOnlySquare(cellSquare, possibilityToCheck);
+
+            int numberToPotencialyRemove = possibilityToCheck;
+
+            // get partner cell
+            System.out.println(cell);
+            Cell partnerCell = findPartnerCellAdvanced(cell, numberToPotencialyRemove);
+
+            if (partnerCell == null) {
+                return;
+            }
+
+            System.out.println("cell: " + cell + " cellPos: " + cell.getCellPossibilities()
+                    + " partner cell: " + partnerCell + " partnerPos: " + partnerCell.getCellPossibilities());
+
+            // TODO - check if I really can remove from a square
+            // horizontal case
+            if (cellI == partnerCell.getI() && !checkOnlySquare) {
+
+            }
+
+            // vertical case
+
+            // ----
+
+
+            if (cellI == partnerCell.getI() && !checkOnlySquare) {
+                // check horizontal
+                for (Cell cellInRow : horizontals.get(cellI).getColumn()) {
+                    int i = cellInRow.getI();
+                    int j = cellInRow.getJ();
+                    Square testedCellSquare = findCorrectSquare(i, j);
+                    if (cellSquare != testedCellSquare && cellInRow.getActualValue() == 0) {
+                        cellInRow.getCellPossibilities().getPosibilities().remove((Integer) numberToPotencialyRemove);
+                        changesDone = true;
+                    }
+                }
+
+
+            } else if (cellJ == partnerCell.getJ() && !checkOnlySquare) {
+                // check vertical
+                for (Cell cellInColumn : verticals.get(cellJ).getRow()) {
+                    int i = cellInColumn.getI();
+                    int j = cellInColumn.getJ();
+                    Square testedCellSquare = findCorrectSquare(i, j);
+                    if (cellSquare != testedCellSquare && cellInColumn.getActualValue() == 0) {
+                        cellInColumn.getCellPossibilities().getPosibilities().remove((Integer) numberToPotencialyRemove);
+                        System.out.println("Cell REMOVAL");
+                        changesDone = true;
+                    }
+                }
+            }
+
+
+            // check square
+            if (checkOnlySquare) {
+                for (Cell cellInSquare : cellSquare.getcellsInSquare()) {
+
+                    int iCase = 0;
+                    int jCase = 0;
+                    if (cellI == partnerCell.getI()) {
+                        iCase = cellI;
+                    }
+                    if (cellJ == partnerCell.getJ()) {
+                        jCase = cellJ;
+                    }
+
+                    if (cellInSquare != cell &&
+                            cellInSquare != partnerCell &&
+                            cellInSquare.getActualValue() == 0 &&
+                            (iCase != cellInSquare.getI())) {
+                        cellInSquare.getCellPossibilities().getPosibilities().remove((Integer) numberToPotencialyRemove);
+                        System.out.println("SOMETHING REMOVED");
+                    }
+
+                    if (cellInSquare != cell &&
+                            cellInSquare != partnerCell &&
+                            cellInSquare.getActualValue() == 0 &&
+                            (jCase != cellInSquare.getJ())) {
+                        cellInSquare.getCellPossibilities().getPosibilities().remove((Integer) numberToPotencialyRemove);
+                        System.out.println("SOMETHING REMOVED");
+                    }
+                }
+            }
+
+        }
+    }
+
+    private boolean checkOnlySquare(Square cellsSquare, int possibility) {
+        int amountOfCheckedPossibilityInSquare = 0;
+        for (Cell cell : cellsSquare.getcellsInSquare()) {
+            if (cell.getActualValue() == 0 && cell.getCellPossibilities().getPosibilities().contains((Integer)possibility)) {
+                amountOfCheckedPossibilityInSquare++;
+            }
+        }
+        if (amountOfCheckedPossibilityInSquare > 2) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @TODO
+    private Cell findPartnerCellAdvanced(Cell cell, int possibilityToCheck) { // TEST IT!
+        int indexI = cell.getI();
+        int indexJ = cell.getJ();
+        Square targetSquare = findCorrectSquare(indexI, indexJ);
+        ArrayList<Integer> cellPosibilities = cell.getCellPossibilities().getPosibilities();
+
+        for (Cell candidateCell : targetSquare.getcellsInSquare()) {
+
+            if (candidateCell.getActualValue() == 0 ) {
+                int candidateCellI = candidateCell.getI();
+                int candidateCellJ = candidateCell.getJ();
+
+                if ((indexI == candidateCellI || indexJ == candidateCellJ) && cell != candidateCell) {
+                    ArrayList<Integer> candidatePosibilities = candidateCell.getCellPossibilities().getPosibilities();
+
+                    if (candidatePosibilities.contains((Integer)possibilityToCheck)) {
+                        return candidateCell;
+                    }
+
+//                    for (int cellPos : cellPosibilities) {
+//                        for (int i = 0; i < candidatePosibilities.size(); i++) {
+//                            if (cellPos == candidatePosibilities.get(i)) {
+//                                return candidateCell;
+//                            }
+//                        }
+//                    }
                 }
             }
         }

@@ -6,7 +6,7 @@ public class Possibility {
     private int i;
     private int j;
     private ArrayList<Integer> posibilities;
-    Cell c;
+    private Cell c;
 
     public Possibility(int i, int j) {
         this.i = i;
@@ -35,6 +35,10 @@ public class Possibility {
         return posibilities;
     }
 
+    public void setPosibilities(ArrayList<Integer> posibilities) {
+        this.posibilities = posibilities;
+    }
+
     public Cell getC() {
         return c;
     }
@@ -48,4 +52,19 @@ public class Possibility {
         return "i= " + this.i + ", j= " + this.j + " possibilities: " + s;
     }
 
+//    @Override
+//    public boolean equals(Object obj) {
+//        int amountOfPossibilities = this.getPosibilities().size();
+//        if (obj instanceof Possibility) {
+//            if (amountOfPossibilities == (((Possibility) obj).posibilities).size()) {
+//                for (int i = 0; i < this.getPosibilities().size(); i++) {
+//                    if (this.getPosibilities().get(i) != ((Possibility) obj).getPosibilities().get(i)) {
+//                        return false;
+//                    }
+//                }
+//            }
+//        }
+//
+//        return true;
+//    }
 }
