@@ -7,6 +7,19 @@ import java.util.List;
 import java.util.Map;
 
 public class Solution {
+
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
+
+
+
     List<Vertical> verticals;
     List<Horizontal> horizontals;
     List<Square> squares;
@@ -65,10 +78,21 @@ public class Solution {
                             if (end && !possibilityList.isEmpty()) {
                                 System.out.println("Not updated, try something more advanced > i = " + i + " j = " + j);
                                 if (pointingPairInCells(horizontals.get(i).getCellInHorizontal(j))) {
+                                    // ostala len 1 possibilita, tak to je hlavna hodnota => nastavim ==================
+
+                                    // =================================================================================
                                     sudokuUpdated = true;
+                                    //end = false;
                                     endCount--; // toto este overit!
                                 }
+
+
                             }
+                            // nepomaha
+//                            if (possibility.getPosibilities().size() == 1) {
+//                                horizontals.get(i).getCellInHorizontal(j).setActualValue(possibility.getPosibilities().get(0));
+//                                data[i][j] = horizontals.get(i).getCellInHorizontal(j).getActualValue();
+//                            }
                         }
                     }
                 }
@@ -80,7 +104,7 @@ public class Solution {
                 end = true;
                 System.out.println("Koniec");
             }
-            if (end == true && !possibilityList.isEmpty() && endCount < 1) {
+            if (end && !possibilityList.isEmpty() && endCount < 1) {
                 System.out.println("Som na konci, ale mam este nieco v possibility liste -> skus advanced metody");
                 sudokuUpdated = true;
                 endCount++;
@@ -177,17 +201,39 @@ public class Solution {
         for (int possibilityToCheck : cell.getCellPossibilities().getPosibilities()) {
             eligiblePartnerCells = findPartnerCell(cell, possibilityToCheck);
             for (Cell partnerCell : eligiblePartnerCells) {
+
+
+                // =============== len vypisy ========================================
                 System.out.println("Partner cell for cell possibility: " + possibilityToCheck + " in cell  i = " + cellI + " j = " + cellJ + " IS: i = " +
                         partnerCell.getI() + " j = " + partnerCell.getJ());
                 if (partnerCell == null) {
                     System.out.println("No eligible partner cell for cell possibility: " + possibilityToCheck + " in cell  i = " + cellI + " j = " + cellJ);
                 }
+                // ====================================================================
+
+                if (!partnerCell.getCellPossibilities().getPosibilities().contains((Integer)possibilityToCheck)) {
+                    continue;
+                }
+
+
+
+                if (!isPossibilityToCheckPresentSomewhereElseInSquare(cell, partnerCell, cellSquare.getcellsInSquare(), possibilityToCheck)) {
+                    System.out.println(ANSI_GREEN + "Possibility " + possibilityToCheck + " presents only in row / column" + ANSI_RESET);
+                    // ak je len v tomto riadku vyhadzem tu possibilitu z tohto riadka v ostatnych stvorcoch, ak v stlpci tak zo stlpca
+                    deletePossibilitiesInRowOrColumn(cell, partnerCell, possibilityToCheck);
+
+                } else { // nachadza sa aj inde vo stvorci ---------------- POZOR NEJAKA CHYBA
+                    System.out.println(ANSI_RED + "Possibility " + possibilityToCheck + " presents somewhere else too" + ANSI_RESET);
+                    if (cellI == partnerCell.getI() && !isPossibilityToCheckPresentSomewhereElseInRow(cell, partnerCell, possibilityToCheck)) {
+                        deletePossibilitiesInSquare(cell, partnerCell, possibilityToCheck);
+                    } else if (cellJ == partnerCell.getJ() && !isPossibilityToCheckPresentSomewhereElseInColumn(cell, partnerCell, possibilityToCheck)) {
+                        deletePossibilitiesInSquare(cell, partnerCell, possibilityToCheck);
+                    }
+                }
+                System.out.println();
+
             }
         }
-
-        // check vertical
-
-        // check horizontal
 
         // ZATIAL VRAT FALSE, POTOM SA BUDE VRACAT TRUE, AK SA NAJDE VHODNA CELLA A NIECO SA UPDATNE
         return false;
@@ -220,6 +266,134 @@ public class Solution {
         return eligiblePartnerCellList;
     }
 
+    private boolean isPossibilityToCheckPresentSomewhereElseInSquare(Cell cell, Cell partnerCell, List<Cell> squareOfCells, int possibilityToCheck) {
+        int cellI = cell.getI();
+        int cellJ = cell.getJ();
+        int partnerCellI = partnerCell.getI();
+        int partnerCellJ = partnerCell.getJ();
+
+        if (cellI == partnerCellI) {
+            System.out.println("i case");
+            for (Cell testedCell : squareOfCells) {
+                if (testedCell.getActualValue() == 0 && testedCell.getI() != cellI && testedCell.getCellPossibilities().getPosibilities().contains((Integer) possibilityToCheck)) {
+                    return true;
+                }
+            }
+        }
+        if (cellJ == partnerCellJ) {
+            System.out.println("j case");
+            for (Cell testedCell : squareOfCells) {
+                if (testedCell.getActualValue() == 0 && testedCell.getJ() != cellJ && testedCell.getCellPossibilities().getPosibilities().contains((Integer) possibilityToCheck)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean isPossibilityToCheckPresentSomewhereElseInRow(Cell cell, Cell partnerCell, int possibilityToCheck) {
+        int cellI = cell.getI();
+        int cellJ = cell.getJ();
+        int partnerCellI = partnerCell.getI();
+        int partnerCellJ = partnerCell.getJ();
+        Square cellSquare = findCorrectSquare(cellI, cellJ);
+
+        if (cellI == partnerCellI) {
+            System.out.println("horizontal i case");
+            for (Cell testedCell : horizontals.get(cellI).getColumn()) {
+//                if (testedCell.getActualValue() == 0 && cellSquare != findCorrectSquare(partnerCellI, partnerCellJ) &&
+//                        testedCell.getCellPossibilities().getPosibilities().contains((Integer) possibilityToCheck)) {
+                if (testedCell.getActualValue() == 0 && cellSquare != findCorrectSquare(testedCell.getI(), testedCell.getJ()) &&
+                        testedCell.getCellPossibilities().getPosibilities().contains((Integer) possibilityToCheck)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean isPossibilityToCheckPresentSomewhereElseInColumn(Cell cell, Cell partnerCell, int possibilityToCheck) {
+        int cellI = cell.getI();
+        int cellJ = cell.getJ();
+        int partnerCellI = partnerCell.getI();
+        int partnerCellJ = partnerCell.getJ();
+        Square cellSquare = findCorrectSquare(cellI, cellJ);
+
+        if (cellJ == partnerCellJ) {
+            System.out.println("vertical j case");
+            for (Cell testedCell : verticals.get(cellJ).getRow()) {
+                //if (testedCell.getActualValue() == 0 && cellSquare != findCorrectSquare(partnerCellI, partnerCellJ) &&
+                //        testedCell.getCellPossibilities().getPosibilities().contains((Integer) possibilityToCheck)) {
+                if (testedCell.getActualValue() == 0 && cellSquare != findCorrectSquare(testedCell.getI(), testedCell.getJ()) &&
+                        testedCell.getCellPossibilities().getPosibilities().contains((Integer) possibilityToCheck)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean deletePossibilitiesInSquare(Cell cell, Cell partnerCell, int possibilityToCheck) {
+        int cellI = cell.getI();
+        int cellJ = cell.getJ();
+        int partnerCellI = partnerCell.getI();
+        int partnerCellJ = partnerCell.getJ();
+        boolean somethingWasRemoved = false;
+        Square cellSquare = findCorrectSquare(cellI, cellJ);
+
+        if (cellI == partnerCellI) {
+            for (Cell testedCell : cellSquare.getcellsInSquare()) {
+                if (testedCell.getActualValue() == 0 && testedCell.getI() != cellI && testedCell.getCellPossibilities().getPosibilities().contains((Integer)possibilityToCheck)) {
+                    System.out.println(ANSI_PURPLE + "\t SQUARE CASE: Possibility " + possibilityToCheck + " will be removed from " +
+                            "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
+                    somethingWasRemoved = testedCell.getCellPossibilities().getPosibilities().remove((Integer)possibilityToCheck);
+                }
+            }
+        } else if (cellJ == partnerCellJ) {
+            for (Cell testedCell : cellSquare.getcellsInSquare()) {
+                if (testedCell.getActualValue() == 0 && testedCell.getJ() != cellJ && testedCell.getCellPossibilities().getPosibilities().contains((Integer)possibilityToCheck)) {
+                    System.out.println(ANSI_PURPLE + "\t SQUARE CASE: Possibility " + possibilityToCheck + " will be removed from " +
+                            "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
+                    somethingWasRemoved = testedCell.getCellPossibilities().getPosibilities().remove((Integer)possibilityToCheck);
+                }
+            }
+        } else {
+            System.out.println(ANSI_RED + "\tSQUARE CASE: Something's wrong - incorrect partner cell!" + ANSI_RESET);
+        }
+        return somethingWasRemoved;
+    }
+
+    private boolean deletePossibilitiesInRowOrColumn(Cell cell, Cell partnerCell, int possibilityToCheck) {
+        int cellI = cell.getI();
+        int cellJ = cell.getJ();
+        boolean somethingWasRemoved = false;
+        Square cellSquare = findCorrectSquare(cell.getI(), cell.getJ());
+
+        if (cellI == partnerCell.getI()) {
+            for (Cell testedCell : horizontals.get(cellI).getColumn()) {
+                Square testedCellSquare = findCorrectSquare(testedCell.getI(), testedCell.getJ());
+                if (testedCell.getActualValue() == 0 && cellSquare != testedCellSquare && testedCell.getCellPossibilities().getPosibilities().contains((Integer)possibilityToCheck)) {
+                    System.out.println(ANSI_BLUE + "\tROW-COLUMN CASE: Possibility " + possibilityToCheck + " will be removed from " +
+                            "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
+                    somethingWasRemoved = testedCell.getCellPossibilities().getPosibilities().remove((Integer)possibilityToCheck);
+                }
+            }
+
+        } else if (cellJ == partnerCell.getJ()){
+            for (Cell testedCell : verticals.get(cellJ).getRow()) {
+                Square testedCellSquare = findCorrectSquare(testedCell.getI(), testedCell.getJ());
+                if (testedCell.getActualValue() == 0 && cellSquare != testedCellSquare && testedCell.getCellPossibilities().getPosibilities().contains((Integer)possibilityToCheck)) {
+                    System.out.println(ANSI_BLUE + "\tROW-COLUMN CASE: Possibility " + possibilityToCheck + " will be removed from " +
+                            "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
+                    somethingWasRemoved = testedCell.getCellPossibilities().getPosibilities().remove((Integer)possibilityToCheck);
+                }
+            }
+        } else {
+            System.out.println(ANSI_RED + "\tROW-COLUMN CASE: Something's wrong - incorrect partner cell!" + ANSI_RESET);
+        }
+        return somethingWasRemoved;
+    }
+
     public void removePossibilityFromRow(int value, Cell cell) {
         int indexI = cell.getI();
 
@@ -230,7 +404,6 @@ public class Solution {
 
             }
         }
-
     }
 
     public void removePossibilityFromColumn(int value, Cell cell) {
