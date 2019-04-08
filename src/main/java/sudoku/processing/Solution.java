@@ -197,11 +197,13 @@ public class Solution {
         int cellJ = cell.getJ();
         Square cellSquare = findCorrectSquare(cellI, cellJ);
         List<Cell> eligiblePartnerCells = new ArrayList<>();
+        boolean changed = false;
 
         for (int possibilityToCheck : cell.getCellPossibilities().getPosibilities()) {
             eligiblePartnerCells = findPartnerCell(cell, possibilityToCheck);
-            for (Cell partnerCell : eligiblePartnerCells) {
 
+            for (Cell partnerCell : eligiblePartnerCells) {
+                boolean changedInLoop = false;
 
                 // =============== len vypisy ========================================
                 System.out.println("Partner cell for cell possibility: " + possibilityToCheck + " in cell  i = " + cellI + " j = " + cellJ + " IS: i = " +
@@ -220,23 +222,25 @@ public class Solution {
                 if (!isPossibilityToCheckPresentSomewhereElseInSquare(cell, partnerCell, cellSquare.getcellsInSquare(), possibilityToCheck)) {
                     System.out.println(ANSI_GREEN + "Possibility " + possibilityToCheck + " presents only in row / column" + ANSI_RESET);
                     // ak je len v tomto riadku vyhadzem tu possibilitu z tohto riadka v ostatnych stvorcoch, ak v stlpci tak zo stlpca
-                    deletePossibilitiesInRowOrColumn(cell, partnerCell, possibilityToCheck);
+                    changedInLoop = deletePossibilitiesInRowOrColumn(cell, partnerCell, possibilityToCheck);
 
-                } else { // nachadza sa aj inde vo stvorci ---------------- POZOR NEJAKA CHYBA
+                } else { // nachadza sa aj inde vo stvorci
                     System.out.println(ANSI_RED + "Possibility " + possibilityToCheck + " presents somewhere else too" + ANSI_RESET);
                     if (cellI == partnerCell.getI() && !isPossibilityToCheckPresentSomewhereElseInRow(cell, partnerCell, possibilityToCheck)) {
-                        deletePossibilitiesInSquare(cell, partnerCell, possibilityToCheck);
+                        changedInLoop = deletePossibilitiesInSquare(cell, partnerCell, possibilityToCheck);
                     } else if (cellJ == partnerCell.getJ() && !isPossibilityToCheckPresentSomewhereElseInColumn(cell, partnerCell, possibilityToCheck)) {
-                        deletePossibilitiesInSquare(cell, partnerCell, possibilityToCheck);
+                        changedInLoop = deletePossibilitiesInSquare(cell, partnerCell, possibilityToCheck);
                     }
                 }
-                System.out.println();
 
+
+                System.out.println();
+                if (changedInLoop) {
+                    changed = true;
+                }
             }
         }
-
-        // ZATIAL VRAT FALSE, POTOM SA BUDE VRACAT TRUE, AK SA NAJDE VHODNA CELLA A NIECO SA UPDATNE
-        return false;
+        return changed;
     }
 
     //TODO - logic completed - DO test for multiple sudokus while used in pointingPairCells(Cell cell) method
