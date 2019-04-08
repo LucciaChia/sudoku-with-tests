@@ -21,6 +21,8 @@ public class Solution {
     }
 
     public List<Possibility> output() {
+        boolean end = false;
+        int endCount = 0;
         int firstRound = 1;
         boolean sudokuUpdated;
         do {
@@ -60,22 +62,32 @@ public class Solution {
 //                                pointingPairInCells(horizontals.get(i).getCellInHorizontal(j));
 //                            }
 
-
-//                            System.out.println("TEST" + firstRound);
-//                            for (int m = 0; m < data.length; m++) {
-//                                for (int n = 0; n < data[m].length; n++) {
-//                                    System.out.print(data[m][n] + " ");
-//                                }
-//                                System.out.println();
-//                            }
+                            if (end && !possibilityList.isEmpty()) {
+                                System.out.println("Not updated, try something more advanced > i = " + i + " j = " + j);
+                                if (pointingPairInCells(horizontals.get(i).getCellInHorizontal(j))) {
+                                    sudokuUpdated = true;
+                                    endCount--; // toto este overit!
+                                }
+                            }
                         }
                     }
                 }
             }
 
 
+            // skus advanced ak plati toto ===============
+            if (!sudokuUpdated) {
+                end = true;
+                System.out.println("Koniec");
+            }
+            if (end == true && !possibilityList.isEmpty() && endCount < 1) {
+                System.out.println("Som na konci, ale mam este nieco v possibility liste -> skus advanced metody");
+                sudokuUpdated = true;
+                endCount++;
+            }
+            // ===========================================
             firstRound++;
-    } while (sudokuUpdated || firstRound <= 2);
+        } while (sudokuUpdated || firstRound <= 2);
 
         return possibilityList;
     }
@@ -156,35 +168,56 @@ public class Solution {
     }
 
     //TODO for more advacned sudokus
-    public void pointingPairInCells(Cell cell) {
-        // get pair cell
-        Cell partnerCell = findPartnerCell(cell);
-        if (partnerCell == null) {
-            return;
-        }
-        // check vertical
+    public boolean pointingPairInCells(Cell cell) {
+        int cellI = cell.getI();
+        int cellJ = cell.getJ();
+        Square cellSquare = findCorrectSquare(cellI, cellJ);
+        List<Cell> eligiblePartnerCells = new ArrayList<>();
 
-        // check horizontal
-    }
-
-    //TODO - not completed yet - will be useful while resolving more advanced sudokus
-    private Cell findPartnerCell(Cell cell) {
-        int indexI = cell.getI();
-        int indexJ = cell.getJ();
-        Square targetSquare = findCorrectSquare(indexI, indexJ);
-
-        for (Cell c : targetSquare.getcellsInSquare()) {
-            if (c.getCellPossibilities().getPosibilities().size() == 2 && !c.equals(cell)) {
-                int i = c.getI();
-                int j = c.getJ();
-                if (     (i == indexI || j == indexJ) &&
-                        ((i == indexI+1 || i == indexI-1) || (j == indexJ+1 || j == indexJ-1))) {
-                    return c;
+        for (int possibilityToCheck : cell.getCellPossibilities().getPosibilities()) {
+            eligiblePartnerCells = findPartnerCell(cell, possibilityToCheck);
+            for (Cell partnerCell : eligiblePartnerCells) {
+                System.out.println("Partner cell for cell possibility: " + possibilityToCheck + " in cell  i = " + cellI + " j = " + cellJ + " IS: i = " +
+                        partnerCell.getI() + " j = " + partnerCell.getJ());
+                if (partnerCell == null) {
+                    System.out.println("No eligible partner cell for cell possibility: " + possibilityToCheck + " in cell  i = " + cellI + " j = " + cellJ);
                 }
             }
         }
 
-        return null;
+        // check vertical
+
+        // check horizontal
+
+        // ZATIAL VRAT FALSE, POTOM SA BUDE VRACAT TRUE, AK SA NAJDE VHODNA CELLA A NIECO SA UPDATNE
+        return false;
+    }
+
+    //TODO - logic completed - DO test for multiple sudokus while used in pointingPairCells(Cell cell) method
+    private List<Cell> findPartnerCell(Cell cell, int possibilityToCheck) {
+        int indexI = cell.getI();
+        int indexJ = cell.getJ();
+        Square targetSquare = findCorrectSquare(indexI, indexJ);
+        ArrayList<Integer> cellPosibilities = cell.getCellPossibilities().getPosibilities();
+        List<Cell> eligiblePartnerCellList = new ArrayList<>();
+
+        for (Cell candidateCell : targetSquare.getcellsInSquare()) {
+
+            if (candidateCell.getActualValue() == 0 ) {
+                int candidateCellI = candidateCell.getI();
+                int candidateCellJ = candidateCell.getJ();
+
+                if ((indexI == candidateCellI || indexJ == candidateCellJ) && cell != candidateCell) {
+                    ArrayList<Integer> candidatePosibilities = candidateCell.getCellPossibilities().getPosibilities();
+
+                    if (candidatePosibilities.contains((Integer)possibilityToCheck)) {
+                        eligiblePartnerCellList.add(candidateCell);
+                    }
+                }
+            }
+        }
+
+        return eligiblePartnerCellList;
     }
 
     public void removePossibilityFromRow(int value, Cell cell) {

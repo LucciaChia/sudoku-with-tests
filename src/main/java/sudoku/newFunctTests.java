@@ -14,6 +14,15 @@ public class newFunctTests {
         ClassLoader classLoader = new newFunctTests().getClass().getClassLoader();
         File file22 = new File(classLoader.getResource("inputs/simple1.txt").getFile());
         System.out.println("file22 = " + file22.getPath());
+
+
+        for (int i = 0; i < 10; i++) {
+
+            if (i == 4 || i == 6) {
+                continue; // preskoci na dalsiu obratku cyklu
+            }
+            System.out.println("Cislo " + i);
+        }
     }
 
 }

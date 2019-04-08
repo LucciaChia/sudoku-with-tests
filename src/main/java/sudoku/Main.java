@@ -6,6 +6,7 @@ import sudoku.processing.Solution;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
 
@@ -20,13 +21,12 @@ public class Main {
     public static final String path3 = new File(classLoader.getResource("inputs/simple3.txt").getFile()).getPath();
     public static final String path4 = new File(classLoader.getResource("inputs/simple4.txt").getFile()).getPath();
 
-
     public static void main(String[] args) {
+
         Main main = new Main();
+//        int[][] data = main.readSudokuMatrix(path1);
 
-        int[][] data = main.readSudokuMatrix(path1);
-
-//        int[][] data =
+        int[][] data =
 //                {
 //                        {0, 3, 0, 4, 1, 0, 0, 2, 0},
 //                        {5, 6, 0, 0, 0, 0, 0, 3, 0},
@@ -89,6 +89,18 @@ public class Main {
 //            {7, 1, 0, 0, 0, 4, 9, 0, 8},
 //            {0, 6, 4, 8, 0, 9, 0, 0, 0}
 //        };
+        //TAZKE SUDOKU test 2 - to do
+        {
+            {9, 1, 0, 6, 0, 0, 3, 0, 0},
+            {0, 0, 4, 0, 3, 8, 0, 9, 0},
+            {0, 0, 0, 0, 0, 0, 0, 2, 6},
+            {4, 0, 0, 0, 0, 0, 2, 0, 7},
+            {0, 0, 0, 0, 8, 0, 0, 0, 0},
+            {8, 0, 2, 0, 0, 0, 0, 0, 9},
+            {5, 8, 0, 0, 0, 0, 0, 0, 0},
+            {0, 4, 0, 5, 1, 0, 8, 0, 0},
+            {0, 0, 9, 0, 0, 3, 0, 7, 2}
+        };
         printIt(data);
 
         // create necessary objects
@@ -133,7 +145,6 @@ public class Main {
                     verticals.get(j).getRow().add(cell);
                 } else {
                     verticals.get(j).getRow().add(cell);
-
                 }
 
                 if ((i % 3 == 0 || i % 3 == 3) && (j % 3 == 0 || j % 3 == 3)) {
@@ -178,9 +189,48 @@ public class Main {
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
-
         }
 
         return data;
+    }
+
+    public void menu() {
+
+        Scanner scanner = new Scanner(System.in);
+        boolean quit = false;
+        do {
+            int option = scanner.nextInt();
+            switch (option) {
+                case 0:
+                    printHelp();
+                    break;
+                case 1:
+                    insertYourOwnSudoku();
+                    break;
+                case 2:
+                    runDefaultSudoku();
+                    break;
+                case 3:
+                    quit = true;
+            }
+        } while(!quit);
+    }
+
+    private void printHelp() {
+        System.out.println(
+                        "Insert 0 - to print this help\n" +
+                        "Insert 1 - to be able to write your own sudoku to check\n" +
+                        "         - empty places in sudoku reaplace with number 0\n" +
+                        "Insert 2 - to see som example solutions of sudokus\n" +
+                        "Insert 3 - to quit program"
+        );
+    }
+
+    private void insertYourOwnSudoku() {
+
+    }
+
+    private void runDefaultSudoku() {
+
     }
 }
