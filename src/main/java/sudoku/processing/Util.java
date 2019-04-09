@@ -1,7 +1,6 @@
 package sudoku.processing;
 
 import sudoku.model.Cell;
-import sudoku.model.Possibility;
 import sudoku.model.SudokuElement;
 
 import java.util.HashMap;
@@ -25,13 +24,13 @@ public class Util {
         Map<Integer, Integer> countOfPossibilities = new HashMap<>();
         List<Cell> listOfCells = sudokuElement.getCells();
         for (int i = 0; i < 9; i++) {
-            Possibility possibility = listOfCells.get(i).getCellPossibilities(); // moznosti v bunke
+            List<Integer> possibility = listOfCells.get(i).getCellPossibilities(); // moznosti v bunke
             if (possibility != null) {
-                for (int j = 0; j < possibility.getPosibilities().size(); j++) {
-                    if (!countOfPossibilities.containsKey(possibility.getPosibilities().get(j))) {
-                        countOfPossibilities.put(possibility.getPosibilities().get(j), 1);
+                for (int j = 0; j < possibility.size(); j++) {
+                    if (!countOfPossibilities.containsKey(possibility.get(j))) {
+                        countOfPossibilities.put(possibility.get(j), 1);
                     } else {
-                        int key = possibility.getPosibilities().get(j);
+                        int key = possibility.get(j);
                         countOfPossibilities.put(key, countOfPossibilities.get(key) + 1);
                     }
                 }

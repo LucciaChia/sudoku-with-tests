@@ -98,15 +98,15 @@ public class TestSolution {
 
     @Test
     public void findPartnerCell() {
-        Possibility possibility03 = new Possibility(0,3, new ArrayList<Integer>(Arrays.asList(7,8)));
-        Possibility possibility04 = new Possibility(0,4, new ArrayList<Integer>());
-        Possibility possibility05 = new Possibility(0,5, new ArrayList<Integer>(Arrays.asList(7,8)));
-        Possibility possibility13 = new Possibility(1,3, new ArrayList<Integer>(Arrays.asList(1,2,5,7,8)));
-        Possibility possibility14 = new Possibility(1,4, new ArrayList<Integer>(Arrays.asList(1,2,5,7,8)));
-        Possibility possibility15 = new Possibility(1,5, new ArrayList<Integer>());
-        Possibility possibility23 = new Possibility(2,3, new ArrayList<Integer>(Arrays.asList(1,5,6,7)));
-        Possibility possibility24 = new Possibility(2,4, new ArrayList<Integer>(Arrays.asList(1,5,6,7)));
-        Possibility possibility25 = new Possibility(2,5, new ArrayList<Integer>());
+        List<Integer> possibility03 = new ArrayList<Integer>(Arrays.asList(7,8));
+        List<Integer> possibility04 = new ArrayList<Integer>();
+        List<Integer> possibility05 = new ArrayList<Integer>(Arrays.asList(7,8));
+        List<Integer> possibility13 = new ArrayList<Integer>(Arrays.asList(1,2,5,7,8));
+        List<Integer> possibility14 = new ArrayList<Integer>(Arrays.asList(1,2,5,7,8));
+        List<Integer> possibility15 = new ArrayList<Integer>();
+        List<Integer> possibility23 = new ArrayList<Integer>(Arrays.asList(1,5,6,7));
+        List<Integer> possibility24 = new ArrayList<Integer>(Arrays.asList(1,5,6,7));
+        List<Integer> possibility25 = new ArrayList<Integer>();
 
         Cell c03 = new Cell(0,0,3);
         c03.setCellPossibilities(possibility03);

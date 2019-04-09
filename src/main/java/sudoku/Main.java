@@ -106,15 +106,31 @@ public class Main {
         }
     }
 
+//    private void resolveSudoku(int[][] data) {
+//        System.out.println("POSSIBILITIES: ");
+//        Solution solution = new Solution(verticals, horizontals, squares, data);
+//        List<List<Integer>> pos = solution.output();
+//
+//        System.out.println(pos.size());
+//        for (int i = 0; i < pos.size(); i++) {
+//            System.out.print(i + ": ");
+//            System.out.println(pos.get(i).toString());
+//        }
+//    }
+
     private void resolveSudoku(int[][] data) {
         System.out.println("POSSIBILITIES: ");
         Solution solution = new Solution(verticals, horizontals, squares, data);
-        List<Possibility> pos = solution.output();
+        List<Horizontal> horizontals = solution.output();
 
-        System.out.println(pos.size());
-        for (int i = 0; i < pos.size(); i++) {
-            System.out.print(i + ": ");
-            System.out.println(pos.get(i).toString());
+        for (int i = 0; i < horizontals.size(); i++) {
+            for (int j = 0; j < 9; j++) {
+                Cell cell= horizontals.get(i).getCellInHorizontal(j);
+                if (cell.getActualValue() == 0) {
+                    System.out.print(i + ":" + j + " = ");
+                    System.out.println(cell.toString());
+                }
+            }
         }
     }
     /**

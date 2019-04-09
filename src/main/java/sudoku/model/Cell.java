@@ -1,5 +1,8 @@
 package sudoku.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  */
@@ -7,7 +10,7 @@ public class Cell {
     private int i;
     private int j;
     private int actualValue;
-    private Possibility cellPossibilities;
+    private List<Integer> cellPossibilities;
 
     public int getI() {
         return i;
@@ -21,21 +24,33 @@ public class Cell {
         this.i = i;
         this.j = j;
         this.actualValue = actualValue;
+        cellPossibilities = new ArrayList<>();
+        if (actualValue == 0) {
+            cellPossibilities.add(1);
+            cellPossibilities.add(2);
+            cellPossibilities.add(3);
+            cellPossibilities.add(4);
+            cellPossibilities.add(5);
+            cellPossibilities.add(6);
+            cellPossibilities.add(7);
+            cellPossibilities.add(8);
+            cellPossibilities.add(9);
+        }
     }
 
     public void setActualValue(int actualValue) {
         if (actualValue != 0) {
             //cellPossibilities = null;// !!!!!!!
-            this.cellPossibilities.getPosibilities().clear();
+            this.cellPossibilities.clear();
         }
         this.actualValue = actualValue;
     }
 
-    public Possibility getCellPossibilities() {
+    public List<Integer> getCellPossibilities() {
         return cellPossibilities;
     }
 
-    public void setCellPossibilities(Possibility cellPossibilities) {
+    public void setCellPossibilities(List<Integer> cellPossibilities) {
         this.cellPossibilities = cellPossibilities;
     }
 
@@ -46,7 +61,11 @@ public class Cell {
 
     @Override
     public String toString() {
-        return "value: " + actualValue + ", i=" + i + ", j=" + j;
 
+        String s = "";
+        for (int i = 0; i < cellPossibilities.size(); i++) {
+            s += cellPossibilities.get(i) + ", ";
+        }
+        return "value: " + actualValue + ", i=" + i + ", j=" + j + " possibilities: " + s;
     }
 }
