@@ -147,11 +147,11 @@ public class TestSolution {
         assertEquals(eligiblePartnerCells,testedEligiblePartnerCells);
     }
 
-    @ParameterizedTest
-    // @ValueSource(strings = { "hi", "hello"}) --- ok
-    // @ValueSource(ints = { 1,2}) --- ok
-    @MethodSource("links")
-    public void pointingPairInCells() {
-
-    }
+//    @ParameterizedTest
+//    // @ValueSource(strings = { "hi", "hello"}) --- ok
+//    // @ValueSource(ints = { 1,2}) --- ok
+//    @MethodSource("links")
+//    public void pointingPairInCells() {
+//
+//    }
 }
