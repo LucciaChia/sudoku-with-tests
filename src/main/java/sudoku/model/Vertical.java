@@ -3,7 +3,7 @@ package sudoku.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Vertical implements SudokuElement {
+public class Vertical extends SudokuElement {
     private List<Cell> row = new ArrayList<>(); // idem zvisle cez kazdy riadok, preto row
 
     public Vertical() {
@@ -12,10 +12,6 @@ public class Vertical implements SudokuElement {
 
     public Vertical(List<Cell> row) {
         this.row = row;
-    }
-
-    public List<Cell> getRow() {
-        return row;
     }
 
     public Cell getCellInVertical(int i) {
@@ -32,7 +28,7 @@ public class Vertical implements SudokuElement {
     }
 
     @Override
-    public List<Cell> retrieveCells() {
+    public List<Cell> getCells() {
         return row;
     }
 

@@ -1,5 +1,8 @@
 package sudoku.model;
 
+/**
+ *
+ */
 public class Cell {
     private int i;
     private int j;

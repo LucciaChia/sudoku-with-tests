@@ -3,38 +3,19 @@ package sudoku.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Square implements SudokuElement {
+public class Square extends SudokuElement {
+    //TODO cells dat do abstraktnej class
     private List<Cell> cellsInSquare = new ArrayList<>();
 
     public Square() {
-
     }
 
     public Square(ArrayList<Cell> cellsInSquare) {
         this.cellsInSquare = cellsInSquare;
     }
 
-
-    public List<Cell> getcellsInSquare() {
-        return cellsInSquare;
-    }
-
-
-    public void printSquare() {
-        for (int i = 0; i < 9; i++) {
-                System.out.print(cellsInSquare.get(i).getActualValue());
-                if (i%3 == 2) {
-                    System.out.println();
-                }
-        }
-    }
-
-    public void addCell(Cell cell) {
-        cellsInSquare.add(cell);
-    }
-
     @Override
-    public List<Cell> retrieveCells() {
+    public List<Cell> getCells() {
         return cellsInSquare;
     }
 

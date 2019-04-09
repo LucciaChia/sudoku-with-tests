@@ -117,28 +117,32 @@ public class Main {
             System.out.println(pos.get(i).toString());
         }
     }
-
+    /**
+    z 2D pola vytvarame objekty
+     */
+    //TODO test
     public ArrayList<List<? extends SudokuElement>> createSudokuElementObjects(int[][] data) {
         for (int i = 0; i < data.length; i++) {
             Horizontal horizontal = new Horizontal();
             for (int j = 0; j < data[i].length; j++) {
                 Cell cell = new Cell(data[i][j], i, j);
-                horizontal.getColumn().add(cell);
+                horizontal.getCells().add(cell);
 
                 if (i == 0) {
                     Vertical vertical = new Vertical();
                     verticals.add(vertical);
-                    verticals.get(j).getRow().add(cell);
+                    verticals.get(j).getCells().add(cell);
                 } else {
-                    verticals.get(j).getRow().add(cell);
+                    verticals.get(j).getCells().add(cell);
                 }
 
-                if ((i % 3 == 0 || i % 3 == 3) && (j % 3 == 0 || j % 3 == 3)) {
+
+                if (shouldCreateSquare(i, j)) {
                     Square square = new Square();
                     squares.add(square);
                 }
 
-                squares.get((i/3)*3 + j/3).getcellsInSquare().add(cell);
+                squares.get((i/3)*3 + j/3).getCells().add(cell);
 
             }
             horizontals.add(horizontal);
@@ -149,6 +153,12 @@ public class Main {
         sudokuElements.add(verticals);
         sudokuElements.add(squares);
         return sudokuElements;
+    }
+
+    //TODO test
+    // bolo private, len teraz skusam, potom treba vratit na private
+    public boolean shouldCreateSquare(int i, int j) {
+        return (i % 3 == 0) && (j % 3 == 0);
     }
 
     public int[][] readSudokuMatrix(String path) {
