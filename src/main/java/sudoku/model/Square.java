@@ -6,6 +6,14 @@ import java.util.List;
 public class Square implements SudokuElement {
     private List<Cell> cellsInSquare = new ArrayList<>();
 
+    public Square() {
+
+    }
+
+    public Square(ArrayList<Cell> cellsInSquare) {
+        this.cellsInSquare = cellsInSquare;
+    }
+
 
     public List<Cell> getcellsInSquare() {
         return cellsInSquare;

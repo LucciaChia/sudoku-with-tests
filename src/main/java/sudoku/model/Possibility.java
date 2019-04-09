@@ -5,22 +5,28 @@ import java.util.ArrayList;
 public class Possibility {
     private int i;
     private int j;
-    private ArrayList<Integer> posibilities;
-    private Cell c;
+    private ArrayList<Integer> possibilities;
 
     public Possibility(int i, int j) {
         this.i = i;
         this.j = j;
-        posibilities = new ArrayList<>();
-        posibilities.add(1);
-        posibilities.add(2);
-        posibilities.add(3);
-        posibilities.add(4);
-        posibilities.add(5);
-        posibilities.add(6);
-        posibilities.add(7);
-        posibilities.add(8);
-        posibilities.add(9);
+        possibilities = new ArrayList<>();
+        possibilities.add(1);
+        possibilities.add(2);
+        possibilities.add(3);
+        possibilities.add(4);
+        possibilities.add(5);
+        possibilities.add(6);
+        possibilities.add(7);
+        possibilities.add(8);
+        possibilities.add(9);
+    }
+
+    public Possibility(int i, int j, ArrayList<Integer> possibilities) {
+        this.i = i;
+        this.j = j;
+        this.possibilities = new ArrayList<>();
+        this.possibilities = possibilities;
     }
 
     public int getI() {
@@ -32,18 +38,14 @@ public class Possibility {
     }
 
     public ArrayList<Integer> getPosibilities() {
-        return posibilities;
-    }
-
-    public Cell getC() {
-        return c;
+        return possibilities;
     }
 
     @Override
     public String toString() {
         String s = "";
-        for (int i = 0; i < posibilities.size(); i++) {
-            s += posibilities.get(i) + ", ";
+        for (int i = 0; i < possibilities.size(); i++) {
+            s += possibilities.get(i) + ", ";
         }
         return "i= " + this.i + ", j= " + this.j + " possibilities: " + s;
     }

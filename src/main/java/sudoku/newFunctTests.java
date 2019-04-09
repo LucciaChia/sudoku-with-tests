@@ -1,6 +1,9 @@
 package sudoku;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class newFunctTests {
     public static void main(String[] args) {
@@ -21,7 +24,26 @@ public class newFunctTests {
             if (i == 4 || i == 6) {
                 continue; // preskoci na dalsiu obratku cyklu
             }
-            System.out.println("Cislo " + i);
+            //System.out.println("Cislo " + i);
+        }
+
+        ArrayList<Integer> test = new ArrayList<>();
+
+        String[] inpString = new String[]{"one", "two", "three"};
+        List<String> test2 = Arrays.asList("one", "two");
+        ArrayList<String> symbolsPresent = new ArrayList<String>(Arrays.asList(new String[] {"One","Two","Three","Four"}));
+        // https://stackoverflow.com/questions/16194921/initializing-arraylist-with-some-predefined-values
+
+        //
+
+        ArrayList<Integer> integers = new ArrayList<Integer>(Arrays.asList(new Integer[] {0,1,2}));
+        for (int i = 0; i < integers.size(); i++) {
+            System.out.println(integers.get(i));
+        }
+
+        ArrayList<Integer> integers2 = new ArrayList<Integer>(Arrays.asList(10, 11, 12));
+        for (int i = 0; i < integers2.size(); i++) {
+            System.out.println(integers2.get(i));
         }
     }
 

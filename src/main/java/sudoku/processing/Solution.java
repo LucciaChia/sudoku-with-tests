@@ -26,6 +26,12 @@ public class Solution {
     int[][] data;
     List<Possibility> possibilityList = new ArrayList<>();
 
+    // constructor for test purposes
+    public Solution(List<Square> squares) {
+        this.squares = squares;
+    }
+
+
     public Solution(List<Vertical> verticals, List<Horizontal> horizontals, List<Square> squares, int[][] data) {
         this.verticals = verticals;
         this.horizontals = horizontals;
@@ -191,7 +197,6 @@ public class Solution {
         return 0;
     }
 
-    //TODO for more advacned sudokus
     public boolean pointingPairInCells(Cell cell) {
         int cellI = cell.getI();
         int cellJ = cell.getJ();
@@ -217,13 +222,10 @@ public class Solution {
                     continue;
                 }
 
-
-
                 if (!isPossibilityToCheckPresentSomewhereElseInSquare(cell, partnerCell, cellSquare.getcellsInSquare(), possibilityToCheck)) {
                     System.out.println(ANSI_GREEN + "Possibility " + possibilityToCheck + " presents only in row / column" + ANSI_RESET);
                     // ak je len v tomto riadku vyhadzem tu possibilitu z tohto riadka v ostatnych stvorcoch, ak v stlpci tak zo stlpca
                     changedInLoop = deletePossibilitiesInRowOrColumn(cell, partnerCell, possibilityToCheck);
-
                 } else { // nachadza sa aj inde vo stvorci
                     System.out.println(ANSI_RED + "Possibility " + possibilityToCheck + " presents somewhere else too" + ANSI_RESET);
                     if (cellI == partnerCell.getI() && !isPossibilityToCheckPresentSomewhereElseInRow(cell, partnerCell, possibilityToCheck)) {
@@ -232,7 +234,6 @@ public class Solution {
                         changedInLoop = deletePossibilitiesInSquare(cell, partnerCell, possibilityToCheck);
                     }
                 }
-
 
                 System.out.println();
                 if (changedInLoop) {
@@ -243,8 +244,7 @@ public class Solution {
         return changed;
     }
 
-    //TODO - logic completed - DO test for multiple sudokus while used in pointingPairCells(Cell cell) method
-    private List<Cell> findPartnerCell(Cell cell, int possibilityToCheck) {
+    public List<Cell> findPartnerCell(Cell cell, int possibilityToCheck) {
         int indexI = cell.getI();
         int indexJ = cell.getJ();
         Square targetSquare = findCorrectSquare(indexI, indexJ);
@@ -305,8 +305,6 @@ public class Solution {
         if (cellI == partnerCellI) {
             System.out.println("horizontal i case");
             for (Cell testedCell : horizontals.get(cellI).getColumn()) {
-//                if (testedCell.getActualValue() == 0 && cellSquare != findCorrectSquare(partnerCellI, partnerCellJ) &&
-//                        testedCell.getCellPossibilities().getPosibilities().contains((Integer) possibilityToCheck)) {
                 if (testedCell.getActualValue() == 0 && cellSquare != findCorrectSquare(testedCell.getI(), testedCell.getJ()) &&
                         testedCell.getCellPossibilities().getPosibilities().contains((Integer) possibilityToCheck)) {
                     return true;
@@ -326,8 +324,6 @@ public class Solution {
         if (cellJ == partnerCellJ) {
             System.out.println("vertical j case");
             for (Cell testedCell : verticals.get(cellJ).getRow()) {
-                //if (testedCell.getActualValue() == 0 && cellSquare != findCorrectSquare(partnerCellI, partnerCellJ) &&
-                //        testedCell.getCellPossibilities().getPosibilities().contains((Integer) possibilityToCheck)) {
                 if (testedCell.getActualValue() == 0 && cellSquare != findCorrectSquare(testedCell.getI(), testedCell.getJ()) &&
                         testedCell.getCellPossibilities().getPosibilities().contains((Integer) possibilityToCheck)) {
                     return true;
@@ -400,28 +396,22 @@ public class Solution {
 
     public void removePossibilityFromRow(int value, Cell cell) {
         int indexI = cell.getI();
-
         for (int i = 0; i < 9; i++) {
             Possibility p = horizontals.get(indexI).getColumn().get(i).getCellPossibilities();
             if (p != null) {
                 horizontals.get(indexI).getColumn().get(i).getCellPossibilities().getPosibilities().remove((Integer) value);
-
             }
         }
     }
 
     public void removePossibilityFromColumn(int value, Cell cell) {
         int indexJ = cell.getJ();
-
         for (int i = 0; i < 9; i++) {
             Possibility p = verticals.get(indexJ).getRow().get(i).getCellPossibilities();
             if (p != null) {
                 p.getPosibilities().remove((Integer) value);
-
             }
         }
-
-
     }
 
     public void removePossibilityFromSquare(int value, Square square) {
@@ -429,9 +419,7 @@ public class Solution {
             Possibility p = square.getcellsInSquare().get(i).getCellPossibilities();
             if (p != null) {
                 p.getPosibilities().remove((Integer) value);
-
             }
         }
-
     }
 }
