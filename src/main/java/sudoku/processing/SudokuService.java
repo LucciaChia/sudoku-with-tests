@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SudokuService {
-    //TODO premiestnit sem vsetko z Main okrem menu
 
     public List<Vertical> verticals = new ArrayList<>();
     public List<Horizontal> horizontals = new ArrayList<>();

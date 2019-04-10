@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class newFunctTests {
     public static void main(String[] args) {
@@ -44,6 +45,25 @@ public class newFunctTests {
         ArrayList<Integer> integers2 = new ArrayList<Integer>(Arrays.asList(10, 11, 12));
         for (int i = 0; i < integers2.size(); i++) {
             System.out.println(integers2.get(i));
+        }
+
+
+        //======================================
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Insert your sudoku:");
+        int[][] data = new int[9][9];
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                data[i][j] = scanner.nextInt();
+                scanner.nextLine();
+            }
+        }
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                System.out.print(data[i][j] + " ");
+            }
+            System.out.println();
         }
     }
 
