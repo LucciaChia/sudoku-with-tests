@@ -52,11 +52,7 @@ public class Solution {
                         List<Integer> possibility = horizontals.get(i).getCellInHorizontal(j).getCellPossibilities();
                         if (firstRound == 1) {
                             possibilityList.add(possibility);
-//                            horizontals.get(i).getCellInHorizontal(j).setCellPossibilities(possibility);
                         }
-//                        if (firstRound > 1) {
-//                            possibility = horizontals.get(i).getCellInHorizontal(j).getCellPossibilities();
-//                        }
 
                         searchRow(horizontals.get(i).getCellInHorizontal(j));
                         searchColumn(horizontals.get(i).getCellInHorizontal(j));
@@ -76,11 +72,6 @@ public class Solution {
                                 sudokuUpdated = true;
                             }
 
-                            // Advanced technique - to test
-//                            if (possibility.getPosibilities().size() == 2) { // think about this cond. one more time
-//                                pointingPairInCells(horizontals.get(i).getCellInHorizontal(j));
-//                            }
-
                             if (end && !possibilityList.isEmpty()) {
                                 System.out.println("Not updated, try something more advanced > i = " + i + " j = " + j);
                                 if (pointingPairInCells(horizontals.get(i).getCellInHorizontal(j))) {
@@ -94,11 +85,6 @@ public class Solution {
 
 
                             }
-                            // nepomaha
-//                            if (possibility.getPosibilities().size() == 1) {
-//                                horizontals.get(i).getCellInHorizontal(j).setActualValue(possibility.getPosibilities().get(0));
-//                                data[i][j] = horizontals.get(i).getCellInHorizontal(j).getActualValue();
-//                            }
                         }
                     }
                 }
@@ -157,7 +143,7 @@ public class Solution {
             return possibility;
         }
         for (int i = 0; i < 9; i++) {
-            int checkValue = square.getCells().get(i).getActualValue(); /////////// getcellsInSquare()
+            int checkValue = square.getCells().get(i).getActualValue();
             if (checkValue != 0) {
                 possibility.remove((Integer) checkValue);
             }
@@ -251,7 +237,6 @@ public class Solution {
         int indexI = cell.getI();
         int indexJ = cell.getJ();
         Square targetSquare = findCorrectSquare(indexI, indexJ);
-        List<Integer> cellPosibilities = cell.getCellPossibilities();
         List<Cell> eligiblePartnerCellList = new ArrayList<>();
 
         for (Cell candidateCell : targetSquare.getCells()) {
@@ -302,7 +287,6 @@ public class Solution {
         int cellI = cell.getI();
         int cellJ = cell.getJ();
         int partnerCellI = partnerCell.getI();
-        int partnerCellJ = partnerCell.getJ();
         Square cellSquare = findCorrectSquare(cellI, cellJ);
 
         if (cellI == partnerCellI) {
@@ -320,7 +304,6 @@ public class Solution {
     private boolean isPossibilityToCheckPresentSomewhereElseInColumn(Cell cell, Cell partnerCell, int possibilityToCheck) {
         int cellI = cell.getI();
         int cellJ = cell.getJ();
-        int partnerCellI = partnerCell.getI();
         int partnerCellJ = partnerCell.getJ();
         Square cellSquare = findCorrectSquare(cellI, cellJ);
 
