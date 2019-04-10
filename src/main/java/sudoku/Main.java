@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+    // TODO zacat pouzivat logy namiesto System.out.println()
+    // TODO okomentovat vsetky metody, ktore obsahuju nejaku logiku
 
     public List<Vertical> verticals = new ArrayList<>();
     public List<Horizontal> horizontals = new ArrayList<>();
@@ -136,7 +138,6 @@ public class Main {
     /**
     z 2D pola vytvarame objekty
      */
-    //TODO test
     public ArrayList<List<? extends SudokuElement>> createSudokuElementObjects(int[][] data) {
         for (int i = 0; i < data.length; i++) {
             Horizontal horizontal = new Horizontal();
@@ -171,8 +172,7 @@ public class Main {
         return sudokuElements;
     }
 
-    //TODO test
-    // bolo private, len teraz skusam, potom treba vratit na private
+    // iba kvoli testu public, inak bolo private
     public boolean shouldCreateSquare(int i, int j) {
         return (i % 3 == 0) && (j % 3 == 0);
     }
