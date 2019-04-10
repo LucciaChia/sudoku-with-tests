@@ -245,4 +245,8 @@ public class Main {
     private void runDefaultSudoku() {
 
     }
+
+    private String helloMock() {
+        return "Hello";
+    }
 }

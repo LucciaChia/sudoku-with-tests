@@ -4,19 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Square extends SudokuElement {
-    //TODO cells dat do abstraktnej class
-    private List<Cell> cellsInSquare = new ArrayList<>();
-
     public Square() {
     }
 
     public Square(ArrayList<Cell> cellsInSquare) {
-        this.cellsInSquare = cellsInSquare;
+        super.setCellList(cellsInSquare);
     }
 
     @Override
     public List<Cell> getCells() {
-        return cellsInSquare;
+        return super.getCellList();
     }
 
     @Override
@@ -25,7 +22,7 @@ public class Square extends SudokuElement {
         int index = 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                output +=  " " + cellsInSquare.get(index).getActualValue();
+                output +=  " " + super.getCellList().get(index).getActualValue();
                 index++;
             }
             output += "\n";

@@ -1,5 +1,7 @@
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.provider.Arguments;
+import org.mockito.Mockito;
+import sudoku.Main;
 
 import java.util.stream.Stream;
 
@@ -32,5 +34,12 @@ public class TestMain {
                 Arguments.of(TestMain.coordinates02, TestMain.created02),
                 Arguments.of(TestMain.coordinates03, TestMain.created03)
         );
+    }
+
+    @Test
+    public void helloMock() {
+        Main main = new Main();
+        Main mainSpy = Mockito.spy(main);
+
     }
 }
