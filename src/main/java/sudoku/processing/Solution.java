@@ -79,12 +79,9 @@ public class Solution {
                             if (end && !possibilityList.isEmpty()) {
                                 System.out.println("Not updated, try something more advanced > i = " + i + " j = " + j);
                                 if (pointingPairInCells(horizontals.get(i).getCellInHorizontal(j))) {
-                                    // ostala len 1 possibilita, tak to je hlavna hodnota => nastavim ==================
-
-                                    // =================================================================================
                                     sudokuUpdated = true;
                                     //end = false;
-                                    endCount--; // toto este overit!
+                                    endCount--; // toto este overit
                                 }
 
 
@@ -95,7 +92,7 @@ public class Solution {
             }
 
 
-            // skus advanced ak plati toto ===============
+            // skus advanced
             if (!sudokuUpdated) {
                 end = true;
                 System.out.println("Koniec");
@@ -105,7 +102,7 @@ public class Solution {
                 sudokuUpdated = true;
                 endCount++;
             }
-            // ===========================================
+            // ===============
             firstRound++;
         } while (sudokuUpdated || firstRound <= 2);
 

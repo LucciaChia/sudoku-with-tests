@@ -4,15 +4,19 @@ import sudoku.processing.FileSudokuReader;
 import sudoku.processing.SudokuService;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Main {
 
     // TODO zacat pouzivat logy namiesto System.out.println()
     // TODO okomentovat vsetky metody, ktore obsahuju nejaku logiku
-    // TODO vsetko ostatne okrem menu() musi ist prec z Main()
 
-    static ClassLoader classLoader = new Main().getClass().getClassLoader();
+    private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
+    private static ClassLoader classLoader = new Main().getClass().getClassLoader();
 
     public static final String path1 = new File(classLoader.getResource("inputs/simple1.txt").getFile()).getPath();
     public static final String path2 = new File(classLoader.getResource("inputs/simple2.txt").getFile()).getPath();
@@ -38,7 +42,6 @@ public class Main {
     }
 
 
-// TODO dat do main a dokoncit
     public void menu() {
 
         Scanner scanner = new Scanner(System.in);
@@ -50,11 +53,15 @@ public class Main {
             switch (option) {
                 case 0:
                     printHelp();
+                    LOGGER.log(Level.INFO,"print called");
                     break;
                 case 1:
                     int[][] data = insertYourOwnSudoku();;
+                    if (data.length == 0) {
+                        System.out.println("Incorrect input");
+                        break;
+                    }
                     SudokuService sudokuService = new SudokuService();
-                    System.out.println();
                     sudokuService.printSudokuMatrixService(data);
                     sudokuService.createSudokuElementObjectsService(data);
                     sudokuService.resolveSudokuService(data);
@@ -82,7 +89,7 @@ public class Main {
     private int[][] insertYourOwnSudoku() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Insert your sudoku:");
-        int[][] errorData = {{0,0}};
+        int[][] errorData = new int[0][0];
         int[][] data = new int[9][9];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -91,16 +98,23 @@ public class Main {
                     System.out.println("Invalid number");
                     return errorData;
                 }
-                scanner.nextLine();
             }
         }
+        validateSudoku(data);
+        return data;
+    }
+    // TODO finish validation
+    private boolean validateSudoku(int[][] data) {
+        Map<Integer, Integer> horizotalCheck = new HashMap<>();
+        Map<Integer, Integer> verticalCheck = new HashMap<>();
+        Map<Integer, Integer> squareCheck = new HashMap<>();
+
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                System.out.print(data[i][j] + " ");
+
             }
-            System.out.println();
         }
-        return data;
+        return false;
     }
 
     private void runDefaultSudoku() {
