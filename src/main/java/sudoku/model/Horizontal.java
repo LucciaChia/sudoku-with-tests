@@ -1,7 +1,10 @@
 package sudoku.model;
 
 import java.util.List;
-
+/**
+ * represents one row in sudoku matrix
+ * @author Lucia
+ */
 public class Horizontal extends SudokuElement {
 
     public Cell getCellInHorizontal(int i) {

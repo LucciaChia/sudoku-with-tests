@@ -2,9 +2,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import sudoku.Main;
 import sudoku.model.*;
+import sudoku.processing.FileSudokuReader;
 import sudoku.processing.Solution;
+import sudoku.processing.SudokuService;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -15,9 +16,9 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestSolution {
+public class SolutionTest {
 
-    static ClassLoader classLoader = new TestSolution().getClass().getClassLoader();
+    static ClassLoader classLoader = new SolutionTest().getClass().getClassLoader();
 
     private static final String inp1 = new File(classLoader.getResource("inputs/simple1.txt").getFile()).getPath();
     private static final String inp2 = new File(classLoader.getResource("inputs/simple2.txt").getFile()).getPath();
@@ -50,10 +51,13 @@ public class TestSolution {
 
     @Test
     public void testOutput() {
-        Main main = new Main();
-        int[][] inputData = main.readSudokuMatrix(inp7);
-        int[][] expectedOutput = main.readSudokuMatrix(out7);
-        ArrayList<List<? extends SudokuElement>> sudokuElementsList = main.createSudokuElementObjects(inputData);
+        FileSudokuReader fileSudokuReader = new FileSudokuReader();
+        int[][] inputData = fileSudokuReader.read(inp7);
+        int[][] expectedOutput = fileSudokuReader.read(out7);
+
+        SudokuService sudokuService = new SudokuService();
+
+        ArrayList<List<? extends SudokuElement>> sudokuElementsList = sudokuService.createSudokuElementObjectsService(inputData);
         List<Horizontal> horizontals = (List<Horizontal>)sudokuElementsList.get(0);
         List<Vertical> verticals = (List<Vertical>)sudokuElementsList.get(1);
         List<Square> squares = (List<Square>)sudokuElementsList.get(2);
@@ -63,15 +67,18 @@ public class TestSolution {
     }
 
     @ParameterizedTest
-//    @ValueSource(strings = { TestSolution.inp1, TestSolution.exp1 }) - nefungovala, lebo
+//    @ValueSource(strings = { SolutionTest.inp1, SolutionTest.exp1 }) - nefungovala, lebo
 //    viac parametrov znamena viacnasobny test, nie druhy parameter
 //    chyba bola: ParameterResolutionException: No ParameterResolver registered for parameter
     @MethodSource("linksToInputs")
     public void testOutputParametrized(String inputSudokuMatrixPath, String expectedSudokuOutputPath) {
-        Main main = new Main();
-        int[][] inputData = main.readSudokuMatrix(inputSudokuMatrixPath);
-        int[][] expectedOutput = main.readSudokuMatrix(expectedSudokuOutputPath);
-        ArrayList<List<? extends SudokuElement>> sudokuElementsList = main.createSudokuElementObjects(inputData);
+        FileSudokuReader fileSudokuReader = new FileSudokuReader();
+        int[][] inputData = fileSudokuReader.read(inputSudokuMatrixPath);
+        int[][] expectedOutput = fileSudokuReader.read(expectedSudokuOutputPath);
+
+        SudokuService sudokuService = new SudokuService();
+
+        ArrayList<List<? extends SudokuElement>> sudokuElementsList = sudokuService.createSudokuElementObjectsService(inputData);
         List<Horizontal> horizontals = (List<Horizontal>)sudokuElementsList.get(0);
         List<Vertical> verticals = (List<Vertical>)sudokuElementsList.get(1);
         List<Square> squares = (List<Square>)sudokuElementsList.get(2);
@@ -85,14 +92,14 @@ public class TestSolution {
 //    Factory methods within the test class must be static.
 //    Each factory method must generate a stream of arguments.
     private static Stream<Arguments> linksToInputs() {
-        return Stream.of(Arguments.of(TestSolution.inp1, TestSolution.out1),
-                         Arguments.of(TestSolution.inp2, TestSolution.out2),
-                         Arguments.of(TestSolution.inp3, TestSolution.out3),
-                         Arguments.of(TestSolution.inp4, TestSolution.out4),
-                         Arguments.of(TestSolution.inp5, TestSolution.out5),
-                         Arguments.of(TestSolution.inp6, TestSolution.out6),
-                         Arguments.of(TestSolution.inp7, TestSolution.out7),
-                         Arguments.of(TestSolution.inp8, TestSolution.out8)
+        return Stream.of(Arguments.of(SolutionTest.inp1, SolutionTest.out1),
+                         Arguments.of(SolutionTest.inp2, SolutionTest.out2),
+                         Arguments.of(SolutionTest.inp3, SolutionTest.out3),
+                         Arguments.of(SolutionTest.inp4, SolutionTest.out4),
+                         Arguments.of(SolutionTest.inp5, SolutionTest.out5),
+                         Arguments.of(SolutionTest.inp6, SolutionTest.out6),
+                         Arguments.of(SolutionTest.inp7, SolutionTest.out7),
+                         Arguments.of(SolutionTest.inp8, SolutionTest.out8)
         );
     }
 

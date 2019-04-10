@@ -3,6 +3,10 @@ package sudoku.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * represents one box in sudoku matrix
+ * @author Lucia
+ */
 public class Square extends SudokuElement {
     public Square() {
     }

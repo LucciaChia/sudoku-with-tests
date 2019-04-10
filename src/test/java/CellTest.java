@@ -7,7 +7,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestCell {
+public class CellTest {
     private int actualValue = 5;
     private Cell cell = new Cell(0,0,0);
     private List<Integer> cellPossibilities = new ArrayList<Integer>(Arrays.asList(7,8));;

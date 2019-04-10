@@ -1,20 +1,16 @@
 package sudoku;
 
-import sudoku.model.*;
-import sudoku.processing.Solution;
+import sudoku.processing.FileSudokuReader;
+import sudoku.processing.SudokuService;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
 import java.util.Scanner;
 
 public class Main {
+
     // TODO zacat pouzivat logy namiesto System.out.println()
     // TODO okomentovat vsetky metody, ktore obsahuju nejaku logiku
-
-    public List<Vertical> verticals = new ArrayList<>();
-    public List<Horizontal> horizontals = new ArrayList<>();
-    public List<Square> squares = new ArrayList<>();
+    // TODO vsetko ostatne okrem menu() musi ist prec z Main()
 
     static ClassLoader classLoader = new Main().getClass().getClassLoader();
 
@@ -25,187 +21,21 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Main main = new Main();
-//        int[][] data = main.readSudokuMatrix(path1);
+        FileSudokuReader fileSudokuReader = new FileSudokuReader();
+        SudokuService sudokuService = new SudokuService();
+        int[][] data = fileSudokuReader.read(path1);
 
-        int[][] data =
-                // JEDNODUCHE SUDOKU test
-//                {
-//                        {1, 0, 6, 2, 0, 0, 0, 0, 0},
-//                        {7, 0, 0, 1, 0, 0, 0, 8, 0},
-//                        {0, 0, 3, 5, 0, 6, 4, 0, 1},
-//                        {0, 6, 1, 0, 0, 0, 0, 0, 8},
-//                        {2, 0, 0, 0, 0, 0, 0, 0, 4},
-//                        {4, 0, 0, 0, 0, 0, 1, 2, 0},
-//                        {8, 0, 5, 3, 0, 2, 9, 0, 0},
-//                        {0, 1, 0, 0, 0, 9, 0, 0, 5},
-//                        {0, 0, 0, 0, 0, 1, 8, 0, 2}
-//                };
-// TAZKE SUDOKU test 1 - to do - OK DONE, DOKAZAL VYRIESIT
-//        {
-//            {9, 1, 0, 6, 0, 0, 3, 0, 0},
-//            {0, 0, 4, 0, 3, 8, 0, 9, 0},
-//            {0, 0, 0, 0, 0, 0, 0, 2, 6},
-//            {4, 0, 0, 0, 0, 0, 2, 0, 7},
-//            {0, 0, 0, 0, 8, 0, 0, 0, 0},
-//            {8, 0, 2, 0, 0, 0, 0, 0, 9},
-//            {5, 8, 0, 0, 0, 0, 0, 0, 0},
-//            {0, 4, 0, 5, 1, 0, 8, 0, 0},
-//            {0, 0, 9, 0, 0, 3, 0, 7, 2}
-//        };
-// TAZKE SUDOKU test 2 - to do - OK DONE, DOKAZAL VYRIESIT
-//        {
-//            {0, 0, 0, 2, 0, 1, 4, 3, 0},
-//            {1, 0, 2, 7, 0, 0, 0, 6, 5},
-//            {0, 0, 0, 0, 0, 5, 0, 0, 1},
-//            {0, 7, 9, 0, 0, 0, 0, 0, 6},
-//            {0, 0, 6, 0, 0, 0, 1, 0, 0},
-//            {3, 0, 0, 0, 0, 0, 7, 4, 0},
-//            {8, 0, 0, 3, 0, 0, 0, 0, 0},
-//            {7, 1, 0, 0, 0, 4, 9, 0, 8},
-//            {0, 6, 4, 8, 0, 9, 0, 0, 0}
-//        };
-// TAZKE SUDOKU test 3 - to do - OK DONE, DOKAZAL VYRIESIT
-        {
-            {0, 5, 0, 0, 4, 0, 1, 3, 0},
-            {0, 4, 0, 0, 0, 9, 0, 6, 8},
-            {2, 0, 8, 0, 0, 3, 0, 0, 4},
-            {0, 0, 0, 0, 0, 0, 2, 8, 0},
-            {8, 0, 0, 0, 0, 0, 0, 0, 1},
-            {0, 3, 5, 0, 0, 0, 0, 0, 0},
-            {5, 0, 0, 4, 0, 0, 9, 0, 7},
-            {7, 6, 0, 9, 0, 0, 0, 1, 0},
-            {0, 2, 9, 0, 8, 0, 0, 5, 0}
-        };
-        // TAZKE SUDOKU test 4 - to do - OK DONE, DOKAZAL VYRIESIT
-//        {
-//            {0, 5, 7, 0, 2, 0, 4, 8, 9},
-//            {0, 0, 6, 8, 0, 0, 0, 0, 5},
-//            {0, 0, 9, 5, 0, 0, 0, 0, 0},
-//            {5, 0, 0, 0, 0, 1, 0, 0, 0},
-//            {0, 0, 0, 0, 7, 0, 0, 0, 0},
-//            {0, 0, 0, 3, 0, 0, 0, 0, 7},
-//            {0, 0, 0, 0, 0, 8, 9, 0, 0},
-//            {8, 0, 0, 0, 0, 2, 3, 0, 0},
-//            {7, 2, 3, 0, 9, 0, 8, 1, 0}
-//        };
-        printIt(data);
+        sudokuService.printSudokuMatrixService(data);
 
-        // create necessary objects
-        main.createSudokuElementObjects(data);
-        main.resolveSudoku(data);
         System.out.println("FINAL SOLUTION:");
-        printIt(data);
+        sudokuService.createSudokuElementObjectsService(data);
+        sudokuService.resolveSudokuService(data);
 
-
-    }
-    private static void printIt(int[][] data){
-        for (int i=0; i<data.length; i++) {
-            for (int j=0; j<data[i].length; j++) {
-                System.out.print(data[i][j] + " ");
-            }
-            System.out.println();
-        }
+        sudokuService.printSudokuMatrixService(data);
     }
 
-//    private void resolveSudoku(int[][] data) {
-//        System.out.println("POSSIBILITIES: ");
-//        Solution solution = new Solution(verticals, horizontals, squares, data);
-//        List<List<Integer>> pos = solution.output();
-//
-//        System.out.println(pos.size());
-//        for (int i = 0; i < pos.size(); i++) {
-//            System.out.print(i + ": ");
-//            System.out.println(pos.get(i).toString());
-//        }
-//    }
 
-    private void resolveSudoku(int[][] data) {
-        System.out.println("POSSIBILITIES: ");
-        Solution solution = new Solution(verticals, horizontals, squares, data);
-        List<Horizontal> horizontals = solution.output();
-
-        for (int i = 0; i < horizontals.size(); i++) {
-            for (int j = 0; j < 9; j++) {
-                Cell cell= horizontals.get(i).getCellInHorizontal(j);
-                if (cell.getActualValue() == 0) {
-                    System.out.print(i + ":" + j + " = ");
-                    System.out.println(cell.toString());
-                }
-            }
-        }
-    }
-    /**
-    z 2D pola vytvarame objekty
-     */
-    public ArrayList<List<? extends SudokuElement>> createSudokuElementObjects(int[][] data) {
-        for (int i = 0; i < data.length; i++) {
-            Horizontal horizontal = new Horizontal();
-            for (int j = 0; j < data[i].length; j++) {
-                Cell cell = new Cell(data[i][j], i, j);
-                horizontal.getCells().add(cell);
-
-                if (i == 0) {
-                    Vertical vertical = new Vertical();
-                    verticals.add(vertical);
-                    verticals.get(j).getCells().add(cell);
-                } else {
-                    verticals.get(j).getCells().add(cell);
-                }
-
-
-                if (shouldCreateSquare(i, j)) {
-                    Square square = new Square();
-                    squares.add(square);
-                }
-
-                squares.get((i/3)*3 + j/3).getCells().add(cell);
-
-            }
-            horizontals.add(horizontal);
-        }
-        // <? extends sudoku.model.SudokuElement> pre vsetky objekty, ktore dedia od sudoku.model.SudokuElement
-        ArrayList<List<? extends SudokuElement>> sudokuElements = new ArrayList<>();
-        sudokuElements.add(horizontals);
-        sudokuElements.add(verticals);
-        sudokuElements.add(squares);
-        return sudokuElements;
-    }
-
-    // iba kvoli testu public, inak bolo private
-    public boolean shouldCreateSquare(int i, int j) {
-        return (i % 3 == 0) && (j % 3 == 0);
-    }
-
-    public int[][] readSudokuMatrix(String path) {
-        int[][] data = new int[9][9];
-        try {
-            File file = new File(path);
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-            // v pripade new FileReader(file) = null => bufferedReader da NullPointerException =>
-            // nevytvori sa a netreba robit bufferedReader.close()
-            try {
-                String st;
-                String[] row;
-                int i = 0;
-                while ((st = bufferedReader.readLine()) != null) {
-                    st = st.trim();
-                    row = st.split(" ");
-                    for (int j = 0; j < row.length; j++) {
-                        data[i][j] = Integer.valueOf(row[j]);
-                    }
-                    i++;
-                }
-            } finally {
-                bufferedReader.close();
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-        return data;
-    }
-
+// TODO dat do main a dokoncit
     public void menu() {
 
         Scanner scanner = new Scanner(System.in);
@@ -246,7 +76,4 @@ public class Main {
 
     }
 
-    private String helloMock() {
-        return "Hello";
-    }
 }

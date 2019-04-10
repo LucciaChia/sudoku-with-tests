@@ -3,6 +3,10 @@ package sudoku.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * represents one column in sudoku matrix
+ * @author Lucia
+ */
 public class Vertical extends SudokuElement {
 
     public Vertical() {

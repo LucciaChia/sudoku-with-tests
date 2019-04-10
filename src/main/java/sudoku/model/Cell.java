@@ -2,9 +2,9 @@ package sudoku.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
 /**
- *
+ * represents one cell in sudoku matrix
+ * @author Lucia
  */
 public class Cell {
     private int i;
@@ -26,15 +26,9 @@ public class Cell {
         this.actualValue = actualValue;
         cellPossibilities = new ArrayList<>();
         if (actualValue == 0) {
-            cellPossibilities.add(1);
-            cellPossibilities.add(2);
-            cellPossibilities.add(3);
-            cellPossibilities.add(4);
-            cellPossibilities.add(5);
-            cellPossibilities.add(6);
-            cellPossibilities.add(7);
-            cellPossibilities.add(8);
-            cellPossibilities.add(9);
+            for (int k = 1; k < 10; k++) {
+                cellPossibilities.add(k);
+            }
         }
     }
 

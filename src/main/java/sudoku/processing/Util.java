@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Lucia
+ */
 public class Util {
     /**
      * pre vybrany Sudoku Element (Horizontal, Vertical, Square) najde kolko jednotiek, dvojek, ... atd

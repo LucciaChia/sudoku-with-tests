@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * contains resolving logic for sudoku
+ * @author Lucia
+ */
 public class Solution {
 
     public static final String ANSI_RESET = "\u001B[0m";
