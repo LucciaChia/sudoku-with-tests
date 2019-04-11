@@ -69,21 +69,15 @@ public class MainTest {
     public void shouldCreateSquareMultipleTests() {
         SudokuService sudokuService = new SudokuService();
         boolean[][] solutionMatrix = new boolean[9][9];
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                solutionMatrix[i][j] = false;
+
+        // boolean sa automaticky inicializuje na false => netreba inic. cyklus
+
+        int[] squareStartingIndexes = {0, 3, 6};
+        for (int i: squareStartingIndexes) {
+            for (int j: squareStartingIndexes) {
+                solutionMatrix[i][j] = true;
             }
         }
-
-        solutionMatrix[0][0] = true;
-        solutionMatrix[0][3] = true;
-        solutionMatrix[0][6] = true;
-        solutionMatrix[3][0] = true;
-        solutionMatrix[3][3] = true;
-        solutionMatrix[3][6] = true;
-        solutionMatrix[6][0] = true;
-        solutionMatrix[6][3] = true;
-        solutionMatrix[6][6] = true;
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
