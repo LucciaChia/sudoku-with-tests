@@ -2,6 +2,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import sudoku.customExceptions.IllegalSudokuStateException;
 import sudoku.model.*;
 import sudoku.processing.FileSudokuReader;
 import sudoku.processing.Solution;
@@ -50,64 +51,49 @@ public class SolutionTest {
     };
 
     @Test
-    public void testOutput() {
+    public void testOutputWithoutArray() {
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
         int[][] inputData = fileSudokuReader.read(inp7);
         int[][] expectedOutput = fileSudokuReader.read(out7);
 
         SudokuService sudokuService = new SudokuService();
+        try {
+            Sudoku sudokuMatrix = new Sudoku(inputData);
+            sudokuService.setHorizontals(sudokuMatrix.getHorizontals());
+            sudokuService.setVerticals(sudokuMatrix.getVerticals());
+            sudokuService.setSquares(sudokuMatrix.getSquares());
+        } catch (IllegalSudokuStateException ex) {
+            System.out.println("Test incorrect input");
+        }
 
-        ArrayList<List<? extends SudokuElement>> sudokuElementsList = sudokuService.createSudokuElementObjectsService(inputData);
-        List<Horizontal> horizontals = (List<Horizontal>)sudokuElementsList.get(0);
-        List<Vertical> verticals = (List<Vertical>)sudokuElementsList.get(1);
-        List<Square> squares = (List<Square>)sudokuElementsList.get(2);
-        Solution solution = new Solution(verticals, horizontals, squares, inputData);
-        solution.output();
-        assertArrayEquals(expectedOutput, inputData);
+
+
+        sudokuService.resolveSudokuService();
+        assertArrayEquals(expectedOutput, sudokuService.printSudokuMatrixService());
     }
-
-//    @Test
-//    public void testOutputWithoutArray() {
-//        FileSudokuReader fileSudokuReader = new FileSudokuReader();
-//        int[][] inputData = fileSudokuReader.read(inp7);
-//        int[][] expectedOutput = fileSudokuReader.read(out7);
-//
-//        SudokuService sudokuService = new SudokuService();
-//        Sudoku sudokuMatrix = new Sudoku(inputData);
-//
-//        List<Horizontal> horizontals = sudokuMatrix.getHorizontals();
-//        List<Vertical> verticals = sudokuMatrix.getVerticals();
-//        List<Square> squares = sudokuMatrix.getSquares();
-//        sudokuService.setHorizontals(horizontals);
-//        sudokuService.setVerticals(verticals);
-//        sudokuService.setSquares(squares);
-//        sudokuService.resolveSudokuService();
-//        sudokuService.printSudokuMatrixService();
-//
-////        Solution solution = new Solution(verticals, horizontals, squares);
-////        solution.outputWITHOUTdataArray();
-//        assertArrayEquals(expectedOutput, inputData);
-//    }
 
     @ParameterizedTest
 //    @ValueSource(strings = { SolutionTest.inp1, SolutionTest.exp1 }) - nefungovala, lebo
 //    viac parametrov znamena viacnasobny test, nie druhy parameter
 //    chyba bola: ParameterResolutionException: No ParameterResolver registered for parameter
     @MethodSource("linksToInputs")
-    public void testOutputParametrized(String inputSudokuMatrixPath, String expectedSudokuOutputPath) {
+    public void testOutputWithoutArrayParametrized(String inputSudokuMatrixPath, String expectedSudokuOutputPath) {
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
         int[][] inputData = fileSudokuReader.read(inputSudokuMatrixPath);
         int[][] expectedOutput = fileSudokuReader.read(expectedSudokuOutputPath);
 
         SudokuService sudokuService = new SudokuService();
+        try {
+            Sudoku sudokuMatrix = new Sudoku(inputData);
+            sudokuService.setHorizontals(sudokuMatrix.getHorizontals());
+            sudokuService.setVerticals(sudokuMatrix.getVerticals());
+            sudokuService.setSquares(sudokuMatrix.getSquares());
+        } catch (IllegalSudokuStateException ex) {
+            System.out.println("Test incorrect input");
+        }
 
-        ArrayList<List<? extends SudokuElement>> sudokuElementsList = sudokuService.createSudokuElementObjectsService(inputData);
-        List<Horizontal> horizontals = (List<Horizontal>)sudokuElementsList.get(0);
-        List<Vertical> verticals = (List<Vertical>)sudokuElementsList.get(1);
-        List<Square> squares = (List<Square>)sudokuElementsList.get(2);
-        Solution solution = new Solution(verticals, horizontals, squares, inputData);
-        solution.output();
-        assertArrayEquals(expectedOutput, inputData);
+        sudokuService.resolveSudokuService();
+        assertArrayEquals(expectedOutput, sudokuService.printSudokuMatrixService());
     }
 
 //    https://nirajsonawane.github.io/2018/12/30/Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests/

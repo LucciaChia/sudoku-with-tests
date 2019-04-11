@@ -7,9 +7,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Sudoku class:
+ *  - creates all objects
+ *  - validate inserted sudoku matrix if it contains - incorrect input numbers - only 0-9 ara allowed
+ *                                                   - more than one number of a kind in row, column and box
+ * @author Lucia
+ */
 public class Sudoku {
     //TODO tests for Sudoku
     private static final Logger LOGGER = Logger.getLogger(Sudoku.class.getName());
@@ -19,18 +25,12 @@ public class Sudoku {
     private List<Horizontal> horizontals = new ArrayList<>();
 
 
-    public Sudoku(int[][] data) {
+    public Sudoku(int[][] data) throws IllegalSudokuStateException{
 
         ArrayList<List<? extends SudokuElement>> sudokuElementsList;
-        try {
-            validateNumbers(data);
-            sudokuElementsList = createSudokuElementObjectsService(data);
-            validateRepetition(sudokuElementsList);
-            LOGGER.log(Level.INFO, "Sudoku matrix is valid");
-        } catch (IllegalSudokuStateException ex) {
-            LOGGER.log(Level.WARNING, ex.toString());
-        }
-
+        validateNumbers(data);
+        sudokuElementsList = createSudokuElementObjectsService(data);
+        validateRepetition(sudokuElementsList);
     }
 
     public List<Square> getSquares() {
@@ -56,10 +56,6 @@ public class Sudoku {
     public void setHorizontals(List<Horizontal> horizontals) {
         this.horizontals = horizontals;
     }
-
-//    public List<SudokuElement> sudokuElementList() {
-//        this.sudokuElementList().add((List<Horizontal>)horizontals);
-//    }
 
     public ArrayList<List<? extends SudokuElement>> createSudokuElementObjectsService(int[][] data) {
         for (int i = 0; i < data.length; i++) {

@@ -74,23 +74,6 @@ public class SudokuService {
         return (i % 3 == 0) && (j % 3 == 0);
     }
 
-//    public void resolveSudokuService(int[][] data) {
-//        System.out.println("POSSIBILITIES: ");
-//        Solution solution = new Solution(verticals, horizontals, squares, data);
-//        List<Horizontal> horizontals = solution.output();
-//
-//        for (int i = 0; i < horizontals.size(); i++) {
-//            for (int j = 0; j < 9; j++) {
-//                Cell cell= horizontals.get(i).getCellInHorizontal(j);
-//                if (cell.getActualValue() == 0) {
-//                    System.out.print(i + ":" + j + " = ");
-//                    System.out.println(cell.toString());
-//                }
-//            }
-//        }
-//    }
-
-
     public void resolveSudokuService() {
         System.out.println("POSSIBILITIES: ");
         Solution solution = new Solution(verticals, horizontals, squares);
@@ -107,21 +90,15 @@ public class SudokuService {
         }
     }
 
-//    public void printSudokuMatrixService(int[][] data){
-//        for (int i=0; i<data.length; i++) {
-//            for (int j=0; j<data[i].length; j++) {
-//                System.out.print(data[i][j] + " ");
-//            }
-//            System.out.println();
-//        }
-//    }
-
-    public void printSudokuMatrixService(){
+    public int[][] printSudokuMatrixService(){
+        int[][] tempData = new int[9][9];
         for (int i=0; i<9; i++) {
             for (int j=0; j<9; j++) {
+                tempData[i][j] = horizontals.get(i).getCellInHorizontal(j).getActualValue();
                 System.out.print(horizontals.get(i).getCellInHorizontal(j).getActualValue()+ " ");
             }
             System.out.println();
         }
+        return tempData;
     }
 }

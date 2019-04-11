@@ -1,5 +1,6 @@
 package sudoku;
 
+import sudoku.customExceptions.IllegalSudokuStateException;
 import sudoku.model.Sudoku;
 import sudoku.processing.FileSudokuReader;
 import sudoku.processing.SudokuService;
@@ -43,11 +44,6 @@ public class Main {
                     printHelp();
                     break;
                 case 1:
-//                    SudokuService sudokuService = new SudokuService();
-//                    sudokuService.printSudokuMatrixService(data);
-//                    sudokuService.createSudokuElementObjectsService(data);
-//                    sudokuService.resolveSudokuService(data);
-//                    sudokuService.printSudokuMatrixService(data);
                     try {
                         Sudoku sudokuMatrix = insertYourOwnSudoku();
                         SudokuService sudokuService = new SudokuService();
@@ -58,11 +54,16 @@ public class Main {
                         sudokuService.resolveSudokuService();
                         sudokuService.printSudokuMatrixService();
                     } catch (Exception e) {
-                        LOGGER.log(Level.WARNING, "Something went wrong - incorrect input");
+                        LOGGER.log(Level.WARNING, "Reading sudoku - incorrect input");
                     }
                     break;
                 case 2:
-                    runDefaultSudoku();
+                    try {
+                        runDefaultSudoku();
+                    } catch (IllegalSudokuStateException ex) {
+                        LOGGER.log(Level.WARNING, "Default sudoku - incorrect input");
+                    }
+
                     break;
                 case 3:
                     System.out.println("Bye, bye");
@@ -81,7 +82,7 @@ public class Main {
         );
     }
 
-    private Sudoku insertYourOwnSudoku() {
+    private Sudoku insertYourOwnSudoku() throws IllegalSudokuStateException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Insert your sudoku:");
         int[][] errorData = new int[0][0];
@@ -96,7 +97,7 @@ public class Main {
         return sudoku;
     }
 
-    private void runDefaultSudoku() {
+    private void runDefaultSudoku() throws IllegalSudokuStateException{
 
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
         int[][] data = fileSudokuReader.read(path1);
