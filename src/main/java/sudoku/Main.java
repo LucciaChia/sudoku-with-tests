@@ -1,11 +1,10 @@
 package sudoku;
 
+import sudoku.model.Sudoku;
 import sudoku.processing.FileSudokuReader;
 import sudoku.processing.SudokuService;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,18 +24,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-//        FileSudokuReader fileSudokuReader = new FileSudokuReader();
-//        SudokuService sudokuService = new SudokuService();
-//        int[][] data = fileSudokuReader.read(path1);
-//
-//        sudokuService.printSudokuMatrixService(data);
-//
-//        System.out.println("FINAL SOLUTION:");
-//        sudokuService.createSudokuElementObjectsService(data);
-//        sudokuService.resolveSudokuService(data);
-//
-//        sudokuService.printSudokuMatrixService(data);
-
         Main main = new Main();
         main.menu();
     }
@@ -49,28 +36,36 @@ public class Main {
         printHelp();
 
         do {
+            System.out.println("Choose your option");
             int option = scanner.nextInt();
             switch (option) {
                 case 0:
                     printHelp();
-                    LOGGER.log(Level.INFO,"print called");
                     break;
                 case 1:
-                    int[][] data = insertYourOwnSudoku();;
-                    if (data.length == 0) {
-                        System.out.println("Incorrect input");
-                        break;
+//                    SudokuService sudokuService = new SudokuService();
+//                    sudokuService.printSudokuMatrixService(data);
+//                    sudokuService.createSudokuElementObjectsService(data);
+//                    sudokuService.resolveSudokuService(data);
+//                    sudokuService.printSudokuMatrixService(data);
+                    try {
+                        Sudoku sudokuMatrix = insertYourOwnSudoku();
+                        SudokuService sudokuService = new SudokuService();
+                        sudokuService.setHorizontals(sudokuMatrix.getHorizontals());
+                        sudokuService.setVerticals(sudokuMatrix.getVerticals());
+                        sudokuService.setSquares(sudokuMatrix.getSquares());
+
+                        sudokuService.resolveSudokuService();
+                        sudokuService.printSudokuMatrixService();
+                    } catch (Exception e) {
+                        LOGGER.log(Level.WARNING, "Something went wrong - incorrect input");
                     }
-                    SudokuService sudokuService = new SudokuService();
-                    sudokuService.printSudokuMatrixService(data);
-                    sudokuService.createSudokuElementObjectsService(data);
-                    sudokuService.resolveSudokuService(data);
-                    sudokuService.printSudokuMatrixService(data);
                     break;
                 case 2:
                     runDefaultSudoku();
                     break;
                 case 3:
+                    System.out.println("Bye, bye");
                     quit = true;
             }
         } while(!quit);
@@ -79,14 +74,14 @@ public class Main {
     private void printHelp() {
         System.out.println(
                         "Insert 0 - to print this help\n" +
-                        "Insert 1 - to be able to write your own sudoku to check\n" +
+                        "Insert 1 - to insert your own sudoku and see solution\n" +
                         "         - empty places in sudoku reaplace with number 0\n" +
                         "Insert 2 - to see som example solutions of sudokus\n" +
                         "Insert 3 - to quit program"
         );
     }
 
-    private int[][] insertYourOwnSudoku() {
+    private Sudoku insertYourOwnSudoku() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Insert your sudoku:");
         int[][] errorData = new int[0][0];
@@ -94,41 +89,30 @@ public class Main {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 data[i][j] = scanner.nextInt();
-                if (data[i][j] < 0 || data[i][j] > 9) {
-                    System.out.println("Invalid number");
-                    return errorData;
-                }
             }
         }
-        validateSudoku(data);
-        return data;
-    }
-    // TODO finish validation
-    private boolean validateSudoku(int[][] data) {
-        Map<Integer, Integer> horizotalCheck = new HashMap<>();
-        Map<Integer, Integer> verticalCheck = new HashMap<>();
-        Map<Integer, Integer> squareCheck = new HashMap<>();
-
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-
-            }
-        }
-        return false;
+        // constructor creates objects and validates them
+        Sudoku sudoku = new Sudoku(data);
+        return sudoku;
     }
 
     private void runDefaultSudoku() {
+
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
-        SudokuService sudokuService = new SudokuService();
         int[][] data = fileSudokuReader.read(path1);
 
-        sudokuService.printSudokuMatrixService(data);
+        Sudoku sudokuMatrix = new Sudoku(data);
+        SudokuService sudokuService = new SudokuService();
+
+        sudokuService.setHorizontals(sudokuMatrix.getHorizontals());
+        sudokuService.setVerticals(sudokuMatrix.getVerticals());
+        sudokuService.setSquares(sudokuMatrix.getSquares());
+
+        sudokuService.printSudokuMatrixService();
 
         System.out.println("FINAL SOLUTION:");
-        sudokuService.createSudokuElementObjectsService(data);
-        sudokuService.resolveSudokuService(data);
-
-        sudokuService.printSudokuMatrixService(data);
+        sudokuService.resolveSudokuService();
+        sudokuService.printSudokuMatrixService();
     }
 
 }

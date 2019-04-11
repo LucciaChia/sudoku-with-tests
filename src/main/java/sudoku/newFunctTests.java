@@ -1,10 +1,11 @@
 package sudoku;
 
+import sudoku.customExceptions.IllegalSudokuStateException;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 public class newFunctTests {
     public static void main(String[] args) {
@@ -14,7 +15,6 @@ public class newFunctTests {
 //                System.out.println("[" + i + "," + j +"] > " + box);
 //            }
 //        }
-
         ClassLoader classLoader = new newFunctTests().getClass().getClassLoader();
         File file22 = new File(classLoader.getResource("inputs/simple1.txt").getFile());
         System.out.println("file22 = " + file22.getPath());
@@ -49,22 +49,23 @@ public class newFunctTests {
 
 
         //======================================
-
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Insert your sudoku:");
-        int[][] data = new int[9][9];
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                data[i][j] = scanner.nextInt();
-                scanner.nextLine();
-            }
-        }
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                System.out.print(data[i][j] + " ");
-            }
-            System.out.println();
+        TestExc testExc = new TestExc();
+        try {
+            testExc.test();
+        } catch (IllegalSudokuStateException ex) {
+            System.out.println("i is bigger than 5");
         }
     }
 
+}
+
+class TestExc {
+
+    public void test() throws IllegalSudokuStateException {
+        for (int i = 0; i < 10; i++) {
+            if (i > 5) {
+                throw new IllegalSudokuStateException(i, 0, 0);
+            }
+        }
+    }
 }

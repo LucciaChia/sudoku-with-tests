@@ -35,6 +35,11 @@ public class Solution {
         this.squares = squares;
     }
 
+    public Solution(List<Vertical> verticals, List<Horizontal> horizontals, List<Square> squares) {
+        this.verticals = verticals;
+        this.horizontals = horizontals;
+        this.squares = squares;
+    }
 
     public Solution(List<Vertical> verticals, List<Horizontal> horizontals, List<Square> squares, int[][] data) {
         this.verticals = verticals;
@@ -108,6 +113,75 @@ public class Solution {
 
         return horizontals;
     }
+
+    // ====================================
+    public List<Horizontal> outputWITHOUTdataArray() {
+        boolean end = false;
+        int endCount = 0;
+        int firstRound = 1;
+        boolean sudokuUpdated;
+        do {
+            sudokuUpdated = false;
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    int currentCellValue = horizontals.get(i).getCellInHorizontal(j).getActualValue();
+                    if (currentCellValue == 0) {
+                        List<Integer> possibility = horizontals.get(i).getCellInHorizontal(j).getCellPossibilities();
+                        if (firstRound == 1) {
+                            possibilityList.add(possibility);
+                        }
+
+                        searchRow(horizontals.get(i).getCellInHorizontal(j));
+                        searchColumn(horizontals.get(i).getCellInHorizontal(j));
+                        searchSquare(horizontals.get(i).getCellInHorizontal(j));
+
+                        if (possibility.size() == 1) {
+                            horizontals.get(i).getCellInHorizontal(j).setActualValue(possibility.get(0));
+                            //currentCellValue = horizontals.get(i).getCellInHorizontal(j).getActualValue();
+                            sudokuUpdated = true;
+                            possibilityList.remove(possibility);
+                            continue;
+                        }
+                        if (firstRound > 1){
+                            currentCellValue = findHiddenSingleInCell(horizontals.get(i).getCellInHorizontal(j));
+                            if (currentCellValue != 0) {
+                                possibilityList.remove(possibility);
+                                sudokuUpdated = true;
+                            }
+
+                            if (end && !possibilityList.isEmpty()) {
+                                System.out.println("Not updated, try something more advanced > i = " + i + " j = " + j);
+                                if (pointingPairInCells(horizontals.get(i).getCellInHorizontal(j))) {
+                                    sudokuUpdated = true;
+                                    //end = false;
+                                    endCount--; // toto este overit
+                                }
+
+
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            // skus advanced
+            if (!sudokuUpdated) {
+                end = true;
+                System.out.println("Koniec");
+            }
+            if (end && !possibilityList.isEmpty() && endCount < 1) {
+                System.out.println("Som na konci, ale mam este nieco v possibility liste -> skus advanced metody");
+                sudokuUpdated = true;
+                endCount++;
+            }
+            // ===============
+            firstRound++;
+        } while (sudokuUpdated || firstRound <= 2);
+
+        return horizontals;
+    }
+    // ====================================
 
     private List<Integer> searchRow(Cell cell) { // odoberanie potencialnych moznosti z ciell v riadku
         int rowIndex = cell.getI();

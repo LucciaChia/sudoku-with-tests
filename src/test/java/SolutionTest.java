@@ -66,6 +66,29 @@ public class SolutionTest {
         assertArrayEquals(expectedOutput, inputData);
     }
 
+//    @Test
+//    public void testOutputWithoutArray() {
+//        FileSudokuReader fileSudokuReader = new FileSudokuReader();
+//        int[][] inputData = fileSudokuReader.read(inp7);
+//        int[][] expectedOutput = fileSudokuReader.read(out7);
+//
+//        SudokuService sudokuService = new SudokuService();
+//        Sudoku sudokuMatrix = new Sudoku(inputData);
+//
+//        List<Horizontal> horizontals = sudokuMatrix.getHorizontals();
+//        List<Vertical> verticals = sudokuMatrix.getVerticals();
+//        List<Square> squares = sudokuMatrix.getSquares();
+//        sudokuService.setHorizontals(horizontals);
+//        sudokuService.setVerticals(verticals);
+//        sudokuService.setSquares(squares);
+//        sudokuService.resolveSudokuService();
+//        sudokuService.printSudokuMatrixService();
+//
+////        Solution solution = new Solution(verticals, horizontals, squares);
+////        solution.outputWITHOUTdataArray();
+//        assertArrayEquals(expectedOutput, inputData);
+//    }
+
     @ParameterizedTest
 //    @ValueSource(strings = { SolutionTest.inp1, SolutionTest.exp1 }) - nefungovala, lebo
 //    viac parametrov znamena viacnasobny test, nie druhy parameter
@@ -153,12 +176,4 @@ public class SolutionTest {
 
         assertEquals(eligiblePartnerCells,testedEligiblePartnerCells);
     }
-
-//    @ParameterizedTest
-//    // @ValueSource(strings = { "hi", "hello"}) --- ok
-//    // @ValueSource(ints = { 1,2}) --- ok
-//    @MethodSource("links")
-//    public void pointingPairInCells() {
-//
-//    }
 }
