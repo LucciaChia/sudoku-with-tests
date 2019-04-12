@@ -4,9 +4,7 @@ package sudoku.model;
 import sudoku.customExceptions.IllegalSudokuStateException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -115,43 +113,12 @@ public class Sudoku {
         List<Vertical> verticals = (List<Vertical>) sudokuElementsList.get(1);
         List<Square> squares = (List<Square>) sudokuElementsList.get(2);
 
-        Map<Integer, Integer> horizontalRepetition;
-        Map<Integer, Integer> verticalRepetition;
-        Map<Integer, Integer> squareRepetition;
-
         for (int i = 0; i < 9; i++) {
-            horizontalRepetition = new HashMap<>();
-            verticalRepetition = new HashMap<>();
-            squareRepetition = new HashMap<>();
-            for (int j = 0; j < 9; j++) {
-
-                // horizontal
-                int hKey = horizontals.get(i).getCellInHorizontal(j).getActualValue();
-                if ((hKey != 0) && !(horizontalRepetition.containsKey(hKey))) {
-                    horizontalRepetition.put(hKey, 1);
-                } else if (horizontalRepetition.containsKey(hKey)){
-                    System.out.println("Horizontal");
-                    throw new IllegalSudokuStateException(hKey, i, j);
-                }
-
-                // vertical
-                int vKey = verticals.get(i).getCellInVertical(j).getActualValue();
-                if (vKey != 0 && !verticalRepetition.containsKey(vKey) ) {
-                    verticalRepetition.put(vKey, 1);
-                } else if (verticalRepetition.containsKey(vKey)){
-                    System.out.println("Vertical");
-                    throw new IllegalSudokuStateException(vKey, i, j);
-                }
-
-                // square
-                int sKey = squares.get(i).getCells().get(j).getActualValue();
-                if (sKey != 0 && !squareRepetition.containsKey(sKey)) {
-                    squareRepetition.put(sKey, 1);
-                } else if (squareRepetition.containsKey(sKey)){
-                    System.out.println("Square");
-                    throw new IllegalSudokuStateException(sKey, i, j);
-                }
-            }
+            horizontals.get(i).validateRepetition();
+            verticals.get(i).validateRepetition();
+            squares.get(i).validateRepetition();
         }
     }
+
+
 }

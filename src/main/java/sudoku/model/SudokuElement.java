@@ -1,7 +1,11 @@
 package sudoku.model;
 
+import sudoku.customExceptions.IllegalSudokuStateException;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * SudokuElement can represent whole row (Horizontal class), whole column (Vertical class)
@@ -23,5 +27,21 @@ public abstract class SudokuElement {
 
     protected void setCellList(ArrayList<Cell> cellsInSquare) {
         cellList = cellsInSquare;
+    }
+
+    public void validateRepetition() throws IllegalSudokuStateException{
+
+        Map<Integer, Integer> repetition = new HashMap<>();
+
+        for (int i = 0; i < 9; i++) {
+            Cell cell = cellList.get(i);
+            int key = cell.getActualValue();
+            if ((key != 0) && !(repetition.containsKey(key))) {
+                repetition.put(key, 1);
+            } else if (repetition.containsKey(key)) {
+                System.out.println("Horizontal");
+                throw new IllegalSudokuStateException(key,cell.getI(),cell.getJ());
+            }
+        }
     }
 }
