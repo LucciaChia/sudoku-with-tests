@@ -1,5 +1,6 @@
 package sudoku.processing;
 
+import org.apache.log4j.Logger;
 import sudoku.model.*;
 
 import java.util.ArrayList;
@@ -12,17 +13,17 @@ import java.util.Map;
  */
 public class Solution {
 
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLACK = "\u001B[30m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_PURPLE = "\u001B[35m";
-    public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_WHITE = "\u001B[37m";
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_BLACK = "\u001B[30m";
+    private static final String ANSI_RED = "\u001B[31m";
+    private static final String ANSI_GREEN = "\u001B[32m";
+    private static final String ANSI_YELLOW = "\u001B[33m";
+    private static final String ANSI_BLUE = "\u001B[34m";
+    private static final String ANSI_PURPLE = "\u001B[35m";
+    private static final String ANSI_CYAN = "\u001B[36m";
+    private static final String ANSI_WHITE = "\u001B[37m";
 
-
+    private static final Logger extAppLogFile = Logger.getLogger("ExternalAppLogger");
 
     List<Vertical> verticals;
     List<Horizontal> horizontals;
@@ -35,17 +36,17 @@ public class Solution {
         this.squares = squares;
     }
 
+    public Solution(Sudoku sudoku) {
+        this.verticals = sudoku.getVerticals();
+        this.horizontals = sudoku.getHorizontals();
+        this.squares = sudoku.getSquares();
+    }
+
+    @Deprecated
     public Solution(List<Vertical> verticals, List<Horizontal> horizontals, List<Square> squares) {
         this.verticals = verticals;
         this.horizontals = horizontals;
         this.squares = squares;
-    }
-
-    public Solution(List<Vertical> verticals, List<Horizontal> horizontals, List<Square> squares, int[][] data) {
-        this.verticals = verticals;
-        this.horizontals = horizontals;
-        this.squares = squares;
-        this.data = data;
     }
 
     public List<Horizontal> outputWITHOUTdataArray() {
@@ -83,14 +84,12 @@ public class Solution {
                             }
 
                             if (end && !possibilityList.isEmpty()) {
-//                                System.out.println("Not updated, try something more advanced > i = " + i + " j = " + j);
+                                extAppLogFile.info("Not updated, try something more advanced > i = " + i + " j = " + j);
                                 if (pointingPairInCells(horizontals.get(i).getCellInHorizontal(j))) {
                                     sudokuUpdated = true;
                                     //end = false;
                                     endCount--; // toto este overit
                                 }
-
-
                             }
                         }
                     }
@@ -104,17 +103,15 @@ public class Solution {
                 System.out.println("Koniec");
             }
             if (end && !possibilityList.isEmpty() && endCount < 1) {
-//                System.out.println("Som na konci, ale mam este nieco v possibility liste -> skus advanced metody");
+                extAppLogFile.info("Som na konci, ale mam este nieco v possibility liste -> skus advanced metody");
                 sudokuUpdated = true;
                 endCount++;
             }
             // ===============
             firstRound++;
         } while (sudokuUpdated || firstRound <= 2);
-
         return horizontals;
     }
-    // ====================================
 
     private List<Integer> searchRow(Cell cell) { // odoberanie potencialnych moznosti z ciell v riadku
         int rowIndex = cell.getI();
@@ -207,24 +204,23 @@ public class Solution {
             for (Cell partnerCell : eligiblePartnerCells) {
                 boolean changedInLoop = false;
 
-                // =============== len vypisy ========================================
-//                System.out.println("Partner cell for cell possibility: " + possibilityToCheck + " in cell  i = " + cellI + " j = " + cellJ + " IS: i = " +
-//                        partnerCell.getI() + " j = " + partnerCell.getJ());
-//                if (partnerCell == null) {
-//                    System.out.println("No eligible partner cell for cell possibility: " + possibilityToCheck + " in cell  i = " + cellI + " j = " + cellJ);
-//                }
-                // ====================================================================
+                // vypisy
+                extAppLogFile.info("Partner cell for cell possibility: " + possibilityToCheck + " in cell  i = " + cellI + " j = " + cellJ + " IS: i = " +
+                        partnerCell.getI() + " j = " + partnerCell.getJ());
+                if (partnerCell == null) {
+                    extAppLogFile.info("No eligible partner cell for cell possibility: " + possibilityToCheck + " in cell  i = " + cellI + " j = " + cellJ);
+                }
 
                 if (!partnerCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
                     continue;
                 }
 
                 if (!isPossibilityToCheckPresentSomewhereElseInSquare(cell, partnerCell, cellSquare.getCells(), possibilityToCheck)) {
-//                    System.out.println(ANSI_GREEN + "Possibility " + possibilityToCheck + " presents only in row / column" + ANSI_RESET);
+                    extAppLogFile.info(ANSI_GREEN + "Possibility " + possibilityToCheck + " presents only in row / column" + ANSI_RESET);
                     // ak je len v tomto riadku vyhadzem tu possibilitu z tohto riadka v ostatnych stvorcoch, ak v stlpci tak zo stlpca
                     changedInLoop = deletePossibilitiesInRowOrColumn(cell, partnerCell, possibilityToCheck);
                 } else { // nachadza sa aj inde vo stvorci
-//                    System.out.println(ANSI_RED + "Possibility " + possibilityToCheck + " presents somewhere else too" + ANSI_RESET);
+                    extAppLogFile.info(ANSI_RED + "Possibility " + possibilityToCheck + " presents somewhere else too" + ANSI_RESET);
                     if (cellI == partnerCell.getI() && !isPossibilityToCheckPresentSomewhereElseInRow(cell, partnerCell, possibilityToCheck)) {
                         changedInLoop = deletePossibilitiesInSquare(cell, partnerCell, possibilityToCheck);
                     } else if (cellJ == partnerCell.getJ() && !isPossibilityToCheckPresentSomewhereElseInColumn(cell, partnerCell, possibilityToCheck)) {
@@ -232,7 +228,6 @@ public class Solution {
                     }
                 }
 
-//                System.out.println();
                 if (changedInLoop) {
                     changed = true;
                 }
@@ -273,7 +268,7 @@ public class Solution {
         int partnerCellJ = partnerCell.getJ();
 
         if (cellI == partnerCellI) {
-//            System.out.println("i case");
+            extAppLogFile.info("i case");
             for (Cell testedCell : squareOfCells) {
                 if (testedCell.getActualValue() == 0 && testedCell.getI() != cellI && testedCell.getCellPossibilities().contains((Integer) possibilityToCheck)) {
                     return true;
@@ -281,7 +276,7 @@ public class Solution {
             }
         }
         if (cellJ == partnerCellJ) {
-//            System.out.println("j case");
+            extAppLogFile.info("j case");
             for (Cell testedCell : squareOfCells) {
                 if (testedCell.getActualValue() == 0 && testedCell.getJ() != cellJ && testedCell.getCellPossibilities().contains((Integer) possibilityToCheck)) {
                     return true;
@@ -298,7 +293,7 @@ public class Solution {
         Square cellSquare = findCorrectSquare(cellI, cellJ);
 
         if (cellI == partnerCellI) {
-//            System.out.println("horizontal i case");
+            extAppLogFile.info("horizontal i case");
             for (Cell testedCell : horizontals.get(cellI).getCells()) {
                 if (testedCell.getActualValue() == 0 && cellSquare != findCorrectSquare(testedCell.getI(), testedCell.getJ()) &&
                         testedCell.getCellPossibilities().contains((Integer) possibilityToCheck)) {
@@ -316,7 +311,7 @@ public class Solution {
         Square cellSquare = findCorrectSquare(cellI, cellJ);
 
         if (cellJ == partnerCellJ) {
-//            System.out.println("vertical j case");
+            extAppLogFile.info("vertical j case");
             for (Cell testedCell : verticals.get(cellJ).getCells()) {
                 if (testedCell.getActualValue() == 0 && cellSquare != findCorrectSquare(testedCell.getI(), testedCell.getJ()) &&
                         testedCell.getCellPossibilities().contains((Integer) possibilityToCheck)) {
@@ -338,21 +333,21 @@ public class Solution {
         if (cellI == partnerCellI) {
             for (Cell testedCell : cellSquare.getCells()) {
                 if (testedCell.getActualValue() == 0 && testedCell.getI() != cellI && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
-//                    System.out.println(ANSI_PURPLE + "\t SQUARE CASE: Possibility " + possibilityToCheck + " will be removed from " +
-//                            "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
+                    extAppLogFile.info(ANSI_PURPLE + "\t SQUARE CASE: Possibility " + possibilityToCheck + " will be removed from " +
+                            "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
                     somethingWasRemoved = testedCell.getCellPossibilities().remove((Integer)possibilityToCheck);
                 }
             }
         } else if (cellJ == partnerCellJ) {
             for (Cell testedCell : cellSquare.getCells()) {
                 if (testedCell.getActualValue() == 0 && testedCell.getJ() != cellJ && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
-//                    System.out.println(ANSI_PURPLE + "\t SQUARE CASE: Possibility " + possibilityToCheck + " will be removed from " +
-//                            "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
+                    extAppLogFile.info(ANSI_PURPLE + "\t SQUARE CASE: Possibility " + possibilityToCheck + " will be removed from " +
+                            "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
                     somethingWasRemoved = testedCell.getCellPossibilities().remove((Integer)possibilityToCheck);
                 }
             }
         } else {
-//            System.out.println(ANSI_RED + "\tSQUARE CASE: Something's wrong - incorrect partner cell!" + ANSI_RESET);
+            extAppLogFile.info(ANSI_RED + "\tSQUARE CASE: Something's wrong - incorrect partner cell!" + ANSI_RESET);
         }
         return somethingWasRemoved;
     }
@@ -367,9 +362,9 @@ public class Solution {
             for (Cell testedCell : horizontals.get(cellI).getCells()) {
                 Square testedCellSquare = findCorrectSquare(testedCell.getI(), testedCell.getJ());
                 if (testedCell.getActualValue() == 0 && cellSquare != testedCellSquare && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
-//                    System.out.println(ANSI_BLUE + "\tROW-COLUMN CASE: Possibility " + possibilityToCheck + " will be removed from " +
-//                            "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
-//                    somethingWasRemoved = testedCell.getCellPossibilities().remove((Integer)possibilityToCheck);
+                    extAppLogFile.info(ANSI_BLUE + "\tROW-COLUMN CASE: Possibility " + possibilityToCheck + " will be removed from " +
+                            "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
+                    somethingWasRemoved = testedCell.getCellPossibilities().remove((Integer)possibilityToCheck);
                 }
             }
 
@@ -377,13 +372,13 @@ public class Solution {
             for (Cell testedCell : verticals.get(cellJ).getCells()) {
                 Square testedCellSquare = findCorrectSquare(testedCell.getI(), testedCell.getJ());
                 if (testedCell.getActualValue() == 0 && cellSquare != testedCellSquare && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
-//                    System.out.println(ANSI_BLUE + "\tROW-COLUMN CASE: Possibility " + possibilityToCheck + " will be removed from " +
-//                            "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
+                    extAppLogFile.info(ANSI_BLUE + "\tROW-COLUMN CASE: Possibility " + possibilityToCheck + " will be removed from " +
+                            "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
                     somethingWasRemoved = testedCell.getCellPossibilities().remove((Integer)possibilityToCheck);
                 }
             }
         } else {
- //           System.out.println(ANSI_RED + "\tROW-COLUMN CASE: Something's wrong - incorrect partner cell!" + ANSI_RESET);
+            extAppLogFile.info(ANSI_RED + "\tROW-COLUMN CASE: Something's wrong - incorrect partner cell!" + ANSI_RESET);
         }
         return somethingWasRemoved;
     }

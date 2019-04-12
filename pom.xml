@@ -48,6 +48,7 @@
             <version>1.7.3</version>
             <scope>test</scope>
         </dependency>
+<!--        TODO logback , slf4j namiesto log4j-->
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>

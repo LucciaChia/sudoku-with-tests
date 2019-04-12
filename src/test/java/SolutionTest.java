@@ -56,20 +56,16 @@ public class SolutionTest {
         int[][] inputData = fileSudokuReader.read(inp7);
         int[][] expectedOutput = fileSudokuReader.read(out7);
 
-        SudokuService sudokuService = new SudokuService();
+
         try {
             Sudoku sudokuMatrix = new Sudoku(inputData);
-            sudokuService.setHorizontals(sudokuMatrix.getHorizontals());
-            sudokuService.setVerticals(sudokuMatrix.getVerticals());
-            sudokuService.setSquares(sudokuMatrix.getSquares());
+            SudokuService sudokuService = new SudokuService(sudokuMatrix);
+            sudokuService.resolveSudokuService();
+            assertArrayEquals(expectedOutput, sudokuService.printSudokuMatrixService());
         } catch (IllegalSudokuStateException ex) {
             System.out.println("Test incorrect input");
         }
 
-
-
-        sudokuService.resolveSudokuService();
-        assertArrayEquals(expectedOutput, sudokuService.printSudokuMatrixService());
     }
 
     @ParameterizedTest
@@ -82,18 +78,17 @@ public class SolutionTest {
         int[][] inputData = fileSudokuReader.read(inputSudokuMatrixPath);
         int[][] expectedOutput = fileSudokuReader.read(expectedSudokuOutputPath);
 
-        SudokuService sudokuService = new SudokuService();
+
         try {
             Sudoku sudokuMatrix = new Sudoku(inputData);
-            sudokuService.setHorizontals(sudokuMatrix.getHorizontals());
-            sudokuService.setVerticals(sudokuMatrix.getVerticals());
-            sudokuService.setSquares(sudokuMatrix.getSquares());
+            SudokuService sudokuService = new SudokuService(sudokuMatrix);
+            sudokuService.resolveSudokuService();
+            assertArrayEquals(expectedOutput, sudokuService.printSudokuMatrixService());
         } catch (IllegalSudokuStateException ex) {
             System.out.println("Test incorrect input");
         }
 
-        sudokuService.resolveSudokuService();
-        assertArrayEquals(expectedOutput, sudokuService.printSudokuMatrixService());
+
     }
 
 //    https://nirajsonawane.github.io/2018/12/30/Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests/

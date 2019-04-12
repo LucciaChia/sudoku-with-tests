@@ -8,23 +8,23 @@ import sudoku.processing.SudokuService;
 
 import java.io.File;
 import java.util.Scanner;
-//import java.util.logging.Logger;
 
 public class Main {
 
-    // TODO zacat pouzivat logy namiesto System.out.println()
+    // TODO dopnit do logov, co este chyba
     // TODO okomentovat vsetky metody, ktore obsahuju nejaku logiku
 
-    //private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
+
     private static ClassLoader classLoader = new Main().getClass().getClassLoader();
 
-    static final Logger LOGGER = Logger.getLogger(Main.class);
-    static final Logger extAppLogFile = Logger.getLogger("ExternalAppLogger");
+    private static final Logger extAppLogFile = Logger.getLogger("ExternalAppLogger");
 
-    public static final String path1 = new File(classLoader.getResource("inputs/simple1.txt").getFile()).getPath();
-    public static final String path2 = new File(classLoader.getResource("inputs/simple2.txt").getFile()).getPath();
-    public static final String path3 = new File(classLoader.getResource("inputs/simple3.txt").getFile()).getPath();
-    public static final String path4 = new File(classLoader.getResource("inputs/simple4.txt").getFile()).getPath();
+    private static final String path1 = new File(classLoader.getResource("inputs/simple1.txt").getFile()).getPath();
+    private static final String path2 = new File(classLoader.getResource("inputs/simple2.txt").getFile()).getPath();
+    private static final String path3 = new File(classLoader.getResource("inputs/simple3.txt").getFile()).getPath();
+    private static final String path4 = new File(classLoader.getResource("inputs/simple4.txt").getFile()).getPath();
+
+    private Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
 
@@ -33,7 +33,7 @@ public class Main {
     }
 
 
-    public void menu() {
+    private void menu() {
 
         Scanner scanner = new Scanner(System.in);
         boolean quit = false;
@@ -49,25 +49,21 @@ public class Main {
                 case 1:
                     try {
                         Sudoku sudokuMatrix = insertYourOwnSudoku();
-                        SudokuService sudokuService = new SudokuService();
-                        sudokuService.setHorizontals(sudokuMatrix.getHorizontals());
-                        sudokuService.setVerticals(sudokuMatrix.getVerticals());
-                        sudokuService.setSquares(sudokuMatrix.getSquares());
+
+                        SudokuService sudokuService = new SudokuService(sudokuMatrix);
 
                         sudokuService.resolveSudokuService();
                         sudokuService.printSudokuMatrixService();
-                        LOGGER.info("Reading sudoku - valid input - using log4j");
+                        extAppLogFile.info("Reading sudoku - valid input - using log4j");
                     } catch (Exception e) {
-//                        LOGGER.log(Level.WARNING, "Reading sudoku - incorrect input");
                         extAppLogFile.warn("Reading sudoku - incorrect input - using log4j");
                     }
                     break;
                 case 2:
                     try {
                         runDefaultSudoku();
-                        LOGGER.info("Default sudoku - valid input - using log4j");
+                        extAppLogFile.info("Default sudoku - valid input - using log4j");
                     } catch (IllegalSudokuStateException ex) {
-//                        LOGGER.log(Level.WARNING, "Default sudoku - incorrect input");
                         extAppLogFile.warn("Reading sudoku - incorrect input - using log4j");
                     }
 
@@ -89,11 +85,10 @@ public class Main {
                         "Insert 3 - to quit program"
         );
     }
-
+    // TODO pouzit mock test na simulaciu Scannera
     private Sudoku insertYourOwnSudoku() throws IllegalSudokuStateException {
-        Scanner scanner = new Scanner(System.in);
+
         System.out.println("Insert your sudoku:");
-        int[][] errorData = new int[0][0];
         int[][] data = new int[9][9];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -101,8 +96,7 @@ public class Main {
             }
         }
         // constructor creates objects and validates them
-        Sudoku sudoku = new Sudoku(data);
-        return sudoku;
+        return new Sudoku(data);
     }
 
     private void runDefaultSudoku() throws IllegalSudokuStateException{
@@ -111,11 +105,7 @@ public class Main {
         int[][] data = fileSudokuReader.read(path1);
 
         Sudoku sudokuMatrix = new Sudoku(data);
-        SudokuService sudokuService = new SudokuService();
-
-        sudokuService.setHorizontals(sudokuMatrix.getHorizontals());
-        sudokuService.setVerticals(sudokuMatrix.getVerticals());
-        sudokuService.setSquares(sudokuMatrix.getSquares());
+        SudokuService sudokuService = new SudokuService(sudokuMatrix);
 
         sudokuService.printSudokuMatrixService();
 
