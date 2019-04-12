@@ -2,16 +2,18 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import sudoku.model.*;
+import sudoku.customExceptions.IllegalSudokuStateException;
+import sudoku.model.Horizontal;
+import sudoku.model.Square;
+import sudoku.model.Sudoku;
+import sudoku.model.Vertical;
 import sudoku.processing.FileSudokuReader;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SudokuTest {
 
@@ -31,21 +33,26 @@ public class SudokuTest {
     public void createSudokuElementObjects(String inputSudokuMatrixPath) {
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
         int[][] inputData = fileSudokuReader.read(inputSudokuMatrixPath);
+        Sudoku sudoku;
+        try {
+            sudoku = new Sudoku(inputData);
+            List<Horizontal> horizontals = sudoku.getHorizontals();
+            List<Vertical> verticals = sudoku.getVerticals();
+            List<Square> squares = sudoku.getSquares();
 
-        Sudoku sudoku = new Sudoku();
-        ArrayList<List<? extends SudokuElement>> sudokuElementsList = sudoku.createSudokuElementObjectsService(inputData);
-
-        List<Horizontal> horizontals = (List<Horizontal>)sudokuElementsList.get(0);
-        List<Vertical> verticals = (List<Vertical>)sudokuElementsList.get(1);
-        List<Square> squares = (List<Square>)sudokuElementsList.get(2);
-
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                assertNotNull(horizontals.get(i).getCellInHorizontal(j));
-                assertNotNull(verticals.get(j).getCellInVertical(i));
-                assertNotNull(squares.get((i / 3) * 3 + j / 3).getCells().get(j));
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    assertNotNull(horizontals.get(i).getCellInHorizontal(j));
+                    assertNotNull(verticals.get(j).getCellInVertical(i));
+                    assertNotNull(squares.get((i / 3) * 3 + j / 3).getCells().get(j));
+                }
             }
+
+        } catch (IllegalSudokuStateException ex) {
+            System.out.println("Invalid sudoku");
+            assertFalse(true);
         }
+
     }
 
     private static Stream<Arguments> linksToInputs() {

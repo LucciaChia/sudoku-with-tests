@@ -28,10 +28,9 @@ public class Sudoku {
 
     public Sudoku(int[][] data) throws IllegalSudokuStateException{
 
-        ArrayList<List<? extends SudokuElement>> sudokuElementsList;
         validateNumbers(data);
-        sudokuElementsList = createSudokuElementObjectsService(data);
-        validateRepetition(sudokuElementsList);
+        createSudokuElementObjectsService(data);
+        validateRepetition();
     }
 
     public List<Square> getSquares() {
@@ -58,7 +57,7 @@ public class Sudoku {
         this.horizontals = horizontals;
     }
 
-    public ArrayList<List<? extends SudokuElement>> createSudokuElementObjectsService(int[][] data) {
+    public void createSudokuElementObjectsService(int[][] data) {
         for (int i = 0; i < data.length; i++) {
             Horizontal horizontal = new Horizontal();
             for (int j = 0; j < data[i].length; j++) {
@@ -80,17 +79,9 @@ public class Sudoku {
                 }
 
                 squares.get((i/3)*3 + j/3).getCells().add(cell);
-
             }
             horizontals.add(horizontal);
         }
-        // <? extends sudoku.model.SudokuElement> pre vsetky objekty, ktore dedia od sudoku.model.SudokuElement
-        ArrayList<List<? extends SudokuElement>> sudokuElements = new ArrayList<>();
-
-        sudokuElements.add(horizontals);
-        sudokuElements.add(verticals);
-        sudokuElements.add(squares);
-        return sudokuElements;
     }
 
     // iba kvoli testu public, inak bolo private
@@ -108,10 +99,7 @@ public class Sudoku {
         }
     }
 
-    private void validateRepetition(ArrayList<List<? extends SudokuElement>> sudokuElementsList) throws IllegalSudokuStateException {
-        List<Horizontal> horizontals = (List<Horizontal>) sudokuElementsList.get(0);
-        List<Vertical> verticals = (List<Vertical>) sudokuElementsList.get(1);
-        List<Square> squares = (List<Square>) sudokuElementsList.get(2);
+    private void validateRepetition() throws IllegalSudokuStateException {
 
         for (int i = 0; i < 9; i++) {
             horizontals.get(i).validateRepetition();
@@ -119,6 +107,5 @@ public class Sudoku {
             squares.get(i).validateRepetition();
         }
     }
-
 
 }
