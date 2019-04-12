@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * SudokuElement can represent whole row (Horizontal class), whole column (Vertical class)
+ * SudokuElement can represent whole row (Row class), whole column (Vertical class)
  * or whole box (Square class)
  * @author Lucia
  */
@@ -39,7 +39,7 @@ public abstract class SudokuElement {
             if ((key != 0) && !(repetition.containsKey(key))) {
                 repetition.put(key, 1);
             } else if (repetition.containsKey(key)) {
-                System.out.println("Horizontal");
+                System.out.println("Row");
                 throw new IllegalSudokuStateException(key,cell.getI(),cell.getJ());
             }
         }

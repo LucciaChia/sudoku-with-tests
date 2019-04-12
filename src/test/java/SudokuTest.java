@@ -3,7 +3,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import sudoku.customExceptions.IllegalSudokuStateException;
-import sudoku.model.Horizontal;
+import sudoku.model.Row;
 import sudoku.model.Square;
 import sudoku.model.Sudoku;
 import sudoku.model.Vertical;
@@ -36,13 +36,13 @@ public class SudokuTest {
         Sudoku sudoku;
         try {
             sudoku = new Sudoku(inputData);
-            List<Horizontal> horizontals = sudoku.getHorizontals();
+            List<Row> rows = sudoku.getRows();
             List<Vertical> verticals = sudoku.getVerticals();
             List<Square> squares = sudoku.getSquares();
 
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
-                    assertNotNull(horizontals.get(i).getCellInHorizontal(j));
+                    assertNotNull(rows.get(i).getCell(j));
                     assertNotNull(verticals.get(j).getCellInVertical(i));
                     assertNotNull(squares.get((i / 3) * 3 + j / 3).getCells().get(j));
                 }

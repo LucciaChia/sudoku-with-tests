@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class Util {
     /**
-     * pre vybrany Sudoku Element (Horizontal, Vertical, Square) najde kolko jednotiek, dvojek, ... atd
+     * pre vybrany Sudoku Element (Row, Vertical, Square) najde kolko jednotiek, dvojek, ... atd
      * sa v nom nachadza
      *
      * @param sudokuElement

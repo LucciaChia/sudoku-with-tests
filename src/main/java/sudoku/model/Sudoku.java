@@ -20,7 +20,7 @@ public class Sudoku {
 
     private List<Square> squares = new ArrayList<>();
     private List<Vertical> verticals = new ArrayList<>();
-    private List<Horizontal> horizontals = new ArrayList<>();
+    private List<Row> rows = new ArrayList<>();
 
     public Sudoku() {
 
@@ -49,20 +49,20 @@ public class Sudoku {
         this.verticals = verticals;
     }
 
-    public List<Horizontal> getHorizontals() {
-        return horizontals;
+    public List<Row> getRows() {
+        return rows;
     }
 
-    public void setHorizontals(List<Horizontal> horizontals) {
-        this.horizontals = horizontals;
+    public void setRows(List<Row> rows) {
+        this.rows = rows;
     }
 
     public void createSudokuElementObjectsService(int[][] data) {
         for (int i = 0; i < data.length; i++) {
-            Horizontal horizontal = new Horizontal();
+            Row row = new Row();
             for (int j = 0; j < data[i].length; j++) {
                 Cell cell = new Cell(data[i][j], i, j);
-                horizontal.getCells().add(cell);
+                row.getCells().add(cell);
 
                 if (i == 0) {
                     Vertical vertical = new Vertical();
@@ -80,7 +80,7 @@ public class Sudoku {
 
                 squares.get((i/3)*3 + j/3).getCells().add(cell);
             }
-            horizontals.add(horizontal);
+            rows.add(row);
         }
     }
 
@@ -102,7 +102,7 @@ public class Sudoku {
     private void validateRepetition() throws IllegalSudokuStateException {
 
         for (int i = 0; i < 9; i++) {
-            horizontals.get(i).validateRepetition();
+            rows.get(i).validateRepetition();
             verticals.get(i).validateRepetition();
             squares.get(i).validateRepetition();
         }

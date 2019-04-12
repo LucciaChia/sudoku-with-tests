@@ -26,7 +26,7 @@ public class Solution {
     private static final Logger extAppLogFile = Logger.getLogger("ExternalAppLogger");
 
     List<Vertical> verticals;
-    List<Horizontal> horizontals;
+    List<Row> rows;
     List<Square> squares;
     int[][] data;
     List<List<Integer>> possibilityList = new ArrayList<>();
@@ -38,18 +38,18 @@ public class Solution {
 
     public Solution(Sudoku sudoku) {
         this.verticals = sudoku.getVerticals();
-        this.horizontals = sudoku.getHorizontals();
+        this.rows = sudoku.getRows();
         this.squares = sudoku.getSquares();
     }
 
     @Deprecated
-    public Solution(List<Vertical> verticals, List<Horizontal> horizontals, List<Square> squares) {
+    public Solution(List<Vertical> verticals, List<Row> rows, List<Square> squares) {
         this.verticals = verticals;
-        this.horizontals = horizontals;
+        this.rows = rows;
         this.squares = squares;
     }
 
-    public List<Horizontal> outputWITHOUTdataArray() {
+    public List<Row> outputWITHOUTdataArray() {
         boolean end = false;
         int endCount = 0;
         int firstRound = 1;
@@ -58,26 +58,26 @@ public class Solution {
             sudokuUpdated = false;
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
-                    int currentCellValue = horizontals.get(i).getCellInHorizontal(j).getActualValue();
+                    int currentCellValue = rows.get(i).getCell(j).getActualValue();
                     if (currentCellValue == 0) {
-                        List<Integer> possibility = horizontals.get(i).getCellInHorizontal(j).getCellPossibilities();
+                        List<Integer> possibility = rows.get(i).getCell(j).getCellPossibilities();
                         if (firstRound == 1) {
                             possibilityList.add(possibility);
                         }
 
-                        searchRow(horizontals.get(i).getCellInHorizontal(j));
-                        searchColumn(horizontals.get(i).getCellInHorizontal(j));
-                        searchSquare(horizontals.get(i).getCellInHorizontal(j));
+                        searchRow(rows.get(i).getCell(j));
+                        searchColumn(rows.get(i).getCell(j));
+                        searchSquare(rows.get(i).getCell(j));
 
                         if (possibility.size() == 1) {
-                            horizontals.get(i).getCellInHorizontal(j).setActualValue(possibility.get(0));
-                            //currentCellValue = horizontals.get(i).getCellInHorizontal(j).getActualValue();
+                            rows.get(i).getCell(j).setActualValue(possibility.get(0));
+                            //currentCellValue = rows.get(i).getCell(j).getActualValue();
                             sudokuUpdated = true;
                             possibilityList.remove(possibility);
                             continue;
                         }
                         if (firstRound > 1){
-                            currentCellValue = findHiddenSingleInCell(horizontals.get(i).getCellInHorizontal(j));
+                            currentCellValue = findHiddenSingleInCell(rows.get(i).getCell(j));
                             if (currentCellValue != 0) {
                                 possibilityList.remove(possibility);
                                 sudokuUpdated = true;
@@ -85,7 +85,7 @@ public class Solution {
 
                             if (end && !possibilityList.isEmpty()) {
                                 extAppLogFile.info("Not updated, try something more advanced > i = " + i + " j = " + j);
-                                if (pointingPairInCells(horizontals.get(i).getCellInHorizontal(j))) {
+                                if (pointingPairInCells(rows.get(i).getCell(j))) {
                                     sudokuUpdated = true;
                                     //end = false;
                                     endCount--; // toto este overit
@@ -110,15 +110,15 @@ public class Solution {
             // ===============
             firstRound++;
         } while (sudokuUpdated || firstRound <= 2);
-        return horizontals;
+        return rows;
     }
 
     private List<Integer> searchRow(Cell cell) { // odoberanie potencialnych moznosti z ciell v riadku
         int rowIndex = cell.getI();
-        Horizontal row = horizontals.get(rowIndex);
+        Row row = rows.get(rowIndex);
         List<Integer> possibility = cell.getCellPossibilities();
         for (int i = 0; i < 9; i++) {
-            int checkValue = row.getCellInHorizontal(i).getActualValue();
+            int checkValue = row.getCell(i).getActualValue();
             if (checkValue != 0) {
                 possibility.remove((Integer) checkValue);
             }
@@ -169,7 +169,7 @@ public class Solution {
         List<Integer> cellPossibilities = cell.getCellPossibilities();
 
         Util util = new Util();
-        Map<Integer, Integer> horizMap = util.amountOfParticularPossibilities(horizontals.get(indexI));
+        Map<Integer, Integer> horizMap = util.amountOfParticularPossibilities(rows.get(indexI));
         Map<Integer, Integer> vericalMap = util.amountOfParticularPossibilities(verticals.get(indexJ));
         Map<Integer, Integer> squareMap = util.amountOfParticularPossibilities(square);
 
@@ -294,7 +294,7 @@ public class Solution {
 
         if (cellI == partnerCellI) {
             extAppLogFile.info("horizontal i case");
-            for (Cell testedCell : horizontals.get(cellI).getCells()) {
+            for (Cell testedCell : rows.get(cellI).getCells()) {
                 if (testedCell.getActualValue() == 0 && cellSquare != findCorrectSquare(testedCell.getI(), testedCell.getJ()) &&
                         testedCell.getCellPossibilities().contains((Integer) possibilityToCheck)) {
                     return true;
@@ -359,7 +359,7 @@ public class Solution {
         Square cellSquare = findCorrectSquare(cell.getI(), cell.getJ());
 
         if (cellI == partnerCell.getI()) {
-            for (Cell testedCell : horizontals.get(cellI).getCells()) {
+            for (Cell testedCell : rows.get(cellI).getCells()) {
                 Square testedCellSquare = findCorrectSquare(testedCell.getI(), testedCell.getJ());
                 if (testedCell.getActualValue() == 0 && cellSquare != testedCellSquare && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
                     extAppLogFile.info(ANSI_BLUE + "\tROW-COLUMN CASE: Possibility " + possibilityToCheck + " will be removed from " +
@@ -386,9 +386,9 @@ public class Solution {
     public void removePossibilityFromRow(int value, Cell cell) {
         int indexI = cell.getI();
         for (int i = 0; i < 9; i++) {
-            List<Integer> p = horizontals.get(indexI).getCells().get(i).getCellPossibilities();
+            List<Integer> p = rows.get(indexI).getCells().get(i).getCellPossibilities();
             if (p != null) {
-                horizontals.get(indexI).getCells().get(i).getCellPossibilities().remove((Integer) value);
+                rows.get(indexI).getCells().get(i).getCellPossibilities().remove((Integer) value);
             }
         }
     }
