@@ -142,11 +142,11 @@ public class SolutionTest {
 
         ArrayList<Cell> cellsInSquare = new ArrayList<>(Arrays.asList(c03,c04,c05,c13,c14,c15,c23,c24,c25));
 
-        Square square = new Square(cellsInSquare);
-        List<Square> squareList = new ArrayList<>();
-        squareList.add(new Square());
-        squareList.add(square);
-        Solution solution = new Solution(squareList);
+        Box box = new Box(cellsInSquare);
+        List<Box> boxList = new ArrayList<>();
+        boxList.add(new Box());
+        boxList.add(box);
+        Solution solution = new Solution(boxList);
         List<Cell> testedEligiblePartnerCells = solution.findPartnerCell(c03,7);
 
         // correct answer:

@@ -18,8 +18,8 @@ public class Sudoku {
     //TODO tests for Sudoku
     private static final Logger LOGGER = Logger.getLogger(Sudoku.class.getName());
 
-    private List<Square> squares = new ArrayList<>();
-    private List<Vertical> verticals = new ArrayList<>();
+    private List<Box> boxes = new ArrayList<>();
+    private List<Column> columns = new ArrayList<>();
     private List<Row> rows = new ArrayList<>();
 
     public Sudoku() {
@@ -33,20 +33,20 @@ public class Sudoku {
         validateRepetition();
     }
 
-    public List<Square> getSquares() {
-        return squares;
+    public List<Box> getBoxes() {
+        return boxes;
     }
 
-    public void setSquares(List<Square> squares) {
-        this.squares = squares;
+    public void setBoxes(List<Box> boxes) {
+        this.boxes = boxes;
     }
 
-    public List<Vertical> getVerticals() {
-        return verticals;
+    public List<Column> getColumns() {
+        return columns;
     }
 
-    public void setVerticals(List<Vertical> verticals) {
-        this.verticals = verticals;
+    public void setColumns(List<Column> columns) {
+        this.columns = columns;
     }
 
     public List<Row> getRows() {
@@ -65,20 +65,20 @@ public class Sudoku {
                 row.getCells().add(cell);
 
                 if (i == 0) {
-                    Vertical vertical = new Vertical();
-                    verticals.add(vertical);
-                    verticals.get(j).getCells().add(cell);
+                    Column column = new Column();
+                    columns.add(column);
+                    columns.get(j).getCells().add(cell);
                 } else {
-                    verticals.get(j).getCells().add(cell);
+                    columns.get(j).getCells().add(cell);
                 }
 
 
                 if (shouldCreateSquare(i, j)) {
-                    Square square = new Square();
-                    squares.add(square);
+                    Box box = new Box();
+                    boxes.add(box);
                 }
 
-                squares.get((i/3)*3 + j/3).getCells().add(cell);
+                boxes.get((i/3)*3 + j/3).getCells().add(cell);
             }
             rows.add(row);
         }
@@ -103,8 +103,8 @@ public class Sudoku {
 
         for (int i = 0; i < 9; i++) {
             rows.get(i).validateRepetition();
-            verticals.get(i).validateRepetition();
-            squares.get(i).validateRepetition();
+            columns.get(i).validateRepetition();
+            boxes.get(i).validateRepetition();
         }
     }
 

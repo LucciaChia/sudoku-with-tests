@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * SudokuElement can represent whole row (Row class), whole column (Vertical class)
- * or whole box (Square class)
+ * SudokuElement can represent whole row (Row class), whole column (Column class)
+ * or whole box (Box class)
  * @author Lucia
  */
 public abstract class SudokuElement {

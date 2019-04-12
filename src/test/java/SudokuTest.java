@@ -4,9 +4,9 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import sudoku.customExceptions.IllegalSudokuStateException;
 import sudoku.model.Row;
-import sudoku.model.Square;
+import sudoku.model.Box;
 import sudoku.model.Sudoku;
-import sudoku.model.Vertical;
+import sudoku.model.Column;
 import sudoku.processing.FileSudokuReader;
 
 import java.io.File;
@@ -37,14 +37,14 @@ public class SudokuTest {
         try {
             sudoku = new Sudoku(inputData);
             List<Row> rows = sudoku.getRows();
-            List<Vertical> verticals = sudoku.getVerticals();
-            List<Square> squares = sudoku.getSquares();
+            List<Column> columns = sudoku.getColumns();
+            List<Box> boxes = sudoku.getBoxes();
 
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
                     assertNotNull(rows.get(i).getCell(j));
-                    assertNotNull(verticals.get(j).getCellInVertical(i));
-                    assertNotNull(squares.get((i / 3) * 3 + j / 3).getCells().get(j));
+                    assertNotNull(columns.get(j).getCell(i));
+                    assertNotNull(boxes.get((i / 3) * 3 + j / 3).getCells().get(j));
                 }
             }
 
