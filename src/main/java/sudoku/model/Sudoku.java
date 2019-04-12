@@ -24,6 +24,9 @@ public class Sudoku {
     private List<Vertical> verticals = new ArrayList<>();
     private List<Horizontal> horizontals = new ArrayList<>();
 
+    public Sudoku() {
+
+    }
 
     public Sudoku(int[][] data) throws IllegalSudokuStateException{
 

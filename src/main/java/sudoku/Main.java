@@ -1,5 +1,6 @@
 package sudoku;
 
+import org.apache.log4j.Logger;
 import sudoku.customExceptions.IllegalSudokuStateException;
 import sudoku.model.Sudoku;
 import sudoku.processing.FileSudokuReader;
@@ -7,16 +8,18 @@ import sudoku.processing.SudokuService;
 
 import java.io.File;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+//import java.util.logging.Logger;
 
 public class Main {
 
     // TODO zacat pouzivat logy namiesto System.out.println()
     // TODO okomentovat vsetky metody, ktore obsahuju nejaku logiku
 
-    private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
+    //private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
     private static ClassLoader classLoader = new Main().getClass().getClassLoader();
+
+    static final Logger LOGGER = Logger.getLogger(Main.class);
+    static final Logger extAppLogFile = Logger.getLogger("ExternalAppLogger");
 
     public static final String path1 = new File(classLoader.getResource("inputs/simple1.txt").getFile()).getPath();
     public static final String path2 = new File(classLoader.getResource("inputs/simple2.txt").getFile()).getPath();
@@ -35,7 +38,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         boolean quit = false;
         printHelp();
-
+        extAppLogFile.info("Program has stared");
         do {
             System.out.println("Choose your option");
             int option = scanner.nextInt();
@@ -53,20 +56,25 @@ public class Main {
 
                         sudokuService.resolveSudokuService();
                         sudokuService.printSudokuMatrixService();
+                        LOGGER.info("Reading sudoku - valid input - using log4j");
                     } catch (Exception e) {
-                        LOGGER.log(Level.WARNING, "Reading sudoku - incorrect input");
+//                        LOGGER.log(Level.WARNING, "Reading sudoku - incorrect input");
+                        extAppLogFile.warn("Reading sudoku - incorrect input - using log4j");
                     }
                     break;
                 case 2:
                     try {
                         runDefaultSudoku();
+                        LOGGER.info("Default sudoku - valid input - using log4j");
                     } catch (IllegalSudokuStateException ex) {
-                        LOGGER.log(Level.WARNING, "Default sudoku - incorrect input");
+//                        LOGGER.log(Level.WARNING, "Default sudoku - incorrect input");
+                        extAppLogFile.warn("Reading sudoku - incorrect input - using log4j");
                     }
 
                     break;
                 case 3:
                     System.out.println("Bye, bye");
+                    extAppLogFile.info("Program has finished");
                     quit = true;
             }
         } while(!quit);
