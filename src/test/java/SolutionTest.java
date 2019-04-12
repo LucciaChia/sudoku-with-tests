@@ -142,7 +142,8 @@ public class SolutionTest {
 
         ArrayList<Cell> cellsInSquare = new ArrayList<>(Arrays.asList(c03,c04,c05,c13,c14,c15,c23,c24,c25));
 
-        Box box = new Box(cellsInSquare);
+        Box box = new Box();
+        box.setCellList(cellsInSquare);
         List<Box> boxList = new ArrayList<>();
         boxList.add(new Box());
         boxList.add(box);

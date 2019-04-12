@@ -1,6 +1,5 @@
 package sudoku.model;
 
-import java.util.List;
 /**
  * represents one row in sudoku matrix
  * @author Lucia
@@ -20,9 +19,5 @@ public class Row extends SudokuElement {
         return output;
     }
 
-    @Override
-    public List<Cell> getCells() {
-        return super.getCellList();
-    }
 
 }

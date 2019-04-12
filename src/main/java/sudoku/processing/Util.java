@@ -25,7 +25,7 @@ public class Util {
      */
     public Map<Integer, Integer> amountOfParticularPossibilities(SudokuElement sudokuElement) {
         Map<Integer, Integer> countOfPossibilities = new HashMap<>();
-        List<Cell> listOfCells = sudokuElement.getCells();
+        List<Cell> listOfCells = sudokuElement.getCellList();
         for (int i = 0; i < 9; i++) {
             List<Integer> possibility = listOfCells.get(i).getCellPossibilities(); // moznosti v bunke
             if (possibility != null) {

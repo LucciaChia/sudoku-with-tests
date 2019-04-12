@@ -62,14 +62,14 @@ public class Sudoku {
             Row row = new Row();
             for (int j = 0; j < data[i].length; j++) {
                 Cell cell = new Cell(data[i][j], i, j);
-                row.getCells().add(cell);
+                row.getCellList().add(cell);
 
                 if (i == 0) {
                     Column column = new Column();
                     columns.add(column);
-                    columns.get(j).getCells().add(cell);
+                    columns.get(j).getCellList().add(cell);
                 } else {
-                    columns.get(j).getCells().add(cell);
+                    columns.get(j).getCellList().add(cell);
                 }
 
 
@@ -78,7 +78,7 @@ public class Sudoku {
                     boxes.add(box);
                 }
 
-                boxes.get((i/3)*3 + j/3).getCells().add(cell);
+                boxes.get((i/3)*3 + j/3).getCellList().add(cell);
             }
             rows.add(row);
         }

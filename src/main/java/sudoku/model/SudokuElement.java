@@ -19,13 +19,12 @@ public abstract class SudokuElement {
      * retrieves whole Sudoku Element (whole row, column or square)
      * @return List<Cell>
      */
-    public abstract List<Cell> getCells();
 
     public List<Cell> getCellList() {
         return cellList;
     }
 
-    protected void setCellList(ArrayList<Cell> cellsInSquare) {
+    public void setCellList(ArrayList<Cell> cellsInSquare) {
         cellList = cellsInSquare;
     }
 

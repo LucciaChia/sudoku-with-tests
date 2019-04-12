@@ -148,7 +148,7 @@ public class Solution {
             return possibility;
         }
         for (int i = 0; i < 9; i++) {
-            int checkValue = box.getCells().get(i).getActualValue();
+            int checkValue = box.getCellList().get(i).getActualValue();
             if (checkValue != 0) {
                 possibility.remove((Integer) checkValue);
             }
@@ -215,7 +215,7 @@ public class Solution {
                     continue;
                 }
 
-                if (!isPossibilityToCheckPresentSomewhereElseInSquare(cell, partnerCell, cellBox.getCells(), possibilityToCheck)) {
+                if (!isPossibilityToCheckPresentSomewhereElseInSquare(cell, partnerCell, cellBox.getCellList(), possibilityToCheck)) {
                     extAppLogFile.info(ANSI_GREEN + "Possibility " + possibilityToCheck + " presents only in row / column" + ANSI_RESET);
                     // ak je len v tomto riadku vyhadzem tu possibilitu z tohto riadka v ostatnych stvorcoch, ak v stlpci tak zo stlpca
                     changedInLoop = deletePossibilitiesInRowOrColumn(cell, partnerCell, possibilityToCheck);
@@ -242,7 +242,7 @@ public class Solution {
         Box targetBox = findCorrectSquare(indexI, indexJ);
         List<Cell> eligiblePartnerCellList = new ArrayList<>();
 
-        for (Cell candidateCell : targetBox.getCells()) {
+        for (Cell candidateCell : targetBox.getCellList()) {
 
             if (candidateCell.getActualValue() == 0 ) {
                 int candidateCellI = candidateCell.getI();
@@ -294,7 +294,7 @@ public class Solution {
 
         if (cellI == partnerCellI) {
             extAppLogFile.info("horizontal i case");
-            for (Cell testedCell : rows.get(cellI).getCells()) {
+            for (Cell testedCell : rows.get(cellI).getCellList()) {
                 if (testedCell.getActualValue() == 0 && cellBox != findCorrectSquare(testedCell.getI(), testedCell.getJ()) &&
                         testedCell.getCellPossibilities().contains((Integer) possibilityToCheck)) {
                     return true;
@@ -312,7 +312,7 @@ public class Solution {
 
         if (cellJ == partnerCellJ) {
             extAppLogFile.info("vertical j case");
-            for (Cell testedCell : columns.get(cellJ).getCells()) {
+            for (Cell testedCell : columns.get(cellJ).getCellList()) {
                 if (testedCell.getActualValue() == 0 && cellBox != findCorrectSquare(testedCell.getI(), testedCell.getJ()) &&
                         testedCell.getCellPossibilities().contains((Integer) possibilityToCheck)) {
                     return true;
@@ -331,7 +331,7 @@ public class Solution {
         Box cellBox = findCorrectSquare(cellI, cellJ);
 
         if (cellI == partnerCellI) {
-            for (Cell testedCell : cellBox.getCells()) {
+            for (Cell testedCell : cellBox.getCellList()) {
                 if (testedCell.getActualValue() == 0 && testedCell.getI() != cellI && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
                     extAppLogFile.info(ANSI_PURPLE + "\t SQUARE CASE: Possibility " + possibilityToCheck + " will be removed from " +
                             "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
@@ -339,7 +339,7 @@ public class Solution {
                 }
             }
         } else if (cellJ == partnerCellJ) {
-            for (Cell testedCell : cellBox.getCells()) {
+            for (Cell testedCell : cellBox.getCellList()) {
                 if (testedCell.getActualValue() == 0 && testedCell.getJ() != cellJ && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
                     extAppLogFile.info(ANSI_PURPLE + "\t SQUARE CASE: Possibility " + possibilityToCheck + " will be removed from " +
                             "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
@@ -359,7 +359,7 @@ public class Solution {
         Box cellBox = findCorrectSquare(cell.getI(), cell.getJ());
 
         if (cellI == partnerCell.getI()) {
-            for (Cell testedCell : rows.get(cellI).getCells()) {
+            for (Cell testedCell : rows.get(cellI).getCellList()) {
                 Box testedCellBox = findCorrectSquare(testedCell.getI(), testedCell.getJ());
                 if (testedCell.getActualValue() == 0 && cellBox != testedCellBox && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
                     extAppLogFile.info(ANSI_BLUE + "\tROW-COLUMN CASE: Possibility " + possibilityToCheck + " will be removed from " +
@@ -369,7 +369,7 @@ public class Solution {
             }
 
         } else if (cellJ == partnerCell.getJ()){
-            for (Cell testedCell : columns.get(cellJ).getCells()) {
+            for (Cell testedCell : columns.get(cellJ).getCellList()) {
                 Box testedCellBox = findCorrectSquare(testedCell.getI(), testedCell.getJ());
                 if (testedCell.getActualValue() == 0 && cellBox != testedCellBox && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
                     extAppLogFile.info(ANSI_BLUE + "\tROW-COLUMN CASE: Possibility " + possibilityToCheck + " will be removed from " +
@@ -386,9 +386,9 @@ public class Solution {
     public void removePossibilityFromRow(int value, Cell cell) {
         int indexI = cell.getI();
         for (int i = 0; i < 9; i++) {
-            List<Integer> p = rows.get(indexI).getCells().get(i).getCellPossibilities();
+            List<Integer> p = rows.get(indexI).getCellList().get(i).getCellPossibilities();
             if (p != null) {
-                rows.get(indexI).getCells().get(i).getCellPossibilities().remove((Integer) value);
+                rows.get(indexI).getCellList().get(i).getCellPossibilities().remove((Integer) value);
             }
         }
     }
@@ -396,7 +396,7 @@ public class Solution {
     public void removePossibilityFromColumn(int value, Cell cell) {
         int indexJ = cell.getJ();
         for (int i = 0; i < 9; i++) {
-            List<Integer> p = columns.get(indexJ).getCells().get(i).getCellPossibilities();
+            List<Integer> p = columns.get(indexJ).getCellList().get(i).getCellPossibilities();
             if (p != null) {
                 p.remove((Integer) value);
             }
@@ -405,7 +405,7 @@ public class Solution {
 
     public void removePossibilityFromSquare(int value, Box box) {
         for (int i = 0; i < 9; i++) {
-            List<Integer> p = box.getCells().get(i).getCellPossibilities();
+            List<Integer> p = box.getCellList().get(i).getCellPossibilities();
             if (p != null) {
                 p.remove((Integer) value);
             }

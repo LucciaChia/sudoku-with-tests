@@ -44,7 +44,7 @@ public class SudokuTest {
                 for (int j = 0; j < 9; j++) {
                     assertNotNull(rows.get(i).getCell(j));
                     assertNotNull(columns.get(j).getCell(i));
-                    assertNotNull(boxes.get((i / 3) * 3 + j / 3).getCells().get(j));
+                    assertNotNull(boxes.get((i / 3) * 3 + j / 3).getCellList().get(j));
                 }
             }
 

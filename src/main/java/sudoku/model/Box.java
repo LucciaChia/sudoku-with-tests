@@ -1,25 +1,11 @@
 package sudoku.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * represents one box in sudoku matrix
  * @author Lucia
  */
 public class Box extends SudokuElement {
-    public Box() {
-    }
-
-    public Box(ArrayList<Cell> cellsInSquare) {
-        super.setCellList(cellsInSquare);
-    }
-
-    @Override
-    public List<Cell> getCells() {
-        return super.getCellList();
-    }
-
+    
     @Override
     public String toString() {
         String output = "";
@@ -31,7 +17,6 @@ public class Box extends SudokuElement {
             }
             output += "\n";
         }
-
         return output;
     }
 
