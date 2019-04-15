@@ -11,10 +11,9 @@ import java.util.Map;
  * contains resolving logic for sudoku
  * @author Lucia
  */
-public class Solution {
+public class Solution extends SudokuElement{
 
     private static final String ANSI_RESET = "\u001B[0m";
-    private static final String ANSI_BLACK = "\u001B[30m";
     private static final String ANSI_RED = "\u001B[31m";
     private static final String ANSI_GREEN = "\u001B[32m";
     private static final String ANSI_YELLOW = "\u001B[33m";
@@ -25,11 +24,10 @@ public class Solution {
 
     private static final Logger extAppLogFile = Logger.getLogger("ExternalAppLogger");
 
-    List<Column> columns;
-    List<Row> rows;
-    List<Box> boxes;
-    int[][] data;
-    List<List<Integer>> possibilityList = new ArrayList<>();
+    private List<Column> columns;
+    private List<Row> rows;
+    private List<Box> boxes;
+    private List<List<Integer>> possibilityList = new ArrayList<>();
 
     // constructor for test purposes
     public Solution(List<Box> boxes) {
@@ -58,26 +56,32 @@ public class Solution {
             sudokuUpdated = false;
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
-                    int currentCellValue = rows.get(i).getCell(j).getActualValue();
+                    Cell currentCell = rows.get(i).getCell(j);
+                    int currentCellValue = currentCell.getActualValue();
                     if (currentCellValue == 0) {
-                        List<Integer> possibility = rows.get(i).getCell(j).getCellPossibilities();
+                        List<Integer> possibility = currentCell.getCellPossibilities();
                         if (firstRound == 1) {
                             possibilityList.add(possibility);
                         }
 
-                        searchRow(rows.get(i).getCell(j));
-                        searchColumn(rows.get(i).getCell(j));
-                        searchSquare(rows.get(i).getCell(j));
+
+                        rows.get(i).search(currentCell);
+                        columns.get(j).search(currentCell);
+                        findCorrectSquare(i, j).search(currentCell);
+
+//                        searchRow(rows.get(i).getCell(j));
+//                        searchColumn(rows.get(i).getCell(j));
+//                        searchSquare(rows.get(i).getCell(j));
 
                         if (possibility.size() == 1) {
-                            rows.get(i).getCell(j).setActualValue(possibility.get(0));
+                            currentCell.setActualValue(possibility.get(0));
                             //currentCellValue = rows.get(i).getCell(j).getActualValue();
                             sudokuUpdated = true;
                             possibilityList.remove(possibility);
                             continue;
                         }
                         if (firstRound > 1){
-                            currentCellValue = findHiddenSingleInCell(rows.get(i).getCell(j));
+                            currentCellValue = findHiddenSingleInCell(currentCell);
                             if (currentCellValue != 0) {
                                 possibilityList.remove(possibility);
                                 sudokuUpdated = true;
@@ -85,7 +89,7 @@ public class Solution {
 
                             if (end && !possibilityList.isEmpty()) {
                                 extAppLogFile.info("Not updated, try something more advanced > i = " + i + " j = " + j);
-                                if (pointingPairInCells(rows.get(i).getCell(j))) {
+                                if (pointingPairInCells(currentCell)) {
                                     sudokuUpdated = true;
                                     //end = false;
                                     endCount--; // toto este overit
@@ -113,56 +117,13 @@ public class Solution {
         return rows;
     }
 
-    private List<Integer> searchRow(Cell cell) { // odoberanie potencialnych moznosti z ciell v riadku
-        int rowIndex = cell.getI();
-        Row row = rows.get(rowIndex);
-        List<Integer> possibility = cell.getCellPossibilities();
-        for (int i = 0; i < 9; i++) {
-            int checkValue = row.getCell(i).getActualValue();
-            if (checkValue != 0) {
-                possibility.remove((Integer) checkValue);
-            }
-        }
-        return possibility;
-    }
-
-    private List<Integer> searchColumn(Cell cell) {
-        int columnIndex = cell.getJ();
-        Column column = columns.get(columnIndex);
-        List<Integer> possibility = cell.getCellPossibilities();
-        for (int i = 0; i < 9; i++) {
-            int checkValue = column.getCell(i).getActualValue();
-            if (checkValue != 0) {
-                possibility.remove((Integer) checkValue);
-            }
-        }
-        return possibility;
-    }
-
-    private List<Integer> searchSquare(Cell cell) {
-        int rowIndex = cell.getI();
-        int columnIndex = cell.getJ();
-        Box box = findCorrectSquare(rowIndex, columnIndex);
-        List<Integer> possibility = cell.getCellPossibilities();
-        if (box == null) {
-            return possibility;
-        }
-        for (int i = 0; i < 9; i++) {
-            int checkValue = box.getCellList().get(i).getActualValue();
-            if (checkValue != 0) {
-                possibility.remove((Integer) checkValue);
-            }
-        }
-        return possibility;
-    }
-
     private Box findCorrectSquare(int rowIndex, int columnIndex) {
 
         return boxes.get((rowIndex/3)*3 + columnIndex/3);
 
     }
 
-    public int findHiddenSingleInCell(Cell cell) {
+    private int findHiddenSingleInCell(Cell cell) {
         int indexI = cell.getI();
         int indexJ = cell.getJ();
         Box box = findCorrectSquare(indexI, indexJ);
@@ -180,9 +141,11 @@ public class Solution {
             {
                 cell.setActualValue(cellPosibility); // nastavenie na hodnotu a zrusenie poss pre tuto bunku
                 // vymazanie tejto hodnoty z possibilities v riadku, stlpci, stvorci
-                removePossibilityFromRow(cellPosibility, cell);
-                removePossibilityFromColumn(cellPosibility, cell);
-                removePossibilityFromSquare(cellPosibility, box);
+
+                rows.get(indexI).removePossibility(cellPosibility, cell);
+                columns.get(indexJ).removePossibility(cellPosibility, cell);
+                box.removePossibility(cellPosibility,cell);
+
                 return cell.getActualValue();
 
             }
@@ -191,11 +154,11 @@ public class Solution {
         return 0;
     }
 
-    public boolean pointingPairInCells(Cell cell) {
+    private boolean pointingPairInCells(Cell cell) {
         int cellI = cell.getI();
         int cellJ = cell.getJ();
         Box cellBox = findCorrectSquare(cellI, cellJ);
-        List<Cell> eligiblePartnerCells = new ArrayList<>();
+        List<Cell> eligiblePartnerCells;
         boolean changed = false;
 
         for (int possibilityToCheck : cell.getCellPossibilities()) {
@@ -381,34 +344,5 @@ public class Solution {
             extAppLogFile.info(ANSI_RED + "\tROW-COLUMN CASE: Something's wrong - incorrect partner cell!" + ANSI_RESET);
         }
         return somethingWasRemoved;
-    }
-
-    public void removePossibilityFromRow(int value, Cell cell) {
-        int indexI = cell.getI();
-        for (int i = 0; i < 9; i++) {
-            List<Integer> p = rows.get(indexI).getCellList().get(i).getCellPossibilities();
-            if (p != null) {
-                rows.get(indexI).getCellList().get(i).getCellPossibilities().remove((Integer) value);
-            }
-        }
-    }
-
-    public void removePossibilityFromColumn(int value, Cell cell) {
-        int indexJ = cell.getJ();
-        for (int i = 0; i < 9; i++) {
-            List<Integer> p = columns.get(indexJ).getCellList().get(i).getCellPossibilities();
-            if (p != null) {
-                p.remove((Integer) value);
-            }
-        }
-    }
-
-    public void removePossibilityFromSquare(int value, Box box) {
-        for (int i = 0; i < 9; i++) {
-            List<Integer> p = box.getCellList().get(i).getCellPossibilities();
-            if (p != null) {
-                p.remove((Integer) value);
-            }
-        }
     }
 }

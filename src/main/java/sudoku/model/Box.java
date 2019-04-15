@@ -5,7 +5,7 @@ package sudoku.model;
  * @author Lucia
  */
 public class Box extends SudokuElement {
-    
+
     @Override
     public String toString() {
         String output = "";
@@ -19,5 +19,4 @@ public class Box extends SudokuElement {
         }
         return output;
     }
-
 }

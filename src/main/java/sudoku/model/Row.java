@@ -18,6 +18,4 @@ public class Row extends SudokuElement {
         }
         return output;
     }
-
-
 }

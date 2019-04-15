@@ -72,12 +72,10 @@ public class Sudoku {
                     columns.get(j).getCellList().add(cell);
                 }
 
-
                 if (shouldCreateSquare(i, j)) {
                     Box box = new Box();
                     boxes.add(box);
                 }
-
                 boxes.get((i/3)*3 + j/3).getCellList().add(cell);
             }
             rows.add(row);
@@ -100,12 +98,10 @@ public class Sudoku {
     }
 
     private void validateRepetition() throws IllegalSudokuStateException {
-
         for (int i = 0; i < 9; i++) {
             rows.get(i).validateRepetition();
             columns.get(i).validateRepetition();
             boxes.get(i).validateRepetition();
         }
     }
-
 }

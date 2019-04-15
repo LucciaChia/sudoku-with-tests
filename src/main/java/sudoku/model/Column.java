@@ -18,5 +18,4 @@ public class Column extends SudokuElement {
         }
         return output;
     }
-
 }

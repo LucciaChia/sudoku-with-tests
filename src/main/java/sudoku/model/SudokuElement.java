@@ -43,4 +43,37 @@ public abstract class SudokuElement {
             }
         }
     }
+    // removePossibilityFrom: Row / Column / Box - refactored from class Solution
+
+    /**
+     * vymazanie konkretnej hodnoty z moznosti konkretnej celly
+     * @param value
+     * @param cell
+     */
+    public void removePossibility(int value, Cell cell) { // odoberanie potencialnych moznosti z ciell v riadku / stlpci / stvorci
+        for (int i = 0; i < 9; i++) {
+            List<Integer> possibilities = cell.getCellPossibilities();
+            if (possibilities != null) {
+                possibilities.remove((Integer) value);
+            }
+        }
+    }
+
+    // search: Row / Column / Box - refactored from class Solution
+    /**
+     * kontrolujem danu bunku a jej porencialne moznosti.
+     * prechadzam bud cez riadok, stlpec alebo stovrec, v ktorom je. Ak najdem v riadku bunku, ktora uz ma realnu hodnotu
+     * t. j. napr.: 4 a v moje bunke, ktoru kontrolujem je v potencialnych moznostiach cislo 4, tak ho odstranim
+     * @param cell
+     */
+    public List<Integer> search(Cell cell) { // odoberanie potencialnych moznosti z ciell v riadku
+        List<Integer> possibility = cell.getCellPossibilities();
+        for (int i = 0; i < 9; i++) {
+            int checkValue = cellList.get(i).getActualValue();
+            if (checkValue != 0) {
+                possibility.remove((Integer) checkValue);
+            }
+        }
+        return possibility;
+    }
 }
