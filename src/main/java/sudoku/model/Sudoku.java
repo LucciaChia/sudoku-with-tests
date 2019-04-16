@@ -79,11 +79,6 @@ public class Sudoku {
         }
     }
 
-    // iba kvoli testu public, inak bolo private
-    public boolean shouldCreateSquare(int i, int j) {
-        return (i % 3 == 0) && (j % 3 == 0);
-    }
-
     private void validateNumbers(int[][] data) throws IllegalSudokuStateException{
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {

@@ -1,19 +1,19 @@
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import sudoku.customExceptions.IllegalSudokuStateException;
-import sudoku.model.Row;
 import sudoku.model.Box;
-import sudoku.model.Sudoku;
 import sudoku.model.Column;
+import sudoku.model.Row;
+import sudoku.model.Sudoku;
 import sudoku.processing.FileSudokuReader;
 
 import java.io.File;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class SudokuTest {
 
@@ -65,27 +65,6 @@ public class SudokuTest {
                 Arguments.of(SudokuTest.inp7),
                 Arguments.of(SudokuTest.inp8)
         );
-    }
-
-    @Test
-    public void shouldCreateSquareMultipleTests() {
-        Sudoku sudoku = new Sudoku();
-        boolean[][] solutionMatrix = new boolean[9][9];
-
-        // boolean sa automaticky inicializuje na false => netreba inic. cyklus
-
-        int[] squareStartingIndexes = {0, 3, 6};
-        for (int i: squareStartingIndexes) {
-            for (int j: squareStartingIndexes) {
-                solutionMatrix[i][j] = true;
-            }
-        }
-
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                assertEquals(solutionMatrix[i][j],sudoku.shouldCreateSquare(i,j));
-            }
-        }
     }
 
 }

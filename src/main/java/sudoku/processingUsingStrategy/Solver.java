@@ -11,6 +11,8 @@ public class Solver {
         this.resolvable = resolvable;
     }
 
+    // konstruktor so vsetkymi objektami rieseni param List<Resolvable>
+
     public void resolveSudoku(Sudoku sudoku) {
         resolvable.resolveSudoku(sudoku);
     }
