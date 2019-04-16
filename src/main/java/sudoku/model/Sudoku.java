@@ -58,28 +58,49 @@ public class Sudoku {
     }
 
     public void createSudokuElementObjectsService(int[][] data) {
-        for (int i = 0; i < data.length; i++) {
+
+        for (int i = 0; i < 9; i++) {
             Row row = new Row();
+            Column column = new Column();
+            Box box = new Box();
+            rows.add(row);
+            columns.add(column);
+            boxes.add(box);
+        }
+
+        for (int i = 0; i < data.length; i++) {
             for (int j = 0; j < data[i].length; j++) {
                 Cell cell = new Cell(data[i][j], i, j);
-                row.getCellList().add(cell);
-
-                if (i == 0) {
-                    Column column = new Column();
-                    columns.add(column);
-                    columns.get(j).getCellList().add(cell);
-                } else {
-                    columns.get(j).getCellList().add(cell);
-                }
-
-                if (shouldCreateSquare(i, j)) {
-                    Box box = new Box();
-                    boxes.add(box);
-                }
-                boxes.get((i/3)*3 + j/3).getCellList().add(cell);
+                rows.get(i).getCellList().add(cell);
+                columns.get(j).getCellList().add(cell);
+                boxes.get((i / 3) * 3 + j / 3).getCellList().add(cell);
             }
-            rows.add(row);
         }
+
+
+
+//        for (int i = 0; i < data.length; i++) {
+//            Row row = new Row();
+//            for (int j = 0; j < data[i].length; j++) {
+//                Cell cell = new Cell(data[i][j], i, j);
+//                row.getCellList().add(cell);
+//
+//                if (i == 0) {
+//                    Column column = new Column();
+//                    columns.add(column);
+//                    columns.get(j).getCellList().add(cell);
+//                } else {
+//                    columns.get(j).getCellList().add(cell);
+//                }
+//
+//                if (shouldCreateSquare(i, j)) {
+//                    Box box = new Box();
+//                    boxes.add(box);
+//                }
+//                boxes.get((i/3)*3 + j/3).getCellList().add(cell);
+//            }
+//            rows.add(row);
+//        }
     }
 
     // iba kvoli testu public, inak bolo private

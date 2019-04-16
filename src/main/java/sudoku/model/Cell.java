@@ -34,7 +34,6 @@ public class Cell {
 
     public void setActualValue(int actualValue) {
         if (actualValue != 0) {
-            //cellPossibilities = null;// !!!!!!!
             this.cellPossibilities.clear();
         }
         this.actualValue = actualValue;
@@ -47,7 +46,6 @@ public class Cell {
     public void setCellPossibilities(List<Integer> cellPossibilities) {
         this.cellPossibilities = cellPossibilities;
     }
-
 
     public int getActualValue() {
         return actualValue;

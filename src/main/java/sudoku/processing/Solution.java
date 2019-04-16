@@ -64,14 +64,9 @@ public class Solution extends SudokuElement{
                             possibilityList.add(possibility);
                         }
 
-
                         rows.get(i).search(currentCell);
                         columns.get(j).search(currentCell);
                         findCorrectSquare(i, j).search(currentCell);
-
-//                        searchRow(rows.get(i).getCell(j));
-//                        searchColumn(rows.get(i).getCell(j));
-//                        searchSquare(rows.get(i).getCell(j));
 
                         if (possibility.size() == 1) {
                             currentCell.setActualValue(possibility.get(0));
@@ -170,9 +165,6 @@ public class Solution extends SudokuElement{
                 // vypisy
                 extAppLogFile.info("Partner cell for cell possibility: " + possibilityToCheck + " in cell  i = " + cellI + " j = " + cellJ + " IS: i = " +
                         partnerCell.getI() + " j = " + partnerCell.getJ());
-                if (partnerCell == null) {
-                    extAppLogFile.info("No eligible partner cell for cell possibility: " + possibilityToCheck + " in cell  i = " + cellI + " j = " + cellJ);
-                }
 
                 if (!partnerCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
                     continue;
@@ -181,7 +173,16 @@ public class Solution extends SudokuElement{
                 if (!isPossibilityToCheckPresentSomewhereElseInSquare(cell, partnerCell, cellBox.getCellList(), possibilityToCheck)) {
                     extAppLogFile.info(ANSI_GREEN + "Possibility " + possibilityToCheck + " presents only in row / column" + ANSI_RESET);
                     // ak je len v tomto riadku vyhadzem tu possibilitu z tohto riadka v ostatnych stvorcoch, ak v stlpci tak zo stlpca
-                    changedInLoop = deletePossibilitiesInRowOrColumn(cell, partnerCell, possibilityToCheck);
+
+                    if (cell.getI() == partnerCell.getI()) {
+                        changedInLoop = rows.get(cellI).deletePossibilitiesInRowOrColumnSudokuElement(cell, possibilityToCheck, boxes);
+                    } else if (cell.getJ() == partnerCell.getJ()) {
+                        changedInLoop = columns.get(cellJ).deletePossibilitiesInRowOrColumnSudokuElement(cell, possibilityToCheck, boxes);
+                    }
+
+
+                    // old way, which is working // =====================================================================
+                    //changedInLoop = deletePossibilitiesInRowOrColumn(cell, partnerCell, possibilityToCheck);
                 } else { // nachadza sa aj inde vo stvorci
                     extAppLogFile.info(ANSI_RED + "Possibility " + possibilityToCheck + " presents somewhere else too" + ANSI_RESET);
                     if (cellI == partnerCell.getI() && !isPossibilityToCheckPresentSomewhereElseInRow(cell, partnerCell, possibilityToCheck)) {
@@ -315,34 +316,35 @@ public class Solution extends SudokuElement{
         return somethingWasRemoved;
     }
 
-    private boolean deletePossibilitiesInRowOrColumn(Cell cell, Cell partnerCell, int possibilityToCheck) {
-        int cellI = cell.getI();
-        int cellJ = cell.getJ();
-        boolean somethingWasRemoved = false;
-        Box cellBox = findCorrectSquare(cell.getI(), cell.getJ());
+//    private boolean deletePossibilitiesInRowOrColumn(Cell cell, Cell partnerCell, int possibilityToCheck) {
+//        int cellI = cell.getI();
+//        int cellJ = cell.getJ();
+//        boolean somethingWasRemoved = false;
+//        Box cellBox = findCorrectSquare(cell.getI(), cell.getJ());
+//
+//        if (cellI == partnerCell.getI()) {
+//            for (Cell testedCell : rows.get(cellI).getCellList()) {
+//                Box testedCellBox = findCorrectSquare(testedCell.getI(), testedCell.getJ());
+//                if (testedCell.getActualValue() == 0 && cellBox != testedCellBox && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
+//                    extAppLogFile.info(ANSI_BLUE + "\tROW-COLUMN CASE: Possibility " + possibilityToCheck + " will be removed from " +
+//                            "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
+//                    somethingWasRemoved = testedCell.getCellPossibilities().remove((Integer)possibilityToCheck);
+//                }
+//            }
+//
+//        } else if (cellJ == partnerCell.getJ()){
+//            for (Cell testedCell : columns.get(cellJ).getCellList()) {
+//                Box testedCellBox = findCorrectSquare(testedCell.getI(), testedCell.getJ());
+//                if (testedCell.getActualValue() == 0 && cellBox != testedCellBox && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
+//                    extAppLogFile.info(ANSI_BLUE + "\tROW-COLUMN CASE: Possibility " + possibilityToCheck + " will be removed from " +
+//                            "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
+//                    somethingWasRemoved = testedCell.getCellPossibilities().remove((Integer)possibilityToCheck);
+//                }
+//            }
+//        } else {
+//            extAppLogFile.info(ANSI_RED + "\tROW-COLUMN CASE: Something's wrong - incorrect partner cell!" + ANSI_RESET);
+//        }
+//        return somethingWasRemoved;
+//    }
 
-        if (cellI == partnerCell.getI()) {
-            for (Cell testedCell : rows.get(cellI).getCellList()) {
-                Box testedCellBox = findCorrectSquare(testedCell.getI(), testedCell.getJ());
-                if (testedCell.getActualValue() == 0 && cellBox != testedCellBox && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
-                    extAppLogFile.info(ANSI_BLUE + "\tROW-COLUMN CASE: Possibility " + possibilityToCheck + " will be removed from " +
-                            "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
-                    somethingWasRemoved = testedCell.getCellPossibilities().remove((Integer)possibilityToCheck);
-                }
-            }
-
-        } else if (cellJ == partnerCell.getJ()){
-            for (Cell testedCell : columns.get(cellJ).getCellList()) {
-                Box testedCellBox = findCorrectSquare(testedCell.getI(), testedCell.getJ());
-                if (testedCell.getActualValue() == 0 && cellBox != testedCellBox && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
-                    extAppLogFile.info(ANSI_BLUE + "\tROW-COLUMN CASE: Possibility " + possibilityToCheck + " will be removed from " +
-                            "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
-                    somethingWasRemoved = testedCell.getCellPossibilities().remove((Integer)possibilityToCheck);
-                }
-            }
-        } else {
-            extAppLogFile.info(ANSI_RED + "\tROW-COLUMN CASE: Something's wrong - incorrect partner cell!" + ANSI_RESET);
-        }
-        return somethingWasRemoved;
-    }
 }
