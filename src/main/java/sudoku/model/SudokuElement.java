@@ -1,5 +1,6 @@
 package sudoku.model;
 
+import org.apache.log4j.Logger;
 import sudoku.customExceptions.IllegalSudokuStateException;
 
 import java.util.ArrayList;
@@ -13,6 +14,17 @@ import java.util.Map;
  * @author Lucia
  */
 public abstract class SudokuElement {
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_RED = "\u001B[31m";
+    private static final String ANSI_GREEN = "\u001B[32m";
+    private static final String ANSI_YELLOW = "\u001B[33m";
+    private static final String ANSI_BLUE = "\u001B[34m";
+    private static final String ANSI_PURPLE = "\u001B[35m";
+    private static final String ANSI_CYAN = "\u001B[36m";
+    private static final String ANSI_WHITE = "\u001B[37m";
+
+    private static final Logger extAppLogFile = Logger.getLogger("ExternalAppLogger");
+
     private List<Cell> cellList = new ArrayList<>();
 
     /**
@@ -75,5 +87,31 @@ public abstract class SudokuElement {
             }
         }
         return possibility;
+    }
+
+    /**
+     *
+     * @param cell
+     * @param possibilityToCheck
+     * @param boxes
+     * @return
+     */
+    public boolean deletePossibilitiesInRowOrColumnSudokuElement(Cell cell, int possibilityToCheck, List<Box> boxes) {
+        boolean somethingWasRemoved = false;
+        Box cellBox = findCorrectBox(boxes, cell.getI(),cell.getJ());
+
+        for (Cell testedCell : cellList) {
+            Box testedCellBox = findCorrectBox(boxes, testedCell.getI(), testedCell.getJ());
+            if (testedCell.getActualValue() == 0 && cellBox != testedCellBox && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
+                extAppLogFile.info(ANSI_BLUE + "\tROW-COLUMN CASE: Possibility " + possibilityToCheck + " will be removed from " +
+                            "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
+                somethingWasRemoved = testedCell.getCellPossibilities().remove((Integer)possibilityToCheck);
+            }
+        }
+        return somethingWasRemoved;
+    }
+
+    private Box findCorrectBox( List<Box> boxes, int rowIndex, int columnIndex) {
+        return boxes.get((rowIndex/3)*3 + columnIndex/3);
     }
 }
