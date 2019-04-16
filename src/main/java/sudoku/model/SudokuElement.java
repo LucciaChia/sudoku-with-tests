@@ -55,6 +55,26 @@ public abstract class SudokuElement {
             }
         }
     }
+
+    public Map<Integer, Integer> amountOfParticularPossibilities() {
+        Map<Integer, Integer> countOfPossibilities = new HashMap<>();
+        List<Cell> listOfCells = cellList;
+        for (int i = 0; i < 9; i++) {
+            List<Integer> possibility = listOfCells.get(i).getCellPossibilities(); // moznosti v bunke
+            if (possibility != null) {
+                for (int j = 0; j < possibility.size(); j++) {
+                    if (!countOfPossibilities.containsKey(possibility.get(j))) {
+                        countOfPossibilities.put(possibility.get(j), 1);
+                    } else {
+                        int key = possibility.get(j);
+                        countOfPossibilities.put(key, countOfPossibilities.get(key) + 1);
+                    }
+                }
+            }
+        }
+        return countOfPossibilities;
+    }
+
     // removePossibilityFrom: Row / Column / Box - refactored from class Solution
 
     /**
@@ -105,6 +125,21 @@ public abstract class SudokuElement {
             if (testedCell.getActualValue() == 0 && cellBox != testedCellBox && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
                 extAppLogFile.info(ANSI_BLUE + "\tROW-COLUMN CASE: Possibility " + possibilityToCheck + " will be removed from " +
                             "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
+                somethingWasRemoved = testedCell.getCellPossibilities().remove((Integer)possibilityToCheck);
+            }
+        }
+        return somethingWasRemoved;
+    }
+
+    public boolean deletePossibilitiesInRowOrColumnSudokuElement(Cell cell, int possibilityToCheck) {
+        boolean somethingWasRemoved = false;
+        Box cellBox = cell.getBox();
+
+        for (Cell testedCell : cellList) {
+            Box testedCellBox = testedCell.getBox();
+            if (testedCell.getActualValue() == 0 && cellBox != testedCellBox && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
+                extAppLogFile.info(ANSI_BLUE + "\tROW-COLUMN CASE: Possibility " + possibilityToCheck + " will be removed from " +
+                        "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
                 somethingWasRemoved = testedCell.getCellPossibilities().remove((Integer)possibilityToCheck);
             }
         }

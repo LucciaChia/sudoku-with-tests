@@ -118,26 +118,33 @@ public class SolutionTest {
         List<Integer> possibility23 = new ArrayList<Integer>(Arrays.asList(1,5,6,7));
         List<Integer> possibility24 = new ArrayList<Integer>(Arrays.asList(1,5,6,7));
         List<Integer> possibility25 = new ArrayList<Integer>();
+        Row row0 = new Row();
+        Row row1 = new Row();
+        Row row2 = new Row();
+        Column column3 = new Column();
+        Column column4 = new Column();
+        Column column5 = new Column();
+        Box box2 = new Box();
 
-        Cell c03 = new Cell(0,0,3);
+        Cell c03 = new Cell(0,0,3, row0, column3, box2);
         c03.setCellPossibilities(possibility03);
-        Cell c04 = new Cell(4,0,4);
+        Cell c04 = new Cell(4,0,4, row0, column4, box2);
         c04.setCellPossibilities(possibility04);
-        Cell c05 = new Cell(0,0,5);
+        Cell c05 = new Cell(0,0,5, row0, column5, box2);
         c05.setCellPossibilities(possibility05);
 
-        Cell c13 = new Cell(0,1,3);
+        Cell c13 = new Cell(0,1,3, row1, column3, box2);
         c13.setCellPossibilities(possibility13);
-        Cell c14 = new Cell(0,1,4);
+        Cell c14 = new Cell(0,1,4, row1, column4, box2);
         c14.setCellPossibilities(possibility14);
-        Cell c15 = new Cell(9,1,5);
+        Cell c15 = new Cell(9,1,5, row1, column5, box2);
         c15.setCellPossibilities(possibility15);
 
-        Cell c23 = new Cell(0,2,3);
+        Cell c23 = new Cell(0,2,3, row2, column3, box2);
         c23.setCellPossibilities(possibility23);
-        Cell c24 = new Cell(0,2,4);
+        Cell c24 = new Cell(0,2,4, row2, column4, box2);
         c24.setCellPossibilities(possibility24);
-        Cell c25 = new Cell(3,2,5);
+        Cell c25 = new Cell(3,2,5, row2, column5, box2);
         c25.setCellPossibilities(possibility25);
 
         ArrayList<Cell> cellsInSquare = new ArrayList<>(Arrays.asList(c03,c04,c05,c13,c14,c15,c23,c24,c25));

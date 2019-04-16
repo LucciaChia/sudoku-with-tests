@@ -31,6 +31,7 @@ public class Sudoku {
         validateNumbers(data);
         createSudokuElementObjectsService(data);
         validateRepetition();
+        reducePossibilities();
     }
 
     public List<Box> getBoxes() {
@@ -70,37 +71,12 @@ public class Sudoku {
 
         for (int i = 0; i < data.length; i++) {
             for (int j = 0; j < data[i].length; j++) {
-                Cell cell = new Cell(data[i][j], i, j);
+                Cell cell = new Cell(data[i][j], i, j, rows.get(i), columns.get(j), boxes.get((i / 3) * 3 + j / 3));
                 rows.get(i).getCellList().add(cell);
                 columns.get(j).getCellList().add(cell);
                 boxes.get((i / 3) * 3 + j / 3).getCellList().add(cell);
             }
         }
-
-
-
-//        for (int i = 0; i < data.length; i++) {
-//            Row row = new Row();
-//            for (int j = 0; j < data[i].length; j++) {
-//                Cell cell = new Cell(data[i][j], i, j);
-//                row.getCellList().add(cell);
-//
-//                if (i == 0) {
-//                    Column column = new Column();
-//                    columns.add(column);
-//                    columns.get(j).getCellList().add(cell);
-//                } else {
-//                    columns.get(j).getCellList().add(cell);
-//                }
-//
-//                if (shouldCreateSquare(i, j)) {
-//                    Box box = new Box();
-//                    boxes.add(box);
-//                }
-//                boxes.get((i/3)*3 + j/3).getCellList().add(cell);
-//            }
-//            rows.add(row);
-//        }
     }
 
     // iba kvoli testu public, inak bolo private
@@ -124,5 +100,53 @@ public class Sudoku {
             columns.get(i).validateRepetition();
             boxes.get(i).validateRepetition();
         }
+    }
+
+    private void reducePossibilities() {
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                Cell cell = rows.get(i).getCell(j);
+                if (cell.getActualValue() == 0) {
+                    deletePossibilities(cell);
+                }
+            }
+        }
+    }
+
+    private Cell deletePossibilities(Cell cell) {
+
+        List<Integer> cellPossibilities = cell.getCellPossibilities();
+        Row cellRow = cell.getRow();
+        Column cellColumn = cell.getColumn();
+        Box cellBox = cell.getBox();
+
+        for (int i = 0; i < 9; i++) {
+            int rowValue = cellRow.getCell(i).getActualValue();
+            int colValue = cellColumn.getCell(i).getActualValue();
+            int boxValue = cellBox.getCellList().get(i).getActualValue();
+
+            if (rowValue != 0 && cellPossibilities.contains((Integer)rowValue)) {
+                cellPossibilities.remove((Integer)rowValue);
+            }
+            if (colValue != 0 && cellPossibilities.contains((Integer)colValue)) {
+                cellPossibilities.remove((Integer)colValue);
+            }
+            if (boxValue != 0 && cellPossibilities.contains((Integer)boxValue)) {
+                cellPossibilities.remove((Integer)boxValue);
+            }
+        }
+        return cell;
+    }
+
+    public boolean isSudokuResolved() {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (rows.get(i).getCellList().get(j).getActualValue() == 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

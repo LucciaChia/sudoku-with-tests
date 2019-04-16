@@ -11,6 +11,9 @@ public class Cell {
     private int j;
     private int actualValue;
     private List<Integer> cellPossibilities;
+    private Row row;
+    private Column column;
+    private Box box;
 
     public int getI() {
         return i;
@@ -20,10 +23,25 @@ public class Cell {
         return j;
     }
 
-    public Cell(int actualValue, int i, int j) {
+    public Row getRow() {
+        return row;
+    }
+
+    public Column getColumn() {
+        return column;
+    }
+
+    public Box getBox() {
+        return box;
+    }
+
+    public Cell(int actualValue, int i, int j, Row row, Column column, Box box) {
         this.i = i;
         this.j = j;
         this.actualValue = actualValue;
+        this.row = row;
+        this.column = column;
+        this.box = box;
         cellPossibilities = new ArrayList<>();
         if (actualValue == 0) {
             for (int k = 1; k < 10; k++) {
@@ -59,5 +77,9 @@ public class Cell {
             s += cellPossibilities.get(i) + ", ";
         }
         return "value: " + actualValue + ", i=" + i + ", j=" + j + " possibilities: " + s;
+        //                +
+//                "\n box " + box +
+//                "\n column " + column +
+//                "\n row " + row;
     }
 }

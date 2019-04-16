@@ -30,9 +30,11 @@ public class Main {
 
         Main main = new Main();
         main.menu();
+
+
     }
 
-
+    // menu doesn't use Strategy pattern yet
     private void menu() {
 
         Scanner scanner = new Scanner(System.in);
