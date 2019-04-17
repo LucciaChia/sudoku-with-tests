@@ -3,7 +3,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import sudoku.customExceptions.IllegalSudokuStateException;
 import sudoku.model.Sudoku;
-import sudoku.processing.FileSudokuReader;
+import sudoku.readers.FileSudokuReader;
 import sudoku.processingUsingStrategy.HiddenSingleInACell;
 import sudoku.processingUsingStrategy.NakedSingleInACell;
 import sudoku.processingUsingStrategy.PointingPairsInCell;
@@ -53,23 +53,6 @@ public class MainTest {
 
 
         try {
-//            Sudoku sudoku = new Sudoku(inputData);
-//            NakedSingleInACell nakedSingleInACell = new NakedSingleInACell();
-//            HiddenSingleInACell hiddenSingleInACell = new HiddenSingleInACell();
-//            PointingPairsInCell pointingPairsInCell = new PointingPairsInCell();
-//            do {
-//                nakedSingleInACell.resolveSudoku(sudoku);
-//                System.out.println(" N ");
-//                if (!Solver.sudokuWasChanged) {
-//                    hiddenSingleInACell.resolveSudoku(sudoku);
-//                    System.out.println(" H ");
-//                }
-//
-//                if (!Solver.sudokuWasChanged) {
-//                    pointingPairsInCell.resolveSudoku(sudoku);
-//                    System.out.println(" P ");
-//                }
-//            } while (Solver.sudokuWasChanged);
 
             Sudoku sudoku = new Sudoku(inputData);
             Solver solver = new Solver();

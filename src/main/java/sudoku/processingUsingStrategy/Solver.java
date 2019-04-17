@@ -15,14 +15,6 @@ public class Solver {
 
     }
 
-    public Solver(Resolvable resolvable) {
-        this.resolvable = resolvable;
-    }
-
-    public Solver(List<Resolvable> strategies) {
-        this.strategies = strategies;
-    }
-
     public void setStrategies(Resolvable ... useStrategies) {
         this.strategies = new ArrayList<>();
         for (Resolvable strategy: useStrategies) {
@@ -32,17 +24,6 @@ public class Solver {
 
     public void useStrategies(Sudoku sudoku) {
         do {
-//            nakedSingleInACell.resolveSudoku(sudoku);
-//            System.out.println(" N ");
-//            if (!Solver.sudokuWasChanged) {
-//                hiddenSingleInACell.resolveSudoku(sudoku);
-//                System.out.println(" H ");
-//            }
-//
-//            if (!Solver.sudokuWasChanged) {
-//                pointingPairsInCell.resolveSudoku(sudoku);
-//                System.out.println(" P ");
-//            }
             for (Resolvable strategy: this.strategies) {
                 strategy.resolveSudoku(sudoku);
                 if (sudoku.isSudokuResolved()) {

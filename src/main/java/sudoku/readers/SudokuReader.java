@@ -1,4 +1,4 @@
-package sudoku.processing;
+package sudoku.readers;
 
 public interface SudokuReader {
 

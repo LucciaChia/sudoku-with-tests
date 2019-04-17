@@ -3,7 +3,7 @@ package sudoku;
 import org.apache.log4j.Logger;
 import sudoku.customExceptions.IllegalSudokuStateException;
 import sudoku.model.Sudoku;
-import sudoku.processing.FileSudokuReader;
+import sudoku.readers.FileSudokuReader;
 import sudoku.processingUsingStrategy.HiddenSingleInACell;
 import sudoku.processingUsingStrategy.NakedSingleInACell;
 import sudoku.processingUsingStrategy.PointingPairsInCell;
@@ -33,7 +33,7 @@ public class Main {
     private HiddenSingleInACell hiddenSingleInACell = new HiddenSingleInACell();
     private PointingPairsInCell pointingPairsInCell = new PointingPairsInCell();
 
-
+    // TODO impose Command pattern into this application
     public static void main(String[] args) {
         Main main = new Main();
         main.menu();
