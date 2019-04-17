@@ -29,15 +29,16 @@ public class Main {
 
     private Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) {
+    private NakedSingleInACell nakedSingleInACell = new NakedSingleInACell();
+    private HiddenSingleInACell hiddenSingleInACell = new HiddenSingleInACell();
+    private PointingPairsInCell pointingPairsInCell = new PointingPairsInCell();
 
+
+    public static void main(String[] args) {
         Main main = new Main();
         main.menu();
-
-
     }
 
-    // menu doesn't use Strategy pattern yet
     private void menu() {
 
         Scanner scanner = new Scanner(System.in);
@@ -53,31 +54,11 @@ public class Main {
                     break;
                 case 1:
                     try {
-//                        Sudoku sudokuMatrix = insertYourOwnSudoku();
-//
-//                        SudokuService sudokuService = new SudokuService(sudokuMatrix);
-//
-//                        sudokuService.resolveSudokuService();
-//                        sudokuService.printSudokuMatrixService();
-
                         Sudoku sudoku = insertYourOwnSudoku();
-                        NakedSingleInACell nakedSingleInACell = new NakedSingleInACell();
-                        HiddenSingleInACell hiddenSingleInACell = new HiddenSingleInACell();
-                        PointingPairsInCell pointingPairsInCell = new PointingPairsInCell();
-                        do {
-                            nakedSingleInACell.resolveSudoku(sudoku);
-                            System.out.println(" N ");
-                            if (!Solver.sudokuWasChanged) {
-                                hiddenSingleInACell.resolveSudoku(sudoku);
-                                System.out.println(" H ");
-                            }
-
-                            if (!Solver.sudokuWasChanged) {
-                                pointingPairsInCell.resolveSudoku(sudoku);
-                                System.out.println(" P ");
-                            }
-                        } while (Solver.sudokuWasChanged);
-
+                        Solver solver = new Solver();
+                        solver.setStrategies(nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell);
+                        solver.useStrategies(sudoku);
+                        System.out.println("Solution:");
                         printSudoku(sudoku);
                         extAppLogFile.info("Reading sudoku - valid input - using log4j");
                     } catch (Exception e) {
@@ -128,35 +109,14 @@ public class Main {
 
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
         int[][] data = fileSudokuReader.read(path1);
-
-//        Sudoku sudokuMatrix = new Sudoku(data);
-//        SudokuService sudokuService = new SudokuService(sudokuMatrix);
-//
-//        sudokuService.printSudokuMatrixService();
-//
-//        System.out.println("FINAL SOLUTION:");
-//        sudokuService.resolveSudokuService();
-//        sudokuService.printSudokuMatrixService();
         Sudoku sudoku = new Sudoku(data);
 
         printSudoku(sudoku);
 
-        NakedSingleInACell nakedSingleInACell = new NakedSingleInACell();
-        HiddenSingleInACell hiddenSingleInACell = new HiddenSingleInACell();
-        PointingPairsInCell pointingPairsInCell = new PointingPairsInCell();
-        do {
-            nakedSingleInACell.resolveSudoku(sudoku);
-            System.out.println(" N ");
-            if (!Solver.sudokuWasChanged) {
-                hiddenSingleInACell.resolveSudoku(sudoku);
-                System.out.println(" H ");
-            }
-
-            if (!Solver.sudokuWasChanged) {
-                pointingPairsInCell.resolveSudoku(sudoku);
-                System.out.println(" P ");
-            }
-        } while (Solver.sudokuWasChanged);
+        Solver solver = new Solver();
+        solver.setStrategies(nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell);
+        solver.useStrategies(sudoku);
+        System.out.println("Solution:");
         printSudoku(sudoku);
     }
 

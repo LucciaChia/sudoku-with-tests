@@ -36,6 +36,11 @@ public class MainTest {
     private static final String out7 = new File(classLoader.getResource("outputs/harder3.txt").getFile()).getPath();
     private static final String out8 = new File(classLoader.getResource("outputs/harder4.txt").getFile()).getPath();
 
+    private NakedSingleInACell nakedSingleInACell = new NakedSingleInACell();
+    private HiddenSingleInACell hiddenSingleInACell = new HiddenSingleInACell();
+    private PointingPairsInCell pointingPairsInCell = new PointingPairsInCell();
+
+
     @ParameterizedTest
 //    @ValueSource(strings = { SolutionTest.inp1, SolutionTest.exp1 }) - nefungovala, lebo
 //    viac parametrov znamena viacnasobny test, nie druhy parameter
@@ -48,23 +53,29 @@ public class MainTest {
 
 
         try {
-            Sudoku sudoku = new Sudoku(inputData);
-            NakedSingleInACell nakedSingleInACell = new NakedSingleInACell();
-            HiddenSingleInACell hiddenSingleInACell = new HiddenSingleInACell();
-            PointingPairsInCell pointingPairsInCell = new PointingPairsInCell();
-            do {
-                nakedSingleInACell.resolveSudoku(sudoku);
-                System.out.println(" N ");
-                if (!Solver.sudokuWasChanged) {
-                    hiddenSingleInACell.resolveSudoku(sudoku);
-                    System.out.println(" H ");
-                }
+//            Sudoku sudoku = new Sudoku(inputData);
+//            NakedSingleInACell nakedSingleInACell = new NakedSingleInACell();
+//            HiddenSingleInACell hiddenSingleInACell = new HiddenSingleInACell();
+//            PointingPairsInCell pointingPairsInCell = new PointingPairsInCell();
+//            do {
+//                nakedSingleInACell.resolveSudoku(sudoku);
+//                System.out.println(" N ");
+//                if (!Solver.sudokuWasChanged) {
+//                    hiddenSingleInACell.resolveSudoku(sudoku);
+//                    System.out.println(" H ");
+//                }
+//
+//                if (!Solver.sudokuWasChanged) {
+//                    pointingPairsInCell.resolveSudoku(sudoku);
+//                    System.out.println(" P ");
+//                }
+//            } while (Solver.sudokuWasChanged);
 
-                if (!Solver.sudokuWasChanged) {
-                    pointingPairsInCell.resolveSudoku(sudoku);
-                    System.out.println(" P ");
-                }
-            } while (Solver.sudokuWasChanged);
+            Sudoku sudoku = new Sudoku(inputData);
+            Solver solver = new Solver();
+            solver.setStrategies(nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell);
+            solver.useStrategies(sudoku);
+
             assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(sudoku));
         } catch (IllegalSudokuStateException ex) {
             System.out.println("Test incorrect input");
