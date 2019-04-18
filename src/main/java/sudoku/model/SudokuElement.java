@@ -109,28 +109,6 @@ public abstract class SudokuElement {
         return possibility;
     }
 
-    /**
-     *
-     * @param cell
-     * @param possibilityToCheck
-     * @param boxes
-     * @return
-     */
-    public boolean deletePossibilitiesInRowOrColumnSudokuElement(Cell cell, int possibilityToCheck, List<Box> boxes) {
-        boolean somethingWasRemoved = false;
-        Box cellBox = findCorrectBox(boxes, cell.getI(),cell.getJ());
-
-        for (Cell testedCell : cellList) {
-            Box testedCellBox = findCorrectBox(boxes, testedCell.getI(), testedCell.getJ());
-            if (testedCell.getActualValue() == 0 && cellBox != testedCellBox && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
-                extAppLogFile.info(ANSI_BLUE + "\tROW-COLUMN CASE: Possibility " + possibilityToCheck + " will be removed from " +
-                            "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
-                somethingWasRemoved = testedCell.getCellPossibilities().remove((Integer)possibilityToCheck);
-            }
-        }
-        return somethingWasRemoved;
-    }
-
     public boolean deletePossibilitiesInRowOrColumnSudokuElement(Cell cell, int possibilityToCheck) {
         boolean somethingWasRemoved = false;
         Box cellBox = cell.getBox();
@@ -148,5 +126,20 @@ public abstract class SudokuElement {
 
     private Box findCorrectBox( List<Box> boxes, int rowIndex, int columnIndex) {
         return boxes.get((rowIndex/3)*3 + columnIndex/3);
+    }
+
+    // musim to uz zavolat na spravnom Row / spravnom Column
+    public boolean isPossibilityToCheckPresentSomewhereElseInRowInColumnSudokuElement(Cell cell, int possibilityToCheck) {
+        Box cellBox = cell.getBox();
+
+        extAppLogFile.info("i or j case");
+        for (Cell testedCell : cellList) {
+            if (testedCell.getActualValue() == 0 && cellBox != testedCell.getBox() &&
+                    testedCell.getCellPossibilities().contains((Integer) possibilityToCheck)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
