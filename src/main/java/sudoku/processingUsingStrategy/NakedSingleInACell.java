@@ -6,10 +6,12 @@ import sudoku.model.Sudoku;
 import java.util.List;
 
 public class NakedSingleInACell implements Resolvable {
+    private boolean updatedInNakedSingle = false;
+
     @Override
     public Sudoku resolveSudoku(Sudoku sudoku) {
         do {
-            Solver.sudokuWasChanged = false;
+            updatedInNakedSingle = false;
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
                     Cell cell = sudoku.getRows().get(i).getCell(j);
@@ -17,12 +19,18 @@ public class NakedSingleInACell implements Resolvable {
                     if (cellPossibilities.size() == 1) {
                         cell.setActualValue(cellPossibilities.get(0));
                         deletePossibilities(cell, cell.getActualValue());
-                        Solver.sudokuWasChanged = true;
+                        updatedInNakedSingle = true;
                     }
                 }
+
             }
-        } while (Solver.sudokuWasChanged);
+        } while (updatedInNakedSingle);
         return sudoku;
+    }
+
+    @Override
+    public boolean isUpdated() {
+        return updatedInNakedSingle;
     }
 
 }

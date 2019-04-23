@@ -26,6 +26,7 @@ public class MainTest {
     private static final String inp6 = new File(classLoader.getResource("inputs/harder2.txt").getFile()).getPath();
     private static final String inp7 = new File(classLoader.getResource("inputs/harder3.txt").getFile()).getPath();
     private static final String inp8 = new File(classLoader.getResource("inputs/harder4.txt").getFile()).getPath();
+    private static final String inp9 = new File(classLoader.getResource("inputs/extremelyHard.txt").getFile()).getPath();
 
     private static final String out1 = new File(classLoader.getResource("outputs/simple1.txt").getFile()).getPath();
     private static final String out2 = new File(classLoader.getResource("outputs/simple2.txt").getFile()).getPath();
@@ -35,6 +36,7 @@ public class MainTest {
     private static final String out6 = new File(classLoader.getResource("outputs/harder2.txt").getFile()).getPath();
     private static final String out7 = new File(classLoader.getResource("outputs/harder3.txt").getFile()).getPath();
     private static final String out8 = new File(classLoader.getResource("outputs/harder4.txt").getFile()).getPath();
+    private static final String out9 = new File(classLoader.getResource("outputs/extremelyHardTmp.txt").getFile()).getPath();
 
     private NakedSingleInACell nakedSingleInACell = new NakedSingleInACell();
     private HiddenSingleInACell hiddenSingleInACell = new HiddenSingleInACell();
@@ -87,7 +89,8 @@ public class MainTest {
                 Arguments.of(MainTest.inp5, MainTest.out5),
                 Arguments.of(MainTest.inp6, MainTest.out6),
                 Arguments.of(MainTest.inp7, MainTest.out7),
-                Arguments.of(MainTest.inp8, MainTest.out8)
+                Arguments.of(MainTest.inp8, MainTest.out8),
+                Arguments.of(MainTest.inp9, MainTest.out9)
         );
     }
 }

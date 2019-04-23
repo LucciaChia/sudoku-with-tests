@@ -8,24 +8,34 @@ import java.util.List;
 
 public class PointingPairsInCell implements Resolvable {
 
+    private static int count = 0;
+
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_RED = "\u001B[31m";
     private static final String ANSI_GREEN = "\u001B[32m";
     private static final String ANSI_PURPLE = "\u001B[35m";
 
     private static final org.apache.log4j.Logger extAppLogFile = Logger.getLogger("ExternalAppLogger");
+    private boolean updatedInPointingPair = false;
 
     @Override
     public Sudoku resolveSudoku(Sudoku sudoku) {
-
+        updatedInPointingPair = false;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 Cell cell = sudoku.getRows().get(i).getCell(j);
-                pointingPairInCells(cell);
+                if (cell.getActualValue() == 0) {
+                    pointingPairInCells(cell);
+                }
             }
         }
 
         return sudoku;
+    }
+
+    @Override
+    public boolean isUpdated() {
+        return updatedInPointingPair;
     }
 
     private boolean pointingPairInCells(Cell cell) {
@@ -36,11 +46,11 @@ public class PointingPairsInCell implements Resolvable {
         Box cellBox = cell.getBox();
         List<Cell> eligiblePartnerCells;
 
-//        Solver.sudokuWasChanged = false;
         for (int possibilityToCheck : cell.getCellPossibilities()) {
             eligiblePartnerCells = findPartnerCell(cell, possibilityToCheck);
 
             for (Cell partnerCell : eligiblePartnerCells) {
+
                 boolean changedInLoop = false;
                 boolean iCase = cellI == partnerCell.getI();
                 boolean jCase = cellJ == partnerCell.getJ();
@@ -74,12 +84,11 @@ public class PointingPairsInCell implements Resolvable {
                 }
 
                 if (changedInLoop) {
-                    Solver.sudokuWasChanged = true;
+                    updatedInPointingPair = true;
                 }
             }
         }
-        //return changed;
-        return Solver.sudokuWasChanged;
+        return updatedInPointingPair;
     }
 
     private List<Cell> findPartnerCell(Cell cell, int possibilityToCheck) {

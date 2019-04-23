@@ -6,11 +6,15 @@ import java.util.List;
 import java.util.Map;
 
 public class HiddenSingleInACell implements Resolvable {
+
+    private boolean updatedInHiddenSingle = false;
+
     @Override
     public Sudoku resolveSudoku(Sudoku sudoku) {
-
+        updatedInHiddenSingle = false;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
+
                 Cell cell = sudoku.getRows().get(i).getCell(j);
                 if (cell.getActualValue() == 0) {
 
@@ -23,12 +27,18 @@ public class HiddenSingleInACell implements Resolvable {
                     Map<Integer, Integer> boxPossibilities = cellBox.amountOfParticularPossibilities();
 
                     if (deleteHidden(cell, rowPossibilities, columnPossibilities, boxPossibilities)) {
-                        Solver.sudokuWasChanged = true;
+                        updatedInHiddenSingle = true;
+
                     }
                 }
             }
         }
-        return null;
+        return sudoku;
+    }
+
+    @Override
+    public boolean isUpdated() {
+        return updatedInHiddenSingle;
     }
 
     private boolean deleteHidden(Cell cell, Map<Integer, Integer> rowPoss, Map<Integer, Integer> columnPoss, Map<Integer, Integer> boxPoss) {

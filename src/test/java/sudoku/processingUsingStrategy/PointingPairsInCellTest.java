@@ -37,21 +37,33 @@ class PointingPairsInCellTest {
             NakedSingleInACell nakedSingleInACell = new NakedSingleInACell();
             HiddenSingleInACell hiddenSingleInACell = new HiddenSingleInACell();
             PointingPairsInCell pointingPairsInCell = new PointingPairsInCell();
+//            do {
+//                nakedSingleInACell.resolveSudoku(sudoku);
+//                System.out.println(" N ");
+//                if (!Solver.sudokuWasChanged) {
+//                    hiddenSingleInACell.resolveSudoku(sudoku);
+//                    System.out.println(" H ");
+//                }
+//
+//                if (!Solver.sudokuWasChanged) {
+//                    pointingPairsInCell.resolveSudoku(sudoku);
+//                    System.out.println(" P ");
+//                }
+//            } while (Solver.sudokuWasChanged);
+
             do {
                 nakedSingleInACell.resolveSudoku(sudoku);
                 System.out.println(" N ");
-                if (!Solver.sudokuWasChanged) {
+                if (!nakedSingleInACell.isUpdated()) {
                     hiddenSingleInACell.resolveSudoku(sudoku);
                     System.out.println(" H ");
                 }
 
-                if (!Solver.sudokuWasChanged) {
+                if (!hiddenSingleInACell.isUpdated()) {
                     pointingPairsInCell.resolveSudoku(sudoku);
                     System.out.println(" P ");
                 }
-            } while (Solver.sudokuWasChanged);
-
-
+            } while (nakedSingleInACell.isUpdated() || hiddenSingleInACell.isUpdated() || pointingPairsInCell.isUpdated());
 
             printPoss(sudoku);
             System.out.println("=================================");

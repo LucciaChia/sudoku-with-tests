@@ -8,6 +8,8 @@ import sudoku.model.*;
 public interface Resolvable {
     Sudoku resolveSudoku(Sudoku sudoku);
 
+    boolean isUpdated();
+
 
     default void deletePossibilities(Cell cell, int valueToBeDeleted) {
 

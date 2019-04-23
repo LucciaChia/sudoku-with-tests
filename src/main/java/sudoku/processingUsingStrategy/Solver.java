@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Solver {
-    public static boolean sudokuWasChanged = false;
-
-    private Resolvable resolvable;
     private List<Resolvable> strategies;
 
     public Solver() {
@@ -23,22 +20,39 @@ public class Solver {
     }
 
     public void useStrategies(Sudoku sudoku) {
+        boolean updatedByStrategy = false;
+        // possible strategies
+        boolean nakedSingleInACellUpdated = false;
+        boolean hiddenSingleInACellUpdated = false;
+        boolean pointingPairsInCellUpdated = false;
         do {
-            for (Resolvable strategy: this.strategies) {
+            for (Resolvable strategy : this.strategies) {
                 strategy.resolveSudoku(sudoku);
                 if (sudoku.isSudokuResolved()) {
                     return;
                 }
-            }
 
-        } while (Solver.sudokuWasChanged);
+                // TODO reduce this
+                if (strategy instanceof NakedSingleInACell) {
+                    nakedSingleInACellUpdated = strategy.isUpdated();
+                }
+                if (strategy instanceof HiddenSingleInACell) {
+                    hiddenSingleInACellUpdated = strategy.isUpdated();
+                }
+                if (strategy instanceof PointingPairsInCell) {
+                    pointingPairsInCellUpdated = strategy.isUpdated();
+                }
+
+                if (nakedSingleInACellUpdated || hiddenSingleInACellUpdated || pointingPairsInCellUpdated) {
+                    updatedByStrategy = true;
+                } else {
+                    updatedByStrategy = false;
+                }
+            }
+        }while (updatedByStrategy);
         if (!sudoku.isSudokuResolved()) {
             System.out.println("Sudoku needs more advanced methods to be completely resolved");
         }
     }
 
-
-    public void resolveSudoku(Sudoku sudoku) {
-        resolvable.resolveSudoku(sudoku);
-    }
 }

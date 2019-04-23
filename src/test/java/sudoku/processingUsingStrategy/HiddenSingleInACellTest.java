@@ -39,11 +39,11 @@ class HiddenSingleInACellTest {
             do {
                 nakedSingleInACell.resolveSudoku(sudoku);
                 System.out.println(" N ");
-                if (!Solver.sudokuWasChanged) {
+                if (!nakedSingleInACell.isUpdated()) {
                     hiddenSingleInACell.resolveSudoku(sudoku);
                     System.out.println(" H ");
                 }
-            } while (Solver.sudokuWasChanged);
+            } while (nakedSingleInACell.isUpdated() || hiddenSingleInACell.isUpdated());
 
 
 

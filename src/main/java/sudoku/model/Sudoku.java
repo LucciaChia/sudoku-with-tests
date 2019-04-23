@@ -15,7 +15,6 @@ import java.util.logging.Logger;
  * @author Lucia
  */
 public class Sudoku {
-    //TODO tests for Sudoku
     private static final Logger LOGGER = Logger.getLogger(Sudoku.class.getName());
 
     private List<Box> boxes = new ArrayList<>();
@@ -58,7 +57,7 @@ public class Sudoku {
         this.rows = rows;
     }
 
-    public void createSudokuElementObjectsService(int[][] data) {
+    private void createSudokuElementObjectsService(int[][] data) {
 
         for (int i = 0; i < 9; i++) {
             Row row = new Row();
