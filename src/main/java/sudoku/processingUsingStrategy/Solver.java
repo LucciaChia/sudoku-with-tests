@@ -20,36 +20,21 @@ public class Solver {
     }
 
     public void useStrategies(Sudoku sudoku) {
-        boolean updatedByStrategy = false;
-        // possible strategies
-        boolean nakedSingleInACellUpdated = false;
-        boolean hiddenSingleInACellUpdated = false;
-        boolean pointingPairsInCellUpdated = false;
+        boolean updatedByStrategy;
         do {
+            updatedByStrategy = false;
             for (Resolvable strategy : this.strategies) {
                 strategy.resolveSudoku(sudoku);
                 if (sudoku.isSudokuResolved()) {
                     return;
                 }
 
-                // TODO reduce this
-                if (strategy instanceof NakedSingleInACell) {
-                    nakedSingleInACellUpdated = strategy.isUpdated();
-                }
-                if (strategy instanceof HiddenSingleInACell) {
-                    hiddenSingleInACellUpdated = strategy.isUpdated();
-                }
-                if (strategy instanceof PointingPairsInCell) {
-                    pointingPairsInCellUpdated = strategy.isUpdated();
+                if(strategy.isUpdated()) {
+                    updatedByStrategy = true;
                 }
 
-                if (nakedSingleInACellUpdated || hiddenSingleInACellUpdated || pointingPairsInCellUpdated) {
-                    updatedByStrategy = true;
-                } else {
-                    updatedByStrategy = false;
-                }
             }
-        }while (updatedByStrategy);
+        } while (updatedByStrategy);
         if (!sudoku.isSudokuResolved()) {
             System.out.println("Sudoku needs more advanced methods to be completely resolved");
         }
