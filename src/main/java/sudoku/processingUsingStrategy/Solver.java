@@ -28,11 +28,7 @@ public class Solver {
                 if (sudoku.isSudokuResolved()) {
                     return;
                 }
-
-                if(strategy.isUpdated()) {
-                    updatedByStrategy = true;
-                }
-
+                updatedByStrategy = updatedByStrategy || strategy.isUpdated();
             }
         } while (updatedByStrategy);
         if (!sudoku.isSudokuResolved()) {
