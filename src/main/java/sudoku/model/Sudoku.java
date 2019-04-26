@@ -33,6 +33,23 @@ public class Sudoku {
         reducePossibilities();
     }
 
+    public Sudoku copy(){
+        int[][] data = new int[9][9];
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                data[i][j] = this.getRows().get(i).getCell(j).getActualValue();
+            }
+        }
+        try {
+            return new Sudoku(data);
+        } catch (IllegalSudokuStateException ex) {
+            System.out.printf("Empty sudoku");
+            return new Sudoku();
+        }
+
+    }
+
     public List<Box> getBoxes() {
         return boxes;
     }
@@ -142,5 +159,21 @@ public class Sudoku {
             }
         }
         return true;
+    }
+
+    public void print() {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                System.out.print(this.getRows().get(i).getCell(j).getActualValue() + " ");
+            }
+            System.out.println();
+        }
+//        for (int i = 0; i < 9; i++) {
+//            for (int j = 0; j < 9; j++) {
+//                System.out.println(this.getRows().get(i).getCell(j).toString());
+//            }
+//            System.out.println();
+//        }
+        System.out.println("***");
     }
 }

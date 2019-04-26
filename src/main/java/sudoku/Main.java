@@ -3,11 +3,8 @@ package sudoku;
 import org.apache.log4j.Logger;
 import sudoku.customExceptions.IllegalSudokuStateException;
 import sudoku.model.Sudoku;
+import sudoku.processingUsingStrategy.*;
 import sudoku.readers.FileSudokuReader;
-import sudoku.processingUsingStrategy.HiddenSingleInACell;
-import sudoku.processingUsingStrategy.NakedSingleInACell;
-import sudoku.processingUsingStrategy.PointingPairsInCell;
-import sudoku.processingUsingStrategy.Solver;
 
 import java.io.File;
 import java.util.Scanner;
@@ -26,12 +23,14 @@ public class Main {
     private static final String path2 = new File(classLoader.getResource("inputs/simple2.txt").getFile()).getPath();
     private static final String path3 = new File(classLoader.getResource("inputs/simple3.txt").getFile()).getPath();
     private static final String path4 = new File(classLoader.getResource("inputs/simple4.txt").getFile()).getPath();
+    private static final String extremelyHardTmp = new File(classLoader.getResource("outputs/extremelyHardTmp.txt").getFile()).getPath();
 
     private Scanner scanner = new Scanner(System.in);
 
     private NakedSingleInACell nakedSingleInACell = new NakedSingleInACell();
     private HiddenSingleInACell hiddenSingleInACell = new HiddenSingleInACell();
     private PointingPairsInCell pointingPairsInCell = new PointingPairsInCell();
+    private BacktrackLucia backtrackLucia = new BacktrackLucia();
 
     // TODO impose Command pattern into this application
     public static void main(String[] args) {
@@ -56,8 +55,9 @@ public class Main {
                     try {
                         Sudoku sudoku = insertYourOwnSudoku();
                         Solver solver = new Solver();
-                        solver.setStrategies(nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell);
-                        solver.useStrategies(sudoku);
+                    //    solver.setStrategies(nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell);
+                        solver.setStrategies(backtrackLucia);
+                        sudoku = solver.useStrategies(sudoku);
                         System.out.println("Solution:");
                         printSudoku(sudoku);
                         extAppLogFile.info("Reading sudoku - valid input - using log4j");
@@ -108,14 +108,15 @@ public class Main {
     private void runDefaultSudoku() throws IllegalSudokuStateException{
 
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
-        int[][] data = fileSudokuReader.read(path1);
+        int[][] data = fileSudokuReader.read(extremelyHardTmp);
         Sudoku sudoku = new Sudoku(data);
 
         printSudoku(sudoku);
 
         Solver solver = new Solver();
-        solver.setStrategies(nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell);
-        solver.useStrategies(sudoku);
+    //    solver.setStrategies(nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell);
+        solver.setStrategies(backtrackLucia);
+        sudoku = solver.useStrategies(sudoku);
         System.out.println("Solution:");
         printSudoku(sudoku);
     }
