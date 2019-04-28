@@ -1,13 +1,22 @@
 package sudoku.processingUsingStrategy;
 
 import sudoku.model.*;
+import sudoku.stepHandlers.OneChangeStep;
+import sudoku.stepHandlers.Step;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class HiddenSingleInACell implements Resolvable {
-
+    private Map<int[], Integer> deletedPossibilitiesWithLocation = new HashMap<>();
     private boolean updatedInHiddenSingle = false;
+    private String name = "1: HiddenSingleInACell";
+
+    @Override
+    public String getName() {
+        return name;
+    }
 
     @Override
     public Sudoku resolveSudoku(Sudoku sudoku) {
@@ -27,8 +36,11 @@ public class HiddenSingleInACell implements Resolvable {
                     Map<Integer, Integer> boxPossibilities = cellBox.amountOfParticularPossibilities();
 
                     if (deleteHidden(cell, rowPossibilities, columnPossibilities, boxPossibilities)) {
+                        Sudoku sudokuCopy = sudoku.copy();
+                        Step step = new OneChangeStep(sudokuCopy, name);
+                        step.printStep(cell);
                         updatedInHiddenSingle = true;
-
+                        return sudoku;
                     }
                 }
             }

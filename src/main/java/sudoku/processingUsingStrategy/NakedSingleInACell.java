@@ -2,11 +2,18 @@ package sudoku.processingUsingStrategy;
 
 import sudoku.model.Cell;
 import sudoku.model.Sudoku;
+import sudoku.stepHandlers.OneChangeStep;
+import sudoku.stepHandlers.Step;
 
 import java.util.List;
 
 public class NakedSingleInACell implements Resolvable {
     private boolean updatedInNakedSingle = false;
+    private String name = "0: NackedSingleInACell";
+    @Override
+    public String getName() {
+        return name;
+    }
 
     @Override
     public Sudoku resolveSudoku(Sudoku sudoku) {
@@ -19,6 +26,8 @@ public class NakedSingleInACell implements Resolvable {
                     if (cellPossibilities.size() == 1) {
                         cell.setActualValue(cellPossibilities.get(0));
                         deletePossibilities(cell, cell.getActualValue());
+                        Step step = new OneChangeStep(sudoku, name);
+                        step.printStep(cell);
                         updatedInNakedSingle = true;
                     }
                 }

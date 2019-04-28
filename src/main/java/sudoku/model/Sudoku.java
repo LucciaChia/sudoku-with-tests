@@ -168,12 +168,30 @@ public class Sudoku {
             }
             System.out.println();
         }
-//        for (int i = 0; i < 9; i++) {
-//            for (int j = 0; j < 9; j++) {
-//                System.out.println(this.getRows().get(i).getCell(j).toString());
-//            }
-//            System.out.println();
-//        }
-        System.out.println("***");
+        System.out.println("******************");
+    }
+
+    public void printPossibilitiesInSudoku() {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                System.out.println(this.getRows().get(i).getCell(j).toString());
+            }
+            System.out.println();
+        }
+    }
+
+    @Override
+    public String toString() {
+        String s = "";
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                s += this.getRows().get(i).getCell(j).getActualValue() + " ";
+            }
+            s += "\n";
+        }
+        s += "******************";
+
+        return s;
     }
 }

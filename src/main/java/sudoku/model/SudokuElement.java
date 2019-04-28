@@ -109,13 +109,16 @@ public abstract class SudokuElement {
         return possibility;
     }
 
-    public boolean deletePossibilitiesInRowOrColumnSudokuElement(Cell cell, int possibilityToCheck) {
+    public boolean deletePossibilitiesInRowOrColumnSudokuElement(Cell cell, int possibilityToCheck, Map<int[], Integer> deletedPossibilitiesWithLocation) {
+        deletedPossibilitiesWithLocation.clear();
         boolean somethingWasRemoved = false;
         Box cellBox = cell.getBox();
 
         for (Cell testedCell : cellList) {
             Box testedCellBox = testedCell.getBox();
             if (testedCell.getActualValue() == 0 && cellBox != testedCellBox && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
+                int[] possibilityLocation = {testedCell.getI(), testedCell.getJ()};
+                deletedPossibilitiesWithLocation.put(possibilityLocation, possibilityToCheck);
                 extAppLogFile.info(ANSI_BLUE + "\tROW-COLUMN CASE: Possibility " + possibilityToCheck + " will be removed from " +
                         "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
                 somethingWasRemoved = testedCell.getCellPossibilities().remove((Integer)possibilityToCheck);

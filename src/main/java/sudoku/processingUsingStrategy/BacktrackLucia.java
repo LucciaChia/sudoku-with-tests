@@ -1,6 +1,9 @@
 package sudoku.processingUsingStrategy;
 
-import sudoku.model.*;
+import sudoku.model.Cell;
+import sudoku.model.Sudoku;
+import sudoku.stepHandlers.OneChangeStep;
+import sudoku.stepHandlers.Step;
 
 import java.util.Scanner;
 
@@ -10,6 +13,13 @@ public class BacktrackLucia implements Resolvable{
     private boolean updatedInBacktrackLucia = false;
 
     private static long stepCount = 0;
+    private String name = "3: Backtrack";
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
     @Override
     public Sudoku resolveSudoku(Sudoku sudoku) {
         updatedInBacktrackLucia = false;
@@ -39,6 +49,8 @@ public class BacktrackLucia implements Resolvable{
                         newCell.setActualValue(usedPossibility);
 //                        System.out.println("VALUE WAS SET " + usedPossibility + " i=" + i + " j=" + j);
                         deletePossibilities(newCell, usedPossibility);
+
+
                         Sudoku resolvedSudoku = resolveSudoku(newSudoku);
 
 //                        System.out.println("REACHED sudoku");
@@ -70,7 +82,9 @@ public class BacktrackLucia implements Resolvable{
                 }
             }
         }
-
+        Step step = new OneChangeStep(sudoku, name);
+        step.printBacktrack();
+        sudoku.print();
         return sudoku;
     }
 

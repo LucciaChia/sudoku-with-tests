@@ -55,6 +55,9 @@ public class newFunctTests {
         } catch (IllegalSudokuStateException ex) {
             System.out.println("i is bigger than 5");
         }
+
+        int[] t = {2,3};
+        System.out.println("t = " + Arrays.toString(t));
     }
 
 }

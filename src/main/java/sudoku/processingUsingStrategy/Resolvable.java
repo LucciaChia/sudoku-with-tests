@@ -10,6 +10,7 @@ public interface Resolvable {
 
     boolean isUpdated();
 
+    String getName();
 
     default void deletePossibilities(Cell cell, int valueToBeDeleted) {
 

@@ -12,7 +12,12 @@ public class CommandPicker implements Command {
         this.sudoku = sudoku;
     }
     @Override
-    public void execute() {
-        resolvable.resolveSudoku(sudoku);
+    public Sudoku execute() {
+        return resolvable.resolveSudoku(sudoku);
+    }
+
+    @Override
+    public String toString() {
+        return resolvable.getName() + "\n" + sudoku.toString();
     }
 }
