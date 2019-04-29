@@ -1,11 +1,13 @@
 package sudoku.model;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sudoku.customExceptions.IllegalSudokuStateException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
+
 
 /**
  * Sudoku class:
@@ -15,7 +17,8 @@ import java.util.logging.Logger;
  * @author Lucia
  */
 public class Sudoku {
-    private static final Logger LOGGER = Logger.getLogger(Sudoku.class.getName());
+    //TODO tests for Sudoku
+    private static final Logger LOGGER = LoggerFactory.getLogger(Sudoku.class);
 
     private List<Box> boxes = new ArrayList<>();
     private List<Column> columns = new ArrayList<>();
