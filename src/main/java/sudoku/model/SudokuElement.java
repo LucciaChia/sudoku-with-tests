@@ -1,6 +1,7 @@
 package sudoku.model;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sudoku.customExceptions.IllegalSudokuStateException;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public abstract class SudokuElement {
     private static final String ANSI_CYAN = "\u001B[36m";
     private static final String ANSI_WHITE = "\u001B[37m";
 
-    private static final Logger extAppLogFile = Logger.getLogger("ExternalAppLogger");
+    private static final Logger extAppLogFile = LoggerFactory.getLogger(SudokuElement.class);
 
     private List<Cell> cellList = new ArrayList<>();
 

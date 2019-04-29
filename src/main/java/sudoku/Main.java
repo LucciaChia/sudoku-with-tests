@@ -1,6 +1,8 @@
 package sudoku;
 
-import org.apache.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sudoku.customExceptions.IllegalSudokuStateException;
 import sudoku.model.Sudoku;
 import sudoku.processing.FileSudokuReader;
@@ -17,7 +19,7 @@ public class Main {
 
     private static ClassLoader classLoader = new Main().getClass().getClassLoader();
 
-    private static final Logger extAppLogFile = Logger.getLogger("ExternalAppLogger");
+    private static final Logger extAppLogFile = LoggerFactory.getLogger(Main.class);
 
     private static final String path1 = new File(classLoader.getResource("inputs/simple1.txt").getFile()).getPath();
     private static final String path2 = new File(classLoader.getResource("inputs/simple2.txt").getFile()).getPath();

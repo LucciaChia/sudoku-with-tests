@@ -1,6 +1,7 @@
 package sudoku.processing;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sudoku.model.*;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class Solution extends SudokuElement{
     private static final String ANSI_CYAN = "\u001B[36m";
     private static final String ANSI_WHITE = "\u001B[37m";
 
-    private static final Logger extAppLogFile = Logger.getLogger("ExternalAppLogger");
+    private static final Logger extAppLogFile = LoggerFactory.getLogger(Solution.class);
 
     private List<Column> columns;
     private List<Row> rows;
