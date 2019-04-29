@@ -1,6 +1,7 @@
 package sudoku.processingUsingStrategy;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sudoku.model.*;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class PointingPairsInCell implements Resolvable {
     private static final String ANSI_GREEN = "\u001B[32m";
     private static final String ANSI_PURPLE = "\u001B[35m";
 
-    private static final org.apache.log4j.Logger extAppLogFile = Logger.getLogger("ExternalAppLogger");
+    private static final Logger LOGGER = LoggerFactory.getLogger(PointingPairsInCell.class);
     private boolean updatedInPointingPair = false;
 
     @Override
@@ -56,7 +57,7 @@ public class PointingPairsInCell implements Resolvable {
                 boolean jCase = cellJ == partnerCell.getJ();
 
                 // vypisy
-                extAppLogFile.info("Partner cell for cell possibility: " + possibilityToCheck + " in cell  i = " + cellI + " j = " + cellJ + " IS: i = " +
+                LOGGER.info("Partner cell for cell possibility: " + possibilityToCheck + " in cell  i = " + cellI + " j = " + cellJ + " IS: i = " +
                         partnerCell.getI() + " j = " + partnerCell.getJ());
 
                 // ak partner cella neobsahuje momentalne kontrolovanu possibilitu referencnej celly, chod prec t.j. -> do dalsej obratky na novu partner cellu
@@ -65,7 +66,7 @@ public class PointingPairsInCell implements Resolvable {
                 }
 
                 if (!isPossibilityToCheckPresentSomewhereElseInSquare(cell, partnerCell, cellBox.getCellList(), possibilityToCheck)) {
-                    extAppLogFile.info(ANSI_GREEN + "Possibility " + possibilityToCheck + " presents only in row / column" + ANSI_RESET);
+                    LOGGER.info(ANSI_GREEN + "Possibility " + possibilityToCheck + " presents only in row / column" + ANSI_RESET);
                     // ak je len v tomto riadku vyhadzem tu possibilitu z tohto riadka v ostatnych stvorcoch, ak v stlpci tak zo stlpca
 
                     if (iCase) {
@@ -75,7 +76,7 @@ public class PointingPairsInCell implements Resolvable {
                     }
 
                 } else { // nachadza sa aj inde vo stvorci
-                    extAppLogFile.info(ANSI_RED + "Possibility " + possibilityToCheck + " presents somewhere else too" + ANSI_RESET);
+                    LOGGER.info(ANSI_RED + "Possibility " + possibilityToCheck + " presents somewhere else too" + ANSI_RESET);
 
                     if ((iCase && !cellRow.isPossibilityToCheckPresentSomewhereElseInRowInColumnSudokuElement(cell, possibilityToCheck)) ||
                             (jCase && !cellColumn.isPossibilityToCheckPresentSomewhereElseInRowInColumnSudokuElement(cell, possibilityToCheck))) {
@@ -123,7 +124,7 @@ public class PointingPairsInCell implements Resolvable {
         int partnerCellJ = partnerCell.getJ();
 
         if (cellI == partnerCellI) {
-            extAppLogFile.info("i case");
+            LOGGER.info("i case");
             for (Cell testedCell : squareOfCells) {
                 if (testedCell.getActualValue() == 0 && testedCell.getI() != cellI && testedCell.getCellPossibilities().contains((Integer) possibilityToCheck)) {
                     return true;
@@ -131,7 +132,7 @@ public class PointingPairsInCell implements Resolvable {
             }
         }
         if (cellJ == partnerCellJ) {
-            extAppLogFile.info("j case");
+            LOGGER.info("j case");
             for (Cell testedCell : squareOfCells) {
                 if (testedCell.getActualValue() == 0 && testedCell.getJ() != cellJ && testedCell.getCellPossibilities().contains((Integer) possibilityToCheck)) {
                     return true;
@@ -152,7 +153,7 @@ public class PointingPairsInCell implements Resolvable {
         if (cellI == partnerCellI) {
             for (Cell testedCell : cellBox.getCellList()) {
                 if (testedCell.getActualValue() == 0 && testedCell.getI() != cellI && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
-                    extAppLogFile.info(ANSI_PURPLE + "\t SQUARE CASE: Possibility " + possibilityToCheck + " will be removed from " +
+                    LOGGER.info(ANSI_PURPLE + "\t SQUARE CASE: Possibility " + possibilityToCheck + " will be removed from " +
                             "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
                     somethingWasRemoved = testedCell.getCellPossibilities().remove((Integer)possibilityToCheck);
                 }
@@ -160,13 +161,13 @@ public class PointingPairsInCell implements Resolvable {
         } else if (cellJ == partnerCellJ) {
             for (Cell testedCell : cellBox.getCellList()) {
                 if (testedCell.getActualValue() == 0 && testedCell.getJ() != cellJ && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
-                    extAppLogFile.info(ANSI_PURPLE + "\t SQUARE CASE: Possibility " + possibilityToCheck + " will be removed from " +
+                    LOGGER.info(ANSI_PURPLE + "\t SQUARE CASE: Possibility " + possibilityToCheck + " will be removed from " +
                             "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
                     somethingWasRemoved = testedCell.getCellPossibilities().remove((Integer)possibilityToCheck);
                 }
             }
         } else {
-            extAppLogFile.info(ANSI_RED + "\tSQUARE CASE: Something's wrong - incorrect partner cell!" + ANSI_RESET);
+            LOGGER.info(ANSI_RED + "\tSQUARE CASE: Something's wrong - incorrect partner cell!" + ANSI_RESET);
         }
         return somethingWasRemoved;
     }
