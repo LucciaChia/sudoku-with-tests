@@ -5,11 +5,15 @@ import sudoku.model.Sudoku;
 import sudoku.stepHandlers.OneChangeStep;
 import sudoku.stepHandlers.Step;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class BacktrackLucia implements Resolvable{
 
     Scanner scanner = new Scanner(System.in);
+    private Step step;
+    private List<Step> stepList = new ArrayList<>();
     private boolean updatedInBacktrackLucia = false;
 
     private static long stepCount = 0;
@@ -21,7 +25,13 @@ public class BacktrackLucia implements Resolvable{
     }
 
     @Override
+    public List<Step> getStepList() {
+        return stepList;
+    }
+
+    @Override
     public Sudoku resolveSudoku(Sudoku sudoku) {
+        stepList.clear();
         updatedInBacktrackLucia = false;
         int possibilityIndex = 0;
 
@@ -82,7 +92,8 @@ public class BacktrackLucia implements Resolvable{
                 }
             }
         }
-        Step step = new OneChangeStep(sudoku, name);
+        step = new OneChangeStep(sudoku, name);
+        stepList.add(step);
         step.printBacktrack();
         sudoku.print();
         return sudoku;

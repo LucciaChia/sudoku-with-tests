@@ -17,10 +17,21 @@ public class PointingPairsInCell implements Resolvable {
     private static final String ANSI_GREEN = "\u001B[32m";
     private static final String ANSI_PURPLE = "\u001B[35m";
     private Map<int[], Integer> deletedPossibilitiesWithLocation = new HashMap<>();
+    private Step step;
+    private List<Step> stepList = new ArrayList<>();
 
     private static final org.apache.log4j.Logger extAppLogFile = Logger.getLogger("ExternalAppLogger");
     private boolean updatedInPointingPair = false;
     private String name = "2: PointingPairsInCell";
+
+    public Step getStep() {
+        return step;
+    }
+
+    @Override
+    public List<Step> getStepList() {
+        return stepList;
+    }
 
     @Override
     public String getName() {
@@ -29,6 +40,7 @@ public class PointingPairsInCell implements Resolvable {
 
     @Override
     public Sudoku resolveSudoku(Sudoku sudoku) {
+        stepList.clear();
         updatedInPointingPair = false;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -93,8 +105,12 @@ public class PointingPairsInCell implements Resolvable {
                 }
 
                 if (changedInLoop) {
-                    Step step = new OneChangeStep(sudoku, name);
-                    step.printStepPointingPair(cell, partnerCell, deletedPossibilitiesWithLocation);
+                    Sudoku sudokuCopy = sudoku.copy();
+                    Map<int[], Integer> deletedPossibilitiesWithLocationCopy = new HashMap<>();
+                    deletedPossibilitiesWithLocationCopy.putAll(deletedPossibilitiesWithLocation);
+                    step = new OneChangeStep(sudokuCopy, name, cell, partnerCell, deletedPossibilitiesWithLocationCopy);
+                    //step.printStepPointingPair(cell, partnerCell, deletedPossibilitiesWithLocationCopy);
+                    stepList.add(step); // *****************************************************************************
                     updatedInPointingPair = true;
                     return updatedInPointingPair;
                 }

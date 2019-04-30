@@ -12,14 +12,34 @@ public class OneChangeStep implements Step {
     private static final String ANSI_BOLD = "\u001B[1m";
 
     public static int stepNumber = 0;
-    Sudoku sudoku;
-    String solvingStrategyName;
+    private Sudoku sudoku;
+    private String solvingStrategyName;
+    private Cell cell;
+    private Cell partnerCell;
+    private Map<int[], Integer> deletedPossibilitiesWithLocation;
 
     public OneChangeStep(Sudoku sudoku, String solvingStrategyName) {
         stepNumber++;
         this.sudoku = sudoku;
         this.solvingStrategyName = solvingStrategyName;
     }
+
+    public OneChangeStep(Sudoku sudoku, String solvingStrategyName, Cell cell) {
+        stepNumber++;
+        this.sudoku = sudoku;
+        this.solvingStrategyName = solvingStrategyName;
+        this.cell = cell;
+    }
+
+    public OneChangeStep(Sudoku sudoku, String solvingStrategyName, Cell cell, Cell partnerCell, Map<int[], Integer> deletedPossibilitiesWithLocation) {
+        stepNumber++;
+        this.sudoku = sudoku;
+        this.solvingStrategyName = solvingStrategyName;
+        this.cell = cell;
+        this.partnerCell = partnerCell;
+        this.deletedPossibilitiesWithLocation = deletedPossibilitiesWithLocation;
+    }
+
 
     public Sudoku getSudoku() {
         return sudoku;
@@ -31,6 +51,18 @@ public class OneChangeStep implements Step {
 
     public String getSolvingStrategyName() {
         return solvingStrategyName;
+    }
+
+    public Cell getCell() {
+        return cell;
+    }
+
+    public Cell getPartnerCell() {
+        return partnerCell;
+    }
+
+    public Map<int[], Integer> getDeletedPossibilitiesWithLocation() {
+        return deletedPossibilitiesWithLocation;
     }
 
     @Override

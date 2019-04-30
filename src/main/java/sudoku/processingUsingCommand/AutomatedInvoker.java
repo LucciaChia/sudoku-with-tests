@@ -4,17 +4,17 @@ import org.apache.log4j.Logger;
 import sudoku.model.Sudoku;
 import sudoku.processingUsingStrategy.BacktrackLucia;
 import sudoku.processingUsingStrategy.Resolvable;
+import sudoku.stepHandlers.OneChangeStep;
 import sudoku.stepHandlers.Step;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class AutomatedInvoker implements Invoker {
     private static final org.apache.log4j.Logger extAppLogFile = Logger.getLogger("ExternalAppLogger");
     private List<Command> commands = new LinkedList<>();
-    private List<Step> stepList = new ArrayList<>();
+    private List<Step> stepListFromAllUsedMethods = new ArrayList<>();
     private List<Resolvable> strategies = new ArrayList<>();
+    private int currentStep = 0;
 
     public void setStrategies(Resolvable ... useStrategies) {
         this.strategies = new ArrayList<>();
@@ -25,6 +25,10 @@ public class AutomatedInvoker implements Invoker {
 
     private Sudoku sudoku;
 
+    public List<Step> getStepListFromAllUsedMethods() {
+        return stepListFromAllUsedMethods;
+    }
+
     public Sudoku getSudoku() {
         return sudoku;
     }
@@ -32,6 +36,8 @@ public class AutomatedInvoker implements Invoker {
     public List<Command> getCommands() {
         return commands;
     }
+
+    public AutomatedInvoker() {}
 
     public AutomatedInvoker(Sudoku sudoku) {
         this.sudoku = sudoku;
@@ -45,9 +51,10 @@ public class AutomatedInvoker implements Invoker {
         Resolvable currentlyUsedMethod;
 
             for (int i = 0; i < strategies.size(); i++) {
-                System.out.println(strategies.get(i).getName());
+            //    System.out.println(strategies.get(i).getName());
                 Command command = new CommandPicker(strategies.get(i), sudoku);
                 sudoku = command.execute();
+                stepListFromAllUsedMethods.addAll(strategies.get(i).getStepList()); // ********************** NEW FUNCTIONALITY
                 commands.add(command);
                 if (sudoku.isSudokuResolved()) {
                     break;
@@ -60,10 +67,50 @@ public class AutomatedInvoker implements Invoker {
             System.out.println("Sudoku needs more advanced methods to be completely resolved");
         }
 
+        printStepList();
+
         return null;
     }
 
+    public void printStepList() {
 
+        System.out.println("*********************");
+        System.out.println(" ***  ALL STEPS  *** ");
+        System.out.println("*********************");
+
+        int count = 1;
+        for (Step step : stepListFromAllUsedMethods) {
+
+
+            if (((OneChangeStep)step).getSolvingStrategyName().equals("0: NackedSingleInACell") ||
+                    ((OneChangeStep)step).getSolvingStrategyName().equals("1: HiddenSingleInACell")) {
+                System.out.println(count++ + ". " +
+                        ((OneChangeStep) step).getSolvingStrategyName() + "\n" +
+                        "[" + ((OneChangeStep) step).getCell().getI() + ", " + ((OneChangeStep) step).getCell().getJ() + "] = " +
+                        ((OneChangeStep) step).getCell().getActualValue() +"\n" +
+
+                        ((OneChangeStep) step).getSudoku());
+            } else if (((OneChangeStep)step).getSolvingStrategyName().equals("2: PointingPairsInCell")) {
+                System.out.println(count++ + ". " +
+                        ((OneChangeStep) step).getSolvingStrategyName() + "\n" +
+                        "[" + ((OneChangeStep) step).getCell().getI() + ", " + ((OneChangeStep) step).getCell().getJ() + "] = " +
+                        ((OneChangeStep) step).getCell().getActualValue() +"\n" +
+                        "[" + ((OneChangeStep) step).getPartnerCell().getI() + ", " + ((OneChangeStep) step).getPartnerCell().getJ() + "] = " +
+                        ((OneChangeStep) step).getPartnerCell().getActualValue());
+                Map<int[], Integer> deletedPossibilitiesWithLocation = ((OneChangeStep) step).getDeletedPossibilitiesWithLocation();
+                for (int[] key : deletedPossibilitiesWithLocation.keySet()) {
+                    System.out.println( ((OneChangeStep) step).getDeletedPossibilitiesWithLocation().get(key) + ": " + Arrays.toString(key));
+                }
+                System.out.println(((OneChangeStep) step).getSudoku());
+            } else {
+                System.out.println(count++ + ". " +
+                        ((OneChangeStep) step).getSolvingStrategyName() + "\n" +
+                        ((OneChangeStep) step).getSudoku());
+            }
+
+
+        }
+    }
 
 
 

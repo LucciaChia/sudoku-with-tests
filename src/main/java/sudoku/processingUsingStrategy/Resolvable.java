@@ -1,6 +1,9 @@
 package sudoku.processingUsingStrategy;
 
 import sudoku.model.*;
+import sudoku.stepHandlers.Step;
+
+import java.util.List;
 
 /**
  * zvladla test pre NakedSingleInACell
@@ -11,6 +14,8 @@ public interface Resolvable {
     boolean isUpdated();
 
     String getName();
+
+    List<Step> getStepList();
 
     default void deletePossibilities(Cell cell, int valueToBeDeleted) {
 
