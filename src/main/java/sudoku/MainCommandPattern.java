@@ -65,26 +65,26 @@ public class MainCommandPattern {
                     try {
                         Sudoku sudoku = insertYourOwnSudoku();
                         automatedInvokerWithAllSolvingMethods(sudoku);
-                        LOGGER.info("Reading sudoku - valid input - using log4j");
+                        LOGGER.info("Reading sudoku - valid input");
                     } catch (Exception e) {
-                        LOGGER.warn("Reading sudoku - incorrect input - using log4j");
+                        LOGGER.warn("Reading sudoku - incorrect input");
                     }
                     break;
                 case 2:
                     try {
                         runDefaultSudokuAutomaticInvoker();
-                        LOGGER.info("Default sudoku - valid input - using log4j");
+                        LOGGER.info("Default sudoku - valid input");
                     } catch (IllegalSudokuStateException ex) {
-                        LOGGER.warn("Reading sudoku - incorrect input - using log4j");
+                        LOGGER.warn("Reading sudoku - incorrect input");
                     }
 
                     break;
                 case 3:
                     try {
                         stepByStepSudokuAutomaticInvoker();
-                        LOGGER.info("Default sudoku - valid input - using log4j");
+                        LOGGER.info("Default sudoku - valid input");
                     } catch (IllegalSudokuStateException ex) {
-                        LOGGER.warn("Reading sudoku - incorrect input - using log4j");
+                        LOGGER.warn("Reading sudoku - incorrect input");
                     }
 
                     break;
