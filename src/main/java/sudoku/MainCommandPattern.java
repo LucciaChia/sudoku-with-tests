@@ -1,11 +1,16 @@
 package sudoku;
 
-import org.apache.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sudoku.customExceptions.IllegalSudokuStateException;
 import sudoku.model.Sudoku;
 import sudoku.processingUsingCommand.AutomatedInvoker;
 import sudoku.processingUsingCommand.Command;
-import sudoku.processingUsingStrategy.*;
+import sudoku.processingUsingStrategy.BacktrackLucia;
+import sudoku.processingUsingStrategy.HiddenSingleInACell;
+import sudoku.processingUsingStrategy.NakedSingleInACell;
+import sudoku.processingUsingStrategy.PointingPairsInCell;
 import sudoku.readers.FileSudokuReader;
 
 import java.io.File;
@@ -20,7 +25,7 @@ public class MainCommandPattern {
 
     private static ClassLoader classLoader = new Main().getClass().getClassLoader();
 
-    private static final Logger extAppLogFile = Logger.getLogger("ExternalAppLogger");
+    private static final Logger LOGGER = LoggerFactory.getLogger(MainCommandPattern.class);
 
     private static final String extremelySimple = new File(classLoader.getResource("inputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
     private static final String simple = new File(classLoader.getResource("inputs/simple1.txt").getFile()).getPath();
@@ -48,7 +53,7 @@ public class MainCommandPattern {
         Scanner scanner = new Scanner(System.in);
         boolean quit = false;
         printHelp();
-        extAppLogFile.info("Program has stared");
+        LOGGER.info("Program has stared");
         do {
             System.out.println("Choose your option");
             int option = scanner.nextInt();
@@ -60,32 +65,32 @@ public class MainCommandPattern {
                     try {
                         Sudoku sudoku = insertYourOwnSudoku();
                         automatedInvokerWithAllSolvingMethods(sudoku);
-                        extAppLogFile.info("Reading sudoku - valid input - using log4j");
+                        LOGGER.info("Reading sudoku - valid input - using log4j");
                     } catch (Exception e) {
-                        extAppLogFile.warn("Reading sudoku - incorrect input - using log4j");
+                        LOGGER.warn("Reading sudoku - incorrect input - using log4j");
                     }
                     break;
                 case 2:
                     try {
                         runDefaultSudokuAutomaticInvoker();
-                        extAppLogFile.info("Default sudoku - valid input - using log4j");
+                        LOGGER.info("Default sudoku - valid input - using log4j");
                     } catch (IllegalSudokuStateException ex) {
-                        extAppLogFile.warn("Reading sudoku - incorrect input - using log4j");
+                        LOGGER.warn("Reading sudoku - incorrect input - using log4j");
                     }
 
                     break;
                 case 3:
                     try {
                         stepByStepSudokuAutomaticInvoker();
-                        extAppLogFile.info("Default sudoku - valid input - using log4j");
+                        LOGGER.info("Default sudoku - valid input - using log4j");
                     } catch (IllegalSudokuStateException ex) {
-                        extAppLogFile.warn("Reading sudoku - incorrect input - using log4j");
+                        LOGGER.warn("Reading sudoku - incorrect input - using log4j");
                     }
 
                     break;
                 case 4:
                     System.out.println("Bye, bye");
-                    extAppLogFile.info("Program has finished");
+                    LOGGER.info("Program has finished");
                     quit = true;
             }
         } while(!quit);
@@ -165,7 +170,7 @@ public class MainCommandPattern {
 //                    break;
 //                case "E":
 //                    System.out.println("Step by step has been ended");
-//                    extAppLogFile.info("Step by step was left");
+//                    LOGGER.info("Step by step was left");
 //                    quit = true;
 //            }
 //        } while(!quit);
