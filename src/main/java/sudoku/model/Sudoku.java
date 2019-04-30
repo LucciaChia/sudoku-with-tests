@@ -57,25 +57,16 @@ public class Sudoku {
         return boxes;
     }
 
-    public void setBoxes(List<Box> boxes) {
-        this.boxes = boxes;
-    }
 
     public List<Column> getColumns() {
         return columns;
     }
 
-    public void setColumns(List<Column> columns) {
-        this.columns = columns;
-    }
 
     public List<Row> getRows() {
         return rows;
     }
 
-    public void setRows(List<Row> rows) {
-        this.rows = rows;
-    }
 
     private void createSudokuElementObjectsService(int[][] data) {
 
@@ -140,13 +131,13 @@ public class Sudoku {
             int colValue = cellColumn.getCell(i).getActualValue();
             int boxValue = cellBox.getCellList().get(i).getActualValue();
 
-            if (rowValue != 0 && cellPossibilities.contains((Integer)rowValue)) {
+            if (rowValue != 0 && cellPossibilities.contains(rowValue)) {
                 cellPossibilities.remove((Integer)rowValue);
             }
-            if (colValue != 0 && cellPossibilities.contains((Integer)colValue)) {
+            if (colValue != 0 && cellPossibilities.contains(colValue)) {
                 cellPossibilities.remove((Integer)colValue);
             }
-            if (boxValue != 0 && cellPossibilities.contains((Integer)boxValue)) {
+            if (boxValue != 0 && cellPossibilities.contains(boxValue)) {
                 cellPossibilities.remove((Integer)boxValue);
             }
         }
