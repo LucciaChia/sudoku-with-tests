@@ -1,11 +1,11 @@
 package sudoku.customExceptions;
 
 public class IllegalSudokuStateException extends Exception {
-    private int incorrectNumber;
-    private int iCoordinate;
-    private int jCoordinate;
+    private final int incorrectNumber;
+    private final int iCoordinate;
+    private final int jCoordinate;
 
-    public IllegalSudokuStateException(int incorrectNumber, int i, int j) {
+    public IllegalSudokuStateException(final int incorrectNumber, final int i, final int j) {
         this.incorrectNumber = incorrectNumber;
         iCoordinate = i;
         jCoordinate = j;
