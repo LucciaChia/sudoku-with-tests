@@ -1,7 +1,6 @@
 package sudoku.processingUsingCommand;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import sudoku.model.Sudoku;
 import sudoku.processingUsingStrategy.BacktrackLucia;
 import sudoku.processingUsingStrategy.Resolvable;
@@ -11,8 +10,6 @@ import sudoku.stepHandlers.Step;
 import java.util.*;
 
 public class AutomatedInvoker implements Invoker {
-    private static final Logger extAppLogFile = LoggerFactory.getLogger(AutomatedInvoker.class);
-
     private List<Command> commands = new LinkedList<>();
     private List<Step> stepListFromAllUsedMethods = new ArrayList<>();
     private List<Resolvable> strategies = new ArrayList<>();
