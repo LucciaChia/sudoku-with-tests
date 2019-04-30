@@ -1,11 +1,15 @@
 package sudoku;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sudoku.customExceptions.IllegalSudokuStateException;
 import sudoku.model.Sudoku;
 import sudoku.processingUsingCommand.AutomatedInvoker;
 import sudoku.processingUsingCommand.Command;
-import sudoku.processingUsingStrategy.*;
+import sudoku.processingUsingStrategy.BacktrackLucia;
+import sudoku.processingUsingStrategy.HiddenSingleInACell;
+import sudoku.processingUsingStrategy.NakedSingleInACell;
+import sudoku.processingUsingStrategy.PointingPairsInCell;
 import sudoku.readers.FileSudokuReader;
 
 import java.io.File;
@@ -20,7 +24,7 @@ public class MainCommandPattern {
 
     private static ClassLoader classLoader = new Main().getClass().getClassLoader();
 
-    private static final Logger extAppLogFile = Logger.getLogger("ExternalAppLogger");
+    private static final Logger extAppLogFile = LoggerFactory.getLogger(MainCommandPattern.class);
 
     private static final String extremelySimple = new File(classLoader.getResource("inputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
     private static final String simple = new File(classLoader.getResource("inputs/simple1.txt").getFile()).getPath();
