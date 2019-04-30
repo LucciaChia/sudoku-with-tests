@@ -2,6 +2,7 @@ package sudoku.stepHandlers;
 
 import sudoku.model.Cell;
 import sudoku.model.Sudoku;
+import sudoku.processingUsingStrategy.Resolvable;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -17,6 +18,16 @@ public class OneChangeStep implements Step {
     private Cell cell;
     private Cell partnerCell;
     private Map<int[], Integer> deletedPossibilitiesWithLocation;
+    private Resolvable resolvable;
+
+    public OneChangeStep(Resolvable strategy, Sudoku sudoku) {
+        this.resolvable = strategy;
+        this.sudoku = sudoku;
+    }
+
+    public Resolvable getResolvable() {
+        return resolvable;
+    }
 
     public OneChangeStep(Sudoku sudoku, String solvingStrategyName) {
         stepNumber++;

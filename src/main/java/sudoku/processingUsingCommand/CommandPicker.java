@@ -2,22 +2,43 @@ package sudoku.processingUsingCommand;
 
 import sudoku.model.Sudoku;
 import sudoku.processingUsingStrategy.Resolvable;
+import sudoku.stepHandlers.OneChangeStep;
+import sudoku.stepHandlers.Step;
 
 public class CommandPicker implements Command {
-    Resolvable resolvable;
-    Sudoku sudoku;
+//    Resolvable resolvable;
+//    Sudoku sudoku;
+    Step step;
 
     public CommandPicker(Resolvable resolvable, Sudoku sudoku) {
-        this.resolvable = resolvable;
-        this.sudoku = sudoku;
+//        this.resolvable = resolvable;
+//        this.sudoku = sudoku;
+        step = new OneChangeStep(resolvable, sudoku);
     }
+
+    public Step getStep() {
+        return step;
+    }
+
     @Override
     public Sudoku execute() {
-        return resolvable.resolveSudoku(sudoku);
+        Sudoku sudoku = ((OneChangeStep)step).getSudoku();
+        return ((OneChangeStep)step).getResolvable().resolveSudoku(sudoku);
     }
 
     @Override
     public String toString() {
-        return resolvable.getName() + "\n" + sudoku.toString();
+        Sudoku sudoku = ((OneChangeStep)step).getSudoku();
+        return ((OneChangeStep)step).getResolvable().getName() + "\n" + sudoku.toString();
     }
+
+//    @Override
+//    public Sudoku execute() {
+//        return resolvable.resolveSudoku(sudoku);
+//    }
+//
+//    @Override
+//    public String toString() {
+//        return resolvable.getName() + "\n" + sudoku.toString();
+//    }
 }
