@@ -124,7 +124,7 @@ public class MainCommandPattern {
     private void runDefaultSudokuAutomaticInvoker() throws IllegalSudokuStateException{
         System.out.println("AutomaticInvoker Used");
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
-        int[][] data = fileSudokuReader.read(extremelyHard);
+        int[][] data = fileSudokuReader.read(harder);
         Sudoku sudoku = new Sudoku(data);
 
         printSudoku(sudoku);
