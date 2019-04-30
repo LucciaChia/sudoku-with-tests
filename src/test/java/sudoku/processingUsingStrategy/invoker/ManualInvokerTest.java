@@ -9,6 +9,7 @@ import sudoku.processingUsingCommand.Command;
 import sudoku.processingUsingCommand.CommandPicker;
 import sudoku.processingUsingCommand.ManualInvoker;
 import sudoku.processingUsingStrategy.BacktrackLuciaTest;
+import sudoku.processingUsingStrategy.NakedSingleInACell;
 import sudoku.readers.FileSudokuReader;
 
 import java.io.File;
@@ -65,18 +66,13 @@ public class ManualInvokerTest {
 
         try {
             sudoku = new Sudoku(inputData);
-//            BacktrackLucia backtrackLucia = new BacktrackLucia();
-//            sudoku = backtrackLucia.resolveSudoku(sudoku);
-//            printPoss(sudoku);
-//            extAppLogFile.info("=================================");
-//            System.out.println("=================================");
         } catch (IllegalSudokuStateException ex) {
             extAppLogFile.error("Test incorrect input");
-//            System.out.println("Test incorrect input");
         }
 
         // WHEN
         invoker = new ManualInvoker(sudoku);
+        invoker.setStrategies(new NakedSingleInACell());
         command = invoker.getNextState();
         result = ((CommandPicker) command).getSudoku();
 
@@ -84,19 +80,33 @@ public class ManualInvokerTest {
         assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(result));
     }
 
-//    private void printPoss(Sudoku sudoku) {
-//        for (int i = 0; i < 9; i++) {
-//            for (int j = 0; j < 9; j++) {
-//                System.out.println(sudoku.getRows().get(i).getCell(j).toString());
-//            }
-//            System.out.println("*");
-//        }
-//
-//        for (int i = 0; i < 9; i++) {
-//            for (int j = 0; j < 9; j++) {
-//                System.out.print(sudoku.getRows().get(i).getCell(j).getActualValue() + " ");
-//            }
-//            System.out.println();
-//        }
-//    }
+    @Test
+    public void testTwoStepsSolvingSudoku() {
+
+        // GIVEN
+        FileSudokuReader fileSudokuReader = new FileSudokuReader();
+        int[][] inputData = fileSudokuReader.read(inp6);
+        int[][] expectedOutput = fileSudokuReader.read(out6);
+        Sudoku sudoku = null;
+        Sudoku result = null;
+        ManualInvoker invoker = null;
+        Command command = null;
+
+        try {
+            sudoku = new Sudoku(inputData);
+        } catch (IllegalSudokuStateException ex) {
+            extAppLogFile.error("Test incorrect input");
+        }
+
+        // WHEN
+        invoker = new ManualInvoker(sudoku);
+        invoker.setStrategies(new NakedSingleInACell());
+        command = invoker.getNextState();
+        command = invoker.getNextState();
+        result = ((CommandPicker) command).getSudoku();
+
+        // THEN
+        assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(result));
+    }
+
 }

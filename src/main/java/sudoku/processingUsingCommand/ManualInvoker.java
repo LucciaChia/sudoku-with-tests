@@ -18,7 +18,7 @@ public class ManualInvoker implements Invoker {
     private List<Command> commands = new LinkedList<>();
     private List<Step> stepListFromAllUsedMethods = new ArrayList<>();
     private List<Resolvable> strategies = new ArrayList<>();
-    private Resolvable nextStrategy = new BacktrackLucia(); // default next strategy will be backtrack
+//    private Resolvable nextStrategy = new BacktrackLucia(); // default next strategy will be backtrack
     private int currentStep = 0;
     private Sudoku sudoku;
 
@@ -35,10 +35,6 @@ public class ManualInvoker implements Invoker {
         for (Resolvable strategy: useStrategies) {
             this.strategies.add(strategy);
         }
-    }
-
-    public void setNextStrategy(Resolvable strategy) {
-        this.nextStrategy = strategy;
     }
 
     public List<Step> getStepListFromAllUsedMethods() {
@@ -89,14 +85,14 @@ public class ManualInvoker implements Invoker {
 
     @Override
     public Command getNextState() {
-        Command command = new CommandPicker(nextStrategy, sudoku);
+        Command command = new CommandPicker(strategies.get(0), sudoku);
 
         if (!sudoku.isSudokuResolved()) {
             sudoku = command.execute();
-            Step oneStep = nextStrategy.getStepList().get(0);
+            Step oneStep = strategies.get(0).getStepList().get(0);
             stepListFromAllUsedMethods.add(oneStep);
             currentStep++;
-            command = new CommandPicker(nextStrategy, ((OneChangeStep) oneStep).getSudoku());
+            command = new CommandPicker(strategies.get(0), ((OneChangeStep) oneStep).getSudoku());
             commands.add(command);
         }
 
