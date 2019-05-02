@@ -61,7 +61,7 @@ public class ManualInvoker implements Invoker {
         return command;
     }
 
-    @Override
+//    @Override
     public Command getPreviousState(int step) {
         Command command = null;
         List<Command> tmpCommands = new ArrayList<>();
@@ -104,7 +104,7 @@ public class ManualInvoker implements Invoker {
         return null;
     }
 
-    @Override
+//    @Override
     public List<String> getMethodUsedInAllStep() {
         return null;
     }

@@ -113,7 +113,7 @@ public class AutomatedInvoker implements Invoker {
 
 
 
-    @Override
+//    @Override
     public List<String> getMethodUsedInAllStep() {
         return null;
     }
@@ -130,7 +130,7 @@ public class AutomatedInvoker implements Invoker {
         return null;
     }
 
-    @Override
+//    @Override
     public Command getPreviousState(int step) {
 //        int currentStep = commands.size() - 1;
 //        if (step >= 0 && step < currentStep) {
