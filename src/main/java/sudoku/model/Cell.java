@@ -1,5 +1,7 @@
 package sudoku.model;
 
+import static java.util.stream.Collectors.joining;
+
 import java.util.ArrayList;
 import java.util.List;
 /**
@@ -71,11 +73,8 @@ public class Cell {
 
     @Override
     public String toString() {
-
-        StringBuilder s = new StringBuilder();
-        for (Integer cellPossibility : cellPossibilities) {
-            s.append(cellPossibility).append(", ");
-        }
-        return "value: " + actualValue + ", i=" + i + ", j=" + j + " possibilities: " + s;
+        //example of stream and lambda
+        String collect = cellPossibilities.stream().map(Object::toString).collect(joining(", "));
+        return "value: " + actualValue + ", i=" + i + ", j=" + j + " possibilities: " + collect;
     }
 }
