@@ -1,8 +1,7 @@
 package sudoku.stepHandlers;
 
-import sudoku.model.Cell;
-
 import java.util.Map;
+import sudoku.model.Cell;
 
 public interface Step {
 

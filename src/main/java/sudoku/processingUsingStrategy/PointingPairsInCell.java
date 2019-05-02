@@ -1,15 +1,18 @@
 package sudoku.processingUsingStrategy;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import sudoku.model.*;
-import sudoku.stepHandlers.OneChangeStep;
-import sudoku.stepHandlers.Step;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import sudoku.model.Box;
+import sudoku.model.Cell;
+import sudoku.model.Column;
+import sudoku.model.Row;
+import sudoku.model.Sudoku;
+import sudoku.stepHandlers.OneChangeStep;
+import sudoku.stepHandlers.Step;
 
 public class PointingPairsInCell implements Resolvable {
 

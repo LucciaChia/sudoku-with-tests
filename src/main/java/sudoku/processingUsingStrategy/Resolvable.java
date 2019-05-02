@@ -1,9 +1,12 @@
 package sudoku.processingUsingStrategy;
 
-import sudoku.model.*;
-import sudoku.stepHandlers.Step;
-
 import java.util.List;
+import sudoku.model.Box;
+import sudoku.model.Cell;
+import sudoku.model.Column;
+import sudoku.model.Row;
+import sudoku.model.Sudoku;
+import sudoku.stepHandlers.Step;
 
 /**
  * zvladla test pre NakedSingleInACell

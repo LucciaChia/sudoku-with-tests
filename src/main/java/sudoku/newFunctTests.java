@@ -1,11 +1,10 @@
 package sudoku;
 
-import sudoku.customExceptions.IllegalSudokuStateException;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import sudoku.customExceptions.IllegalSudokuStateException;
 
 public class newFunctTests {
     public static void main(String[] args) {

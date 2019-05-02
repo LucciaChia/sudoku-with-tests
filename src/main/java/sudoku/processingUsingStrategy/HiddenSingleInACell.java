@@ -1,13 +1,16 @@
 package sudoku.processingUsingStrategy;
 
-import sudoku.model.*;
-import sudoku.stepHandlers.OneChangeStep;
-import sudoku.stepHandlers.Step;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import sudoku.model.Box;
+import sudoku.model.Cell;
+import sudoku.model.Column;
+import sudoku.model.Row;
+import sudoku.model.Sudoku;
+import sudoku.stepHandlers.OneChangeStep;
+import sudoku.stepHandlers.Step;
 
 public class HiddenSingleInACell implements Resolvable {
     private Map<int[], Integer> deletedPossibilitiesWithLocation = new HashMap<>();
