@@ -16,13 +16,13 @@ import java.util.Map;
  */
 public abstract class SudokuElement {
     private static final String ANSI_RESET = "\u001B[0m";
-    private static final String ANSI_RED = "\u001B[31m";
-    private static final String ANSI_GREEN = "\u001B[32m";
-    private static final String ANSI_YELLOW = "\u001B[33m";
+//    private static final String ANSI_RED = "\u001B[31m";
+//    private static final String ANSI_GREEN = "\u001B[32m";
+//    private static final String ANSI_YELLOW = "\u001B[33m";
     private static final String ANSI_BLUE = "\u001B[34m";
-    private static final String ANSI_PURPLE = "\u001B[35m";
-    private static final String ANSI_CYAN = "\u001B[36m";
-    private static final String ANSI_WHITE = "\u001B[37m";
+//    private static final String ANSI_PURPLE = "\u001B[35m";
+//    private static final String ANSI_CYAN = "\u001B[36m";
+//    private static final String ANSI_WHITE = "\u001B[37m";
 
     private static final Logger extAppLogFile = LoggerFactory.getLogger(SudokuElement.class);
 
@@ -35,10 +35,6 @@ public abstract class SudokuElement {
 
     public List<Cell> getCellList() {
         return cellList;
-    }
-
-    public void setCellList(ArrayList<Cell> cellsInSquare) {
-        cellList = cellsInSquare;
     }
 
     public void validateRepetition() throws IllegalSudokuStateException{
@@ -63,51 +59,17 @@ public abstract class SudokuElement {
         for (int i = 0; i < 9; i++) {
             List<Integer> possibility = listOfCells.get(i).getCellPossibilities(); // moznosti v bunke
             if (possibility != null) {
-                for (int j = 0; j < possibility.size(); j++) {
-                    if (!countOfPossibilities.containsKey(possibility.get(j))) {
-                        countOfPossibilities.put(possibility.get(j), 1);
+                for (Integer integer : possibility) {
+                    if (!countOfPossibilities.containsKey(integer)) {
+                        countOfPossibilities.put(integer, 1);
                     } else {
-                        int key = possibility.get(j);
+                        int key = integer;
                         countOfPossibilities.put(key, countOfPossibilities.get(key) + 1);
                     }
                 }
             }
         }
         return countOfPossibilities;
-    }
-
-    // removePossibilityFrom: Row / Column / Box - refactored from class Solution
-
-    /**
-     * vymazanie konkretnej hodnoty z moznosti konkretnej celly
-     * @param value
-     * @param cell
-     */
-    public void removePossibility(int value, Cell cell) { // odoberanie potencialnych moznosti z ciell v riadku / stlpci / stvorci
-        for (int i = 0; i < 9; i++) {
-            List<Integer> possibilities = cell.getCellPossibilities();
-            if (possibilities != null) {
-                possibilities.remove((Integer) value);
-            }
-        }
-    }
-
-    // search: Row / Column / Box - refactored from class Solution
-    /**
-     * kontrolujem danu bunku a jej porencialne moznosti.
-     * prechadzam bud cez riadok, stlpec alebo stovrec, v ktorom je. Ak najdem v riadku bunku, ktora uz ma realnu hodnotu
-     * t. j. napr.: 4 a v moje bunke, ktoru kontrolujem je v potencialnych moznostiach cislo 4, tak ho odstranim
-     * @param cell
-     */
-    public List<Integer> search(Cell cell) { // odoberanie potencialnych moznosti z ciell v riadku
-        List<Integer> possibility = cell.getCellPossibilities();
-        for (int i = 0; i < 9; i++) {
-            int checkValue = cellList.get(i).getActualValue();
-            if (checkValue != 0) {
-                possibility.remove((Integer) checkValue);
-            }
-        }
-        return possibility;
     }
 
     public boolean deletePossibilitiesInRowOrColumnSudokuElement(Cell cell, int possibilityToCheck, Map<int[], Integer> deletedPossibilitiesWithLocation) {
@@ -117,7 +79,7 @@ public abstract class SudokuElement {
 
         for (Cell testedCell : cellList) {
             Box testedCellBox = testedCell.getBox();
-            if (testedCell.getActualValue() == 0 && cellBox != testedCellBox && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
+            if (testedCell.getActualValue() == 0 && cellBox != testedCellBox && testedCell.getCellPossibilities().contains(possibilityToCheck)) {
                 int[] possibilityLocation = {testedCell.getI(), testedCell.getJ()};
                 deletedPossibilitiesWithLocation.put(possibilityLocation, possibilityToCheck);
                 extAppLogFile.info(ANSI_BLUE + "\tROW-COLUMN CASE: Possibility " + possibilityToCheck + " will be removed from " +
@@ -128,10 +90,6 @@ public abstract class SudokuElement {
         return somethingWasRemoved;
     }
 
-    private Box findCorrectBox( List<Box> boxes, int rowIndex, int columnIndex) {
-        return boxes.get((rowIndex/3)*3 + columnIndex/3);
-    }
-
     // musim to uz zavolat na spravnom Row / spravnom Column
     public boolean isPossibilityToCheckPresentSomewhereElseInRowInColumnSudokuElement(Cell cell, int possibilityToCheck) {
         Box cellBox = cell.getBox();
@@ -139,7 +97,7 @@ public abstract class SudokuElement {
         extAppLogFile.info("i or j case");
         for (Cell testedCell : cellList) {
             if (testedCell.getActualValue() == 0 && cellBox != testedCell.getBox() &&
-                    testedCell.getCellPossibilities().contains((Integer) possibilityToCheck)) {
+                    testedCell.getCellPossibilities().contains(possibilityToCheck)) {
                 return true;
             }
         }

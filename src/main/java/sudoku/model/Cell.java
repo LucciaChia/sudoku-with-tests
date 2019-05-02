@@ -72,9 +72,9 @@ public class Cell {
     @Override
     public String toString() {
 
-        String s = "";
+        StringBuilder s = new StringBuilder();
         for (Integer cellPossibility : cellPossibilities) {
-            s += cellPossibility + ", ";
+            s.append(cellPossibility).append(", ");
         }
         return "value: " + actualValue + ", i=" + i + ", j=" + j + " possibilities: " + s;
     }
