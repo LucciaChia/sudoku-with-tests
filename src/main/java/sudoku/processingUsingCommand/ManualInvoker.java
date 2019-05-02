@@ -1,19 +1,18 @@
 package sudoku.processingUsingCommand;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import sudoku.model.Sudoku;
-import sudoku.processingUsingStrategy.BacktrackLucia;
+import sudoku.processingUsingStrategy.NakedSingleInACell;
 import sudoku.processingUsingStrategy.Resolvable;
 import sudoku.stepHandlers.OneChangeStep;
 import sudoku.stepHandlers.Step;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 public class ManualInvoker implements Invoker {
-    private static final Logger extAppLogFile = LoggerFactory.getLogger(ManualInvoker.class);
+//    private static final Logger LOGGER = LoggerFactory.getLogger(ManualInvoker.class);
 
     private List<Command> commands = new LinkedList<>();
     private List<Step> stepListFromAllUsedMethods = new ArrayList<>();
@@ -22,69 +21,62 @@ public class ManualInvoker implements Invoker {
     private int currentStep = 0;
     private Sudoku sudoku;
 
-    public ManualInvoker() {}
+//    public ManualInvoker() {}
 
     public ManualInvoker(Sudoku sudoku) {
         this.sudoku = sudoku;
-//         by default only Backtrack Strategy will be used
-        this.strategies.add(new BacktrackLucia());
+////         by default only Backtrack Strategy will be used
+//        this.strategies.add(new BacktrackLucia());
+//      default strategy will be NakedSingleCell
+        this.strategies.add(new NakedSingleInACell());
     }
 
     public void setStrategies(Resolvable ... useStrategies) {
         this.strategies = new ArrayList<>();
-        for (Resolvable strategy: useStrategies) {
-            this.strategies.add(strategy);
-        }
+        this.strategies.addAll(Arrays.asList(useStrategies));
     }
 
-    public List<Step> getStepListFromAllUsedMethods() {
-        return stepListFromAllUsedMethods;
-    }
+//    public List<Step> getStepListFromAllUsedMethods() {
+//        return stepListFromAllUsedMethods;
+//    }
 
     public Sudoku getSudoku() {
         return sudoku;
     }
 
-    public List<Command> getCommands() {
-        return commands;
-    }
+//    public List<Command> getCommands() {
+//        return commands;
+//    }
 
     @Override
     public Command getPreviousState() {
         Command command = null;
+        Step step = null;
+        Resolvable resolvable = null;
+        Sudoku sudoku = null;
 
-        if (commands.size() > 0) {
-            command = commands.get(commands.size() - 1);
-            commands.remove(commands.size() - 1);
-        }
-
-        return command;
-    }
-
-//    @Override
-    public Command getPreviousState(int step) {
-        Command command = null;
-        List<Command> tmpCommands = new ArrayList<>();
-
-
-//        if (commands.size() > step) {
-//            command = commands.get(step);
-//            for(int i = 0; i < step; i++) {
-//                tmpCommands.add(commands.get(i));
-//            }
-//            commands.clear();
-//            commands.addAll(tmpCommands);
-//        } else {
-//            command = commands.get(0);
-//            commands.clear();
-//            commands.add(command);
+//        if (commands.size() > 0) {
+//            command = commands.get(commands.size() - 1);
+//            commands.remove(commands.size() - 1);
 //        }
+
+        if (currentStep > 0) {
+            step = stepListFromAllUsedMethods.get(stepListFromAllUsedMethods.size() - 1);  // TODO ja si musim urobit poriadok v tom ktore steps som si uchoval a ktore zahodim
+            stepListFromAllUsedMethods.remove(stepListFromAllUsedMethods.size() - 1);
+            currentStep--;
+            resolvable = ((OneChangeStep)step).getResolvable();
+            sudoku = ((OneChangeStep)step).getSudoku();
+            command = new CommandPicker(resolvable, sudoku);
+        }
 
         return command;
     }
 
     @Override
     public Command getNextState() {
+
+        // TODO ja si musim urobit poriadok v tom ktore steps som si uchoval a ktore zahodim
+
         Command command = new CommandPicker(strategies.get(0), sudoku);
 
         if (!sudoku.isSudokuResolved()) {
@@ -104,8 +96,9 @@ public class ManualInvoker implements Invoker {
         return null;
     }
 
-//    @Override
-    public List<String> getMethodUsedInAllStep() {
-        return null;
-    }
+
+//    public List<String> getMethodUsedInAllStep() {
+//        return null;
+//    }
+
 }
