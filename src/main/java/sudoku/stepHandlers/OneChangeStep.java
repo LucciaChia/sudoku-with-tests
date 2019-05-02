@@ -29,6 +29,10 @@ public class OneChangeStep implements Step {
         return resolvable;
     }
 
+    public void setResolvable(Resolvable resolvable) {
+        this.resolvable = resolvable;
+    }
+
     public OneChangeStep(Sudoku sudoku, String solvingStrategyName) {
         stepNumber++;
         this.sudoku = sudoku;

@@ -51,6 +51,7 @@ public class HiddenSingleInACell implements Resolvable {
                     if (deleteHidden(cell, rowPossibilities, columnPossibilities, boxPossibilities)) {
                         Sudoku sudokuCopy = sudoku.copy();
                         step = new OneChangeStep(sudokuCopy, name, cell);
+                        ((OneChangeStep)step).setResolvable(this);
                         stepList.add(step); // *****************************************************************************
                         //step.printStep(cell);
                         updatedInHiddenSingle = true;

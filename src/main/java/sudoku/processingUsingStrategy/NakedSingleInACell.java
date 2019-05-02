@@ -41,6 +41,7 @@ public class NakedSingleInACell implements Resolvable {
                         cell.setActualValue(cellPossibilities.get(0));
                         deletePossibilities(cell, cell.getActualValue());
                         step = new OneChangeStep(sudoku.copy(), name, cell);
+                        ((OneChangeStep)step).setResolvable(this);
                         //step.printStep(cell);
                         stepList.add(step); // ************************************************************************
                         updatedInNakedSingle = true;

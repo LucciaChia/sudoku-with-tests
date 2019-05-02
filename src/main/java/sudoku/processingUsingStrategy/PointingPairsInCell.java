@@ -110,6 +110,7 @@ public class PointingPairsInCell implements Resolvable {
                     Map<int[], Integer> deletedPossibilitiesWithLocationCopy = new HashMap<>();
                     deletedPossibilitiesWithLocationCopy.putAll(deletedPossibilitiesWithLocation);
                     step = new OneChangeStep(sudokuCopy, name, cell, partnerCell, deletedPossibilitiesWithLocationCopy);
+                    ((OneChangeStep)step).setResolvable(this);
                     //step.printStepPointingPair(cell, partnerCell, deletedPossibilitiesWithLocationCopy);
                     stepList.add(step); // *****************************************************************************
                     updatedInPointingPair = true;
