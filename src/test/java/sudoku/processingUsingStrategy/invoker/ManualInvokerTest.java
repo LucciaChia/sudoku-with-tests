@@ -11,6 +11,7 @@ import sudoku.processingUsingCommand.ManualInvoker;
 import sudoku.processingUsingStrategy.BacktrackLuciaTest;
 import sudoku.processingUsingStrategy.NakedSingleInACell;
 import sudoku.readers.FileSudokuReader;
+import sudoku.stepHandlers.OneChangeStep;
 
 import java.io.File;
 
@@ -74,7 +75,7 @@ public class ManualInvokerTest {
         invoker = new ManualInvoker(sudoku);
         invoker.setStrategies(new NakedSingleInACell());
         command = invoker.getNextState();
-        result = ((CommandPicker) command).getSudoku();
+        result = ((OneChangeStep)((CommandPicker) command).getStep()).getSudoku();
 
         // THEN
         assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(result));
@@ -103,7 +104,7 @@ public class ManualInvokerTest {
         invoker.setStrategies(new NakedSingleInACell());
         command = invoker.getNextState();
         command = invoker.getNextState();
-        result = ((CommandPicker) command).getSudoku();
+        result = ((OneChangeStep)((CommandPicker) command).getStep()).getSudoku();
 
         // THEN
         assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(result));
