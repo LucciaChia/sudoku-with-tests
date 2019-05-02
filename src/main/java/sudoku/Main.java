@@ -70,17 +70,17 @@ public class Main {
                         sudoku = solver.useStrategies(sudoku);
                         System.out.println("Solution:");
                         printSudoku(sudoku);
-                        extAppLogFile.info("Reading sudoku - valid input - using log4j");
+                        extAppLogFile.info("Reading sudoku - valid input");
                     } catch (Exception e) {
-                        extAppLogFile.warn("Reading sudoku - incorrect input - using log4j");
+                        extAppLogFile.warn("Reading sudoku - incorrect input");
                     }
                     break;
                 case 2:
                     try {
                         runDefaultSudoku();
-                        extAppLogFile.info("Default sudoku - valid input - using log4j");
+                        extAppLogFile.info("Default sudoku - valid input");
                     } catch (IllegalSudokuStateException ex) {
-                        extAppLogFile.warn("Reading sudoku - incorrect input - using log4j");
+                        extAppLogFile.warn("Reading sudoku - incorrect input");
                     }
 
                     break;
