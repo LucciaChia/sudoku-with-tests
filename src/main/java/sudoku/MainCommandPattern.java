@@ -118,7 +118,6 @@ public class MainCommandPattern {
                 data[i][j] = scanner.nextInt();
             }
         }
-
         return new Sudoku(data);
     }
 
@@ -140,6 +139,7 @@ public class MainCommandPattern {
         Sudoku sudoku = insertYourOwnSudoku();
         AutomatedInvoker automatedInvoker = new AutomatedInvoker(sudoku);
         automatedInvoker.setStrategies(nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell, backtrackLucia);
+        List<Step> allSteps = automatedInvoker.solvingStepsOrderLucia();
 
         int currentStep = 0;
 
