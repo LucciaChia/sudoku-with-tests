@@ -1,9 +1,8 @@
 package sudoku.processingUsingStrategy;
 
-import sudoku.model.Sudoku;
-
 import java.util.ArrayList;
 import java.util.List;
+import sudoku.model.Sudoku;
 
 public class Solver {
     private List<Resolvable> strategies;

@@ -1,13 +1,16 @@
 package sudoku.processingUsingCommand;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import sudoku.model.Sudoku;
 import sudoku.processingUsingStrategy.BacktrackLucia;
 import sudoku.processingUsingStrategy.Resolvable;
 import sudoku.stepHandlers.OneChangeStep;
 import sudoku.stepHandlers.Step;
-
-import java.util.*;
 
 public class AutomatedInvoker implements Invoker {
     private List<Command> commands = new LinkedList<>();
