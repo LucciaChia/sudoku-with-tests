@@ -1,6 +1,6 @@
 package sudoku;
 
-import sudoku.customExceptions.IllegalSudokuStateException;
+import sudoku.exceptions.IllegalSudokuStateException;
 
 import java.io.File;
 import java.util.ArrayList;

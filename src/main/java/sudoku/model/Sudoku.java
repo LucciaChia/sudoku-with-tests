@@ -1,7 +1,7 @@
 package sudoku.model;
 
 
-import sudoku.customExceptions.IllegalSudokuStateException;
+import sudoku.exceptions.IllegalSudokuStateException;
 
 import java.util.ArrayList;
 import java.util.List;

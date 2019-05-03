@@ -1,4 +1,4 @@
-package sudoku.customExceptions;
+package sudoku.exceptions;
 
 public class IllegalSudokuStateException extends Exception {
     private final int incorrectNumber;

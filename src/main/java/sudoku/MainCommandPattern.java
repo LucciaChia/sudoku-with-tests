@@ -3,7 +3,7 @@ package sudoku;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sudoku.customExceptions.IllegalSudokuStateException;
+import sudoku.exceptions.IllegalSudokuStateException;
 import sudoku.model.Sudoku;
 import sudoku.processingUsingCommand.AutomatedInvoker;
 import sudoku.processingUsingCommand.Command;

@@ -3,7 +3,7 @@ package sudoku.processingUsingStrategy.invoker;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sudoku.customExceptions.IllegalSudokuStateException;
+import sudoku.exceptions.IllegalSudokuStateException;
 import sudoku.model.Sudoku;
 import sudoku.processingUsingCommand.Command;
 import sudoku.processingUsingCommand.CommandPicker;

@@ -2,7 +2,7 @@ package sudoku.model;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sudoku.customExceptions.IllegalSudokuStateException;
+import sudoku.exceptions.IllegalSudokuStateException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
