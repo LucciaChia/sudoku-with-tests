@@ -8,7 +8,7 @@ import sudoku.step.Step;
 public class CommandPicker implements Command {
 //    Resolvable resolvable;
 //    Sudoku sudoku;
-    Step step;
+    private Step step;
 
     public CommandPicker(Resolvable resolvable, Sudoku sudoku) {
 //        this.resolvable = resolvable;
