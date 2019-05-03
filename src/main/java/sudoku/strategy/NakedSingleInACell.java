@@ -1,11 +1,11 @@
-package sudoku.processingUsingStrategy;
+package sudoku.strategy;
 
 import java.util.ArrayList;
 import java.util.List;
 import sudoku.model.Cell;
 import sudoku.model.Sudoku;
-import sudoku.stepHandlers.OneChangeStep;
-import sudoku.stepHandlers.Step;
+import sudoku.step.OneChangeStep;
+import sudoku.step.Step;
 
 public class NakedSingleInACell implements Resolvable {
     private boolean updatedInNakedSingle = false;
@@ -40,6 +40,7 @@ public class NakedSingleInACell implements Resolvable {
                         cell.setActualValue(cellPossibilities.get(0));
                         deletePossibilities(cell, cell.getActualValue());
                         step = new OneChangeStep(sudoku.copy(), name, cell);
+                        ((OneChangeStep)step).setResolvable(this);
                         //step.printStep(cell);
                         stepList.add(step); // ************************************************************************
                         updatedInNakedSingle = true;

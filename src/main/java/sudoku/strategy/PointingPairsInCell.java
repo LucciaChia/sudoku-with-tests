@@ -1,18 +1,15 @@
-package sudoku.processingUsingStrategy;
+package sudoku.strategy;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import sudoku.model.*;
+import sudoku.step.OneChangeStep;
+import sudoku.step.Step;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import sudoku.model.Box;
-import sudoku.model.Cell;
-import sudoku.model.Column;
-import sudoku.model.Row;
-import sudoku.model.Sudoku;
-import sudoku.stepHandlers.OneChangeStep;
-import sudoku.stepHandlers.Step;
 
 public class PointingPairsInCell implements Resolvable {
 
@@ -113,6 +110,7 @@ public class PointingPairsInCell implements Resolvable {
                     Map<int[], Integer> deletedPossibilitiesWithLocationCopy = new HashMap<>();
                     deletedPossibilitiesWithLocationCopy.putAll(deletedPossibilitiesWithLocation);
                     step = new OneChangeStep(sudokuCopy, name, cell, partnerCell, deletedPossibilitiesWithLocationCopy);
+                    ((OneChangeStep)step).setResolvable(this);
                     //step.printStepPointingPair(cell, partnerCell, deletedPossibilitiesWithLocationCopy);
                     stepList.add(step); // *****************************************************************************
                     updatedInPointingPair = true;

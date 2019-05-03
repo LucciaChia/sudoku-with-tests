@@ -1,4 +1,4 @@
-package sudoku.stepHandlers;
+package sudoku.step;
 
 import java.util.Map;
 import sudoku.model.Cell;

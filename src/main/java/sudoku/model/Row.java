@@ -12,10 +12,10 @@ public class Row extends SudokuElement {
 
     @Override
     public String toString() {
-        String output = "";
+        StringBuilder output = new StringBuilder();
         for (int i = 0; i < 9; i++) {
-            output += " " + super.getCellList().get(i).getActualValue();
+            output.append(" ").append(super.getCellList().get(i).getActualValue());
         }
-        return output;
+        return output.toString();
     }
 }

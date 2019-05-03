@@ -1,9 +1,9 @@
-package sudoku.processingUsingStrategy;
+package sudoku.strategy;
 
 import sudoku.model.Cell;
 import sudoku.model.Sudoku;
-import sudoku.stepHandlers.OneChangeStep;
-import sudoku.stepHandlers.Step;
+import sudoku.step.OneChangeStep;
+import sudoku.step.Step;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,6 +93,7 @@ public class BacktrackLucia implements Resolvable{
             }
         }
         step = new OneChangeStep(sudoku, name);
+        ((OneChangeStep)step).setResolvable(this);
         stepList.add(step);
 //        step.printBacktrack();
 //        sudoku.print();

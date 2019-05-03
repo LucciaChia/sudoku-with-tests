@@ -3,19 +3,20 @@ package sudoku;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sudoku.customExceptions.IllegalSudokuStateException;
+import sudoku.exceptions.IllegalSudokuStateException;
 import sudoku.model.Sudoku;
-import sudoku.processingUsingCommand.AutomatedInvoker;
-import sudoku.processingUsingCommand.Command;
-import sudoku.processingUsingStrategy.BacktrackLucia;
-import sudoku.processingUsingStrategy.HiddenSingleInACell;
-import sudoku.processingUsingStrategy.NakedSingleInACell;
-import sudoku.processingUsingStrategy.PointingPairsInCell;
+import sudoku.command.AutomatedInvoker;
+import sudoku.command.Command;
+import sudoku.strategy.BacktrackLucia;
+import sudoku.strategy.HiddenSingleInACell;
+import sudoku.strategy.NakedSingleInACell;
+import sudoku.strategy.PointingPairsInCell;
 import sudoku.readers.FileSudokuReader;
-import sudoku.stepHandlers.Step;
+import sudoku.step.Step;
 
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class MainCommandPattern {
@@ -24,17 +25,17 @@ public class MainCommandPattern {
     // TODO okomentovat vsetky metody, ktore obsahuju nejaku logiku
     // TODO do refactoring, remove duplicate code
 
-    private static ClassLoader classLoader = new Main().getClass().getClassLoader();
+    private static ClassLoader classLoader = Main.class.getClassLoader();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MainCommandPattern.class);
 
-    private static final String extremelySimple = new File(classLoader.getResource("inputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
-    private static final String simple = new File(classLoader.getResource("inputs/simple1.txt").getFile()).getPath();
-    private static final String harder = new File(classLoader.getResource("inputs/harder1.txt").getFile()).getPath();
-    private static final String extremelyHardOnlyBacktrackUsed = new File(classLoader.getResource("outputs/extremelyHardTmp.txt").getFile()).getPath();
-    private static final String extremelyHard = new File(classLoader.getResource("inputs/extremelyHard.txt").getFile()).getPath();
-    private static final String insane = new File(classLoader.getResource("inputs/insaneSudoku.txt").getFile()).getPath();
-    private static final String empty = new File(classLoader.getResource("inputs/emptySudoku.txt").getFile()).getPath();
+    private static final String extremelySimple = new File(Objects.requireNonNull(classLoader.getResource("inputs/NakedSingleInACell/extremelySimple.txt")).getFile()).getPath();
+    private static final String simple = new File(Objects.requireNonNull(classLoader.getResource("inputs/simple1.txt")).getFile()).getPath();
+    private static final String harder = new File(Objects.requireNonNull(classLoader.getResource("inputs/harder1.txt")).getFile()).getPath();
+    private static final String extremelyHardOnlyBacktrackUsed = new File(Objects.requireNonNull(classLoader.getResource("outputs/extremelyHardTmp.txt")).getFile()).getPath();
+    private static final String extremelyHard = new File(Objects.requireNonNull(classLoader.getResource("inputs/extremelyHard.txt")).getFile()).getPath();
+    private static final String insane = new File(Objects.requireNonNull(classLoader.getResource("inputs/insaneSudoku.txt")).getFile()).getPath();
+    private static final String empty = new File(Objects.requireNonNull(classLoader.getResource("inputs/emptySudoku.txt")).getFile()).getPath();
 
     private Scanner scanner = new Scanner(System.in);
 
@@ -124,7 +125,7 @@ public class MainCommandPattern {
     private void runDefaultSudokuAutomaticInvoker() throws IllegalSudokuStateException{
         System.out.println("AutomaticInvoker Used");
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
-        int[][] data = fileSudokuReader.read(extremelyHard);
+        int[][] data = fileSudokuReader.read(harder);
         Sudoku sudoku = new Sudoku(data);
 
         printSudoku(sudoku);
