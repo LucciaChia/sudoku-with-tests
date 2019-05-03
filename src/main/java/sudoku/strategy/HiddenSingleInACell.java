@@ -1,4 +1,4 @@
-package sudoku.processingUsingStrategy;
+package sudoku.strategy;
 
 import sudoku.model.*;
 import sudoku.stepHandlers.OneChangeStep;

@@ -1,4 +1,4 @@
-package sudoku.processingUsingStrategy;
+package sudoku.strategy;
 
 import sudoku.model.Cell;
 import sudoku.model.Sudoku;

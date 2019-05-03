@@ -4,10 +4,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 import sudoku.exceptions.IllegalSudokuStateException;
 import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;
-import sudoku.processingUsingStrategy.HiddenSingleInACell;
-import sudoku.processingUsingStrategy.NakedSingleInACell;
-import sudoku.processingUsingStrategy.PointingPairsInCell;
-import sudoku.processingUsingStrategy.Solver;
+import sudoku.strategy.HiddenSingleInACell;
+import sudoku.strategy.NakedSingleInACell;
+import sudoku.strategy.PointingPairsInCell;
+import sudoku.strategy.Solver;
 
 import java.io.File;
 import java.util.stream.Stream;

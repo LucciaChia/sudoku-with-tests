@@ -1,4 +1,4 @@
-package sudoku.processingUsingStrategy.invoker;
+package sudoku.strategy.invoker;
 
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -8,8 +8,8 @@ import sudoku.model.Sudoku;
 import sudoku.command.Command;
 import sudoku.command.CommandPicker;
 import sudoku.command.ManualInvoker;
-import sudoku.processingUsingStrategy.BacktrackLuciaTest;
-import sudoku.processingUsingStrategy.NakedSingleInACell;
+import sudoku.strategy.BacktrackLuciaTest;
+import sudoku.strategy.NakedSingleInACell;
 import sudoku.readers.FileSudokuReader;
 import sudoku.stepHandlers.OneChangeStep;
 

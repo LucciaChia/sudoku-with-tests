@@ -1,7 +1,7 @@
 package sudoku.command;
 
 import sudoku.model.Sudoku;
-import sudoku.processingUsingStrategy.Resolvable;
+import sudoku.strategy.Resolvable;
 import sudoku.stepHandlers.OneChangeStep;
 import sudoku.stepHandlers.Step;
 

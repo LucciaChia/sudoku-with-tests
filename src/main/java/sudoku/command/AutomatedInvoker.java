@@ -2,8 +2,8 @@ package sudoku.command;
 
 
 import sudoku.model.Sudoku;
-import sudoku.processingUsingStrategy.BacktrackLucia;
-import sudoku.processingUsingStrategy.Resolvable;
+import sudoku.strategy.BacktrackLucia;
+import sudoku.strategy.Resolvable;
 import sudoku.stepHandlers.OneChangeStep;
 import sudoku.stepHandlers.Step;
 

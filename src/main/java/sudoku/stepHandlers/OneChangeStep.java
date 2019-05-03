@@ -2,7 +2,7 @@ package sudoku.stepHandlers;
 
 import sudoku.model.Cell;
 import sudoku.model.Sudoku;
-import sudoku.processingUsingStrategy.Resolvable;
+import sudoku.strategy.Resolvable;
 
 import java.util.Arrays;
 import java.util.Map;

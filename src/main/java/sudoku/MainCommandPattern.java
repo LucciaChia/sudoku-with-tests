@@ -7,10 +7,10 @@ import sudoku.exceptions.IllegalSudokuStateException;
 import sudoku.model.Sudoku;
 import sudoku.command.AutomatedInvoker;
 import sudoku.command.Command;
-import sudoku.processingUsingStrategy.BacktrackLucia;
-import sudoku.processingUsingStrategy.HiddenSingleInACell;
-import sudoku.processingUsingStrategy.NakedSingleInACell;
-import sudoku.processingUsingStrategy.PointingPairsInCell;
+import sudoku.strategy.BacktrackLucia;
+import sudoku.strategy.HiddenSingleInACell;
+import sudoku.strategy.NakedSingleInACell;
+import sudoku.strategy.PointingPairsInCell;
 import sudoku.readers.FileSudokuReader;
 
 import java.io.File;

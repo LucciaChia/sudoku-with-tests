@@ -1,4 +1,4 @@
-package sudoku.processingUsingStrategy;
+package sudoku.strategy;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -10,26 +10,20 @@ import sudoku.readers.FileSudokuReader;
 import java.io.File;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
-class NakedSingleInACellTest {
-
-    static ClassLoader classLoader = new NakedSingleInACellTest().getClass().getClassLoader();
+class HiddenSingleInACellTest {
+    static ClassLoader classLoader = new HiddenSingleInACellTest().getClass().getClassLoader();
 
     private static final String inp1 = new File(classLoader.getResource("inputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
     private static final String out1 = new File(classLoader.getResource("outputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
 
     private static final String inp2 = new File(classLoader.getResource("inputs/simple1.txt").getFile()).getPath();
-    private static final String out2 = new File(classLoader.getResource("outputs/NakedSingleInACell/simple1.txt").getFile()).getPath();
+    private static final String out2 = new File(classLoader.getResource("outputs/simple1.txt").getFile()).getPath();
 
     private static final String inp3 = new File(classLoader.getResource("inputs/harder1.txt").getFile()).getPath();
-    private static final String out3 = new File(classLoader.getResource("outputs/NakedSingleInACell/harder1.txt").getFile()).getPath();
+    private static final String out3 = new File(classLoader.getResource("outputs/HiddenSingleInACell/harder1.txt").getFile()).getPath();
 
-
-    /**
-     * extremelySimple.txt input should be completely resolved by NakedSingleInACell() method
-     * hard inputs won't be changed by this method at first at all
-     */
     @ParameterizedTest
     @MethodSource("linksToInputs")
     void resolveSudoku(String inputSudokuMatrixPath, String expectedSudokuOutputPath) {
@@ -40,7 +34,19 @@ class NakedSingleInACellTest {
         try {
             Sudoku sudoku = new Sudoku(inputData);
             NakedSingleInACell nakedSingleInACell = new NakedSingleInACell();
-            nakedSingleInACell.resolveSudoku(sudoku);
+            HiddenSingleInACell hiddenSingleInACell = new HiddenSingleInACell();
+
+            do {
+                nakedSingleInACell.resolveSudoku(sudoku);
+                System.out.println(" N ");
+                if (!nakedSingleInACell.isUpdated()) {
+                    hiddenSingleInACell.resolveSudoku(sudoku);
+                    System.out.println(" H ");
+                }
+            } while (nakedSingleInACell.isUpdated() || hiddenSingleInACell.isUpdated());
+
+
+
             printPoss(sudoku);
             System.out.println("=================================");
             assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(sudoku));
@@ -50,9 +56,9 @@ class NakedSingleInACellTest {
     }
 
     private static Stream<Arguments> linksToInputs() {
-        return Stream.of(Arguments.of(NakedSingleInACellTest.inp1, NakedSingleInACellTest.out1),
-                Arguments.of(NakedSingleInACellTest.inp2, NakedSingleInACellTest.out2),
-                Arguments.of(NakedSingleInACellTest.inp3, NakedSingleInACellTest.out3)
+        return Stream.of(Arguments.of(HiddenSingleInACellTest.inp1, HiddenSingleInACellTest.out1),
+                Arguments.of(HiddenSingleInACellTest.inp2, HiddenSingleInACellTest.out2),
+                Arguments.of(HiddenSingleInACellTest.inp3, HiddenSingleInACellTest.out3)
         );
     }
 

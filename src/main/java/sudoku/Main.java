@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sudoku.exceptions.IllegalSudokuStateException;
 import sudoku.model.Sudoku;
-import sudoku.processingUsingStrategy.*;
+import sudoku.strategy.*;
 import sudoku.readers.FileSudokuReader;
 
 import java.io.File;
