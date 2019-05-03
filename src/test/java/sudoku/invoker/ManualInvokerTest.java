@@ -62,9 +62,9 @@ public class ManualInvokerTest {
         int[][] inputData = fileSudokuReader.read(inp5);
         int[][] expectedOutput = fileSudokuReader.read(out5);
         Sudoku sudoku = null;
-        Sudoku result = null;
-        ManualInvoker invoker = null;
-        Command command = null;
+        Sudoku result;
+        ManualInvoker invoker;
+        Command command;
 
         try {
             sudoku = new Sudoku(inputData);
@@ -90,9 +90,9 @@ public class ManualInvokerTest {
         int[][] inputData = fileSudokuReader.read(inp6);
         int[][] expectedOutput = fileSudokuReader.read(out6);
         Sudoku sudoku = null;
-        Sudoku result = null;
-        ManualInvoker invoker = null;
-        Command command = null;
+        Sudoku result;
+        ManualInvoker invoker;
+        Command command;
 
         try {
             sudoku = new Sudoku(inputData);
@@ -103,7 +103,7 @@ public class ManualInvokerTest {
         // WHEN
         invoker = new ManualInvoker(sudoku);
         invoker.setStrategies(new NakedSingleInACell());
-        command = invoker.getNextState();
+        invoker.getNextState();
         command = invoker.getNextState();
         result = ((OneChangeStep)((CommandPicker) command).getStep()).getSudoku();
 
@@ -118,9 +118,9 @@ public class ManualInvokerTest {
         int[][] inputData = fileSudokuReader.read(inp6);
         int[][] expectedOutput = fileSudokuReader.read(inp5);
         Sudoku sudoku = null;
-        Sudoku result = null;
-        ManualInvoker invoker = null;
-        Command command = null;
+        Sudoku result;
+        ManualInvoker invoker;
+        Command command;
 
         try {
             sudoku = new Sudoku(inputData);
@@ -143,14 +143,14 @@ public class ManualInvokerTest {
         // GIVEN
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
         int[][] inputData = fileSudokuReader.read(inp7);
-        int[][] expectedOutput = fileSudokuReader.read(inp7);
+//        int[][] expectedOutput = fileSudokuReader.read(inp7);
         Sudoku sudoku = null;
-        Sudoku result = null;
-        Sudoku expectedResult = null;
-        ManualInvoker invoker = null;
-        Command command0 = null;
-        Command command1 = null;
-        Command command2 = null;
+        Sudoku result;
+        Sudoku expectedResult;
+        ManualInvoker invoker;
+//        Command command0 = null;
+//        Command command1 = null;
+        Command command2;
 
         try {
             sudoku = new Sudoku(inputData);
@@ -161,8 +161,10 @@ public class ManualInvokerTest {
         // WHEN
         invoker = new ManualInvoker(sudoku);
         invoker.setStrategies(new NakedSingleInACell());
-        command0 = invoker.getNextState();
-        command1 = invoker.getNextState();
+//        command0 = invoker.getNextState();
+        invoker.getNextState();
+//        command1 = invoker.getNextState();
+        invoker.getNextState();
         command2 = invoker.getPreviousState();
         expectedResult = ((OneChangeStep)((CommandPicker) command2).getStep()).getSudoku();
         result = ((OneChangeStep)((CommandPicker) command2).getStep()).getSudoku();
