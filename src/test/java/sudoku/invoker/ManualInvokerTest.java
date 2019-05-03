@@ -3,20 +3,22 @@ package sudoku.invoker;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sudoku.exceptions.IllegalSudokuStateException;
-import sudoku.model.Sudoku;
 import sudoku.command.Command;
 import sudoku.command.CommandPicker;
 import sudoku.command.ManualInvoker;
-import sudoku.strategy.BacktrackLuciaTest;
-import sudoku.strategy.NakedSingleInACell;
+import sudoku.exceptions.IllegalSudokuStateException;
+import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;
 import sudoku.step.OneChangeStep;
+import sudoku.strategy.*;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ManualInvokerTest {
     private static final Logger extAppLogFile = LoggerFactory.getLogger(ManualInvoker.class);
@@ -171,6 +173,45 @@ public class ManualInvokerTest {
 
         // THEN
         assertArrayEquals(setArrayAccordingToObjectValues(expectedResult), setArrayAccordingToObjectValues(result));
+    }
+
+    @Test
+    public void testGetNextStateUsingChosenStrategy() {
+        // GIVEN
+        FileSudokuReader fileSudokuReader = new FileSudokuReader();
+        int[][] inputData = fileSudokuReader.read(inp7);
+        int[][] expectedOutput = fileSudokuReader.read(out7);
+        Sudoku sudoku = null;
+        Sudoku result;
+        Sudoku expectedResult;
+        ManualInvoker invoker;
+        List<Command> commands = new ArrayList<>();
+        try {
+            sudoku = new Sudoku(inputData);
+        } catch (IllegalSudokuStateException ex) {
+            extAppLogFile.error("Test incorrect input");
+        }
+        invoker = new ManualInvoker(sudoku);
+
+        // WHEN
+        commands.add(invoker.getNextState(new NakedSingleInACell()));
+        commands.add(invoker.getNextState(new NakedSingleInACell()));
+        commands.add(invoker.getNextState(new HiddenSingleInACell()));
+        commands.add(invoker.getNextState(new NakedSingleInACell()));
+        commands.add(invoker.getNextState(new PointingPairsInCell()));
+        commands.add(invoker.getNextState(new NakedSingleInACell()));
+        commands.add(invoker.getNextState(new BacktrackLucia()));
+        result = ((OneChangeStep)((CommandPicker) commands.get(commands.size() - 1)).getStep()).getSudoku();
+
+        // THEN
+        assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(result));
+        assertEquals("0: NackedSingleInACell", ((OneChangeStep)((CommandPicker)commands.get(0)).getStep()).getResolvable().getName());
+        assertEquals("0: NackedSingleInACell", ((OneChangeStep)((CommandPicker)commands.get(1)).getStep()).getResolvable().getName());
+        assertEquals("1: HiddenSingleInACell", ((OneChangeStep)((CommandPicker)commands.get(2)).getStep()).getResolvable().getName());
+        assertEquals("0: NackedSingleInACell", ((OneChangeStep)((CommandPicker)commands.get(3)).getStep()).getResolvable().getName());
+        assertEquals("2: PointingPairsInCell", ((OneChangeStep)((CommandPicker)commands.get(4)).getStep()).getResolvable().getName());
+        assertEquals("0: NackedSingleInACell", ((OneChangeStep)((CommandPicker)commands.get(5)).getStep()).getResolvable().getName());
+        assertEquals("3: Backtrack", ((OneChangeStep)((CommandPicker)commands.get(6)).getStep()).getResolvable().getName());
     }
 
 }
