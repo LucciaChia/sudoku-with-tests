@@ -3,8 +3,8 @@ package sudoku.strategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sudoku.model.*;
-import sudoku.stepHandlers.OneChangeStep;
-import sudoku.stepHandlers.Step;
+import sudoku.step.OneChangeStep;
+import sudoku.step.Step;
 
 import java.util.ArrayList;
 import java.util.HashMap;

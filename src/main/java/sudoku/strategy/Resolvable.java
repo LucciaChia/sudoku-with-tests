@@ -1,7 +1,7 @@
 package sudoku.strategy;
 
 import sudoku.model.*;
-import sudoku.stepHandlers.Step;
+import sudoku.step.Step;
 
 import java.util.List;
 

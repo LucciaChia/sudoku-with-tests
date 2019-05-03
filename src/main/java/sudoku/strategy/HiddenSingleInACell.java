@@ -1,8 +1,8 @@
 package sudoku.strategy;
 
 import sudoku.model.*;
-import sudoku.stepHandlers.OneChangeStep;
-import sudoku.stepHandlers.Step;
+import sudoku.step.OneChangeStep;
+import sudoku.step.Step;
 
 import java.util.ArrayList;
 import java.util.HashMap;

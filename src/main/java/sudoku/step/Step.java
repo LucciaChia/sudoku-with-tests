@@ -1,4 +1,4 @@
-package sudoku.stepHandlers;
+package sudoku.step;
 
 import sudoku.model.Cell;
 

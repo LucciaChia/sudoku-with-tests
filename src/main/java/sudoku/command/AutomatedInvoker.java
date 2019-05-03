@@ -4,8 +4,8 @@ package sudoku.command;
 import sudoku.model.Sudoku;
 import sudoku.strategy.BacktrackLucia;
 import sudoku.strategy.Resolvable;
-import sudoku.stepHandlers.OneChangeStep;
-import sudoku.stepHandlers.Step;
+import sudoku.step.OneChangeStep;
+import sudoku.step.Step;
 
 import java.util.*;
 

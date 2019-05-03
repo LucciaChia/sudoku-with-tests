@@ -11,7 +11,7 @@ import sudoku.command.ManualInvoker;
 import sudoku.strategy.BacktrackLuciaTest;
 import sudoku.strategy.NakedSingleInACell;
 import sudoku.readers.FileSudokuReader;
-import sudoku.stepHandlers.OneChangeStep;
+import sudoku.step.OneChangeStep;
 
 import java.io.File;
 import java.util.Objects;

@@ -2,8 +2,8 @@ package sudoku.command;
 
 import sudoku.model.Sudoku;
 import sudoku.strategy.Resolvable;
-import sudoku.stepHandlers.OneChangeStep;
-import sudoku.stepHandlers.Step;
+import sudoku.step.OneChangeStep;
+import sudoku.step.Step;
 
 public class CommandPicker implements Command {
 //    Resolvable resolvable;

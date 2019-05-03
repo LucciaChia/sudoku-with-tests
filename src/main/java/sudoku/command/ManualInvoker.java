@@ -3,8 +3,8 @@ package sudoku.command;
 import sudoku.model.Sudoku;
 import sudoku.strategy.NakedSingleInACell;
 import sudoku.strategy.Resolvable;
-import sudoku.stepHandlers.OneChangeStep;
-import sudoku.stepHandlers.Step;
+import sudoku.step.OneChangeStep;
+import sudoku.step.Step;
 
 import java.util.ArrayList;
 import java.util.Arrays;
