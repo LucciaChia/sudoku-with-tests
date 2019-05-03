@@ -91,6 +91,12 @@ public class ManualInvoker implements Invoker {
         return command;
     }
 
+    public Command getNextState(Resolvable strategy) {
+        setStrategies(strategy);
+
+        return getNextState();
+    }
+
     @Override
     public Command solvingStepsOrder() {
         return null;
