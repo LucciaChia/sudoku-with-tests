@@ -78,7 +78,7 @@ public class ManualInvokerTest {
         invoker = new ManualInvoker(sudoku);
         invoker.setStrategies(new NakedSingleInACell());
         command = invoker.getNextState();
-        result = ((OneChangeStep)((CommandPicker) command).getStep()).getSudoku();
+        result = ((OneChangeStep)((CommandPicker) command).getStepList().get(0)).getSudoku();
 
         // THEN
         assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(result));
@@ -107,7 +107,7 @@ public class ManualInvokerTest {
         invoker.setStrategies(new NakedSingleInACell());
         invoker.getNextState();
         command = invoker.getNextState();
-        result = ((OneChangeStep)((CommandPicker) command).getStep()).getSudoku();
+        result = ((OneChangeStep)((CommandPicker) command).getStepList().get(0)).getSudoku();
 
         // THEN
         assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(result));
@@ -134,7 +134,7 @@ public class ManualInvokerTest {
         invoker = new ManualInvoker(sudoku);
         invoker.setStrategies(new NakedSingleInACell());
         command = invoker.getNextState();
-        result = ((OneChangeStep)((CommandPicker) command).getStep()).getSudoku();
+        result = ((OneChangeStep)((CommandPicker) command).getStepList().get(0)).getSudoku();
 
         // THEN
         assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(result));
@@ -168,8 +168,8 @@ public class ManualInvokerTest {
 //        command1 = invoker.getNextState();
         invoker.getNextState();
         command2 = invoker.getPreviousState();
-        expectedResult = ((OneChangeStep)((CommandPicker) command2).getStep()).getSudoku();
-        result = ((OneChangeStep)((CommandPicker) command2).getStep()).getSudoku();
+        expectedResult = ((OneChangeStep)((CommandPicker) command2).getStepList().get(0)).getSudoku();
+        result = ((OneChangeStep)((CommandPicker) command2).getStepList().get(0)).getSudoku();
 
         // THEN
         assertArrayEquals(setArrayAccordingToObjectValues(expectedResult), setArrayAccordingToObjectValues(result));
@@ -201,17 +201,17 @@ public class ManualInvokerTest {
         commands.add(invoker.getNextState(new PointingPairsInCell()));
         commands.add(invoker.getNextState(new NakedSingleInACell()));
         commands.add(invoker.getNextState(new BacktrackLucia()));
-        result = ((OneChangeStep)((CommandPicker) commands.get(commands.size() - 1)).getStep()).getSudoku();
+        result = ((OneChangeStep)((CommandPicker) commands.get(commands.size() - 1)).getStepList().get(0)).getSudoku();
 
         // THEN
         assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(result));
-        assertEquals("0: NackedSingleInACell", ((OneChangeStep)((CommandPicker)commands.get(0)).getStep()).getResolvable().getName());
-        assertEquals("0: NackedSingleInACell", ((OneChangeStep)((CommandPicker)commands.get(1)).getStep()).getResolvable().getName());
-        assertEquals("1: HiddenSingleInACell", ((OneChangeStep)((CommandPicker)commands.get(2)).getStep()).getResolvable().getName());
-        assertEquals("0: NackedSingleInACell", ((OneChangeStep)((CommandPicker)commands.get(3)).getStep()).getResolvable().getName());
-        assertEquals("2: PointingPairsInCell", ((OneChangeStep)((CommandPicker)commands.get(4)).getStep()).getResolvable().getName());
-        assertEquals("0: NackedSingleInACell", ((OneChangeStep)((CommandPicker)commands.get(5)).getStep()).getResolvable().getName());
-        assertEquals("3: Backtrack", ((OneChangeStep)((CommandPicker)commands.get(6)).getStep()).getResolvable().getName());
+        assertEquals("0: NackedSingleInACell", ((OneChangeStep)((CommandPicker)commands.get(0)).getStepList().get(0)).getResolvable().getName());
+        assertEquals("0: NackedSingleInACell", ((OneChangeStep)((CommandPicker)commands.get(1)).getStepList().get(0)).getResolvable().getName());
+        assertEquals("1: HiddenSingleInACell", ((OneChangeStep)((CommandPicker)commands.get(2)).getStepList().get(0)).getResolvable().getName());
+        assertEquals("0: NackedSingleInACell", ((OneChangeStep)((CommandPicker)commands.get(3)).getStepList().get(0)).getResolvable().getName());
+        assertEquals("2: PointingPairsInCell", ((OneChangeStep)((CommandPicker)commands.get(4)).getStepList().get(0)).getResolvable().getName());
+        assertEquals("0: NackedSingleInACell", ((OneChangeStep)((CommandPicker)commands.get(5)).getStepList().get(0)).getResolvable().getName());
+        assertEquals("3: Backtrack", ((OneChangeStep)((CommandPicker)commands.get(6)).getStepList().get(0)).getResolvable().getName());
     }
 
 }

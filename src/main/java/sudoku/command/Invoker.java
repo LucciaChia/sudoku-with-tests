@@ -1,11 +1,17 @@
 package sudoku.command;
 
+import sudoku.step.Step;
+
+import java.util.List;
+
 public interface Invoker {
 
     Command getPreviousState();
-//    Command getPreviousState(int step);
     Command getNextState();
 
-    Command solvingStepsOrder();
-//    List<String> getMethodUsedInAllStep();
+//    Command solvingStepsOrder();
+
+    default Step getPreviousStep() { return null; }
+    default Step getNextStep() { return null; }
+    default List<Step> solvingStepsOrderLucia() { return null; }
 }

@@ -1,7 +1,5 @@
 package sudoku.command;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import sudoku.model.Sudoku;
 import sudoku.step.OneChangeStep;
 import sudoku.step.Step;
@@ -14,7 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ManualInvoker implements Invoker {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ManualInvoker.class);
+//    private static final Logger LOGGER = LoggerFactory.getLogger(ManualInvoker.class);
 
     private List<Command> commands = new LinkedList<>();
     private List<Step> stepListFromAllUsedMethods = new ArrayList<>();
@@ -55,7 +53,7 @@ public class ManualInvoker implements Invoker {
             command = new CommandPicker(resolvable, sudoku);
         }
         if (command != null) {
-            LOGGER.info("getPreviousState: current state is " + command.getStep().toString());
+//            LOGGER.info("getPreviousState: current state is " + command.getStepList().get(0).toString());
         }
 
         return command;
@@ -74,7 +72,7 @@ public class ManualInvoker implements Invoker {
             command = new CommandPicker(strategies.get(0), ((OneChangeStep) oneStep).getSudoku());
             commands.add(command);
         }
-        LOGGER.info("getNextState: current state is " + command.getStep().toString());
+//        LOGGER.info("getNextState: current state is " + command.getStepList().get(0).toString());
 
         return command;
     }
@@ -85,8 +83,8 @@ public class ManualInvoker implements Invoker {
         return getNextState();
     }
 
-    @Override
-    public Command solvingStepsOrder() {
-        return null;
-    }
+//    @Override
+//    public Command solvingStepsOrder() {
+//        return null;
+//    }
 }

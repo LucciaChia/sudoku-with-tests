@@ -12,7 +12,7 @@ import sudoku.strategy.HiddenSingleInACell;
 import sudoku.strategy.NakedSingleInACell;
 import sudoku.strategy.PointingPairsInCell;
 import sudoku.readers.FileSudokuReader;
-import sudoku.stepHandlers.Step;
+import sudoku.step.Step;
 
 import java.io.File;
 import java.util.List;

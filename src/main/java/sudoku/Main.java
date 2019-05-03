@@ -1,18 +1,15 @@
 package sudoku;
 
 
-import java.io.File;
-import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sudoku.customExceptions.IllegalSudokuStateException;
+import sudoku.exceptions.IllegalSudokuStateException;
 import sudoku.model.Sudoku;
-import sudoku.processingUsingStrategy.BacktrackLucia;
-import sudoku.processingUsingStrategy.HiddenSingleInACell;
-import sudoku.processingUsingStrategy.NakedSingleInACell;
-import sudoku.processingUsingStrategy.PointingPairsInCell;
-import sudoku.processingUsingStrategy.Solver;
 import sudoku.readers.FileSudokuReader;
+import sudoku.strategy.*;
+
+import java.io.File;
+import java.util.Scanner;
 
 public class Main {
 

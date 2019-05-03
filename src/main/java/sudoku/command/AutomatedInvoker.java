@@ -1,11 +1,11 @@
-package sudoku.processingUsingCommand;
+package sudoku.command;
 
 
 import sudoku.model.Sudoku;
-import sudoku.processingUsingStrategy.BacktrackLucia;
-import sudoku.processingUsingStrategy.Resolvable;
-import sudoku.stepHandlers.OneChangeStep;
-import sudoku.stepHandlers.Step;
+import sudoku.step.OneChangeStep;
+import sudoku.step.Step;
+import sudoku.strategy.BacktrackLucia;
+import sudoku.strategy.Resolvable;
 
 import java.util.*;
 
@@ -14,20 +14,17 @@ public class AutomatedInvoker implements Invoker {
     private List<Step> stepListFromAllUsedMethods = new ArrayList<>();
     private List<Resolvable> strategies = new ArrayList<>();
     private int currentStep = -1;
-    Command command;
 
     public void setStrategies(Resolvable ... useStrategies) {
         this.strategies = new ArrayList<>();
-        for (Resolvable strategy: useStrategies) {
-            this.strategies.add(strategy);
-        }
+        this.strategies.addAll(Arrays.asList(useStrategies));
     }
 
     private Sudoku sudoku;
 
-    public List<Step> getStepListFromAllUsedMethods() {
-        return stepListFromAllUsedMethods;
-    }
+//    public List<Step> getStepListFromAllUsedMethods() {
+//        return stepListFromAllUsedMethods;
+//    }
 
     public Sudoku getSudoku() {
         return sudoku;
@@ -48,11 +45,11 @@ public class AutomatedInvoker implements Invoker {
     @Override
     public List<Step> solvingStepsOrderLucia() {
         //CommandPicker commandPicker = new CommandPicker()
-        Resolvable currentlyUsedMethod;
+//        Resolvable currentlyUsedMethod;
 
             for (int i = 0; i < strategies.size(); i++) {
             //    System.out.println(strategies.get(i).getName());
-                command = new CommandPicker(strategies.get(i), sudoku);
+                Command command = new CommandPicker(strategies.get(i), sudoku);
                 sudoku = command.execute();
                 stepListFromAllUsedMethods.addAll(strategies.get(i).getStepList()); // ********************** NEW FUNCTIONALITY
                 commands.add(command);
@@ -113,10 +110,10 @@ public class AutomatedInvoker implements Invoker {
         }
     }
 
-    @Override
-    public Command solvingStepsOrder() {
-        return null;
-    }
+//    @Override
+//    public Command solvingStepsOrder() {
+//        return null;
+//    }
 
     @Override
     public Command getNextState() {
