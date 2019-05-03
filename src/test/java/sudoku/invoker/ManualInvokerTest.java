@@ -1,4 +1,4 @@
-package sudoku.strategy.invoker;
+package sudoku.invoker;
 
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
