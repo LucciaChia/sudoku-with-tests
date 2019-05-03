@@ -15,6 +15,7 @@ import sudoku.readers.FileSudokuReader;
 
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class MainCommandPattern {
@@ -23,17 +24,17 @@ public class MainCommandPattern {
     // TODO okomentovat vsetky metody, ktore obsahuju nejaku logiku
     // TODO do refactoring, remove duplicate code
 
-    private static ClassLoader classLoader = new Main().getClass().getClassLoader();
+    private static ClassLoader classLoader = Main.class.getClassLoader();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MainCommandPattern.class);
 
-    private static final String extremelySimple = new File(classLoader.getResource("inputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
-    private static final String simple = new File(classLoader.getResource("inputs/simple1.txt").getFile()).getPath();
-    private static final String harder = new File(classLoader.getResource("inputs/harder1.txt").getFile()).getPath();
-    private static final String extremelyHardOnlyBacktrackUsed = new File(classLoader.getResource("outputs/extremelyHardTmp.txt").getFile()).getPath();
-    private static final String extremelyHard = new File(classLoader.getResource("inputs/extremelyHard.txt").getFile()).getPath();
-    private static final String insane = new File(classLoader.getResource("inputs/insaneSudoku.txt").getFile()).getPath();
-    private static final String empty = new File(classLoader.getResource("inputs/emptySudoku.txt").getFile()).getPath();
+    private static final String extremelySimple = new File(Objects.requireNonNull(classLoader.getResource("inputs/NakedSingleInACell/extremelySimple.txt")).getFile()).getPath();
+    private static final String simple = new File(Objects.requireNonNull(classLoader.getResource("inputs/simple1.txt")).getFile()).getPath();
+    private static final String harder = new File(Objects.requireNonNull(classLoader.getResource("inputs/harder1.txt")).getFile()).getPath();
+    private static final String extremelyHardOnlyBacktrackUsed = new File(Objects.requireNonNull(classLoader.getResource("outputs/extremelyHardTmp.txt")).getFile()).getPath();
+    private static final String extremelyHard = new File(Objects.requireNonNull(classLoader.getResource("inputs/extremelyHard.txt")).getFile()).getPath();
+    private static final String insane = new File(Objects.requireNonNull(classLoader.getResource("inputs/insaneSudoku.txt")).getFile()).getPath();
+    private static final String empty = new File(Objects.requireNonNull(classLoader.getResource("inputs/emptySudoku.txt")).getFile()).getPath();
 
     private Scanner scanner = new Scanner(System.in);
 
