@@ -6,14 +6,22 @@ import sudoku.stepHandlers.OneChangeStep;
 import sudoku.stepHandlers.Step;
 
 public class CommandPicker implements Command {
-//    Resolvable resolvable;
-//    Sudoku sudoku;
-    Step step;
+    private Resolvable resolvable;
+    private Sudoku sudoku;
+    private Step step;
 
     public CommandPicker(Resolvable resolvable, Sudoku sudoku) {
-//        this.resolvable = resolvable;
-//        this.sudoku = sudoku;
+        this.resolvable = resolvable;
+        this.sudoku = sudoku;
         step = new OneChangeStep(resolvable, sudoku);
+    }
+
+    public Resolvable getResolvable() {
+        return resolvable;
+    }
+
+    public Sudoku getSudoku() {
+        return sudoku;
     }
 
     public Step getStep() {

@@ -1,13 +1,20 @@
 package sudoku.processingUsingCommand;
 
+import sudoku.stepHandlers.Step;
+
 import java.util.List;
 
+/*
+ * Invoker represents
+ */
 public interface Invoker {
 
     Command getPreviousState();
-    Command getPreviousState(int step);
     Command getNextState();
 
     Command solvingStepsOrder();
-    List<String> getMethodUsedInAllStep();
+
+    Step getPreviousStep();
+    Step getNextStep();
+    List<Step> solvingStepsOrderLucia();
 }

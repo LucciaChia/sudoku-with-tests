@@ -1,22 +1,20 @@
 package sudoku.processingUsingCommand;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import sudoku.model.Sudoku;
 import sudoku.processingUsingStrategy.BacktrackLucia;
 import sudoku.processingUsingStrategy.Resolvable;
 import sudoku.stepHandlers.OneChangeStep;
 import sudoku.stepHandlers.Step;
 
+import java.util.*;
+
 public class AutomatedInvoker implements Invoker {
     private List<Command> commands = new LinkedList<>();
     private List<Step> stepListFromAllUsedMethods = new ArrayList<>();
     private List<Resolvable> strategies = new ArrayList<>();
-    private int currentStep = 0;
+    private int currentStep = -1;
+    Command command;
 
     public void setStrategies(Resolvable ... useStrategies) {
         this.strategies = new ArrayList<>();
@@ -48,13 +46,13 @@ public class AutomatedInvoker implements Invoker {
     }
 
     @Override
-    public Command solvingStepsOrder() {
+    public List<Step> solvingStepsOrderLucia() {
         //CommandPicker commandPicker = new CommandPicker()
         Resolvable currentlyUsedMethod;
 
             for (int i = 0; i < strategies.size(); i++) {
             //    System.out.println(strategies.get(i).getName());
-                Command command = new CommandPicker(strategies.get(i), sudoku);
+                command = new CommandPicker(strategies.get(i), sudoku);
                 sudoku = command.execute();
                 stepListFromAllUsedMethods.addAll(strategies.get(i).getStepList()); // ********************** NEW FUNCTIONALITY
                 commands.add(command);
@@ -69,9 +67,10 @@ public class AutomatedInvoker implements Invoker {
             System.out.println("Sudoku needs more advanced methods to be completely resolved");
         }
 
-        printStepList();
+        //
+        // printStepList();
 
-        return null;
+        return stepListFromAllUsedMethods;
     }
 
     public void printStepList() {
@@ -114,47 +113,37 @@ public class AutomatedInvoker implements Invoker {
         }
     }
 
-
-
     @Override
-    public List<String> getMethodUsedInAllStep() {
-        return null;
-    }
-    // TODO implement previous and next methods
-    @Override
-    public Command getPreviousState() {
-//        int currentStep = commands.size() - 1;
-//        if (currentStep - 1 >= 0) {
-//            return commands.get(currentStep - 1);
-//        } else {
-//            extAppLogFile.info(getClass().getName() + " no previous element exists. First element has been returned.");
-//            return commands.get(0);
-//        }
-        return null;
-    }
-
-    @Override
-    public Command getPreviousState(int step) {
-//        int currentStep = commands.size() - 1;
-//        if (step >= 0 && step < currentStep) {
-//            return commands.get(step);
-//        } else {
-//            extAppLogFile.info(getClass().getName() + " invalid previous index inserted. First element has been returned.");
-//            return commands.get(0);
-//        }
+    public Command solvingStepsOrder() {
         return null;
     }
 
     @Override
     public Command getNextState() {
-//        int currentStep = commands.size() - 1;
-//        if (step >= 0 && step < currentStep) {
-//            return commands.get(step);
-//        } else {
-//            extAppLogFile.info(getClass().getName() + " invalid previous index inserted. First element has been returned.");
-//            return commands.get(0);
-//        }
         return null;
     }
 
+    @Override
+    public Command getPreviousState() {
+        return null;
+    }
+
+    @Override
+    public Step getPreviousStep() {
+        currentStep--;
+        if (currentStep < 0) {
+            currentStep = 0;
+        }
+        return stepListFromAllUsedMethods.get(currentStep);
+    }
+
+    @Override
+    public Step getNextStep() {
+        currentStep++;
+        int lastStepIndex = stepListFromAllUsedMethods.size()-1;
+        if (currentStep > lastStepIndex) {
+            currentStep = lastStepIndex;
+        }
+        return stepListFromAllUsedMethods.get(currentStep);
+    }
 }
