@@ -17,9 +17,7 @@ public class AutomatedInvoker implements Invoker {
 
     public void setStrategies(Resolvable ... useStrategies) {
         this.strategies = new ArrayList<>();
-        for (Resolvable strategy: useStrategies) {
-            this.strategies.add(strategy);
-        }
+        Collections.addAll(this.strategies, useStrategies);
     }
 
     private Sudoku sudoku;
@@ -36,7 +34,7 @@ public class AutomatedInvoker implements Invoker {
         return commands;
     }
 
-    public AutomatedInvoker() {}
+//    public AutomatedInvoker() {}
 
     public AutomatedInvoker(Sudoku sudoku) {
         this.sudoku = sudoku;
@@ -71,7 +69,7 @@ public class AutomatedInvoker implements Invoker {
         return null;
     }
 
-    public void printStepList() {
+    private void printStepList() {
 
         System.out.println("*********************");
         System.out.println(" ***  ALL STEPS  *** ");
