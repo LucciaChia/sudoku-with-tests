@@ -1,15 +1,18 @@
 package sudoku;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import sudoku.exceptions.IllegalSudokuStateException;
-import sudoku.model.Sudoku;
-import sudoku.strategy.*;
-import sudoku.readers.FileSudokuReader;
-
 import java.io.File;
 import java.util.Scanner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import sudoku.customExceptions.IllegalSudokuStateException;
+import sudoku.model.Sudoku;
+import sudoku.processingUsingStrategy.BacktrackLucia;
+import sudoku.processingUsingStrategy.HiddenSingleInACell;
+import sudoku.processingUsingStrategy.NakedSingleInACell;
+import sudoku.processingUsingStrategy.PointingPairsInCell;
+import sudoku.processingUsingStrategy.Solver;
+import sudoku.readers.FileSudokuReader;
 
 public class Main {
 
@@ -70,17 +73,17 @@ public class Main {
                         sudoku = solver.useStrategies(sudoku);
                         System.out.println("Solution:");
                         printSudoku(sudoku);
-                        extAppLogFile.info("Reading sudoku - valid input");
+                        extAppLogFile.info("Reading sudoku - valid input - using log4j");
                     } catch (Exception e) {
-                        extAppLogFile.warn("Reading sudoku - incorrect input");
+                        extAppLogFile.warn("Reading sudoku - incorrect input - using log4j");
                     }
                     break;
                 case 2:
                     try {
                         runDefaultSudoku();
-                        extAppLogFile.info("Default sudoku - valid input");
+                        extAppLogFile.info("Default sudoku - valid input - using log4j");
                     } catch (IllegalSudokuStateException ex) {
-                        extAppLogFile.warn("Reading sudoku - incorrect input");
+                        extAppLogFile.warn("Reading sudoku - incorrect input - using log4j");
                     }
 
                     break;

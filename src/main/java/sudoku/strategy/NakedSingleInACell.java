@@ -1,12 +1,11 @@
 package sudoku.strategy;
 
+import java.util.ArrayList;
+import java.util.List;
 import sudoku.model.Cell;
 import sudoku.model.Sudoku;
 import sudoku.step.OneChangeStep;
 import sudoku.step.Step;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class NakedSingleInACell implements Resolvable {
     private boolean updatedInNakedSingle = false;

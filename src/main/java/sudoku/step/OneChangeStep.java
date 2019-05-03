@@ -1,8 +1,8 @@
-package sudoku.step;
+package sudoku.stepHandlers;
 
 import sudoku.model.Cell;
 import sudoku.model.Sudoku;
-import sudoku.strategy.Resolvable;
+import sudoku.processingUsingStrategy.Resolvable;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -105,5 +105,21 @@ public class OneChangeStep implements Step {
     public void printBacktrack() {
         System.out.println(stepNumber + ". " + solvingStrategyName);
         System.out.println(ANSI_RED + ANSI_BOLD + "Brute Force method was used." + ANSI_RESET);
+        sudoku.print();
+        sudoku.toString();
+    }
+
+    @Override
+    public String toString() {
+        if (this.getSolvingStrategyName().equals("0: NackedSingleInACell") || this.getSolvingStrategyName().equals("1: HiddenSingleInACell")) {
+            printStep(this.cell);
+        } else if (this.getSolvingStrategyName().equals("2: PointingPairsInCell")) {
+            printStepPointingPair(this.cell, this.partnerCell, this.deletedPossibilitiesWithLocation);
+        } else if (this.getSolvingStrategyName().equals("3: Backtrack")) {
+            printBacktrack();
+        }
+
+        return "";
+    //    return super.toString();
     }
 }

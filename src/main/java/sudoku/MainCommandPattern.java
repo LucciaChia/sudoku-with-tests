@@ -12,6 +12,7 @@ import sudoku.strategy.HiddenSingleInACell;
 import sudoku.strategy.NakedSingleInACell;
 import sudoku.strategy.PointingPairsInCell;
 import sudoku.readers.FileSudokuReader;
+import sudoku.stepHandlers.Step;
 
 import java.io.File;
 import java.util.List;
@@ -64,6 +65,7 @@ public class MainCommandPattern {
                     break;
                 case 1:
                     try {
+                        System.out.println("Insert your sudoku:");
                         Sudoku sudoku = insertYourOwnSudoku();
                         automatedInvokerWithAllSolvingMethods(sudoku);
                         LOGGER.info("Reading sudoku - valid input");
@@ -111,14 +113,12 @@ public class MainCommandPattern {
     // TODO pouzit mock test na simulaciu Scannera
     private Sudoku insertYourOwnSudoku() throws IllegalSudokuStateException {
 
-        System.out.println("Insert your sudoku:");
         int[][] data = new int[9][9];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 data[i][j] = scanner.nextInt();
             }
         }
-        // constructor creates objects and validates them
         return new Sudoku(data);
     }
 
@@ -134,50 +134,54 @@ public class MainCommandPattern {
 
     // TODO Step by step NOT WORKING YET
     private void stepByStepSudokuAutomaticInvoker() throws IllegalSudokuStateException {
-        System.out.println("There's nothing here yet");
-//        boolean quit = false;
-//        System.out.println("Insert your sudoku:");
-//        Sudoku sudoku = insertYourOwnSudoku();
-//        AutomatedInvoker automatedInvoker = new AutomatedInvoker(sudoku);
-//        automatedInvoker.setStrategies(nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell, backtrackLucia);
-//        automatedInvoker.solvingStepsOrder();
-//        List<Command> allCommands = automatedInvoker.getCommands();
-//        int currentCommand = 0;
-//        System.out.println(
-//                "Insert N - to see NEXT step\n" +
-//                "Insert P - to see PREVIOUS step\n" +
-//                "Insert A - to see ALL steps\n" +
-//                        "Insert E - to EXIT\n"
-//        );
-//        do {
-//            if (currentCommand > allCommands.size()-1) {
-//                quit = true;
-//            }
-//            System.out.println("Choose your option");
-//            String option = scanner.nextLine();
-//            switch (option) {
-//                case "N":
-//                    currentCommand++;
-//                    Command commandNext = automatedInvoker.getNextState(currentCommand);
-//                    System.out.println(commandNext.toString());
-//                    break;
-//                case "P":
-//                    currentCommand--;
-//                    Command commandPrevious = automatedInvoker.getPreviousState(currentCommand);
-//                    System.out.println(commandPrevious.toString());
-//                    break;
-//                case "A":
-//                    System.out.println("Not implemented yet");
-//                    break;
-//                case "E":
-//                    System.out.println("Step by step has been ended");
-//                    LOGGER.info("Step by step was left");
-//                    quit = true;
-//            }
-//        } while(!quit);
+        boolean quit = false;
+        stepByStepPrintHelp();
+        System.out.println("First insert your sudoku:");
+        Sudoku sudoku = insertYourOwnSudoku();
+        AutomatedInvoker automatedInvoker = new AutomatedInvoker(sudoku);
+        automatedInvoker.setStrategies(nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell, backtrackLucia);
+        List<Step> allSteps = automatedInvoker.solvingStepsOrderLucia();
+
+        int currentStep = 0;
+
+        do {
+            Step actualStep;
+            System.out.println("Choose your option");
+            String option = scanner.next();
+            switch (option) {
+                case "help":
+                    stepByStepPrintHelp();
+                    break;
+                case "n":
+                    currentStep++;
+                    actualStep = automatedInvoker.getNextStep();
+                    System.out.println(actualStep.toString());
+                    break;
+                case "p":
+                    currentStep--;
+                    actualStep = automatedInvoker.getPreviousStep();
+                    System.out.println(actualStep.toString());
+                    break;
+                case "all":
+                    automatedInvoker.printStepList();
+                    break;
+                case "end":
+                    System.out.println("Step by step has been ended");
+                    LOGGER.info("Step by step was left");
+                    quit = true;
+            }
+        } while(!quit);
 
     }
-
+    private void stepByStepPrintHelp() {
+        System.out.println(
+                "Insert help - to see NEXT step\n" +
+                "Insert n - to see NEXT step\n" +
+                        "Insert p - to see PREVIOUS step\n" +
+                        "Insert all - to see ALL steps\n" +
+                        "Insert end - to EXIT\n"
+        );
+    }
     private void printSudoku(Sudoku sudoku) {
 
         for (int i = 0; i < 9; i++) {
@@ -191,7 +195,8 @@ public class MainCommandPattern {
     private List<Command> automatedInvokerWithAllSolvingMethods(Sudoku sudoku) {
         AutomatedInvoker automatedInvoker = new AutomatedInvoker(sudoku);
         automatedInvoker.setStrategies(nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell, backtrackLucia);
-        automatedInvoker.solvingStepsOrder();
+        automatedInvoker.solvingStepsOrderLucia();
+        automatedInvoker.printStepList();
         System.out.println("Solution:");
         printSudoku(automatedInvoker.getSudoku());
         return automatedInvoker.getCommands();

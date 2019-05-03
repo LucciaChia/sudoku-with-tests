@@ -95,8 +95,8 @@ public class BacktrackLucia implements Resolvable{
         step = new OneChangeStep(sudoku, name);
         ((OneChangeStep)step).setResolvable(this);
         stepList.add(step);
-        step.printBacktrack();
-        sudoku.print();
+//        step.printBacktrack();
+//        sudoku.print();
         return sudoku;
     }
 

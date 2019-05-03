@@ -1,10 +1,11 @@
 package sudoku.model;
 
 
-import sudoku.exceptions.IllegalSudokuStateException;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import sudoku.customExceptions.IllegalSudokuStateException;
 
 
 /**
@@ -16,7 +17,7 @@ import java.util.List;
  */
 public class Sudoku {
     //TODO tests for Sudoku
-//    private static final Logger LOGGER = LoggerFactory.getLogger(Sudoku.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Sudoku.class);
 
     private List<Box> boxes = new ArrayList<>();
     private List<Column> columns = new ArrayList<>();
@@ -45,7 +46,7 @@ public class Sudoku {
         try {
             return new Sudoku(data);
         } catch (IllegalSudokuStateException ex) {
-            System.out.print("Empty sudoku");
+            System.out.printf("Empty sudoku");
             return new Sudoku();
         }
 
@@ -117,7 +118,7 @@ public class Sudoku {
         }
     }
 
-    private void deletePossibilities(Cell cell) {
+    private Cell deletePossibilities(Cell cell) {
 
         List<Integer> cellPossibilities = cell.getCellPossibilities();
         Row cellRow = cell.getRow();
@@ -139,6 +140,7 @@ public class Sudoku {
                 cellPossibilities.remove((Integer)boxValue);
             }
         }
+        return cell;
     }
 
     public boolean isSudokuResolved() {
@@ -162,27 +164,27 @@ public class Sudoku {
         System.out.println("******************");
     }
 
-//    public void printPossibilitiesInSudoku() {
-//        for (int i = 0; i < 9; i++) {
-//            for (int j = 0; j < 9; j++) {
-//                System.out.println(this.getRows().get(i).getCell(j).toString());
-//            }
-//            System.out.println();
-//        }
-//    }
+    public void printPossibilitiesInSudoku() {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                System.out.println(this.getRows().get(i).getCell(j).toString());
+            }
+            System.out.println();
+        }
+    }
 
     @Override
     public String toString() {
-        StringBuilder s = new StringBuilder();
+        String s = "";
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                s.append(this.getRows().get(i).getCell(j).getActualValue()).append(" ");
+                s += this.getRows().get(i).getCell(j).getActualValue() + " ";
             }
-            s.append("\n");
+            s += "\n";
         }
-        s.append("******************");
+        s += "******************";
 
-        return s.toString();
+        return s;
     }
 }
