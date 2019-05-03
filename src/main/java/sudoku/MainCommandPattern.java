@@ -118,7 +118,7 @@ public class MainCommandPattern {
                 data[i][j] = scanner.nextInt();
             }
         }
-        // constructor creates objects and validates them
+
         return new Sudoku(data);
     }
 
@@ -140,17 +140,12 @@ public class MainCommandPattern {
         Sudoku sudoku = insertYourOwnSudoku();
         AutomatedInvoker automatedInvoker = new AutomatedInvoker(sudoku);
         automatedInvoker.setStrategies(nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell, backtrackLucia);
-        List<Step> allSteps = automatedInvoker.solvingStepsOrderLucia();
-        // List<Command> allCommands = automatedInvoker.getCommands();
-
-        List<Step> stepListFromAllUsedMethods = automatedInvoker.getStepListFromAllUsedMethods();
 
         int currentStep = 0;
 
         do {
             Step actualStep;
             System.out.println("Choose your option");
-            //scanner.next();
             String option = scanner.next();
             switch (option) {
                 case "help":
@@ -200,9 +195,9 @@ public class MainCommandPattern {
         AutomatedInvoker automatedInvoker = new AutomatedInvoker(sudoku);
         automatedInvoker.setStrategies(nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell, backtrackLucia);
         automatedInvoker.solvingStepsOrderLucia();
-        automatedInvoker.printStepList(); // fajn
+        automatedInvoker.printStepList();
         System.out.println("Solution:");
-        printSudoku(automatedInvoker.getSudoku()); // fajn
+        printSudoku(automatedInvoker.getSudoku());
         return automatedInvoker.getCommands();
     }
 }
