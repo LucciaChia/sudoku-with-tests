@@ -1,4 +1,4 @@
-package sudoku.processingUsingCommand;
+package sudoku.command;
 
 public interface Invoker {
 
