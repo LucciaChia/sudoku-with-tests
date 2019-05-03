@@ -73,13 +73,9 @@ public class Cell {
     public String toString() {
 
         String s = "";
-        for (int i = 0; i < cellPossibilities.size(); i++) {
-            s += cellPossibilities.get(i) + ", ";
+        for (Integer cellPossibility : cellPossibilities) {
+            s += cellPossibility + ", ";
         }
         return "value: " + actualValue + ", i=" + i + ", j=" + j + " possibilities: " + s;
-        //                +
-//                "\n box " + box +
-//                "\n column " + column +
-//                "\n row " + row;
     }
 }

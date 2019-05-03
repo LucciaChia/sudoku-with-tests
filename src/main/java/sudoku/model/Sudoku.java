@@ -1,12 +1,11 @@
 package sudoku.model;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sudoku.customExceptions.IllegalSudokuStateException;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -36,29 +35,37 @@ public class Sudoku {
         reducePossibilities();
     }
 
+    public Sudoku copy(){
+        int[][] data = new int[9][9];
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                data[i][j] = this.getRows().get(i).getCell(j).getActualValue();
+            }
+        }
+        try {
+            return new Sudoku(data);
+        } catch (IllegalSudokuStateException ex) {
+            System.out.printf("Empty sudoku");
+            return new Sudoku();
+        }
+
+    }
+
     public List<Box> getBoxes() {
         return boxes;
     }
 
-    public void setBoxes(List<Box> boxes) {
-        this.boxes = boxes;
-    }
 
     public List<Column> getColumns() {
         return columns;
     }
 
-    public void setColumns(List<Column> columns) {
-        this.columns = columns;
-    }
 
     public List<Row> getRows() {
         return rows;
     }
 
-    public void setRows(List<Row> rows) {
-        this.rows = rows;
-    }
 
     private void createSudokuElementObjectsService(int[][] data) {
 
@@ -123,13 +130,13 @@ public class Sudoku {
             int colValue = cellColumn.getCell(i).getActualValue();
             int boxValue = cellBox.getCellList().get(i).getActualValue();
 
-            if (rowValue != 0 && cellPossibilities.contains((Integer)rowValue)) {
+            if (rowValue != 0 && cellPossibilities.contains(rowValue)) {
                 cellPossibilities.remove((Integer)rowValue);
             }
-            if (colValue != 0 && cellPossibilities.contains((Integer)colValue)) {
+            if (colValue != 0 && cellPossibilities.contains(colValue)) {
                 cellPossibilities.remove((Integer)colValue);
             }
-            if (boxValue != 0 && cellPossibilities.contains((Integer)boxValue)) {
+            if (boxValue != 0 && cellPossibilities.contains(boxValue)) {
                 cellPossibilities.remove((Integer)boxValue);
             }
         }
@@ -145,5 +152,39 @@ public class Sudoku {
             }
         }
         return true;
+    }
+
+    public void print() {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                System.out.print(this.getRows().get(i).getCell(j).getActualValue() + " ");
+            }
+            System.out.println();
+        }
+        System.out.println("******************");
+    }
+
+    public void printPossibilitiesInSudoku() {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                System.out.println(this.getRows().get(i).getCell(j).toString());
+            }
+            System.out.println();
+        }
+    }
+
+    @Override
+    public String toString() {
+        String s = "";
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                s += this.getRows().get(i).getCell(j).getActualValue() + " ";
+            }
+            s += "\n";
+        }
+        s += "******************";
+
+        return s;
     }
 }

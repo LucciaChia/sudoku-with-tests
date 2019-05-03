@@ -1,16 +1,41 @@
 package sudoku.processingUsingStrategy;
 
-import sudoku.model.*;
-
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import sudoku.model.Box;
+import sudoku.model.Cell;
+import sudoku.model.Column;
+import sudoku.model.Row;
+import sudoku.model.Sudoku;
+import sudoku.stepHandlers.OneChangeStep;
+import sudoku.stepHandlers.Step;
 
 public class HiddenSingleInACell implements Resolvable {
-
+    private Map<int[], Integer> deletedPossibilitiesWithLocation = new HashMap<>();
     private boolean updatedInHiddenSingle = false;
+    private Step step;
+    private List<Step> stepList = new ArrayList<>();
+    private String name = "1: HiddenSingleInACell";
+
+    public Step getStep() {
+        return step;
+    }
+
+    @Override
+    public List<Step> getStepList() {
+        return stepList;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
 
     @Override
     public Sudoku resolveSudoku(Sudoku sudoku) {
+        stepList.clear();
         updatedInHiddenSingle = false;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -27,8 +52,12 @@ public class HiddenSingleInACell implements Resolvable {
                     Map<Integer, Integer> boxPossibilities = cellBox.amountOfParticularPossibilities();
 
                     if (deleteHidden(cell, rowPossibilities, columnPossibilities, boxPossibilities)) {
+                        Sudoku sudokuCopy = sudoku.copy();
+                        step = new OneChangeStep(sudokuCopy, name, cell);
+                        stepList.add(step); // *****************************************************************************
+                        //step.printStep(cell);
                         updatedInHiddenSingle = true;
-
+                        return sudoku;
                     }
                 }
             }

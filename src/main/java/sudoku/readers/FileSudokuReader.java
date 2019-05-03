@@ -11,10 +11,9 @@ public class FileSudokuReader implements SudokuReader {
         int[][] data = new int[9][9];
         try {
             File file = new File(path);
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
             // v pripade new FileReader(file) = null => bufferedReader da NullPointerException =>
             // nevytvori sa a netreba robit bufferedReader.close()
-            try {
+            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
                 String st;
                 String[] row;
                 int i = 0;
@@ -26,8 +25,6 @@ public class FileSudokuReader implements SudokuReader {
                     }
                     i++;
                 }
-            } finally {
-                bufferedReader.close();
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

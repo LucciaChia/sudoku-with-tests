@@ -8,15 +8,16 @@ public class Box extends SudokuElement {
 
     @Override
     public String toString() {
-        String output = "";
+        StringBuilder output = new StringBuilder();
         int index = 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                output +=  " " + super.getCellList().get(index).getActualValue();
+                output.append(" ");
+                output.append(getCellList().get(index).getActualValue());
                 index++;
             }
-            output += "\n";
+            output.append("\n");
         }
-        return output;
+        return output.toString();
     }
 }

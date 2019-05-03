@@ -1,32 +1,56 @@
 package sudoku.processingUsingStrategy;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sudoku.model.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import sudoku.model.Box;
+import sudoku.model.Cell;
+import sudoku.model.Column;
+import sudoku.model.Row;
+import sudoku.model.Sudoku;
+import sudoku.stepHandlers.OneChangeStep;
+import sudoku.stepHandlers.Step;
 
 public class PointingPairsInCell implements Resolvable {
-
-    private static int count = 0;
 
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_RED = "\u001B[31m";
     private static final String ANSI_GREEN = "\u001B[32m";
     private static final String ANSI_PURPLE = "\u001B[35m";
+    private Map<int[], Integer> deletedPossibilitiesWithLocation = new HashMap<>();
+    private Step step;
+    private List<Step> stepList = new ArrayList<>();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PointingPairsInCell.class);
     private boolean updatedInPointingPair = false;
+    private String name = "2: PointingPairsInCell";
+
+    public Step getStep() {
+        return step;
+    }
+
+    @Override
+    public List<Step> getStepList() {
+        return stepList;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
 
     @Override
     public Sudoku resolveSudoku(Sudoku sudoku) {
+        stepList.clear();
         updatedInPointingPair = false;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 Cell cell = sudoku.getRows().get(i).getCell(j);
                 if (cell.getActualValue() == 0) {
-                    pointingPairInCells(cell);
+                    pointingPairInCells(sudoku, cell);
                 }
             }
         }
@@ -39,7 +63,7 @@ public class PointingPairsInCell implements Resolvable {
         return updatedInPointingPair;
     }
 
-    private boolean pointingPairInCells(Cell cell) {
+    private boolean pointingPairInCells(Sudoku sudoku, Cell cell) {
         int cellI = cell.getI();
         int cellJ = cell.getJ();
         Row cellRow = cell.getRow();
@@ -70,9 +94,9 @@ public class PointingPairsInCell implements Resolvable {
                     // ak je len v tomto riadku vyhadzem tu possibilitu z tohto riadka v ostatnych stvorcoch, ak v stlpci tak zo stlpca
 
                     if (iCase) {
-                        changedInLoop = cellRow.deletePossibilitiesInRowOrColumnSudokuElement(cell, possibilityToCheck);
+                        changedInLoop = cellRow.deletePossibilitiesInRowOrColumnSudokuElement(cell, possibilityToCheck, deletedPossibilitiesWithLocation);
                     } else {
-                        changedInLoop = cellColumn.deletePossibilitiesInRowOrColumnSudokuElement(cell, possibilityToCheck);
+                        changedInLoop = cellColumn.deletePossibilitiesInRowOrColumnSudokuElement(cell, possibilityToCheck, deletedPossibilitiesWithLocation);
                     }
 
                 } else { // nachadza sa aj inde vo stvorci
@@ -85,7 +109,14 @@ public class PointingPairsInCell implements Resolvable {
                 }
 
                 if (changedInLoop) {
+                    Sudoku sudokuCopy = sudoku.copy();
+                    Map<int[], Integer> deletedPossibilitiesWithLocationCopy = new HashMap<>();
+                    deletedPossibilitiesWithLocationCopy.putAll(deletedPossibilitiesWithLocation);
+                    step = new OneChangeStep(sudokuCopy, name, cell, partnerCell, deletedPossibilitiesWithLocationCopy);
+                    //step.printStepPointingPair(cell, partnerCell, deletedPossibilitiesWithLocationCopy);
+                    stepList.add(step); // *****************************************************************************
                     updatedInPointingPair = true;
+                    return updatedInPointingPair;
                 }
             }
         }
@@ -143,6 +174,7 @@ public class PointingPairsInCell implements Resolvable {
     }
 
     private boolean deletePossibilitiesInSquare(Cell cell, Cell partnerCell, int possibilityToCheck) {
+        deletedPossibilitiesWithLocation.clear();
         int cellI = cell.getI();
         int cellJ = cell.getJ();
         int partnerCellI = partnerCell.getI();
@@ -153,6 +185,8 @@ public class PointingPairsInCell implements Resolvable {
         if (cellI == partnerCellI) {
             for (Cell testedCell : cellBox.getCellList()) {
                 if (testedCell.getActualValue() == 0 && testedCell.getI() != cellI && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
+                    int[] possibilityLocation = {testedCell.getI(), testedCell.getJ()};
+                    deletedPossibilitiesWithLocation.put(possibilityLocation, possibilityToCheck);
                     LOGGER.info(ANSI_PURPLE + "\t SQUARE CASE: Possibility " + possibilityToCheck + " will be removed from " +
                             "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
                     somethingWasRemoved = testedCell.getCellPossibilities().remove((Integer)possibilityToCheck);
@@ -161,6 +195,8 @@ public class PointingPairsInCell implements Resolvable {
         } else if (cellJ == partnerCellJ) {
             for (Cell testedCell : cellBox.getCellList()) {
                 if (testedCell.getActualValue() == 0 && testedCell.getJ() != cellJ && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
+                    int[] possibilityLocation = {testedCell.getI(), testedCell.getJ()};
+                    deletedPossibilitiesWithLocation.put(possibilityLocation, possibilityToCheck);
                     LOGGER.info(ANSI_PURPLE + "\t SQUARE CASE: Possibility " + possibilityToCheck + " will be removed from " +
                             "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
                     somethingWasRemoved = testedCell.getCellPossibilities().remove((Integer)possibilityToCheck);

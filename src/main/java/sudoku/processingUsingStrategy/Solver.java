@@ -1,9 +1,8 @@
 package sudoku.processingUsingStrategy;
 
-import sudoku.model.Sudoku;
-
 import java.util.ArrayList;
 import java.util.List;
+import sudoku.model.Sudoku;
 
 public class Solver {
     private List<Resolvable> strategies;
@@ -19,14 +18,14 @@ public class Solver {
         }
     }
 
-    public void useStrategies(Sudoku sudoku) {
+    public Sudoku useStrategies(Sudoku sudoku) {
         boolean updatedByStrategy;
         do {
             updatedByStrategy = false;
             for (Resolvable strategy : this.strategies) {
-                strategy.resolveSudoku(sudoku);
+                sudoku = strategy.resolveSudoku(sudoku);
                 if (sudoku.isSudokuResolved()) {
-                    return;
+                    return sudoku;
                 }
                 updatedByStrategy = updatedByStrategy || strategy.isUpdated();
             }
@@ -34,6 +33,7 @@ public class Solver {
         if (!sudoku.isSudokuResolved()) {
             System.out.println("Sudoku needs more advanced methods to be completely resolved");
         }
+        return sudoku;
     }
 
 }
