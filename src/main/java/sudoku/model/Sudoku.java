@@ -28,6 +28,14 @@ public class Sudoku {
 
     }
 
+    /**
+     * Constructor method that takes matrix of initial values. Constructor first validates the input data,
+     * fills in actual values and generates possibilities for empty cells.
+     *
+     * @param data  an array of actual values of the cells. An empty cell is represented by 0.
+     * @throws IllegalSudokuStateException  An exception is thrown when data breaks the sudoku rules
+     * @see sudoku.model.Cell
+     */
     public Sudoku(int[][] data) throws IllegalSudokuStateException{
 
         validateNumbers(data);
@@ -67,7 +75,14 @@ public class Sudoku {
         return rows;
     }
 
-
+    /**
+     * Method that fills in the values from input matrix to rows columns and boxes.
+     *
+     * @param data  an array of actual values of the cells. An empty cell is represented by 0.
+     * @see sudoku.model.Box
+     * @see sudoku.model.Column
+     * @see sudoku.model.Row
+     */
     private void createSudokuElementObjectsService(int[][] data) {
 
         for (int i = 0; i < 9; i++) {
@@ -89,6 +104,12 @@ public class Sudoku {
         }
     }
 
+    /**
+     * method that validates matrix of initial values. Valid values are those from interval [0, 9]
+     *
+     * @param data  an array of actual values of the cells. An empty cell is represented by 0.
+     * @throws IllegalSudokuStateException  An exception is thrown when data contains value/s outside of interval [0,9]
+     */
     private void validateNumbers(int[][] data) throws IllegalSudokuStateException{
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -99,6 +120,12 @@ public class Sudoku {
         }
     }
 
+    /**
+     * Method that validates runs validation on each row, column and box
+     *
+     * @throws IllegalSudokuStateException  An exception rise when initial values (other than zero) is not unique
+     *                                      in row, column or box, thus breaking the sudoku rules
+     */
     private void validateRepetition() throws IllegalSudokuStateException {
         for (int i = 0; i < 9; i++) {
             rows.get(i).validateRepetition();
@@ -119,6 +146,11 @@ public class Sudoku {
         }
     }
 
+    /**
+     * Method That reduces possibilities for empty cells (actual value is zero). Possibilities represents actual values
+     * that can legally be set in that cell without breaking rules. Any value in same row, column and box is removed
+     * from possibilities
+     */
     private Cell deletePossibilities(Cell cell) {
 
         List<Integer> cellPossibilities = cell.getCellPossibilities();
@@ -144,6 +176,12 @@ public class Sudoku {
         return cell;
     }
 
+    /**
+     * Checks if all cells have set a non zero actual value. If there is no cell with actual value zero
+     * then there is nothing more to solve.
+     *
+     * @return      boolean that is true if a cell with actual value set to zero does not exist
+     */
     public boolean isSudokuResolved() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -155,6 +193,9 @@ public class Sudoku {
         return true;
     }
 
+    /**
+     * Print actual value of all cells in form 9x9 matrix for an user to see current state.
+     */
     public void print() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -165,6 +206,10 @@ public class Sudoku {
         System.out.println("******************");
     }
 
+    /**
+     * Print possibilities of all cells for an user to see current state. Cells with actual value not zero has
+     * possibilities equal to an empty list.
+     */
     public void printPossibilitiesInSudoku() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -174,6 +219,11 @@ public class Sudoku {
         }
     }
 
+    /**
+     * Print actual value of all cells in form of 9x9 matrix to a string that is returned.
+     *
+     * @return      string containing actual values of all cells
+     */
     @Override
     public String toString() {
         String s = "";
