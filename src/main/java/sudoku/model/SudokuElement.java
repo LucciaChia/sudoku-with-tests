@@ -1,5 +1,7 @@
 package sudoku.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sudoku.exceptions.IllegalSudokuStateException;
@@ -16,6 +18,7 @@ import static sudoku.ANSIColour.*;
  * or whole box (Box class)
  * @author Lucia
  */
+@Getter @Setter
 public abstract class SudokuElement {
 
     private static final Logger extAppLogFile = LoggerFactory.getLogger(SudokuElement.class);

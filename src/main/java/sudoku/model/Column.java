@@ -1,9 +1,13 @@
 package sudoku.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * represents one column in sudoku matrix
  * @author Lucia
  */
+@Getter @Setter
 public class Column extends SudokuElement {
 
     public Cell getCell(int i) {

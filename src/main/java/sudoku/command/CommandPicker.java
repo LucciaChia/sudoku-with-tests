@@ -1,5 +1,7 @@
 package sudoku.command;
 
+import lombok.Getter;
+import lombok.Setter;
 import sudoku.model.Sudoku;
 import sudoku.step.OneChangeStep;
 import sudoku.step.Step;
@@ -8,7 +10,7 @@ import sudoku.strategy.Resolvable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
+@Getter @Setter
 public class CommandPicker implements Command {
 //    Resolvable resolvable;
 //    Sudoku sudoku;
@@ -18,10 +20,6 @@ public class CommandPicker implements Command {
 //        this.resolvable = resolvable;
 //        this.sudoku = sudoku;
         stepList.add(new OneChangeStep(resolvable, sudoku));
-    }
-
-    public List<Step> getStepList() {
-        return stepList;
     }
 
     @Override

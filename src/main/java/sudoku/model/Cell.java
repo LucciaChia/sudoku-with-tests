@@ -1,11 +1,15 @@
 package sudoku.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 /**
  * represents one cell in sudoku matrix
  * @author Lucia
  */
+@Getter @Setter
 public class Cell {
     private int i;
     private int j;
@@ -14,26 +18,6 @@ public class Cell {
     private Row row;
     private Column column;
     private Box box;
-
-    public int getI() {
-        return i;
-    }
-
-    public int getJ() {
-        return j;
-    }
-
-    public Row getRow() {
-        return row;
-    }
-
-    public Column getColumn() {
-        return column;
-    }
-
-    public Box getBox() {
-        return box;
-    }
 
     public Cell(int actualValue, int i, int j, Row row, Column column, Box box) {
         this.i = i;
@@ -55,18 +39,6 @@ public class Cell {
             this.cellPossibilities.clear();
         }
         this.actualValue = actualValue;
-    }
-
-    public List<Integer> getCellPossibilities() {
-        return cellPossibilities;
-    }
-
-    public void setCellPossibilities(List<Integer> cellPossibilities) {
-        this.cellPossibilities = cellPossibilities;
-    }
-
-    public int getActualValue() {
-        return actualValue;
     }
 
     @Override

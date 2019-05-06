@@ -1,6 +1,8 @@
 package sudoku.model;
 
 
+import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sudoku.exceptions.IllegalSudokuStateException;
@@ -16,6 +18,7 @@ import java.util.List;
  *                                                   - more than one number of a kind in row, column and box
  * @author Lucia
  */
+@Getter @Setter
 public class Sudoku {
     //TODO tests for Sudoku
     private static final Logger LOGGER = LoggerFactory.getLogger(Sudoku.class);
@@ -59,20 +62,6 @@ public class Sudoku {
             return new Sudoku();
         }
 
-    }
-
-    public List<Box> getBoxes() {
-        return boxes;
-    }
-
-
-    public List<Column> getColumns() {
-        return columns;
-    }
-
-
-    public List<Row> getRows() {
-        return rows;
     }
 
     /**

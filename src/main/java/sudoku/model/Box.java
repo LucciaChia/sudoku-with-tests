@@ -1,9 +1,13 @@
 package sudoku.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * represents one box in sudoku matrix
  * @author Lucia
  */
+@Getter @Setter
 public class Box extends SudokuElement {
 
     @Override
