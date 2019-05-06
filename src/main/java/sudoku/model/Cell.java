@@ -1,12 +1,15 @@
 package sudoku.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 /**
  * represents one cell in sudoku matrix
  * @author Lucia
  */
-
+@Getter @Setter
 public class Cell {
     private int i;
     private int j;
@@ -15,26 +18,6 @@ public class Cell {
     private Row row;
     private Column column;
     private Box box;
-
-    public int getI() {
-        return i;
-    }
-
-    public int getJ() {
-        return j;
-    }
-
-    public Row getRow() {
-        return row;
-    }
-
-    public Column getColumn() {
-        return column;
-    }
-
-    public Box getBox() {
-        return box;
-    }
 
     /**
      * Constructor method that sets variables to input parameters. If an actual value is zero, adds numbers 1 to 9
