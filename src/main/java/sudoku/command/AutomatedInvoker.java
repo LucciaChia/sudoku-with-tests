@@ -78,6 +78,9 @@ public class AutomatedInvoker implements Invoker {
         return stepListFromAllUsedMethods;
     }
 
+    /**
+     * prints the step list
+     */
     public void printStepList() {
 
         System.out.println("*********************");

@@ -10,24 +10,36 @@ import java.util.List;
  */
 public interface Resolvable {
 
-    /*
-     * method containing the solving strategy
+    /**
+     * this method should contain solving logic
+     * @param sudoku
+     * @return Sudoku
      */
-
     Sudoku resolveSudoku(Sudoku sudoku);
 
-    /*
-     * checker if sudoku was updated by particular solving strategy
+    /**
+     * info if sudoku was changed in particular step with particular method
+     * @return boolean
      */
     boolean isUpdated();
 
+    /**
+     * solving strategy name
+     * @return String
+     */
     String getName();
 
+    /**
+     * returns a list of steps how sudoku was solved
+     *
+     * @return List<Step>
+     */
     List<Step> getStepList();
 
-
-    /*
+    /**
      * inappropriate possibilities reducer
+     * @param cell
+     * @param valueToBeDeleted
      */
     default void deletePossibilities(Cell cell, int valueToBeDeleted) {
 
