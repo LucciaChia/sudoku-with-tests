@@ -14,6 +14,11 @@ public class Column extends SudokuElement {
         return super.getCellList().get(i);
     }
 
+    /**
+     * Print actual value of all cells in a column to a string.
+     *
+     * @return      string containing actual values of all cells in a column
+     */
     @Override
     public String toString() {
         StringBuilder output = new StringBuilder();
