@@ -35,6 +35,18 @@ public class Cell {
         return box;
     }
 
+    /**
+     * Constructor method that sets variables to input parameters. If an actual value is zero, adds numbers 1 to 9
+     * to possibilities.
+     *
+     * @param actualValue   represents final number 1 to 9 in sudoku. Zero represents that this cells final number
+     *                      is still unknown
+     * @param i             cell's coordinate
+     * @param j             cell's coordinate
+     * @param row           a row which this cell belongs to
+     * @param column        a column which this cell belongs to
+     * @param box           a box which this cell belongs to
+     */
     public Cell(int actualValue, int i, int j, Row row, Column column, Box box) {
         this.i = i;
         this.j = j;
@@ -50,6 +62,9 @@ public class Cell {
         }
     }
 
+    /**
+     * Sets an actual value. If new value is not zero, clears possibilities.
+     */
     public void setActualValue(int actualValue) {
         if (actualValue != 0) {
             this.cellPossibilities.clear();
@@ -69,6 +84,11 @@ public class Cell {
         return actualValue;
     }
 
+    /**
+     * Print actual value of all cells in a box to a string.
+     *
+     * @return      string containing actual values of all cells in a box
+     */
     @Override
     public String toString() {
 
