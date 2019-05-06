@@ -2,6 +2,7 @@ package sudoku.strategy;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sudoku.ANSIColour;
 import sudoku.model.*;
 import sudoku.step.OneChangeStep;
 import sudoku.step.Step;
@@ -11,12 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PointingPairsInCell implements Resolvable {
+public class PointingPairsInCell implements Resolvable, ANSIColour {
 
-    private static final String ANSI_RESET = "\u001B[0m";
-    private static final String ANSI_RED = "\u001B[31m";
-    private static final String ANSI_GREEN = "\u001B[32m";
-    private static final String ANSI_PURPLE = "\u001B[35m";
     private Map<int[], Integer> deletedPossibilitiesWithLocation = new HashMap<>();
     private Step step;
     private List<Step> stepList = new ArrayList<>();

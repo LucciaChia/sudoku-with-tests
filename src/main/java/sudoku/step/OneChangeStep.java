@@ -1,5 +1,6 @@
 package sudoku.step;
 
+import sudoku.ANSIColour;
 import sudoku.model.Cell;
 import sudoku.model.Sudoku;
 import sudoku.strategy.Resolvable;
@@ -7,10 +8,7 @@ import sudoku.strategy.Resolvable;
 import java.util.Arrays;
 import java.util.Map;
 
-public class OneChangeStep implements Step {
-    private static final String ANSI_RESET = "\u001B[0m";
-    private static final String ANSI_RED = "\u001B[31m";
-    private static final String ANSI_BOLD = "\u001B[1m";
+public class OneChangeStep implements Step, ANSIColour {
 
     public static int stepNumber = 0;
     private Sudoku sudoku;
