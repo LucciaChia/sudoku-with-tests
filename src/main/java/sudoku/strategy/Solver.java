@@ -14,10 +14,17 @@ import java.util.List;
 public class Solver {
     private List<Resolvable> strategies;
 
+    /**
+     * Solver default constructor
+     */
     public Solver() {
 
     }
 
+    /**
+     * arbitrary amount of strategies setter
+     * @param useStrategies
+     */
     public void setStrategies(Resolvable ... useStrategies) {
         this.strategies = new ArrayList<>();
         for (Resolvable strategy: useStrategies) {
@@ -29,7 +36,7 @@ public class Solver {
      * makes decision when particular solving strategy will be used and if the sudoku can be resolved with
      * set methods
      * @param sudoku
-     * @return
+     * @return Sudoku
      */
     public Sudoku useStrategies(Sudoku sudoku) {
         boolean updatedByStrategy;
