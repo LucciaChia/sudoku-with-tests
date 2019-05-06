@@ -9,6 +9,14 @@ import sudoku.strategy.Resolvable;
 
 import java.util.*;
 
+/*
+ * uses set strategies in order to resolve a sudoku.
+ * the simples strategy will be used as much as possible, if there's no progress with one method, then more
+ * sophisticated method will be called
+ */
+
+// TODO in the future the steps forwards and backwards will be implemented with methods returning Command object
+
 public class AutomatedInvoker implements Invoker {
     private List<Command> commands = new LinkedList<>();
     private List<Step> stepListFromAllUsedMethods = new ArrayList<>();
@@ -109,11 +117,6 @@ public class AutomatedInvoker implements Invoker {
 
         }
     }
-
-//    @Override
-//    public Command solvingStepsOrder() {
-//        return null;
-//    }
 
     @Override
     public Command getNextState() {

@@ -50,7 +50,9 @@ public abstract class SudokuElement {
             }
         }
     }
-
+ /*
+  * check the amount of particular possibility in a sudoku element - row / column / box
+  */
     public Map<Integer, Integer> amountOfParticularPossibilities() {
         Map<Integer, Integer> countOfPossibilities = new HashMap<>();
         List<Cell> listOfCells = cellList;

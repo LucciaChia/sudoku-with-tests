@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/*
+ * brute force method. Backtrack will try all possible combinations of possibilities in order to find the solution
+ * this single method is able to resolve any sudoku
+ */
 public class BacktrackLucia implements Resolvable{
 
     Scanner scanner = new Scanner(System.in);
@@ -33,7 +37,6 @@ public class BacktrackLucia implements Resolvable{
     public Sudoku resolveSudoku(Sudoku sudoku) {
         stepList.clear();
         updatedInBacktrackLucia = false;
-        int possibilityIndex = 0;
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -49,41 +52,23 @@ public class BacktrackLucia implements Resolvable{
 
                     for (int k = 0; k < cellPossibilitiesAmount; k++) {
                         Sudoku newSudoku = sudoku.copy();
-//                        if (sudoku != newSudoku) {
-//                            System.out.println("mam novy objekt newSudoku");
-//                        }
 
                         Cell newCell = newSudoku.getRows().get(i).getCell(j);
 
                         int usedPossibility = cell.getCellPossibilities().get(k);
                         newCell.setActualValue(usedPossibility);
-//                        System.out.println("VALUE WAS SET " + usedPossibility + " i=" + i + " j=" + j);
                         deletePossibilities(newCell, usedPossibility);
 
 
                         Sudoku resolvedSudoku = resolveSudoku(newSudoku);
 
-//                        System.out.println("REACHED sudoku");
-//                        sudoku.print();
-//                        newSudoku.print();
-//                        System.out.println("Value " + usedPossibility);
-//                        System.out.println("I = " + i + " J = " + j);
-//                        System.out.println("Possibilities " + cell.getCellPossibilities());
-
                         if (resolvedSudoku != null) {
-//                            System.out.println("Resolved");
-//                            resolvedSudoku.print();
+
                             updatedInBacktrackLucia = false;
 
                             return resolvedSudoku;
-                        } else {
-                            //System.out.println("not resolved");
                         }
-
-//                        scanner.nextLine();
                     }
-
-//                    System.out.println("cannot solve this sudoku :(");
                     return null;
                 }
 

@@ -1,8 +1,15 @@
 package sudoku.strategy;
 
+import sudoku.model.Sudoku;
+
 import java.util.ArrayList;
 import java.util.List;
-import sudoku.model.Sudoku;
+
+
+/*
+ * solver sets desired strategies to be used while solving a sudoku a decides in what order they will be used
+ */
+
 
 public class Solver {
     private List<Resolvable> strategies;
@@ -18,6 +25,12 @@ public class Solver {
         }
     }
 
+    /**
+     * makes decision when particular solving strategy will be used and if the sudoku can be resolved with
+     * set methods
+     * @param sudoku
+     * @return
+     */
     public Sudoku useStrategies(Sudoku sudoku) {
         boolean updatedByStrategy;
         do {

@@ -1,12 +1,19 @@
 package sudoku.strategy;
 
-import java.util.ArrayList;
-import java.util.List;
 import sudoku.model.Cell;
 import sudoku.model.Sudoku;
 import sudoku.step.OneChangeStep;
 import sudoku.step.Step;
 
+import java.util.ArrayList;
+import java.util.List;
+/*
+ * if only one possibility is left in a List<Integer> cellPossibilities for a cell
+ * this possibility is set to be a value of this Cell
+ * In the corresponding cells in row, column and box this number is removed from possibilities
+ *
+ * see examples: http://www.sudoku-solutions.com/index.php?page=solvingNakedSubsets
+ */
 public class NakedSingleInACell implements Resolvable {
     private boolean updatedInNakedSingle = false;
     private Step step;
@@ -42,7 +49,7 @@ public class NakedSingleInACell implements Resolvable {
                         step = new OneChangeStep(sudoku.copy(), name, cell);
                         ((OneChangeStep)step).setResolvable(this);
                         //step.printStep(cell);
-                        stepList.add(step); // ************************************************************************
+                        stepList.add(step);
                         updatedInNakedSingle = true;
                     }
                 }

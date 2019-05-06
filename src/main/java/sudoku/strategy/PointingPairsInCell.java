@@ -13,6 +13,20 @@ import java.util.Map;
 
 import static sudoku.ANSIColour.*;
 
+/*
+ * Variation 1. Reducing row or column
+ * if a pair of empty cells (current value is 0 for both) within a box in the same row or column share a given
+ * possibility and this possibility doesn't occur anywhere else in the box => this possibility will be removed from
+ * all other cell's possibilities lists outside this box within the same row or column
+ *
+ * Variation 2. Reducing box candidates
+ * if a pair of empty cells (current value is 0 for both) within a box in the same row / column share a given
+ * possibility and this possibility doesn't occur anywhere else in the row / column outside the box, this possibility
+ * will be removed from all other cell's possibilities within the box
+ *
+ * see example: http://www.sudoku-solutions.com/index.php?page=solvingInteractions
+ */
+
 public class PointingPairsInCell implements Resolvable {
 
     private Map<int[], Integer> deletedPossibilitiesWithLocation = new HashMap<>();
@@ -110,7 +124,7 @@ public class PointingPairsInCell implements Resolvable {
                     step = new OneChangeStep(sudokuCopy, name, cell, partnerCell, deletedPossibilitiesWithLocationCopy);
                     ((OneChangeStep)step).setResolvable(this);
                     //step.printStepPointingPair(cell, partnerCell, deletedPossibilitiesWithLocationCopy);
-                    stepList.add(step); // *****************************************************************************
+                    stepList.add(step);
                     updatedInPointingPair = true;
                     return updatedInPointingPair;
                 }

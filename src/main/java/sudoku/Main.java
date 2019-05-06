@@ -11,6 +11,10 @@ import sudoku.strategy.*;
 import java.io.File;
 import java.util.Scanner;
 
+/*
+ * simple scanner schema used in order the client could communicate with the program via console
+ */
+
 public class Main {
 
     // TODO dopnit do logov, co este chyba

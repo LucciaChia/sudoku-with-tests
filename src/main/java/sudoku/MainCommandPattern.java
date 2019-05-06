@@ -18,7 +18,10 @@ import java.io.File;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
-
+/*
+ * simple scanner schema used in order the client could communicate with the program via console + step by step
+ * principle enabled via second switch
+ */
 public class MainCommandPattern {
 
     // TODO dopnit do logov, co este chyba

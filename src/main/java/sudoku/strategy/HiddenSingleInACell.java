@@ -8,7 +8,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+/*
+ * if cell with value 0, contains multiple possibilities, but one of these possibilities occurs only once in
+ * possibilities in whole row / in whole column / whole box, this possibility will be set as a value for this
+ * cell
+ *
+ * see example: http://www.sudoku-solutions.com/index.php?page=solvingHiddenSubsets
+ */
 public class HiddenSingleInACell implements Resolvable {
     private Map<int[], Integer> deletedPossibilitiesWithLocation = new HashMap<>();
     private boolean updatedInHiddenSingle = false;
@@ -52,7 +58,7 @@ public class HiddenSingleInACell implements Resolvable {
                         Sudoku sudokuCopy = sudoku.copy();
                         step = new OneChangeStep(sudokuCopy, name, cell);
                         ((OneChangeStep)step).setResolvable(this);
-                        stepList.add(step); // *****************************************************************************
+                        stepList.add(step);
                         //step.printStep(cell);
                         updatedInHiddenSingle = true;
                         return sudoku;
@@ -68,6 +74,10 @@ public class HiddenSingleInACell implements Resolvable {
         return updatedInHiddenSingle;
     }
 
+/*
+ * if amount of particular possibility in whole row / column / box is only one, this possibility will be set
+ * as actual value for this cell
+ */
     private boolean deleteHidden(Cell cell, Map<Integer, Integer> rowPoss, Map<Integer, Integer> columnPoss, Map<Integer, Integer> boxPoss) {
 
         List<Integer> cellPossibilities = cell.getCellPossibilities();

@@ -6,17 +6,29 @@ import sudoku.step.Step;
 import java.util.List;
 
 /**
- * zvladla test pre NakedSingleInACell
+ * resolvable has to be implemented by all strategies used while trying to resolve sudoku
  */
 public interface Resolvable {
+
+    /*
+     * method containing the solving strategy
+     */
+
     Sudoku resolveSudoku(Sudoku sudoku);
 
+    /*
+     * checker if sudoku was updated by particular solving strategy
+     */
     boolean isUpdated();
 
     String getName();
 
     List<Step> getStepList();
 
+
+    /*
+     * inappropriate possibilities reducer
+     */
     default void deletePossibilities(Cell cell, int valueToBeDeleted) {
 
         Row cellRow = cell.getRow();
