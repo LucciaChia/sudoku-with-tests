@@ -24,7 +24,7 @@ public class MainCommandPatternStep {
     // TODO okomentovat vsetky metody, ktore obsahuju nejaku logiku
     // TODO do refactoring, remove duplicate code
 
-    private static ClassLoader classLoader = new Main().getClass().getClassLoader();
+    private static ClassLoader classLoader = new MainCommandPatternStep().getClass().getClassLoader();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MainCommandPatternStep.class);
 
