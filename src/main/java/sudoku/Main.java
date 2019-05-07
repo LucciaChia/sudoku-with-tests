@@ -18,15 +18,15 @@ import java.util.Scanner;
  * simple scanner schema used in order the client could communicate with the program via console + step by step
  * principle enabled via second switch
  */
-public class MainCommandPatternStep {
+public class Main {
 
     // TODO dopnit do logov, co este chyba
     // TODO okomentovat vsetky metody, ktore obsahuju nejaku logiku
     // TODO do refactoring, remove duplicate code
 
-    private static ClassLoader classLoader = new MainCommandPatternStep().getClass().getClassLoader();
+    private static ClassLoader classLoader = new Main().getClass().getClassLoader();
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MainCommandPatternStep.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
     private static final String extremelySimple = new File(classLoader.getResource("inputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
     private static final String simple = new File(classLoader.getResource("inputs/simple1.txt").getFile()).getPath();
@@ -45,8 +45,8 @@ public class MainCommandPatternStep {
 
     // TODO impose Command pattern into this application
     public static void main(String[] args) {
-        MainCommandPatternStep mainCommandPatternStep = new MainCommandPatternStep();
-        mainCommandPatternStep.menu();
+        Main main = new Main();
+        main.menu();
     }
 
     private void menu() {
