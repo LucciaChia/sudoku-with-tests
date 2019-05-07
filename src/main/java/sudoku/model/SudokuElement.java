@@ -56,30 +56,6 @@ public abstract class SudokuElement {
 
 
     /**
-     * check the amount of particular possibility in a sudoku element - row / column / box
-     *
-     * @return      a map containing a number of occurrence of each possibility
-     */
-    public Map<Integer, Integer> amountOfParticularPossibilities() {
-        Map<Integer, Integer> countOfPossibilities = new HashMap<>();
-        List<Cell> listOfCells = cellList;
-        for (int i = 0; i < 9; i++) {
-            List<Integer> possibility = listOfCells.get(i).getCellPossibilities(); // moznosti v bunke
-            if (possibility != null) {
-                for (int j = 0; j < possibility.size(); j++) {
-                    if (!countOfPossibilities.containsKey(possibility.get(j))) {
-                        countOfPossibilities.put(possibility.get(j), 1);
-                    } else {
-                        int key = possibility.get(j);
-                        countOfPossibilities.put(key, countOfPossibilities.get(key) + 1);
-                    }
-                }
-            }
-        }
-        return countOfPossibilities;
-    }
-
-    /**
      * Method, used by PointingPairsInCell strategy, that checks and removes an input possibility from possibilities
      * of the cells in the same row or column but not th same box as input cell
      *
@@ -90,7 +66,8 @@ public abstract class SudokuElement {
      */
 
     //SudokuElement v nazve nema byt - je to nazov klasy
-    //movnut je do sudoku
+    //movnut je do strategy
+    //ako tri implemetacie -
     public boolean deletePossibilitiesInRowOrColumnSudokuElement(Cell cell, int possibilityToCheck, Map<int[], Integer> deletedPossibilitiesWithLocation) {
         deletedPossibilitiesWithLocation.clear();
         boolean somethingWasRemoved = false;

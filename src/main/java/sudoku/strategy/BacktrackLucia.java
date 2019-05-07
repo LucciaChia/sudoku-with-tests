@@ -57,7 +57,8 @@ public class BacktrackLucia implements Resolvable{
 
                         int usedPossibility = cell.getCellPossibilities().get(k);
                         newCell.setActualValue(usedPossibility);
-                        deletePossibilities(newCell, usedPossibility);
+                        newCell.deletePossibilities(usedPossibility);
+//                        deletePossibilities(newCell, usedPossibility);
 
 
                         Sudoku resolvedSudoku = resolveSudoku(newSudoku);

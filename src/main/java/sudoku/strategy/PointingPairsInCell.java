@@ -27,7 +27,7 @@ import static sudoku.ANSIColour.*;
  * see example: http://www.sudoku-solutions.com/index.php?page=solvingInteractions
  */
 
-public class PointingPairsInCell implements Resolvable {
+class PointingPairsInCell implements Resolvable {
 
     private Map<int[], Integer> deletedPossibilitiesWithLocation = new HashMap<>();
     private Step step;

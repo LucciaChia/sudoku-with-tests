@@ -38,6 +38,7 @@ public class CommandPicker implements Command {
      */
     @Override
     public Sudoku execute() {
+        //zjednodusit..vyhodit step
         Sudoku sudoku = ((OneChangeStep) Objects.requireNonNull(getLastStep())).getSudoku();
         return ((OneChangeStep) getLastStep()).getResolvable().resolveSudoku(sudoku);
     }

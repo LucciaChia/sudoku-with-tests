@@ -50,9 +50,9 @@ public class HiddenSingleInACell implements Resolvable {
                     Column cellColumn = cell.getColumn();
                     Box cellBox = cell.getBox();
 
-                    Map<Integer, Integer> rowPossibilities = cellRow.amountOfParticularPossibilities();
-                    Map<Integer, Integer> columnPossibilities = cellColumn.amountOfParticularPossibilities();
-                    Map<Integer, Integer> boxPossibilities = cellBox.amountOfParticularPossibilities();
+                    Map<Integer, Integer> rowPossibilities = amountOfParticularPossibilities(cellRow);
+                    Map<Integer, Integer> columnPossibilities = amountOfParticularPossibilities(cellColumn);
+                    Map<Integer, Integer> boxPossibilities = amountOfParticularPossibilities(cellBox);
 
                     if (deleteHidden(cell, rowPossibilities, columnPossibilities, boxPossibilities)) {
                         Sudoku sudokuCopy = sudoku.copy();
@@ -68,6 +68,31 @@ public class HiddenSingleInACell implements Resolvable {
         }
         return sudoku;
     }
+
+    /**
+     * check the amount of particular possibility in a sudoku element - row / column / box
+     *
+     * @return      a map containing a number of occurrence of each possibility
+     */
+    public Map<Integer, Integer> amountOfParticularPossibilities(SudokuElement sudokuElement) {
+        Map<Integer, Integer> countOfPossibilities = new HashMap<>();
+        List<Cell> listOfCells = sudokuElement.getCellList();
+        for (int i = 0; i < 9; i++) {
+            List<Integer> possibility = listOfCells.get(i).getCellPossibilities(); // moznosti v bunke
+            if (possibility != null) {
+                for (int j = 0; j < possibility.size(); j++) {
+                    if (!countOfPossibilities.containsKey(possibility.get(j))) {
+                        countOfPossibilities.put(possibility.get(j), 1);
+                    } else {
+                        int key = possibility.get(j);
+                        countOfPossibilities.put(key, countOfPossibilities.get(key) + 1);
+                    }
+                }
+            }
+        }
+        return countOfPossibilities;
+    }
+
 
     @Override
     public boolean isUpdated() {

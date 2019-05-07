@@ -6,6 +6,8 @@ import java.util.Map;
 
 /**
  * An interface for a step as an discrete state
+ *
+ * vyrazit
  */
 public interface Step {
 

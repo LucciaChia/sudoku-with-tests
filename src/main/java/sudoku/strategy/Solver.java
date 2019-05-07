@@ -10,7 +10,7 @@ import java.util.List;
  * solver sets desired strategies to be used while solving a sudoku a decides in what order they will be used
  */
 
-
+//zbytocny - invoker ho nahradzaju
 public class Solver {
     private List<Resolvable> strategies;
 
