@@ -71,6 +71,7 @@ public class Sudoku {
      * @see sudoku.model.Column
      * @see sudoku.model.Row
      */
+    //nazov zly
     private void createSudokuElementObjectsService(int[][] data) {
 
         for (int i = 0; i < 9; i++) {
@@ -128,41 +129,13 @@ public class Sudoku {
             for (int j = 0; j < 9; j++) {
                 Cell cell = rows.get(i).getCell(j);
                 if (cell.getActualValue() == 0) {
-                    deletePossibilities(cell);
+                    cell.deletePossibilities();
                 }
             }
         }
     }
 
-    /**
-     * Method That reduces possibilities for empty cells (actual value is zero). Possibilities represents actual values
-     * that can legally be set in that cell without breaking rules. Any value in same row, column and box is removed
-     * from possibilities
-     */
-    private Cell deletePossibilities(Cell cell) {
 
-        List<Integer> cellPossibilities = cell.getCellPossibilities();
-        Row cellRow = cell.getRow();
-        Column cellColumn = cell.getColumn();
-        Box cellBox = cell.getBox();
-
-        for (int i = 0; i < 9; i++) {
-            int rowValue = cellRow.getCell(i).getActualValue();
-            int colValue = cellColumn.getCell(i).getActualValue();
-            int boxValue = cellBox.getCellList().get(i).getActualValue();
-
-            if (rowValue != 0 && cellPossibilities.contains(rowValue)) {
-                cellPossibilities.remove((Integer)rowValue);
-            }
-            if (colValue != 0 && cellPossibilities.contains(colValue)) {
-                cellPossibilities.remove((Integer)colValue);
-            }
-            if (boxValue != 0 && cellPossibilities.contains(boxValue)) {
-                cellPossibilities.remove((Integer)boxValue);
-            }
-        }
-        return cell;
-    }
 
     /**
      * Checks if all cells have set a non zero actual value. If there is no cell with actual value zero
@@ -180,6 +153,14 @@ public class Sudoku {
         }
         return true;
     }
+
+
+
+
+
+
+
+
 
     /**
      * Print actual value of all cells in form 9x9 matrix for an user to see current state.

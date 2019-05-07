@@ -72,6 +72,7 @@ public class PointingPairsInCell implements Resolvable {
         return updatedInPointingPair;
     }
 
+    //big methods
     private boolean pointingPairInCells(Sudoku sudoku, Cell cell) {
         int cellI = cell.getI();
         int cellJ = cell.getJ();

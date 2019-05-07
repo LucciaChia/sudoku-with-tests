@@ -27,21 +27,8 @@ public abstract class SudokuElement {
     private List<Cell> cellList = new ArrayList<>();
 
     /**
-     * retrieves whole Sudoku Element (whole row, column or square)
-     * @return List<Cell>
-     */
-
-    public List<Cell> getCellList() {
-        return cellList;
-    }
-
-    public void setCellList(ArrayList<Cell> cellsInSquare) {
-        cellList = cellsInSquare;
-    }
-
-    /**
      * Method that validates actual values of the sudoku so that every number other than zero is unique
-     * in its column, row and box
+     * in its SudokuElement
      *
      * @throws IllegalSudokuStateException  an exception risen if number other that zero is not unique
      *                                      in its row, column or box
@@ -61,6 +48,13 @@ public abstract class SudokuElement {
             }
         }
     }
+
+
+
+
+
+
+
     /**
      * check the amount of particular possibility in a sudoku element - row / column / box
      *
@@ -85,41 +79,6 @@ public abstract class SudokuElement {
         return countOfPossibilities;
     }
 
-    // removePossibilityFrom: Row / Column / Box - refactored from class Solution
-
-    /**
-     * delletion of a possibility from possibilities of the cell
-     *
-     * @param value     a value that is to be deleted
-     * @param cell      a cell whose possibilities is to be changed
-     */
-    public void removePossibility(int value, Cell cell) { // odoberanie potencialnych moznosti z ciell v riadku / stlpci / stvorci
-        for (int i = 0; i < 9; i++) {
-            List<Integer> possibilities = cell.getCellPossibilities();
-            if (possibilities != null) {
-                possibilities.remove((Integer) value);
-            }
-        }
-    }
-
-    // search: Row / Column / Box - refactored from class Solution
-    /**
-     * Checks and removes possibilities from an input cell if a cell in same SudokuElement has that number as an actual
-     * value
-     *
-     * @param cell  cell whose possibilities are checked
-     */
-    public List<Integer> search(Cell cell) { // odoberanie potencialnych moznosti z ciell v riadku
-        List<Integer> possibility = cell.getCellPossibilities();
-        for (int i = 0; i < 9; i++) {
-            int checkValue = cellList.get(i).getActualValue();
-            if (checkValue != 0) {
-                possibility.remove((Integer) checkValue);
-            }
-        }
-        return possibility;
-    }
-
     /**
      * Method, used by PointingPairsInCell strategy, that checks and removes an input possibility from possibilities
      * of the cells in the same row or column but not th same box as input cell
@@ -129,6 +88,9 @@ public abstract class SudokuElement {
      * @param deletedPossibilitiesWithLocation  a map containing possibilities that were deleted and their location
      * @return                                  boolean that says whether a possibility was deleted
      */
+
+    //SudokuElement v nazve nema byt - je to nazov klasy
+    //movnut je do sudoku
     public boolean deletePossibilitiesInRowOrColumnSudokuElement(Cell cell, int possibilityToCheck, Map<int[], Integer> deletedPossibilitiesWithLocation) {
         deletedPossibilitiesWithLocation.clear();
         boolean somethingWasRemoved = false;
@@ -146,12 +108,6 @@ public abstract class SudokuElement {
         }
         return somethingWasRemoved;
     }
-
-    private Box findCorrectBox( List<Box> boxes, int rowIndex, int columnIndex) {
-        return boxes.get((rowIndex/3)*3 + columnIndex/3);
-    }
-
-    // musim to uz zavolat na spravnom Row / spravnom Column
 
     /**
      * Method that checks if a cell from different box but same row/column, that has an input possibility

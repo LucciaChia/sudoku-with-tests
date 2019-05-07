@@ -11,25 +11,25 @@ import java.util.List;
  */
 @Getter @Setter
 public class Cell {
+
     private int i;
     private int j;
     private int actualValue;
     private List<Integer> cellPossibilities;
+
     private Row row;
     private Column column;
     private Box box;
 
     /**
-     * Constructor method that sets variables to input parameters. If an actual value is zero, adds numbers 1 to 9
-     * to possibilities.
+     * Constructor method that sets variables to input parameters. If an actual value is zero, adds numbers 1 to 9 to possibilities.
      *
-     * @param actualValue   represents final number 1 to 9 in sudoku. Zero represents that this cells final number
-     *                      is still unknown
-     * @param i             cell's coordinate
-     * @param j             cell's coordinate
-     * @param row           a row which this cell belongs to
-     * @param column        a column which this cell belongs to
-     * @param box           a box which this cell belongs to
+     * @param actualValue represents final number 1 to 9 in sudoku. Zero represents that this cells final number is still unknown
+     * @param i cell's coordinate
+     * @param j cell's coordinate
+     * @param row a row which this cell belongs to
+     * @param column a column which this cell belongs to
+     * @param box a box which this cell belongs to
      */
     public Cell(int actualValue, int i, int j, Row row, Column column, Box box) {
         this.i = i;
@@ -56,22 +56,42 @@ public class Cell {
         this.actualValue = actualValue;
     }
 
-    public List<Integer> getCellPossibilities() {
-        return cellPossibilities;
+
+    /**
+     * Method That reduces possibilities for empty cells (actual value is zero). Possibilities represents actual values that can legally be set in that
+     * cell without breaking rules. Any value in same row, column and box is removed from possibilities
+     */
+    public void deletePossibilities() {
+
+        List<Integer> cellPossibilities = getCellPossibilities();
+        Row cellRow = getRow();
+        Column cellColumn = getColumn();
+        Box cellBox = getBox();
+
+        for (int i = 0; i < 9; i++) {
+            int rowValue = cellRow.getCell(i).getActualValue();
+            int colValue = cellColumn.getCell(i).getActualValue();
+            int boxValue = cellBox.getCellList().get(i).getActualValue();
+
+            if (rowValue != 0 && cellPossibilities.contains(rowValue)) {
+                cellPossibilities.remove((Integer) rowValue);
+            }
+            if (colValue != 0 && cellPossibilities.contains(colValue)) {
+                cellPossibilities.remove((Integer) colValue);
+            }
+            if (boxValue != 0 && cellPossibilities.contains(boxValue)) {
+                cellPossibilities.remove((Integer) boxValue);
+            }
+        }
+        return cell;
     }
 
-    public void setCellPossibilities(List<Integer> cellPossibilities) {
-        this.cellPossibilities = cellPossibilities;
-    }
 
-    public int getActualValue() {
-        return actualValue;
-    }
 
     /**
      * Print actual value of all cells in a box to a string.
      *
-     * @return      string containing actual values of all cells in a box
+     * @return string containing actual values of all cells in a box
      */
     @Override
     public String toString() {
