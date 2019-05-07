@@ -56,34 +56,23 @@ public class Cell {
         this.actualValue = actualValue;
     }
 
+    /**
+     *
+     * @param possibilityToDelete
+     */
+    public  void deletePossibility(Integer possibilityToDelete) {
+        cellPossibilities.remove(possibilityToDelete);
+    }
 
     /**
-     * Method That reduces possibilities for empty cells (actual value is zero). Possibilities represents actual values that can legally be set in that
-     * cell without breaking rules. Any value in same row, column and box is removed from possibilities
      */
     public void deletePossibilities() {
 
-        List<Integer> cellPossibilities = getCellPossibilities();
-        Row cellRow = getRow();
-        Column cellColumn = getColumn();
-        Box cellBox = getBox();
-
-        for (int i = 0; i < 9; i++) {
-            int rowValue = cellRow.getCell(i).getActualValue();
-            int colValue = cellColumn.getCell(i).getActualValue();
-            int boxValue = cellBox.getCellList().get(i).getActualValue();
-
-            if (rowValue != 0 && cellPossibilities.contains(rowValue)) {
-                cellPossibilities.remove((Integer) rowValue);
-            }
-            if (colValue != 0 && cellPossibilities.contains(colValue)) {
-                cellPossibilities.remove((Integer) colValue);
-            }
-            if (boxValue != 0 && cellPossibilities.contains(boxValue)) {
-                cellPossibilities.remove((Integer) boxValue);
-            }
+        for(int i = 0; i < 9; i++) {
+            row.getCell(i).deletePossibility((Integer) actualValue);
+            column.getCell(i).deletePossibility((Integer) actualValue);
+            box.getCellList().get(i).deletePossibility((Integer) actualValue);
         }
-        return cell;
     }
 
 
