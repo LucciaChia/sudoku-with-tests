@@ -2,7 +2,6 @@ package sudoku.command;
 
 
 import lombok.Getter;
-import lombok.Setter;
 import sudoku.model.Sudoku;
 import sudoku.step.OneChangeStep;
 import sudoku.step.Step;
@@ -18,7 +17,7 @@ import java.util.*;
  */
 
 // TODO in the future the steps forwards and backwards will be implemented with methods returning Command object
-@Getter @Setter
+@Getter
 public class AutomatedInvoker implements Invoker {
     private List<Command> commands = new LinkedList<>();
     private List<Step> stepListFromAllUsedMethods = new ArrayList<>();

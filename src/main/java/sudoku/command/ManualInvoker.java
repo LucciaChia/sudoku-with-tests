@@ -1,7 +1,6 @@
 package sudoku.command;
 
 import lombok.Getter;
-import lombok.Setter;
 import sudoku.model.Sudoku;
 import sudoku.step.OneChangeStep;
 import sudoku.step.Step;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-@Getter @Setter
+@Getter
 public class ManualInvoker implements Invoker {
 //    private static final Logger LOGGER = LoggerFactory.getLogger(ManualInvoker.class);
 
