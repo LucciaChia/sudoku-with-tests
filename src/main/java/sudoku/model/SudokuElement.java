@@ -11,7 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static sudoku.ANSIColour.*;
+import static sudoku.ANSIColour.ANSI_BLUE;
+import static sudoku.ANSIColour.ANSI_RESET;
 
 /**
  * SudokuElement can represent whole row (Row class), whole column (Column class)
@@ -38,7 +39,14 @@ public abstract class SudokuElement {
         cellList = cellsInSquare;
     }
 
-    public void validateRepetition() throws IllegalSudokuStateException{
+    /**
+     * Method that validates actual values of the sudoku so that every number other than zero is unique
+     * in its column, row and box
+     *
+     * @throws IllegalSudokuStateException  an exception risen if number other that zero is not unique
+     *                                      in its row, column or box
+     */
+    public void validateRepetition() throws IllegalSudokuStateException {
 
         Map<Integer, Integer> repetition = new HashMap<>();
 
@@ -53,9 +61,11 @@ public abstract class SudokuElement {
             }
         }
     }
- /*
-  * check the amount of particular possibility in a sudoku element - row / column / box
-  */
+    /**
+     * check the amount of particular possibility in a sudoku element - row / column / box
+     *
+     * @return      a map containing a number of occurrence of each possibility
+     */
     public Map<Integer, Integer> amountOfParticularPossibilities() {
         Map<Integer, Integer> countOfPossibilities = new HashMap<>();
         List<Cell> listOfCells = cellList;
@@ -78,9 +88,10 @@ public abstract class SudokuElement {
     // removePossibilityFrom: Row / Column / Box - refactored from class Solution
 
     /**
-     * vymazanie konkretnej hodnoty z moznosti konkretnej celly
-     * @param value
-     * @param cell
+     * delletion of a possibility from possibilities of the cell
+     *
+     * @param value     a value that is to be deleted
+     * @param cell      a cell whose possibilities is to be changed
      */
     public void removePossibility(int value, Cell cell) { // odoberanie potencialnych moznosti z ciell v riadku / stlpci / stvorci
         for (int i = 0; i < 9; i++) {
@@ -93,10 +104,10 @@ public abstract class SudokuElement {
 
     // search: Row / Column / Box - refactored from class Solution
     /**
-     * kontrolujem danu bunku a jej porencialne moznosti.
-     * prechadzam bud cez riadok, stlpec alebo stovrec, v ktorom je. Ak najdem v riadku bunku, ktora uz ma realnu hodnotu
-     * t. j. napr.: 4 a v moje bunke, ktoru kontrolujem je v potencialnych moznostiach cislo 4, tak ho odstranim
-     * @param cell
+     * Checks and removes possibilities from an input cell if a cell in same SudokuElement has that number as an actual
+     * value
+     *
+     * @param cell  cell whose possibilities are checked
      */
     public List<Integer> search(Cell cell) { // odoberanie potencialnych moznosti z ciell v riadku
         List<Integer> possibility = cell.getCellPossibilities();
@@ -109,6 +120,15 @@ public abstract class SudokuElement {
         return possibility;
     }
 
+    /**
+     * Method, used by PointingPairsInCell strategy, that checks and removes an input possibility from possibilities
+     * of the cells in the same row or column but not th same box as input cell
+     *
+     * @param cell                              a cell whose row or column was searched
+     * @param possibilityToCheck                a value that was searched for
+     * @param deletedPossibilitiesWithLocation  a map containing possibilities that were deleted and their location
+     * @return                                  boolean that says whether a possibility was deleted
+     */
     public boolean deletePossibilitiesInRowOrColumnSudokuElement(Cell cell, int possibilityToCheck, Map<int[], Integer> deletedPossibilitiesWithLocation) {
         deletedPossibilitiesWithLocation.clear();
         boolean somethingWasRemoved = false;
@@ -132,6 +152,15 @@ public abstract class SudokuElement {
     }
 
     // musim to uz zavolat na spravnom Row / spravnom Column
+
+    /**
+     * Method that checks if a cell from different box but same row/column, that has an input possibility
+     * among its possibilities, exists. Used by PointingPairsInCell strategy.
+     *
+     * @param cell                      a cell whose row or column is searched
+     * @param possibilityToCheck        value that is checked among possibilities
+     * @return                          boolean that is answer whether cell with an input possibility exists
+     */
     public boolean isPossibilityToCheckPresentSomewhereElseInRowInColumnSudokuElement(Cell cell, int possibilityToCheck) {
         Box cellBox = cell.getBox();
 
