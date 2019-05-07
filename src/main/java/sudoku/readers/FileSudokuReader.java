@@ -4,8 +4,18 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
+/**
+ * Implementation of SudokuReader that will read an input file and set values of matrix for sudoku
+ */
 public class FileSudokuReader implements SudokuReader {
 
+    /**
+     * Method that reads the input file and setsvalues af the matrix to values that are in the input file.
+     * Values are seperated by " " and there are should be 9 rows of 9 values
+     *
+     * @param path  a string containing a path to the input file
+     * @return      an array that is a matrix of initial values of sudoku
+     */
     @Override
     public int[][] read(String path) {
         int[][] data = new int[9][9];
