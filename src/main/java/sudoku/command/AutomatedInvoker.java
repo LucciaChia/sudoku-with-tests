@@ -5,8 +5,8 @@ import lombok.Getter;
 import sudoku.model.Sudoku;
 import sudoku.step.OneChangeStep;
 import sudoku.step.Step;
-import sudoku.strategy.BacktrackLucia;
 import sudoku.strategy.Resolvable;
+import sudoku.strategy.StrategyFactory;
 
 import java.util.*;
 
@@ -19,6 +19,7 @@ import java.util.*;
 // TODO in the future the steps forwards and backwards will be implemented with methods returning Command object
 @Getter
 public class AutomatedInvoker implements Invoker {
+    private StrategyFactory strategyFactory = new StrategyFactory();
     private List<Command> commands = new LinkedList<>();
     private List<Step> stepListFromAllUsedMethods = new ArrayList<>();
     private List<Resolvable> strategies = new ArrayList<>();
@@ -40,7 +41,7 @@ public class AutomatedInvoker implements Invoker {
     public AutomatedInvoker(Sudoku sudoku) {
         this.sudoku = sudoku;
 //         by default only Backtrack Strategy will be used
-        this.strategies.add(new BacktrackLucia());
+        this.strategies.add(strategyFactory.createBacktrackStrategy());
     }
 
     @Override

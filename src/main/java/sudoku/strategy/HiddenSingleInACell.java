@@ -15,7 +15,7 @@ import java.util.Map;
  *
  * see example: http://www.sudoku-solutions.com/index.php?page=solvingHiddenSubsets
  */
-public class HiddenSingleInACell implements Resolvable {
+class HiddenSingleInACell implements Resolvable {
     private Map<int[], Integer> deletedPossibilitiesWithLocation = new HashMap<>();
     private boolean updatedInHiddenSingle = false;
     private Step step;

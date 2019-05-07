@@ -7,10 +7,7 @@ import sudoku.exceptions.IllegalSudokuStateException;
 import sudoku.model.Sudoku;
 import sudoku.command.AutomatedInvoker;
 import sudoku.command.Command;
-import sudoku.strategy.BacktrackLucia;
-import sudoku.strategy.HiddenSingleInACell;
-import sudoku.strategy.NakedSingleInACell;
-import sudoku.strategy.PointingPairsInCell;
+import sudoku.strategy.*;
 import sudoku.readers.FileSudokuReader;
 import sudoku.step.Step;
 
@@ -40,11 +37,11 @@ public class MainCommandPatternStep {
     private static final String empty = new File(classLoader.getResource("inputs/emptySudoku.txt").getFile()).getPath();
 
     private Scanner scanner = new Scanner(System.in);
-
-    private NakedSingleInACell nakedSingleInACell = new NakedSingleInACell();
-    private HiddenSingleInACell hiddenSingleInACell = new HiddenSingleInACell();
-    private PointingPairsInCell pointingPairsInCell = new PointingPairsInCell();
-    private BacktrackLucia backtrackLucia = new BacktrackLucia();
+    private StrategyFactory strategyFactory = new StrategyFactory();
+    private Resolvable nakedSingleInACell = strategyFactory.createNackedSingleInACellStrategy();
+    private Resolvable hiddenSingleInACell = strategyFactory.createHiddenSingleInACellStrategy();
+    private Resolvable pointingPairsInCell = strategyFactory.createPointingPairsInCellStrategy();
+    private Resolvable backtrackLucia = strategyFactory.createBacktrackStrategy();
 
     // TODO impose Command pattern into this application
     public static void main(String[] args) {

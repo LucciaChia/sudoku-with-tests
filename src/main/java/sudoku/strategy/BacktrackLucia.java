@@ -13,7 +13,7 @@ import java.util.Scanner;
  * brute force method. Backtrack will try all possible combinations of possibilities in order to find the solution
  * this single method is able to resolve any sudoku
  */
-public class BacktrackLucia implements Resolvable{
+class BacktrackLucia implements Resolvable{
 
     Scanner scanner = new Scanner(System.in);
     private Step step;

@@ -4,8 +4,8 @@ import lombok.Getter;
 import sudoku.model.Sudoku;
 import sudoku.step.OneChangeStep;
 import sudoku.step.Step;
-import sudoku.strategy.NakedSingleInACell;
 import sudoku.strategy.Resolvable;
+import sudoku.strategy.StrategyFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +19,7 @@ import java.util.List;
 @Getter
 public class ManualInvoker implements Invoker {
 //    private static final Logger LOGGER = LoggerFactory.getLogger(ManualInvoker.class);
-
+    private StrategyFactory strategyFactory = new StrategyFactory();
     private List<Command> commands = new LinkedList<>();
     private List<Step> stepListFromAllUsedMethods = new ArrayList<>();
     private List<Resolvable> strategies = new ArrayList<>();
@@ -36,7 +36,7 @@ public class ManualInvoker implements Invoker {
 ////         by default only Backtrack Strategy will be used
 //        this.strategies.add(new BacktrackLucia());
 //      default strategy will be NakedSingleCell
-        this.strategies.add(new NakedSingleInACell());
+        this.strategies.add(strategyFactory.createNackedSingleInACellStrategy());
     }
 
     public void setStrategies(Resolvable ... useStrategies) {
