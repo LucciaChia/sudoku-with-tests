@@ -112,19 +112,19 @@ class HiddenSingleInACell implements Resolvable {
 
             if (rowPoss.get((Integer)currentCellPossibility) == 1) {
                 cell.setActualValue(currentCellPossibility);
-                deletePossibilities(cell, cell.getActualValue());
+                cell.deletePossibilities();
                 return true;
             }
 
             if (columnPoss.get((Integer)currentCellPossibility) == 1) {
                 cell.setActualValue(currentCellPossibility);
-                deletePossibilities(cell, cell.getActualValue());
+                cell.deletePossibilities();
                 return true;
             }
 
             if (boxPoss.get((Integer)currentCellPossibility) == 1) {
                 cell.setActualValue(currentCellPossibility);
-                deletePossibilities(cell, cell.getActualValue());
+                cell.deletePossibilities();
                 return true;
             }
         }
