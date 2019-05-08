@@ -1,6 +1,5 @@
 package sudoku.invoker;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +10,8 @@ import sudoku.exceptions.IllegalSudokuStateException;
 import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;
 import sudoku.step.OneChangeStep;
-import sudoku.strategy.*;
+import sudoku.strategy.BacktrackLuciaTest;
+import sudoku.strategy.StrategyFactory;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -47,12 +47,7 @@ public class ManualInvokerTest {
     private static final String inp7 = new File(Objects.requireNonNull(classLoader.getResource("inputs/9steps.txt")).getFile()).getPath();
     private static final String out7 = new File(Objects.requireNonNull(classLoader.getResource("outputs/simple1.txt")).getFile()).getPath();
 
-    private StrategyFactory strategyFactory;
-
-    @BeforeAll
-    void setUp() {
-        strategyFactory = new StrategyFactory();
-    }
+    private StrategyFactory strategyFactory = new StrategyFactory();
 
     private int[][] setArrayAccordingToObjectValues(Sudoku sudoku) {
         int[][] output = new int[9][9];
