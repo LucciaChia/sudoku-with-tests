@@ -4,10 +4,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import sudoku.exceptions.IllegalSudokuStateException;
 import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;
-import sudoku.strategy.HiddenSingleInACell;
-import sudoku.strategy.NakedSingleInACell;
-import sudoku.strategy.PointingPairsInCell;
-import sudoku.strategy.Solver;
+import sudoku.strategy.*;
 
 import java.io.File;
 import java.util.stream.Stream;
@@ -38,9 +35,10 @@ public class MainTest {
     private static final String out8 = new File(classLoader.getResource("outputs/harder4.txt").getFile()).getPath();
     private static final String out9 = new File(classLoader.getResource("outputs/extremelyHardTmp.txt").getFile()).getPath();
 
-    private NakedSingleInACell nakedSingleInACell = new NakedSingleInACell();
-    private HiddenSingleInACell hiddenSingleInACell = new HiddenSingleInACell();
-    private PointingPairsInCell pointingPairsInCell = new PointingPairsInCell();
+    private StrategyFactory strategyFactory = new StrategyFactory();
+    private Resolvable nakedSingleInACell = strategyFactory.createNakedSingleInACellStrategy();
+    private Resolvable hiddenSingleInACell = strategyFactory.createHiddenSingleInACellStrategy();
+    private Resolvable pointingPairsInCell = strategyFactory.createPointingPairsInCellStrategy();
 
 
     @ParameterizedTest
