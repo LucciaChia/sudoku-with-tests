@@ -128,7 +128,7 @@ public class Sudoku {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 Cell cell = rows.get(i).getCell(j);
-                if (cell.getActualValue() == 0) {
+                if (cell.getActualValue() > 0) {
                     cell.deletePossibilities();
                 }
             }
