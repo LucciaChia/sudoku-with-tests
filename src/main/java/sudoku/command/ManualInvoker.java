@@ -36,7 +36,7 @@ public class ManualInvoker implements Invoker {
 ////         by default only Backtrack Strategy will be used
 //        this.strategies.add(new BacktrackLucia());
 //      default strategy will be NakedSingleCell
-        this.strategies.add(strategyFactory.createNackedSingleInACellStrategy());
+        this.strategies.add(strategyFactory.createNakedSingleInACellStrategy());
     }
 
     public void setStrategies(Resolvable ... useStrategies) {

@@ -6,7 +6,7 @@ package sudoku.strategy;
 
 public class StrategyFactory {
 
-  public Resolvable createNackedSingleInACellStrategy(){
+  public Resolvable createNakedSingleInACellStrategy(){
     return new NakedSingleInACell();
   }
   public Resolvable createHiddenSingleInACellStrategy(){

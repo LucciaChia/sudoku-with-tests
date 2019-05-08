@@ -38,7 +38,7 @@ public class Main {
 
     private Scanner scanner = new Scanner(System.in);
     private StrategyFactory strategyFactory = new StrategyFactory();
-    private Resolvable nakedSingleInACell = strategyFactory.createNackedSingleInACellStrategy();
+    private Resolvable nakedSingleInACell = strategyFactory.createNakedSingleInACellStrategy();
     private Resolvable hiddenSingleInACell = strategyFactory.createHiddenSingleInACellStrategy();
     private Resolvable pointingPairsInCell = strategyFactory.createPointingPairsInCellStrategy();
     private Resolvable backtrackLucia = strategyFactory.createBacktrackStrategy();

@@ -1,5 +1,6 @@
 package sudoku.invoker;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +47,13 @@ public class ManualInvokerTest {
     private static final String inp7 = new File(Objects.requireNonNull(classLoader.getResource("inputs/9steps.txt")).getFile()).getPath();
     private static final String out7 = new File(Objects.requireNonNull(classLoader.getResource("outputs/simple1.txt")).getFile()).getPath();
 
+    private StrategyFactory strategyFactory;
+
+    @BeforeAll
+    void setUp() {
+        strategyFactory = new StrategyFactory();
+    }
+
     private int[][] setArrayAccordingToObjectValues(Sudoku sudoku) {
         int[][] output = new int[9][9];
         for (int i = 0; i < 9; i++) {
@@ -76,7 +84,7 @@ public class ManualInvokerTest {
 
         // WHEN
         invoker = new ManualInvoker(sudoku);
-        invoker.setStrategies(new NakedSingleInACell());
+        invoker.setStrategies(strategyFactory.createNakedSingleInACellStrategy());
         command = invoker.getNextState();
         result = ((OneChangeStep)((CommandPicker) command).getStepList().get(0)).getSudoku();
 
@@ -104,7 +112,7 @@ public class ManualInvokerTest {
 
         // WHEN
         invoker = new ManualInvoker(sudoku);
-        invoker.setStrategies(new NakedSingleInACell());
+        invoker.setStrategies(strategyFactory.createNakedSingleInACellStrategy());
         invoker.getNextState();
         command = invoker.getNextState();
         result = ((OneChangeStep)((CommandPicker) command).getStepList().get(0)).getSudoku();
@@ -132,7 +140,7 @@ public class ManualInvokerTest {
 
         // WHEN
         invoker = new ManualInvoker(sudoku);
-        invoker.setStrategies(new NakedSingleInACell());
+        invoker.setStrategies(strategyFactory.createNakedSingleInACellStrategy());
         command = invoker.getNextState();
         result = ((OneChangeStep)((CommandPicker) command).getStepList().get(0)).getSudoku();
 
@@ -162,7 +170,7 @@ public class ManualInvokerTest {
 
         // WHEN
         invoker = new ManualInvoker(sudoku);
-        invoker.setStrategies(new NakedSingleInACell());
+        invoker.setStrategies(strategyFactory.createNakedSingleInACellStrategy());
 //        command0 = invoker.getNextState();
         invoker.getNextState();
 //        command1 = invoker.getNextState();
@@ -194,13 +202,13 @@ public class ManualInvokerTest {
         invoker = new ManualInvoker(sudoku);
 
         // WHEN
-        commands.add(invoker.getNextState(new NakedSingleInACell()));
-        commands.add(invoker.getNextState(new NakedSingleInACell()));
-        commands.add(invoker.getNextState(new HiddenSingleInACell()));
-        commands.add(invoker.getNextState(new NakedSingleInACell()));
-        commands.add(invoker.getNextState(new PointingPairsInCell()));
-        commands.add(invoker.getNextState(new NakedSingleInACell()));
-        commands.add(invoker.getNextState(new BacktrackLucia()));
+        commands.add(invoker.getNextState(strategyFactory.createNakedSingleInACellStrategy()));
+        commands.add(invoker.getNextState(strategyFactory.createNakedSingleInACellStrategy()));
+        commands.add(invoker.getNextState(strategyFactory.createHiddenSingleInACellStrategy()));
+        commands.add(invoker.getNextState(strategyFactory.createNakedSingleInACellStrategy()));
+        commands.add(invoker.getNextState(strategyFactory.createPointingPairsInCellStrategy()));
+        commands.add(invoker.getNextState(strategyFactory.createNakedSingleInACellStrategy()));
+        commands.add(invoker.getNextState(strategyFactory.createBacktrackStrategy()));
         result = ((OneChangeStep)((CommandPicker) commands.get(commands.size() - 1)).getStepList().get(0)).getSudoku();
 
         // THEN
