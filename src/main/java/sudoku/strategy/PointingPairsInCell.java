@@ -193,19 +193,10 @@ class PointingPairsInCell implements Resolvable {
         boolean somethingWasRemoved = false;
         Box cellBox = cell.getBox();
 
-        if (cellI == partnerCellI) {
+        if (cellI == partnerCellI || cellJ == partnerCellJ) {
             for (Cell testedCell : cellBox.getCellList()) {
-                if (testedCell.getActualValue() == 0 && testedCell.getI() != cellI && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
-                    int[] possibilityLocation = {testedCell.getI(), testedCell.getJ()};
-                    deletedPossibilitiesWithLocation.put(possibilityLocation, possibilityToCheck);
-                    LOGGER.info(ANSI_PURPLE + "\t SQUARE CASE: Possibility " + possibilityToCheck + " will be removed from " +
-                            "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
-                    somethingWasRemoved = testedCell.getCellPossibilities().remove((Integer)possibilityToCheck);
-                }
-            }
-        } else if (cellJ == partnerCellJ) {
-            for (Cell testedCell : cellBox.getCellList()) {
-                if (testedCell.getActualValue() == 0 && testedCell.getJ() != cellJ && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
+                boolean isSameCoord = cellI == partnerCellI ? testedCell.getI() != cellI : testedCell.getJ() != cellJ;
+                if (isSameCoord && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
                     int[] possibilityLocation = {testedCell.getI(), testedCell.getJ()};
                     deletedPossibilitiesWithLocation.put(possibilityLocation, possibilityToCheck);
                     LOGGER.info(ANSI_PURPLE + "\t SQUARE CASE: Possibility " + possibilityToCheck + " will be removed from " +
