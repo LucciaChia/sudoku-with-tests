@@ -168,7 +168,7 @@ class PointingPairsInCell implements Resolvable {
         if (cellI == partnerCellI) {
             LOGGER.info("i case");
             for (Cell testedCell : squareOfCells) {
-                if (testedCell.getActualValue() == 0 && testedCell.getI() != cellI && testedCell.getCellPossibilities().contains((Integer) possibilityToCheck)) {
+                if (testedCell.getI() != cellI && testedCell.getCellPossibilities().contains((Integer) possibilityToCheck)) {
                     return true;
                 }
             }
@@ -176,7 +176,7 @@ class PointingPairsInCell implements Resolvable {
         if (cellJ == partnerCellJ) {
             LOGGER.info("j case");
             for (Cell testedCell : squareOfCells) {
-                if (testedCell.getActualValue() == 0 && testedCell.getJ() != cellJ && testedCell.getCellPossibilities().contains((Integer) possibilityToCheck)) {
+                if (testedCell.getJ() != cellJ && testedCell.getCellPossibilities().contains((Integer) possibilityToCheck)) {
                     return true;
                 }
             }
