@@ -90,32 +90,30 @@ class PointingPairsInCell implements Resolvable {
                 boolean iCase = cellI == partnerCell.getI();
                 boolean jCase = cellJ == partnerCell.getJ();
 
-                // vypisy
                 LOGGER.info("Partner cell for cell possibility: " + possibilityToCheck + " in cell  i = " + cellI + " j = " + cellJ + " IS: i = " +
                         partnerCell.getI() + " j = " + partnerCell.getJ());
 
-                // ak partner cella neobsahuje momentalne kontrolovanu possibilitu referencnej celly, chod prec t.j. -> do dalsej obratky na novu partner cellu
-                if (!partnerCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
+                // ak partner cella neobsahuje momentalne kontrolovanu possibilitu referencnej celly
+                // pokracujem, kym nenajdem taku partnerCellu, ktora obsahuje momentalne testovanu possibilitu
+                if (!partnerCell.getCellPossibilities().contains(possibilityToCheck)) {
                     continue;
                 }
 
-                if (!isPossibilityToCheckPresentSomewhereElseInSquare(cell, partnerCell, cellBox.getCellList(), possibilityToCheck)) {
+
+                if (!isPossibilityToCheckPresentSomewhereElseInBox(cell, partnerCell, cellBox.getCellList(), possibilityToCheck)) {
+
+                    // possibilita sa nenachadza inde v boxe => vymazem moznosti z ciel v riadku alebo v stlpci.
+                    // iCase: vymazem z ciel ktore su v tom istom riadku ako je cell a parterCell, ale su v inom boxe ako je cell a partnerCell
+                    // jCase: vymazem z ciel ktore su v tom istom stlpci ako je cell a parterCell, ale su v inom boxe ako je cell a partnerCell
                     LOGGER.info(ANSI_GREEN + "Possibility " + possibilityToCheck + " presents only in row / column" + ANSI_RESET);
-                    // ak je len v tomto riadku vyhadzem tu possibilitu z tohto riadka v ostatnych stvorcoch, ak v stlpci tak zo stlpca
+                    changedInLoop = reduceRowOrColumnCandidates(cell, cellRow, cellColumn, possibilityToCheck, iCase);
 
-                    if (iCase) {
-                        changedInLoop = deletePossibilitiesInRowOrColumn(cell, possibilityToCheck, deletedPossibilitiesWithLocation, cellRow);
-                    } else {
-                        changedInLoop = deletePossibilitiesInRowOrColumn(cell, possibilityToCheck, deletedPossibilitiesWithLocation, cellColumn);
-                    }
-
-                } else { // nachadza sa aj inde vo stvorci
+                } else {
+                    // possibilita sa nachadza inde v boxe => vymazem moznosti z ciel v riadkoch a v stlpcoch v tomto boxe
+                    // iCase: nevymazavam z ciel ktore su v tom istom riadku ako je cell a parterCell
+                    // jCase: nevymazavam z ciel ktore su v tom istom stlpci ako je cell a parterCell
                     LOGGER.info(ANSI_RED + "Possibility " + possibilityToCheck + " presents somewhere else too" + ANSI_RESET);
-
-                    if ((iCase && !isPossibilityToCheckPresentSomewhereElseInRowInColumn(cell, possibilityToCheck, cellRow)) ||
-                            (jCase && !isPossibilityToCheckPresentSomewhereElseInRowInColumn(cell, possibilityToCheck, cellColumn))) {
-                        changedInLoop = deletePossibilitiesInSquare(cell, partnerCell, possibilityToCheck);
-                    }
+                    changedInLoop = reduceBoxCandidates(cell, cellRow, cellColumn, possibilityToCheck, partnerCell, changedInLoop, iCase, jCase);
                 }
 
                 if (changedInLoop) {
@@ -124,7 +122,6 @@ class PointingPairsInCell implements Resolvable {
                     deletedPossibilitiesWithLocationCopy.putAll(deletedPossibilitiesWithLocation);
                     step = new OneChangeStep(sudokuCopy, name, cell, partnerCell, deletedPossibilitiesWithLocationCopy);
                     ((OneChangeStep)step).setResolvable(this);
-                    //step.printStepPointingPair(cell, partnerCell, deletedPossibilitiesWithLocationCopy);
                     stepList.add(step);
                     updatedInPointingPair = true;
                     return updatedInPointingPair;
@@ -134,24 +131,37 @@ class PointingPairsInCell implements Resolvable {
         return updatedInPointingPair;
     }
 
+    private boolean reduceRowOrColumnCandidates(Cell cell, Row cellRow, Column cellColumn, int possibilityToCheck, boolean iCase) {
+        boolean changedInLoop;
+        if (iCase) {
+            changedInLoop = deletePossibilitiesInRowOrColumn(cell, possibilityToCheck, deletedPossibilitiesWithLocation, cellRow);
+        } else {
+            changedInLoop = deletePossibilitiesInRowOrColumn(cell, possibilityToCheck, deletedPossibilitiesWithLocation, cellColumn);
+        }
+        return changedInLoop;
+    }
+
+    private boolean reduceBoxCandidates(Cell cell, Row cellRow, Column cellColumn, int possibilityToCheck, Cell partnerCell, boolean changedInLoop, boolean iCase, boolean jCase) {
+        if ((iCase && !isPossibilityToCheckPresentSomewhereElseInRowInColumn(cell, possibilityToCheck, cellRow)) ||
+                (jCase && !isPossibilityToCheckPresentSomewhereElseInRowInColumn(cell, possibilityToCheck, cellColumn))) {
+            changedInLoop = deletePossibilitiesInBox(cell, partnerCell, possibilityToCheck);
+        }
+        return changedInLoop;
+    }
+
     private List<Cell> findPartnerCell(Cell cell, int possibilityToCheck) {
-        int indexI = cell.getI();
-        int indexJ = cell.getJ();
+        int cellI = cell.getI();
+        int cellJ = cell.getJ();
         Box targetBox = cell.getBox();
         List<Cell> eligiblePartnerCellList = new ArrayList<>();
 
         for (Cell candidateCell : targetBox.getCellList()) {
 
-            if (candidateCell.getActualValue() == 0 ) {
+            if (cell != candidateCell && candidateCell.getCellPossibilities().contains(possibilityToCheck)) {
                 int candidateCellI = candidateCell.getI();
                 int candidateCellJ = candidateCell.getJ();
-
-                if ((indexI == candidateCellI || indexJ == candidateCellJ) && cell != candidateCell) {
-                    List<Integer> candidatePosibilities = candidateCell.getCellPossibilities();
-
-                    if (candidatePosibilities.contains((Integer)possibilityToCheck)) {
-                        eligiblePartnerCellList.add(candidateCell);
-                    }
+                if ((cellI == candidateCellI || cellJ == candidateCellJ)) {
+                    eligiblePartnerCellList.add(candidateCell);
                 }
             }
         }
@@ -159,7 +169,7 @@ class PointingPairsInCell implements Resolvable {
         return eligiblePartnerCellList;
     }
 
-    private boolean isPossibilityToCheckPresentSomewhereElseInSquare(Cell cell, Cell partnerCell, List<Cell> squareOfCells, int possibilityToCheck) {
+    private boolean isPossibilityToCheckPresentSomewhereElseInBox(Cell cell, Cell partnerCell, List<Cell> cellsInBox, int possibilityToCheck) {
         int cellI = cell.getI();
         int cellJ = cell.getJ();
         int partnerCellI = partnerCell.getI();
@@ -167,16 +177,16 @@ class PointingPairsInCell implements Resolvable {
 
         if (cellI == partnerCellI) {
             LOGGER.info("i case");
-            for (Cell testedCell : squareOfCells) {
-                if (testedCell.getI() != cellI && testedCell.getCellPossibilities().contains((Integer) possibilityToCheck)) {
+            for (Cell testedCell : cellsInBox) {
+                if (testedCell.getI() != cellI && testedCell.getCellPossibilities().contains(possibilityToCheck)) {
                     return true;
                 }
             }
         }
         if (cellJ == partnerCellJ) {
             LOGGER.info("j case");
-            for (Cell testedCell : squareOfCells) {
-                if (testedCell.getJ() != cellJ && testedCell.getCellPossibilities().contains((Integer) possibilityToCheck)) {
+            for (Cell testedCell : cellsInBox) {
+                if (testedCell.getJ() != cellJ && testedCell.getCellPossibilities().contains(possibilityToCheck)) {
                     return true;
                 }
             }
@@ -184,7 +194,7 @@ class PointingPairsInCell implements Resolvable {
         return false;
     }
 
-    private boolean deletePossibilitiesInSquare(Cell cell, Cell partnerCell, int possibilityToCheck) {
+    private boolean deletePossibilitiesInBox(Cell cell, Cell partnerCell, int possibilityToCheck) {
         deletedPossibilitiesWithLocation.clear();
         int cellI = cell.getI();
         int cellJ = cell.getJ();
@@ -196,16 +206,16 @@ class PointingPairsInCell implements Resolvable {
         if (cellI == partnerCellI || cellJ == partnerCellJ) {
             for (Cell testedCell : cellBox.getCellList()) {
                 boolean isSameCoord = cellI == partnerCellI ? testedCell.getI() != cellI : testedCell.getJ() != cellJ;
-                if (isSameCoord && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
+                if (isSameCoord && testedCell.getCellPossibilities().contains(possibilityToCheck)) {
                     int[] possibilityLocation = {testedCell.getI(), testedCell.getJ()};
                     deletedPossibilitiesWithLocation.put(possibilityLocation, possibilityToCheck);
-                    LOGGER.info(ANSI_PURPLE + "\t SQUARE CASE: Possibility " + possibilityToCheck + " will be removed from " +
+                    LOGGER.info(ANSI_PURPLE + "\t BOX CASE: Possibility " + possibilityToCheck + " will be removed from " +
                             "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
                     somethingWasRemoved = testedCell.getCellPossibilities().remove((Integer)possibilityToCheck);
                 }
             }
         } else {
-            LOGGER.info(ANSI_RED + "\tSQUARE CASE: Something's wrong - incorrect partner cell!" + ANSI_RESET);
+            LOGGER.info(ANSI_RED + "\tBOX CASE: Something's wrong - incorrect partner cell!" + ANSI_RESET);
         }
         return somethingWasRemoved;
     }
@@ -220,9 +230,6 @@ class PointingPairsInCell implements Resolvable {
      * @return                                  boolean that says whether a possibility was deleted
      */
 
-    //SudokuElement v nazve nema byt - je to nazov klasy
-    //movnut je do strategy
-    //ako tri implemetacie -
     public boolean deletePossibilitiesInRowOrColumn(Cell cell, int possibilityToCheck, Map<int[], Integer> deletedPossibilitiesWithLocation, SudokuElement sudokuElement) {
         deletedPossibilitiesWithLocation.clear();
         boolean somethingWasRemoved = false;
@@ -230,7 +237,7 @@ class PointingPairsInCell implements Resolvable {
 
         for (Cell testedCell : sudokuElement.getCellList()) {
             Box testedCellBox = testedCell.getBox();
-            if (cellBox != testedCellBox && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
+            if (cellBox != testedCellBox && testedCell.getCellPossibilities().contains(possibilityToCheck)) {
                 int[] possibilityLocation = {testedCell.getI(), testedCell.getJ()};
                 deletedPossibilitiesWithLocation.put(possibilityLocation, possibilityToCheck);
                 LOGGER.info(ANSI_BLUE + "\tROW-COLUMN CASE: Possibility " + possibilityToCheck + " will be removed from " +
@@ -254,7 +261,7 @@ class PointingPairsInCell implements Resolvable {
 
         LOGGER.info("i or j case");
         for (Cell testedCell : sudokuElement.getCellList()) {
-            if (cellBox != testedCell.getBox() &&  testedCell.getCellPossibilities().contains((Integer) possibilityToCheck)) {
+            if (cellBox != testedCell.getBox() &&  testedCell.getCellPossibilities().contains(possibilityToCheck)) {
                 return true;
             }
         }
