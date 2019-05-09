@@ -95,7 +95,7 @@ class PointingPairsInCell implements Resolvable {
 
                 // ak partner cella neobsahuje momentalne kontrolovanu possibilitu referencnej celly
                 // pokracujem, kym nenajdem taku partnerCellu, ktora obsahuje momentalne testovanu possibilitu
-                if (!partnerCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
+                if (!partnerCell.getCellPossibilities().contains(possibilityToCheck)) {
                     continue;
                 }
 
@@ -157,7 +157,7 @@ class PointingPairsInCell implements Resolvable {
 
         for (Cell candidateCell : targetBox.getCellList()) {
 
-            if (cell != candidateCell && candidateCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
+            if (cell != candidateCell && candidateCell.getCellPossibilities().contains(possibilityToCheck)) {
                 int candidateCellI = candidateCell.getI();
                 int candidateCellJ = candidateCell.getJ();
                 if ((cellI == candidateCellI || cellJ == candidateCellJ)) {
@@ -178,7 +178,7 @@ class PointingPairsInCell implements Resolvable {
         if (cellI == partnerCellI) {
             LOGGER.info("i case");
             for (Cell testedCell : cellsInBox) {
-                if (testedCell.getI() != cellI && testedCell.getCellPossibilities().contains((Integer) possibilityToCheck)) {
+                if (testedCell.getI() != cellI && testedCell.getCellPossibilities().contains(possibilityToCheck)) {
                     return true;
                 }
             }
@@ -186,7 +186,7 @@ class PointingPairsInCell implements Resolvable {
         if (cellJ == partnerCellJ) {
             LOGGER.info("j case");
             for (Cell testedCell : cellsInBox) {
-                if (testedCell.getJ() != cellJ && testedCell.getCellPossibilities().contains((Integer) possibilityToCheck)) {
+                if (testedCell.getJ() != cellJ && testedCell.getCellPossibilities().contains(possibilityToCheck)) {
                     return true;
                 }
             }
@@ -206,7 +206,7 @@ class PointingPairsInCell implements Resolvable {
         if (cellI == partnerCellI || cellJ == partnerCellJ) {
             for (Cell testedCell : cellBox.getCellList()) {
                 boolean isSameCoord = cellI == partnerCellI ? testedCell.getI() != cellI : testedCell.getJ() != cellJ;
-                if (isSameCoord && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
+                if (isSameCoord && testedCell.getCellPossibilities().contains(possibilityToCheck)) {
                     int[] possibilityLocation = {testedCell.getI(), testedCell.getJ()};
                     deletedPossibilitiesWithLocation.put(possibilityLocation, possibilityToCheck);
                     LOGGER.info(ANSI_PURPLE + "\t BOX CASE: Possibility " + possibilityToCheck + " will be removed from " +
@@ -237,7 +237,7 @@ class PointingPairsInCell implements Resolvable {
 
         for (Cell testedCell : sudokuElement.getCellList()) {
             Box testedCellBox = testedCell.getBox();
-            if (cellBox != testedCellBox && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
+            if (cellBox != testedCellBox && testedCell.getCellPossibilities().contains(possibilityToCheck)) {
                 int[] possibilityLocation = {testedCell.getI(), testedCell.getJ()};
                 deletedPossibilitiesWithLocation.put(possibilityLocation, possibilityToCheck);
                 LOGGER.info(ANSI_BLUE + "\tROW-COLUMN CASE: Possibility " + possibilityToCheck + " will be removed from " +
@@ -261,7 +261,7 @@ class PointingPairsInCell implements Resolvable {
 
         LOGGER.info("i or j case");
         for (Cell testedCell : sudokuElement.getCellList()) {
-            if (cellBox != testedCell.getBox() &&  testedCell.getCellPossibilities().contains((Integer) possibilityToCheck)) {
+            if (cellBox != testedCell.getBox() &&  testedCell.getCellPossibilities().contains(possibilityToCheck)) {
                 return true;
             }
         }
