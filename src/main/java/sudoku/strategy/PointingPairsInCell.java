@@ -230,7 +230,7 @@ class PointingPairsInCell implements Resolvable {
 
         for (Cell testedCell : sudokuElement.getCellList()) {
             Box testedCellBox = testedCell.getBox();
-            if (testedCell.getActualValue() == 0 && cellBox != testedCellBox && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
+            if (cellBox != testedCellBox && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
                 int[] possibilityLocation = {testedCell.getI(), testedCell.getJ()};
                 deletedPossibilitiesWithLocation.put(possibilityLocation, possibilityToCheck);
                 LOGGER.info(ANSI_BLUE + "\tROW-COLUMN CASE: Possibility " + possibilityToCheck + " will be removed from " +
@@ -254,8 +254,7 @@ class PointingPairsInCell implements Resolvable {
 
         LOGGER.info("i or j case");
         for (Cell testedCell : sudokuElement.getCellList()) {
-            if (testedCell.getActualValue() == 0 && cellBox != testedCell.getBox() &&
-                    testedCell.getCellPossibilities().contains((Integer) possibilityToCheck)) {
+            if (cellBox != testedCell.getBox() &&  testedCell.getCellPossibilities().contains((Integer) possibilityToCheck)) {
                 return true;
             }
         }
