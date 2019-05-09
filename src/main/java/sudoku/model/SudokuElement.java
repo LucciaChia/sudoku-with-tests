@@ -11,9 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static sudoku.ANSIColour.ANSI_BLUE;
-import static sudoku.ANSIColour.ANSI_RESET;
-
 /**
  * SudokuElement can represent whole row (Row class), whole column (Column class)
  * or whole box (Box class)
@@ -22,7 +19,7 @@ import static sudoku.ANSIColour.ANSI_RESET;
 @Getter @Setter
 public abstract class SudokuElement {
 
-    private static final Logger extAppLogFile = LoggerFactory.getLogger(SudokuElement.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SudokuElement.class);
 
     private List<Cell> cellList = new ArrayList<>();
 
@@ -47,64 +44,5 @@ public abstract class SudokuElement {
                 throw new IllegalSudokuStateException(key,cell.getI(),cell.getJ());
             }
         }
-    }
-
-
-
-
-
-
-
-    /**
-     * Method, used by PointingPairsInCell strategy, that checks and removes an input possibility from possibilities
-     * of the cells in the same row or column but not th same box as input cell
-     *
-     * @param cell                              a cell whose row or column was searched
-     * @param possibilityToCheck                a value that was searched for
-     * @param deletedPossibilitiesWithLocation  a map containing possibilities that were deleted and their location
-     * @return                                  boolean that says whether a possibility was deleted
-     */
-
-    //SudokuElement v nazve nema byt - je to nazov klasy
-    //movnut je do strategy
-    //ako tri implemetacie -
-    public boolean deletePossibilitiesInRowOrColumnSudokuElement(Cell cell, int possibilityToCheck, Map<int[], Integer> deletedPossibilitiesWithLocation) {
-        deletedPossibilitiesWithLocation.clear();
-        boolean somethingWasRemoved = false;
-        Box cellBox = cell.getBox();
-
-        for (Cell testedCell : cellList) {
-            Box testedCellBox = testedCell.getBox();
-            if (testedCell.getActualValue() == 0 && cellBox != testedCellBox && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
-                int[] possibilityLocation = {testedCell.getI(), testedCell.getJ()};
-                deletedPossibilitiesWithLocation.put(possibilityLocation, possibilityToCheck);
-                extAppLogFile.info(ANSI_BLUE + "\tROW-COLUMN CASE: Possibility " + possibilityToCheck + " will be removed from " +
-                        "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
-                somethingWasRemoved = testedCell.getCellPossibilities().remove((Integer)possibilityToCheck);
-            }
-        }
-        return somethingWasRemoved;
-    }
-
-    /**
-     * Method that checks if a cell from different box but same row/column, that has an input possibility
-     * among its possibilities, exists. Used by PointingPairsInCell strategy.
-     *
-     * @param cell                      a cell whose row or column is searched
-     * @param possibilityToCheck        value that is checked among possibilities
-     * @return                          boolean that is answer whether cell with an input possibility exists
-     */
-    public boolean isPossibilityToCheckPresentSomewhereElseInRowInColumnSudokuElement(Cell cell, int possibilityToCheck) {
-        Box cellBox = cell.getBox();
-
-        extAppLogFile.info("i or j case");
-        for (Cell testedCell : cellList) {
-            if (testedCell.getActualValue() == 0 && cellBox != testedCell.getBox() &&
-                    testedCell.getCellPossibilities().contains((Integer) possibilityToCheck)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

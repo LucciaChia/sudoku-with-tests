@@ -104,16 +104,16 @@ class PointingPairsInCell implements Resolvable {
                     // ak je len v tomto riadku vyhadzem tu possibilitu z tohto riadka v ostatnych stvorcoch, ak v stlpci tak zo stlpca
 
                     if (iCase) {
-                        changedInLoop = cellRow.deletePossibilitiesInRowOrColumnSudokuElement(cell, possibilityToCheck, deletedPossibilitiesWithLocation);
+                        changedInLoop = deletePossibilitiesInRowOrColumn(cell, possibilityToCheck, deletedPossibilitiesWithLocation, cellRow);
                     } else {
-                        changedInLoop = cellColumn.deletePossibilitiesInRowOrColumnSudokuElement(cell, possibilityToCheck, deletedPossibilitiesWithLocation);
+                        changedInLoop = deletePossibilitiesInRowOrColumn(cell, possibilityToCheck, deletedPossibilitiesWithLocation, cellColumn);
                     }
 
                 } else { // nachadza sa aj inde vo stvorci
                     LOGGER.info(ANSI_RED + "Possibility " + possibilityToCheck + " presents somewhere else too" + ANSI_RESET);
 
-                    if ((iCase && !cellRow.isPossibilityToCheckPresentSomewhereElseInRowInColumnSudokuElement(cell, possibilityToCheck)) ||
-                            (jCase && !cellColumn.isPossibilityToCheckPresentSomewhereElseInRowInColumnSudokuElement(cell, possibilityToCheck))) {
+                    if ((iCase && !isPossibilityToCheckPresentSomewhereElseInRowInColumn(cell, possibilityToCheck, cellRow)) ||
+                            (jCase && !isPossibilityToCheckPresentSomewhereElseInRowInColumn(cell, possibilityToCheck, cellColumn))) {
                         changedInLoop = deletePossibilitiesInSquare(cell, partnerCell, possibilityToCheck);
                     }
                 }
@@ -217,5 +217,58 @@ class PointingPairsInCell implements Resolvable {
             LOGGER.info(ANSI_RED + "\tSQUARE CASE: Something's wrong - incorrect partner cell!" + ANSI_RESET);
         }
         return somethingWasRemoved;
+    }
+
+    /**
+     * Method, used by PointingPairsInCell strategy, that checks and removes an input possibility from possibilities
+     * of the cells in the same row or column but not th same box as input cell
+     *
+     * @param cell                              a cell whose row or column was searched
+     * @param possibilityToCheck                a value that was searched for
+     * @param deletedPossibilitiesWithLocation  a map containing possibilities that were deleted and their location
+     * @return                                  boolean that says whether a possibility was deleted
+     */
+
+    //SudokuElement v nazve nema byt - je to nazov klasy
+    //movnut je do strategy
+    //ako tri implemetacie -
+    public boolean deletePossibilitiesInRowOrColumn(Cell cell, int possibilityToCheck, Map<int[], Integer> deletedPossibilitiesWithLocation, SudokuElement sudokuElement) {
+        deletedPossibilitiesWithLocation.clear();
+        boolean somethingWasRemoved = false;
+        Box cellBox = cell.getBox();
+
+        for (Cell testedCell : sudokuElement.getCellList()) {
+            Box testedCellBox = testedCell.getBox();
+            if (testedCell.getActualValue() == 0 && cellBox != testedCellBox && testedCell.getCellPossibilities().contains((Integer)possibilityToCheck)) {
+                int[] possibilityLocation = {testedCell.getI(), testedCell.getJ()};
+                deletedPossibilitiesWithLocation.put(possibilityLocation, possibilityToCheck);
+                LOGGER.info(ANSI_BLUE + "\tROW-COLUMN CASE: Possibility " + possibilityToCheck + " will be removed from " +
+                        "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
+                somethingWasRemoved = testedCell.getCellPossibilities().remove((Integer)possibilityToCheck);
+            }
+        }
+        return somethingWasRemoved;
+    }
+
+    /**
+     * Method that checks if a cell from different box but same row/column, that has an input possibility
+     * among its possibilities, exists. Used by PointingPairsInCell strategy.
+     *
+     * @param cell                      a cell whose row or column is searched
+     * @param possibilityToCheck        value that is checked among possibilities
+     * @return                          boolean that is answer whether cell with an input possibility exists
+     */
+    public boolean isPossibilityToCheckPresentSomewhereElseInRowInColumn(Cell cell, int possibilityToCheck, SudokuElement sudokuElement) {
+        Box cellBox = cell.getBox();
+
+        LOGGER.info("i or j case");
+        for (Cell testedCell : sudokuElement.getCellList()) {
+            if (testedCell.getActualValue() == 0 && cellBox != testedCell.getBox() &&
+                    testedCell.getCellPossibilities().contains((Integer) possibilityToCheck)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
