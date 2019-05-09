@@ -30,7 +30,7 @@ public abstract class SudokuElement {
      * @throws IllegalSudokuStateException  an exception risen if number other that zero is not unique
      *                                      in its row, column or box
      */
-    public void validateRepetition() throws IllegalSudokuStateException {
+    void validateRepetition() throws IllegalSudokuStateException {
 
         Map<Integer, Integer> repetition = new HashMap<>();
 
