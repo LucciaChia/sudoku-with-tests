@@ -40,7 +40,10 @@ class NakedSingleInACellTest {
         try {
             Sudoku sudoku = new Sudoku(inputData);
             NakedSingleInACell nakedSingleInACell = new NakedSingleInACell();
-            nakedSingleInACell.resolveSudoku(sudoku);
+            do {
+                nakedSingleInACell.resolveSudoku(sudoku);
+            } while (nakedSingleInACell.isUpdated());
+
             printPoss(sudoku);
             System.out.println("=================================");
             assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(sudoku));

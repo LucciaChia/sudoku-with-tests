@@ -51,6 +51,7 @@ class NakedSingleInACell implements Resolvable {
                         //step.printStep(cell);
                         stepList.add(step);
                         updatedInNakedSingle = true;
+                        return sudoku;
                     }
                 }
 
