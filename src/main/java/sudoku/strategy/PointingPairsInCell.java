@@ -108,7 +108,7 @@ class PointingPairsInCell implements Resolvable {
                     // iCase: vymazem z ciel ktore su v tom istom riadku ako je cell a parterCell, ale su v inom boxe ako je cell a partnerCell
                     // jCase: vymazem z ciel ktore su v tom istom stlpci ako je cell a parterCell, ale su v inom boxe ako je cell a partnerCell
                     LOGGER.info(ANSI_GREEN + "Possibility " + possibilityToCheck + " presents only in row / column" + ANSI_RESET);
-                    changedInLoop = reduceRowOrColumnCandidates(cell, cellRow, cellColumn, possibilityToCheck, iCase);
+                    changedInLoop = reduceRowOrColumnCandidates(cell, partnerCell, cellRow, cellColumn, possibilityToCheck, iCase); // ------------------
 
                 } else {
                     // possibilita sa nachadza inde v boxe => vymazem moznosti z ciel v riadkoch a v stlpcoch v tomto boxe
@@ -133,12 +133,12 @@ class PointingPairsInCell implements Resolvable {
         return updatedInPointingPair;
     }
 
-    private boolean reduceRowOrColumnCandidates(Cell cell, Row cellRow, Column cellColumn, int possibilityToCheck, boolean iCase) {
+    private boolean reduceRowOrColumnCandidates(Cell cell, Cell partnerCell, Row cellRow, Column cellColumn, int possibilityToCheck, boolean iCase) {
         boolean changedInLoop;
         if (iCase) {
-            changedInLoop = deletePossibilitiesInRowOrColumn(cell, possibilityToCheck, deletedPossibilitiesWithLocation, cellRow);
+            changedInLoop = deletePossibilitiesInRowOrColumn(cell, partnerCell, possibilityToCheck, deletedPossibilitiesWithLocation, cellRow);
         } else {
-            changedInLoop = deletePossibilitiesInRowOrColumn(cell, possibilityToCheck, deletedPossibilitiesWithLocation, cellColumn);
+            changedInLoop = deletePossibilitiesInRowOrColumn(cell, partnerCell, possibilityToCheck, deletedPossibilitiesWithLocation, cellColumn);
         }
         return changedInLoop;
     }
@@ -211,8 +211,10 @@ class PointingPairsInCell implements Resolvable {
                 if (isSameCoord && testedCell.getCellPossibilities().contains(possibilityToCheck)) {
                     int[] possibilityLocation = {testedCell.getI(), testedCell.getJ()};
                     deletedPossibilitiesWithLocation.put(possibilityLocation, possibilityToCheck);
-                    LOGGER.info(ANSI_PURPLE + "\t BOX CASE: Possibility " + possibilityToCheck + " will be removed from " +
-                            "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
+                    LOGGER.info(ANSI_PURPLE + "\t BOX CASE: " + "Possibility " + possibilityToCheck + " will be removed from " +
+                            "i=" + testedCell.getI() + " j=" + testedCell.getJ()
+                            + " ~~~ cell: [" + cellI + ", " + cellJ + "]=" + cell.getActualValue()+ " partner cell: "+
+                            "[" + partnerCellI + ", "+ partnerCellJ + "]=" + partnerCell.getActualValue() + ANSI_RESET);
                     somethingWasRemoved = testedCell.getCellPossibilities().remove((Integer)possibilityToCheck);
                 }
             }
@@ -232,7 +234,7 @@ class PointingPairsInCell implements Resolvable {
      * @return                                  boolean that says whether a possibility was deleted
      */
 
-    public boolean deletePossibilitiesInRowOrColumn(Cell cell, int possibilityToCheck, Map<int[], Integer> deletedPossibilitiesWithLocation, SudokuElement sudokuElement) {
+    public boolean deletePossibilitiesInRowOrColumn(Cell cell, Cell partnerCell, int possibilityToCheck, Map<int[], Integer> deletedPossibilitiesWithLocation, SudokuElement sudokuElement) {
         deletedPossibilitiesWithLocation.clear();
         boolean somethingWasRemoved = false;
         Box cellBox = cell.getBox();
@@ -243,7 +245,9 @@ class PointingPairsInCell implements Resolvable {
                 int[] possibilityLocation = {testedCell.getI(), testedCell.getJ()};
                 deletedPossibilitiesWithLocation.put(possibilityLocation, possibilityToCheck);
                 LOGGER.info(ANSI_BLUE + "\tROW-COLUMN CASE: Possibility " + possibilityToCheck + " will be removed from " +
-                        "i=" + testedCell.getI() + " j=" + testedCell.getJ() + ANSI_RESET);
+                        "i=" + testedCell.getI() + " j=" + testedCell.getJ() +
+                        " ~~~ cell: [" + cell.getI() + ", " + cell.getJ() + "]=" + cell.getActualValue()+ " partner cell: "+
+                        "[" + partnerCell.getI()+ ", "+ partnerCell.getJ() + "]=" + partnerCell.getActualValue() +ANSI_RESET);
                 somethingWasRemoved = testedCell.getCellPossibilities().remove((Integer)possibilityToCheck);
             }
         }
