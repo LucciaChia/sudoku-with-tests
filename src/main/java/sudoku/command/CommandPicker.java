@@ -1,13 +1,14 @@
 package sudoku.command;
 
 import lombok.Getter;
+import lombok.Setter;
 import sudoku.model.Sudoku;
 import sudoku.strategy.Resolvable;
 
 /**
  * CommandPicker runs given strategy on sudoku to achieve next state
  */
-@Getter
+@Getter @Setter
 public class CommandPicker implements Command {
     Resolvable resolvable;
     Sudoku sudoku;

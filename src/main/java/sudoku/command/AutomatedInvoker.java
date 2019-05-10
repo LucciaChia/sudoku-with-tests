@@ -2,13 +2,16 @@ package sudoku.command;
 
 
 import lombok.Getter;
+import lombok.Setter;
 import sudoku.model.Sudoku;
-import sudoku.step.OneChangeStep;
 import sudoku.step.Step;
 import sudoku.strategy.Resolvable;
 import sudoku.strategy.StrategyFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 /*
  * uses set strategies in order to resolve a sudoku.
@@ -17,11 +20,11 @@ import java.util.*;
  */
 
 // TODO in the future the steps forwards and backwards will be implemented with methods returning Command object
-@Getter
+@Getter @Setter
 public class AutomatedInvoker implements Invoker {
     private StrategyFactory strategyFactory = new StrategyFactory();
     private List<Command> commands = new LinkedList<>();
-    private List<Step> stepListFromAllUsedMethods = new ArrayList<>();
+
     private List<Resolvable> strategies = new ArrayList<>();
     private int currentStep = -1;
 
@@ -32,29 +35,28 @@ public class AutomatedInvoker implements Invoker {
 
     private Sudoku sudoku;
 
-//    public List<Step> getStepListFromAllUsedMethods() {
-//        return stepListFromAllUsedMethods;
-//    }
-
-    public AutomatedInvoker() {}
-
     public AutomatedInvoker(Sudoku sudoku) {
         this.sudoku = sudoku;
-//         by default only Backtrack Strategy will be used
+        // by default only Backtrack Strategy is used
         this.strategies.add(strategyFactory.createBacktrackStrategy());
     }
 
-    @Override
-    public List<Step> solvingStepsOrderLucia() {
-        //CommandPicker commandPicker = new CommandPicker()
-//        Resolvable currentlyUsedMethod;
+     public List<Command> solvingStepsOrder() {
 
             for (int i = 0; i < strategies.size(); i++) {
-            //    System.out.println(strategies.get(i).getName());
+
+                Sudoku oldSudoku = sudoku.copy();
                 Command command = new CommandPicker(strategies.get(i), sudoku);
+
                 sudoku = command.execute();
-                stepListFromAllUsedMethods.addAll(strategies.get(i).getStepList()); // ********************** NEW FUNCTIONALITY
-                commands.add(command);
+
+                if (strategies.get(i).isUpdated() || sudoku.isSudokuResolved()) {
+                    oldSudoku = sudoku.copy();
+                    ((CommandPicker)command).setSudoku(oldSudoku);
+                    commands.add(command);
+                    currentStep++;
+                }
+
                 if (sudoku.isSudokuResolved()) {
                     break;
                 }
@@ -66,81 +68,35 @@ public class AutomatedInvoker implements Invoker {
             System.out.println("Sudoku needs more advanced methods to be completely resolved");
         }
 
-        //
-        // printStepList();
-
-        return stepListFromAllUsedMethods;
-    }
-
-    /**
-     * prints the step list
-     */
-    public void printStepList() {
-
-        System.out.println("*********************");
-        System.out.println(" ***  ALL STEPS  *** ");
-        System.out.println("*********************");
-
-        int count = 1;
-        for (Step step : stepListFromAllUsedMethods) {
-
-
-            if (((OneChangeStep)step).getSolvingStrategyName().equals("0: NackedSingleInACell") ||
-                    ((OneChangeStep)step).getSolvingStrategyName().equals("1: HiddenSingleInACell")) {
-                System.out.println(count++ + ". " +
-                        ((OneChangeStep) step).getSolvingStrategyName() + "\n" +
-                        "[" + ((OneChangeStep) step).getCell().getI() + ", " + ((OneChangeStep) step).getCell().getJ() + "] = " +
-                        ((OneChangeStep) step).getCell().getActualValue() +"\n" +
-
-                        ((OneChangeStep) step).getSudoku());
-            } else if (((OneChangeStep)step).getSolvingStrategyName().equals("2: PointingPairsInCell")) {
-                System.out.println(count++ + ". " +
-                        ((OneChangeStep) step).getSolvingStrategyName() + "\n" +
-                        "[" + ((OneChangeStep) step).getCell().getI() + ", " + ((OneChangeStep) step).getCell().getJ() + "] = " +
-                        ((OneChangeStep) step).getCell().getActualValue() +"\n" +
-                        "[" + ((OneChangeStep) step).getPartnerCell().getI() + ", " + ((OneChangeStep) step).getPartnerCell().getJ() + "] = " +
-                        ((OneChangeStep) step).getPartnerCell().getActualValue());
-                Map<int[], Integer> deletedPossibilitiesWithLocation = ((OneChangeStep) step).getDeletedPossibilitiesWithLocation();
-                for (int[] key : deletedPossibilitiesWithLocation.keySet()) {
-                    System.out.println( ((OneChangeStep) step).getDeletedPossibilitiesWithLocation().get(key) + ": " + Arrays.toString(key));
-                }
-                System.out.println(((OneChangeStep) step).getSudoku());
-            } else {
-                System.out.println(count++ + ". " +
-                        ((OneChangeStep) step).getSolvingStrategyName() + "\n" +
-                        ((OneChangeStep) step).getSudoku());
-            }
-
-
-        }
+        return commands;
     }
 
     @Override
     public Command getNextState() {
-        return null;
+        currentStep++;
+        int lastStepIndex = commands.size()-1;
+        if (currentStep > lastStepIndex) {
+            currentStep = lastStepIndex;
+        }
+        return commands.get(currentStep);
     }
 
     @Override
     public Command getPreviousState() {
-        return null;
-    }
-
-    @Override
-    public Step getPreviousStep() {
         currentStep--;
         if (currentStep < 0) {
             currentStep = 0;
         }
-        return stepListFromAllUsedMethods.get(currentStep);
+        return commands.get(currentStep);
+    }
+
+    @Override
+    public Step getPreviousStep() {
+        return null;
     }
 
     @Override
     public Step getNextStep() {
-        currentStep++;
-        int lastStepIndex = stepListFromAllUsedMethods.size()-1;
-        if (currentStep > lastStepIndex) {
-            currentStep = lastStepIndex;
-        }
-        return stepListFromAllUsedMethods.get(currentStep);
+        return null;
     }
 }
