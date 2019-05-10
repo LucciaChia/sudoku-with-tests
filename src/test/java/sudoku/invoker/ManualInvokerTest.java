@@ -1,24 +1,29 @@
 package sudoku.invoker;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sudoku.command.Command;
 import sudoku.command.CommandPicker;
 import sudoku.command.ManualInvoker;
 import sudoku.exceptions.IllegalSudokuStateException;
+import sudoku.model.Cell;
 import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;
 import sudoku.strategy.BacktrackStrategyTest;
+import sudoku.strategy.Resolvable;
 import sudoku.strategy.StrategyFactory;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ManualInvokerTest {
     private static final Logger extAppLogFile = LoggerFactory.getLogger(ManualInvoker.class);
@@ -46,6 +51,8 @@ public class ManualInvokerTest {
     private static final String inp7 = new File(Objects.requireNonNull(classLoader.getResource("inputs/9steps.txt")).getFile()).getPath();
     private static final String out7 = new File(Objects.requireNonNull(classLoader.getResource("outputs/simple1.txt")).getFile()).getPath();
 
+    private static final String inpPair = new File(Objects.requireNonNull(classLoader.getResource("inputs/PointingPairInput.txt")).getFile()).getPath();
+
     private StrategyFactory strategyFactory = new StrategyFactory();
 
     private int[][] setArrayAccordingToObjectValues(Sudoku sudoku) {
@@ -58,8 +65,9 @@ public class ManualInvokerTest {
         return output;
     }
 
-    @Test
-    public void testOneStepSolvingSudoku() {
+    @ParameterizedTest
+    @MethodSource("inputStrategies")
+    public void testOneStepSolvingSudoku(Resolvable resolvable) {
 
         // GIVEN
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
@@ -78,7 +86,7 @@ public class ManualInvokerTest {
 
         // WHEN
         invoker = new ManualInvoker(sudoku);
-        invoker.setStrategies(strategyFactory.createNakedSingleInACellStrategy());
+        invoker.setStrategies(resolvable);
         command = invoker.getNextState();
         result = ((CommandPicker) command).getSudoku();
 
@@ -86,8 +94,9 @@ public class ManualInvokerTest {
         assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(result));
     }
 
-    @Test
-    public void testTwoStepsSolvingSudoku() {
+    @ParameterizedTest
+    @MethodSource("inputStrategies")
+    public void testTwoStepsSolvingSudoku(Resolvable resolvable) {
 
         // GIVEN
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
@@ -106,7 +115,7 @@ public class ManualInvokerTest {
 
         // WHEN
         invoker = new ManualInvoker(sudoku);
-        invoker.setStrategies(strategyFactory.createNakedSingleInACellStrategy());
+        invoker.setStrategies(resolvable);
         invoker.getNextState();
         command = invoker.getNextState();
         result = ((CommandPicker) command).getSudoku();
@@ -115,8 +124,10 @@ public class ManualInvokerTest {
         assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(result));
     }
 
-    @Test
-    public  void testFirstFromLastTwoStepSolvingSudoku() {
+    @ParameterizedTest
+    @MethodSource("inputStrategies")
+    public  void testFirstFromLastTwoStepSolvingSudoku(Resolvable resolvable) {
+
         // GIVEN
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
         int[][] inputData = fileSudokuReader.read(inp6);
@@ -134,7 +145,7 @@ public class ManualInvokerTest {
 
         // WHEN
         invoker = new ManualInvoker(sudoku);
-        invoker.setStrategies(strategyFactory.createNakedSingleInACellStrategy());
+        invoker.setStrategies(resolvable);
         command = invoker.getNextState();
         result = ((CommandPicker) command).getSudoku();
 
@@ -142,8 +153,10 @@ public class ManualInvokerTest {
         assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(result));
     }
 
-    @Test
-    public void testPreviousStep() {
+    @ParameterizedTest
+    @MethodSource("inputStrategies")
+    public void testPreviousStep(Resolvable resolvable) {
+
         // GIVEN
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
         int[][] inputData = fileSudokuReader.read(inp7);
@@ -164,7 +177,7 @@ public class ManualInvokerTest {
 
         // WHEN
         invoker = new ManualInvoker(sudoku);
-        invoker.setStrategies(strategyFactory.createNakedSingleInACellStrategy());
+        invoker.setStrategies(resolvable);
 //        command0 = invoker.getNextState();
         invoker.getNextState();
 //        command1 = invoker.getNextState();
@@ -216,5 +229,70 @@ public class ManualInvokerTest {
         assertEquals("3: Backtrack", ((CommandPicker)commands.get(6)).getResolvable().getName());
     }
 
+    @Test
+    public void testNextAndPreviousOnPointingPairsInCellStrategy() {
+        // GIVEN
+        FileSudokuReader fileSudokuReader = new FileSudokuReader();
+        int[][] inputData = fileSudokuReader.read(inpPair);
+        Sudoku sudoku = null;
+        Sudoku resultSudoku0;
+        Sudoku resultSudoku1;
+        Sudoku resultSudoku2;
+        Command command0;
+        Command command1;
+        Command command2;
+        Cell resultCell0a;
+        Cell resultCell1a;
+        Cell resultCell2a;
+//        Cell resultCell0b;
+//        Cell resultCell1b;
+//        Cell resultCell2b;
+        ManualInvoker invoker;
+
+        try {
+            sudoku = new Sudoku(inputData);
+        } catch (IllegalSudokuStateException ex) {
+            extAppLogFile.error("Test incorrect input");
+        }
+
+        // WHEN
+        invoker = new ManualInvoker(sudoku);
+        invoker.setStrategies(strategyFactory.createPointingPairsInCellStrategy());
+        command0 = invoker.getNextState();
+        resultSudoku0 = ((CommandPicker) command0).getSudoku();
+        resultCell0a = resultSudoku0.getRows().get(0).getCell(7);
+//        resultCell0b = resultSudoku0.getRows().get(5).getCell(7);
+        command1 = invoker.getNextState();
+        resultSudoku1 = ((CommandPicker) command1).getSudoku();
+        resultCell1a = resultSudoku1.getRows().get(0).getCell(7);
+//        resultCell1b = resultSudoku1.getRows().get(5).getCell(7);
+        command2 = invoker.getPreviousState();
+        resultSudoku2 = ((CommandPicker) command2).getSudoku();
+        resultCell2a = resultSudoku2.getRows().get(0).getCell(7);
+//        resultCell2b = resultSudoku2.getRows().get(5).getCell(7);
+
+        // THEN
+        assertFalse(resultCell0a.getCellPossibilities().contains(1));
+        assertTrue(resultCell0a.getCellPossibilities().contains(3));
+//        assertThat(resultCell0b.getCellPossibilities(),     contains(7));
+//        assertThat(resultCell0b.getCellPossibilities(),     contains(8));
+
+        assertFalse(resultCell1a.getCellPossibilities().contains(new Integer(1)));
+        assertFalse(resultCell1a.getCellPossibilities().contains(new Integer(3)));
+//        assertThat(resultCell1b.getCellPossibilities(), not(contains(7)));
+//        assertThat(resultCell1b.getCellPossibilities(), not(contains(8)));
+
+        assertFalse(resultCell2a.getCellPossibilities().contains(new Integer(1)));
+        assertTrue(resultCell2a.getCellPossibilities().contains(new Integer(3)));
+//        assertThat(resultCell2b.getCellPossibilities(),     contains(7));
+//        assertThat(resultCell2b.getCellPossibilities(),     contains(8));
+    }
+
+    private static Stream<Arguments> inputStrategies() {
+        StrategyFactory factory = new StrategyFactory();
+        return Stream.of(Arguments.of(factory.createNakedSingleInACellStrategy()),
+                Arguments.of(factory.createHiddenSingleInACellStrategy())
+        );
+    }
 }
 

@@ -59,7 +59,9 @@ public class ManualInvoker implements Invoker {
 //            step = stepListFromAllUsedMethods.get(stepListFromAllUsedMethods.size() - 1);
 //            stepListFromAllUsedMethods.remove(stepListFromAllUsedMethods.size() - 1);
             currentStep--;
-            command = commands.remove(commands.size()-1);
+//            command = commands.remove(commands.size()-1);
+            commands.remove(commands.size()-1);
+            command = commands.get(commands.size() - 1);
 //            resolvable = ((OneChangeStep)step).getResolvable();
 //            sudoku = ((OneChangeStep)step).getSudoku();
 //            command = new CommandPicker(resolvable, sudoku);
@@ -88,7 +90,7 @@ public class ManualInvoker implements Invoker {
 //            stepListFromAllUsedMethods.add(oneStep);
             currentStep++;
 //            command = new CommandPicker(strategies.get(0), ((OneChangeStep) oneStep).getSudoku());
-            command = new CommandPicker(strategies.get(0), sudoku);
+            command = new CommandPicker(strategies.get(0), sudoku.copy());
             commands.add(command);
         }
 //        LOGGER.info("getNextState: current state is " + command.getStepList().get(0).toString());
