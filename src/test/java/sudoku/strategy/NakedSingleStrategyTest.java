@@ -10,20 +10,26 @@ import sudoku.readers.FileSudokuReader;
 import java.io.File;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-class HiddenSingleInACellTest {
-    static ClassLoader classLoader = new HiddenSingleInACellTest().getClass().getClassLoader();
+class NakedSingleStrategyTest {
+
+    static ClassLoader classLoader = new NakedSingleStrategyTest().getClass().getClassLoader();
 
     private static final String inp1 = new File(classLoader.getResource("inputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
     private static final String out1 = new File(classLoader.getResource("outputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
 
     private static final String inp2 = new File(classLoader.getResource("inputs/simple1.txt").getFile()).getPath();
-    private static final String out2 = new File(classLoader.getResource("outputs/simple1.txt").getFile()).getPath();
+    private static final String out2 = new File(classLoader.getResource("outputs/NakedSingleInACell/simple1.txt").getFile()).getPath();
 
     private static final String inp3 = new File(classLoader.getResource("inputs/harder1.txt").getFile()).getPath();
-    private static final String out3 = new File(classLoader.getResource("outputs/HiddenSingleInACell/harder1.txt").getFile()).getPath();
+    private static final String out3 = new File(classLoader.getResource("outputs/NakedSingleInACell/harder1.txt").getFile()).getPath();
 
+
+    /**
+     * extremelySimple.txt input should be completely resolved by NakedSingleStrategy() method
+     * hard inputs won't be changed by this method at first at all
+     */
     @ParameterizedTest
     @MethodSource("linksToInputs")
     void resolveSudoku(String inputSudokuMatrixPath, String expectedSudokuOutputPath) {
@@ -33,19 +39,10 @@ class HiddenSingleInACellTest {
 
         try {
             Sudoku sudoku = new Sudoku(inputData);
-            NakedSingleInACell nakedSingleInACell = new NakedSingleInACell();
-            HiddenSingleInACell hiddenSingleInACell = new HiddenSingleInACell();
-
+            NakedSingleStrategy nakedSingleStrategy = new NakedSingleStrategy();
             do {
-                nakedSingleInACell.resolveSudoku(sudoku);
-                System.out.println(" N ");
-                if (!nakedSingleInACell.isUpdated()) {
-                    hiddenSingleInACell.resolveSudoku(sudoku);
-                    System.out.println(" H ");
-                }
-            } while (nakedSingleInACell.isUpdated() || hiddenSingleInACell.isUpdated());
-
-
+                nakedSingleStrategy.resolveSudoku(sudoku);
+            } while (nakedSingleStrategy.isUpdated());
 
             printPoss(sudoku);
             System.out.println("=================================");
@@ -56,9 +53,9 @@ class HiddenSingleInACellTest {
     }
 
     private static Stream<Arguments> linksToInputs() {
-        return Stream.of(Arguments.of(HiddenSingleInACellTest.inp1, HiddenSingleInACellTest.out1),
-                Arguments.of(HiddenSingleInACellTest.inp2, HiddenSingleInACellTest.out2),
-                Arguments.of(HiddenSingleInACellTest.inp3, HiddenSingleInACellTest.out3)
+        return Stream.of(Arguments.of(NakedSingleStrategyTest.inp1, NakedSingleStrategyTest.out1),
+                Arguments.of(NakedSingleStrategyTest.inp2, NakedSingleStrategyTest.out2),
+                Arguments.of(NakedSingleStrategyTest.inp3, NakedSingleStrategyTest.out3)
         );
     }
 

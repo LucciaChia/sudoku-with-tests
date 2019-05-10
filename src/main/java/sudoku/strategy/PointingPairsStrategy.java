@@ -27,13 +27,13 @@ import static sudoku.ANSIColour.*;
  * see example: http://www.sudoku-solutions.com/index.php?page=solvingInteractions
  */
 
-class PointingPairsInCell implements Resolvable {
+class PointingPairsStrategy implements Resolvable {
 
     private Map<int[], Integer> deletedPossibilitiesWithLocation = new HashMap<>();
     private Step step;
     private List<Step> stepList = new ArrayList<>();
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PointingPairsInCell.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PointingPairsStrategy.class);
     private boolean updatedInPointingPair = false;
     private String name = "2: PointingPairsInCell";
 
@@ -225,7 +225,7 @@ class PointingPairsInCell implements Resolvable {
     }
 
     /**
-     * Method, used by PointingPairsInCell strategy, that checks and removes an input possibility from possibilities
+     * Method, used by PointingPairsStrategy strategy, that checks and removes an input possibility from possibilities
      * of the cells in the same row or column but not th same box as input cell
      *
      * @param cell                              a cell whose row or column was searched
@@ -256,7 +256,7 @@ class PointingPairsInCell implements Resolvable {
 
     /**
      * Method that checks if a cell from different box but same row/column, that has an input possibility
-     * among its possibilities, exists. Used by PointingPairsInCell strategy.
+     * among its possibilities, exists. Used by PointingPairsStrategy strategy.
      *
      * @param cell                      a cell whose row or column is searched
      * @param possibilityToCheck        value that is checked among possibilities

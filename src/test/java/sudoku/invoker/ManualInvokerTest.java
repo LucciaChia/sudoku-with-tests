@@ -9,7 +9,7 @@ import sudoku.command.ManualInvoker;
 import sudoku.exceptions.IllegalSudokuStateException;
 import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;
-import sudoku.strategy.BacktrackLuciaTest;
+import sudoku.strategy.BacktrackStrategyTest;
 import sudoku.strategy.StrategyFactory;
 
 import java.io.File;
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ManualInvokerTest {
     private static final Logger extAppLogFile = LoggerFactory.getLogger(ManualInvoker.class);
 
-    private static ClassLoader classLoader = BacktrackLuciaTest.class.getClassLoader();
+    private static ClassLoader classLoader = BacktrackStrategyTest.class.getClassLoader();
 
 //    private static final String inp1 = new File(Objects.requireNonNull(classLoader.getResource("inputs/NakedSingleInACell/extremelySimple.txt")).getFile()).getPath();
 //    private static final String out1 = new File(Objects.requireNonNull(classLoader.getResource("outputs/NakedSingleInACell/extremelySimple.txt")).getFile()).getPath();

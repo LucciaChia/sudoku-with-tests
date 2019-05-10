@@ -1,5 +1,6 @@
 package sudoku.strategy;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -10,11 +11,10 @@ import sudoku.readers.FileSudokuReader;
 import java.io.File;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class BacktrackLuciaTest {
-
-    static ClassLoader classLoader = new BacktrackLuciaTest().getClass().getClassLoader();
+class PointingPairsStrategyTest {
+    static ClassLoader classLoader = new PointingPairsStrategyTest().getClass().getClassLoader();
 
     private static final String inp1 = new File(classLoader.getResource("inputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
     private static final String out1 = new File(classLoader.getResource("outputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
@@ -25,18 +25,6 @@ public class BacktrackLuciaTest {
     private static final String inp3 = new File(classLoader.getResource("inputs/harder1.txt").getFile()).getPath();
     private static final String out3 = new File(classLoader.getResource("outputs/harder1.txt").getFile()).getPath();
 
-    private static final String inp4 = new File(classLoader.getResource("inputs/extremelyHard1.txt").getFile()).getPath();
-    private static final String out4 = new File(classLoader.getResource("outputs/extremelyHard1.txt").getFile()).getPath();
-
-    private static final String inp5 = new File(classLoader.getResource("inputs/extremelyHard2.txt").getFile()).getPath();
-    private static final String out5 = new File(classLoader.getResource("outputs/extremelyHard2.txt").getFile()).getPath();
-
-    private static final String inp6 = new File(classLoader.getResource("inputs/extremelyHard3.txt").getFile()).getPath();
-    private static final String out6 = new File(classLoader.getResource("outputs/extremelyHard3.txt").getFile()).getPath();
-
-    private static final String inp7 = new File(classLoader.getResource("inputs/extremelyHard3.txt").getFile()).getPath();
-    private static final String out7 = new File(classLoader.getResource("outputs/extremelyHard3.txt").getFile()).getPath();
-
     @ParameterizedTest
     @MethodSource("linksToInputs")
     void resolveSudoku(String inputSudokuMatrixPath, String expectedSudokuOutputPath) {
@@ -46,8 +34,37 @@ public class BacktrackLuciaTest {
 
         try {
             Sudoku sudoku = new Sudoku(inputData);
-            BacktrackLucia backtrackLucia = new BacktrackLucia();
-            sudoku = backtrackLucia.resolveSudoku(sudoku);
+            NakedSingleStrategy nakedSingleStrategy = new NakedSingleStrategy();
+            HiddenSingleStrategy hiddenSingleStrategy = new HiddenSingleStrategy();
+            PointingPairsStrategy pointingPairsStrategy = new PointingPairsStrategy();
+//            do {
+//                nakedSingleStrategy.resolveSudoku(sudoku);
+//                System.out.println(" N ");
+//                if (!Solver.sudokuWasChanged) {
+//                    hiddenSingleStrategy.resolveSudoku(sudoku);
+//                    System.out.println(" H ");
+//                }
+//
+//                if (!Solver.sudokuWasChanged) {
+//                    pointingPairsStrategy.resolveSudoku(sudoku);
+//                    System.out.println(" P ");
+//                }
+//            } while (Solver.sudokuWasChanged);
+
+            do {
+                nakedSingleStrategy.resolveSudoku(sudoku);
+                System.out.println(" N ");
+                if (!nakedSingleStrategy.isUpdated()) {
+                    hiddenSingleStrategy.resolveSudoku(sudoku);
+                    System.out.println(" H ");
+                }
+
+                if (!hiddenSingleStrategy.isUpdated()) {
+                    pointingPairsStrategy.resolveSudoku(sudoku);
+                    System.out.println(" P ");
+                }
+            } while (nakedSingleStrategy.isUpdated() || hiddenSingleStrategy.isUpdated() || pointingPairsStrategy.isUpdated());
+
             printPoss(sudoku);
             System.out.println("=================================");
             assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(sudoku));
@@ -56,14 +73,14 @@ public class BacktrackLuciaTest {
         }
     }
 
+    @Test
+    void findPartnerCell() {
+    }
+
     private static Stream<Arguments> linksToInputs() {
-        return Stream.of(Arguments.of(BacktrackLuciaTest.inp1, BacktrackLuciaTest.out1),
-                Arguments.of(BacktrackLuciaTest.inp2, BacktrackLuciaTest.out2),
-                Arguments.of(BacktrackLuciaTest.inp3, BacktrackLuciaTest.out3),
-                Arguments.of(BacktrackLuciaTest.inp4, BacktrackLuciaTest.out4),
-                Arguments.of(BacktrackLuciaTest.inp5, BacktrackLuciaTest.out5),
-                Arguments.of(BacktrackLuciaTest.inp6, BacktrackLuciaTest.out6),
-                Arguments.of(BacktrackLuciaTest.inp7, BacktrackLuciaTest.out7)
+        return Stream.of(Arguments.of(PointingPairsStrategyTest.inp1, PointingPairsStrategyTest.out1),
+                Arguments.of(PointingPairsStrategyTest.inp2, PointingPairsStrategyTest.out2),
+                Arguments.of(PointingPairsStrategyTest.inp3, PointingPairsStrategyTest.out3)
         );
     }
 

@@ -12,24 +12,31 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-class NakedSingleInACellTest {
+public class BacktrackStrategyTest {
 
-    static ClassLoader classLoader = new NakedSingleInACellTest().getClass().getClassLoader();
+    static ClassLoader classLoader = new BacktrackStrategyTest().getClass().getClassLoader();
 
     private static final String inp1 = new File(classLoader.getResource("inputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
     private static final String out1 = new File(classLoader.getResource("outputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
 
     private static final String inp2 = new File(classLoader.getResource("inputs/simple1.txt").getFile()).getPath();
-    private static final String out2 = new File(classLoader.getResource("outputs/NakedSingleInACell/simple1.txt").getFile()).getPath();
+    private static final String out2 = new File(classLoader.getResource("outputs/simple1.txt").getFile()).getPath();
 
     private static final String inp3 = new File(classLoader.getResource("inputs/harder1.txt").getFile()).getPath();
-    private static final String out3 = new File(classLoader.getResource("outputs/NakedSingleInACell/harder1.txt").getFile()).getPath();
+    private static final String out3 = new File(classLoader.getResource("outputs/harder1.txt").getFile()).getPath();
 
+    private static final String inp4 = new File(classLoader.getResource("inputs/extremelyHard1.txt").getFile()).getPath();
+    private static final String out4 = new File(classLoader.getResource("outputs/extremelyHard1.txt").getFile()).getPath();
 
-    /**
-     * extremelySimple.txt input should be completely resolved by NakedSingleInACell() method
-     * hard inputs won't be changed by this method at first at all
-     */
+    private static final String inp5 = new File(classLoader.getResource("inputs/extremelyHard2.txt").getFile()).getPath();
+    private static final String out5 = new File(classLoader.getResource("outputs/extremelyHard2.txt").getFile()).getPath();
+
+    private static final String inp6 = new File(classLoader.getResource("inputs/extremelyHard3.txt").getFile()).getPath();
+    private static final String out6 = new File(classLoader.getResource("outputs/extremelyHard3.txt").getFile()).getPath();
+
+    private static final String inp7 = new File(classLoader.getResource("inputs/extremelyHard3.txt").getFile()).getPath();
+    private static final String out7 = new File(classLoader.getResource("outputs/extremelyHard3.txt").getFile()).getPath();
+
     @ParameterizedTest
     @MethodSource("linksToInputs")
     void resolveSudoku(String inputSudokuMatrixPath, String expectedSudokuOutputPath) {
@@ -39,11 +46,8 @@ class NakedSingleInACellTest {
 
         try {
             Sudoku sudoku = new Sudoku(inputData);
-            NakedSingleInACell nakedSingleInACell = new NakedSingleInACell();
-            do {
-                nakedSingleInACell.resolveSudoku(sudoku);
-            } while (nakedSingleInACell.isUpdated());
-
+            BacktrackStrategy backtrackStrategy = new BacktrackStrategy();
+            sudoku = backtrackStrategy.resolveSudoku(sudoku);
             printPoss(sudoku);
             System.out.println("=================================");
             assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(sudoku));
@@ -53,9 +57,13 @@ class NakedSingleInACellTest {
     }
 
     private static Stream<Arguments> linksToInputs() {
-        return Stream.of(Arguments.of(NakedSingleInACellTest.inp1, NakedSingleInACellTest.out1),
-                Arguments.of(NakedSingleInACellTest.inp2, NakedSingleInACellTest.out2),
-                Arguments.of(NakedSingleInACellTest.inp3, NakedSingleInACellTest.out3)
+        return Stream.of(Arguments.of(BacktrackStrategyTest.inp1, BacktrackStrategyTest.out1),
+                Arguments.of(BacktrackStrategyTest.inp2, BacktrackStrategyTest.out2),
+                Arguments.of(BacktrackStrategyTest.inp3, BacktrackStrategyTest.out3),
+                Arguments.of(BacktrackStrategyTest.inp4, BacktrackStrategyTest.out4),
+                Arguments.of(BacktrackStrategyTest.inp5, BacktrackStrategyTest.out5),
+                Arguments.of(BacktrackStrategyTest.inp6, BacktrackStrategyTest.out6),
+                Arguments.of(BacktrackStrategyTest.inp7, BacktrackStrategyTest.out7)
         );
     }
 

@@ -14,7 +14,7 @@ import java.util.List;
  *
  * see examples: http://www.sudoku-solutions.com/index.php?page=solvingNakedSubsets
  */
-class NakedSingleInACell implements Resolvable {
+class NakedSingleStrategy implements Resolvable {
     private boolean updatedInNakedSingle = false;
     private Step step;
     private List<Step> stepList = new ArrayList<>();

@@ -1,6 +1,5 @@
 package sudoku.strategy;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -13,8 +12,8 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PointingPairsInCellTest {
-    static ClassLoader classLoader = new PointingPairsInCellTest().getClass().getClassLoader();
+class HiddenSingleStrategyTest {
+    static ClassLoader classLoader = new HiddenSingleStrategyTest().getClass().getClassLoader();
 
     private static final String inp1 = new File(classLoader.getResource("inputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
     private static final String out1 = new File(classLoader.getResource("outputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
@@ -23,7 +22,7 @@ class PointingPairsInCellTest {
     private static final String out2 = new File(classLoader.getResource("outputs/simple1.txt").getFile()).getPath();
 
     private static final String inp3 = new File(classLoader.getResource("inputs/harder1.txt").getFile()).getPath();
-    private static final String out3 = new File(classLoader.getResource("outputs/harder1.txt").getFile()).getPath();
+    private static final String out3 = new File(classLoader.getResource("outputs/HiddenSingleInACell/harder1.txt").getFile()).getPath();
 
     @ParameterizedTest
     @MethodSource("linksToInputs")
@@ -34,36 +33,19 @@ class PointingPairsInCellTest {
 
         try {
             Sudoku sudoku = new Sudoku(inputData);
-            NakedSingleInACell nakedSingleInACell = new NakedSingleInACell();
-            HiddenSingleInACell hiddenSingleInACell = new HiddenSingleInACell();
-            PointingPairsInCell pointingPairsInCell = new PointingPairsInCell();
-//            do {
-//                nakedSingleInACell.resolveSudoku(sudoku);
-//                System.out.println(" N ");
-//                if (!Solver.sudokuWasChanged) {
-//                    hiddenSingleInACell.resolveSudoku(sudoku);
-//                    System.out.println(" H ");
-//                }
-//
-//                if (!Solver.sudokuWasChanged) {
-//                    pointingPairsInCell.resolveSudoku(sudoku);
-//                    System.out.println(" P ");
-//                }
-//            } while (Solver.sudokuWasChanged);
+            NakedSingleStrategy nakedSingleStrategy = new NakedSingleStrategy();
+            HiddenSingleStrategy hiddenSingleStrategy = new HiddenSingleStrategy();
 
             do {
-                nakedSingleInACell.resolveSudoku(sudoku);
+                nakedSingleStrategy.resolveSudoku(sudoku);
                 System.out.println(" N ");
-                if (!nakedSingleInACell.isUpdated()) {
-                    hiddenSingleInACell.resolveSudoku(sudoku);
+                if (!nakedSingleStrategy.isUpdated()) {
+                    hiddenSingleStrategy.resolveSudoku(sudoku);
                     System.out.println(" H ");
                 }
+            } while (nakedSingleStrategy.isUpdated() || hiddenSingleStrategy.isUpdated());
 
-                if (!hiddenSingleInACell.isUpdated()) {
-                    pointingPairsInCell.resolveSudoku(sudoku);
-                    System.out.println(" P ");
-                }
-            } while (nakedSingleInACell.isUpdated() || hiddenSingleInACell.isUpdated() || pointingPairsInCell.isUpdated());
+
 
             printPoss(sudoku);
             System.out.println("=================================");
@@ -73,14 +55,10 @@ class PointingPairsInCellTest {
         }
     }
 
-    @Test
-    void findPartnerCell() {
-    }
-
     private static Stream<Arguments> linksToInputs() {
-        return Stream.of(Arguments.of(PointingPairsInCellTest.inp1, PointingPairsInCellTest.out1),
-                Arguments.of(PointingPairsInCellTest.inp2, PointingPairsInCellTest.out2),
-                Arguments.of(PointingPairsInCellTest.inp3, PointingPairsInCellTest.out3)
+        return Stream.of(Arguments.of(HiddenSingleStrategyTest.inp1, HiddenSingleStrategyTest.out1),
+                Arguments.of(HiddenSingleStrategyTest.inp2, HiddenSingleStrategyTest.out2),
+                Arguments.of(HiddenSingleStrategyTest.inp3, HiddenSingleStrategyTest.out3)
         );
     }
 

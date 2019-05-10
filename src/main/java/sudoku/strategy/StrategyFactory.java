@@ -7,16 +7,16 @@ package sudoku.strategy;
 public class StrategyFactory {
 
   public Resolvable createNakedSingleInACellStrategy(){
-    return new NakedSingleInACell();
+    return new NakedSingleStrategy();
   }
   public Resolvable createHiddenSingleInACellStrategy(){
-    return new HiddenSingleInACell();
+    return new HiddenSingleStrategy();
   }
   public Resolvable createPointingPairsInCellStrategy(){
-    return new PointingPairsInCell();
+    return new PointingPairsStrategy();
   }
   public Resolvable createBacktrackStrategy(){
-    return new BacktrackLucia();
+    return new BacktrackStrategy();
   }
 
 }
