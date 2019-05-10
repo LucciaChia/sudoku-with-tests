@@ -48,6 +48,7 @@ public class Sudoku {
 
     public Sudoku copy(){
         int[][] data = new int[9][9];
+        Sudoku result;
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -55,12 +56,22 @@ public class Sudoku {
             }
         }
         try {
-            return new Sudoku(data);
+            result =  new Sudoku(data);
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    result.getRows().get(i).getCellList().get(j).getCellPossibilities().clear();
+                    for (Integer value: this.getRows().get(i).getCellList().get(j).getCellPossibilities()) {
+                        result.getRows().get(i).getCellList().get(j).getCellPossibilities().add(new Integer(value));
+                    };
+                }
+            }
         } catch (IllegalSudokuStateException ex) {
             System.out.printf("Empty sudoku");
+
             return new Sudoku();
         }
 
+        return result;
     }
 
     /**
