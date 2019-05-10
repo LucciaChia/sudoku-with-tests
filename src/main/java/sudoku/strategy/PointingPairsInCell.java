@@ -59,7 +59,9 @@ class PointingPairsInCell implements Resolvable {
             for (int j = 0; j < 9; j++) {
                 Cell cell = sudoku.getRows().get(i).getCell(j);
                 if (cell.getActualValue() == 0) {
-                    pointingPairInCells(sudoku, cell);
+                    if (pointingPairInCells(sudoku, cell)){
+                        return sudoku;
+                    }
                 }
             }
         }
