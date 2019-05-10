@@ -4,7 +4,7 @@ package sudoku.command;
 import lombok.Getter;
 import lombok.Setter;
 import sudoku.model.Sudoku;
-import sudoku.step.Step;
+//import sudoku.step.Step;
 import sudoku.strategy.Resolvable;
 import sudoku.strategy.StrategyFactory;
 
@@ -90,13 +90,13 @@ public class AutomatedInvoker implements Invoker {
         return commands.get(currentStep);
     }
 
-    @Override
-    public Step getPreviousStep() {
-        return null;
-    }
+//    @Override
+//    public Step getPreviousStep() {
+//        return null;
+//    }
 
-    @Override
-    public Step getNextStep() {
-        return null;
-    }
+//    @Override
+//    public Step getNextStep() {
+//        return null;
+//    }
 }

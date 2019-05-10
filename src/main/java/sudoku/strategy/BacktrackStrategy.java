@@ -2,12 +2,11 @@ package sudoku.strategy;
 
 import sudoku.model.Cell;
 import sudoku.model.Sudoku;
-import sudoku.step.OneChangeStep;
-import sudoku.step.Step;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
+
+//import sudoku.step.OneChangeStep;
+//import sudoku.step.Step;
 
 /*
  * brute force method. Backtrack will try all possible combinations of possibilities in order to find the solution
@@ -16,8 +15,8 @@ import java.util.Scanner;
 class BacktrackStrategy implements Resolvable{
 
     Scanner scanner = new Scanner(System.in);
-    private Step step;
-    private List<Step> stepList = new ArrayList<>();
+//    private Step step;
+//    private List<Step> stepList = new ArrayList<>();
     private boolean updatedInBacktrackLucia = false;
 
     private static long stepCount = 0;
@@ -28,14 +27,14 @@ class BacktrackStrategy implements Resolvable{
         return name;
     }
 
-    @Override
-    public List<Step> getStepList() {
-        return stepList;
-    }
+//    @Override
+//    public List<Step> getStepList() {
+//        return stepList;
+//    }
 
     @Override
     public Sudoku resolveSudoku(Sudoku sudoku) {
-        stepList.clear();
+//        stepList.clear();
         updatedInBacktrackLucia = false;
 
         for (int i = 0; i < 9; i++) {
@@ -76,9 +75,9 @@ class BacktrackStrategy implements Resolvable{
                 }
             }
         }
-        step = new OneChangeStep(sudoku, name);
-        ((OneChangeStep)step).setResolvable(this);
-        stepList.add(step);
+//        step = new OneChangeStep(sudoku, name);
+//        ((OneChangeStep)step).setResolvable(this);
+//        stepList.add(step);
 //        step.printBacktrack();
 //        sudoku.print();
         return sudoku;

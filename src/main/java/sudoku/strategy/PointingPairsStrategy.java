@@ -3,8 +3,8 @@ package sudoku.strategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sudoku.model.*;
-import sudoku.step.OneChangeStep;
-import sudoku.step.Step;
+//import sudoku.step.OneChangeStep;
+//import sudoku.step.Step;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,21 +30,21 @@ import static sudoku.ANSIColour.*;
 class PointingPairsStrategy implements Resolvable {
 
     private Map<int[], Integer> deletedPossibilitiesWithLocation = new HashMap<>();
-    private Step step;
-    private List<Step> stepList = new ArrayList<>();
+//    private Step step;
+//    private List<Step> stepList = new ArrayList<>();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PointingPairsStrategy.class);
     private boolean updatedInPointingPair = false;
     private String name = "2: PointingPairsInCell";
 
-    public Step getStep() {
-        return step;
-    }
+//    public Step getStep() {
+//        return step;
+//    }
 
-    @Override
-    public List<Step> getStepList() {
-        return stepList;
-    }
+//    @Override
+//    public List<Step> getStepList() {
+//        return stepList;
+//    }
 
     @Override
     public String getName() {
@@ -53,7 +53,7 @@ class PointingPairsStrategy implements Resolvable {
 
     @Override
     public Sudoku resolveSudoku(Sudoku sudoku) {
-        stepList.clear();
+//        stepList.clear();
         updatedInPointingPair = false;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -122,9 +122,9 @@ class PointingPairsStrategy implements Resolvable {
                     Sudoku sudokuCopy = sudoku.copy();
                     Map<int[], Integer> deletedPossibilitiesWithLocationCopy = new HashMap<>();
                     deletedPossibilitiesWithLocationCopy.putAll(deletedPossibilitiesWithLocation);
-                    step = new OneChangeStep(sudokuCopy, name, cell, partnerCell, deletedPossibilitiesWithLocationCopy);
-                    ((OneChangeStep)step).setResolvable(this);
-                    stepList.add(step);
+//                    step = new OneChangeStep(sudokuCopy, name, cell, partnerCell, deletedPossibilitiesWithLocationCopy);
+//                    ((OneChangeStep)step).setResolvable(this);
+//                    stepList.add(step);
                     updatedInPointingPair = true;
                     return updatedInPointingPair;
                 }

@@ -1,9 +1,6 @@
 package sudoku.strategy;
 
-import sudoku.model.*;
-import sudoku.step.Step;
-
-import java.util.List;
+import sudoku.model.Sudoku;
 
 /**
  * resolvable has to be implemented by all strategies used while trying to resolve sudoku
@@ -29,12 +26,12 @@ public interface Resolvable {
      */
     String getName();
 
-    /**
-     * returns a list of steps how sudoku was solved
-     *
-     * @return List<Step>
-     */
-    List<Step> getStepList();
+//    /**
+//     * returns a list of steps how sudoku was solved
+//     *
+//     * @return List<Step>
+//     */
+//    List<Step> getStepList();
 
 //    /**
 //     * inappropriate possibilities reducer
