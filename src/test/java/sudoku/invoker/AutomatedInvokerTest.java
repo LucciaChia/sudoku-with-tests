@@ -1,6 +1,6 @@
 package sudoku.invoker;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import sudoku.command.AutomatedInvoker;
 import sudoku.command.Command;
 import sudoku.command.CommandPicker;
