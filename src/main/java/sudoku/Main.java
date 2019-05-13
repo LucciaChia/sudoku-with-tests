@@ -4,6 +4,7 @@ package sudoku;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sudoku.command.Command;
+import sudoku.console.ConsoleDisplayer;
 import sudoku.exceptions.IllegalSudokuStateException;
 import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;
@@ -12,7 +13,6 @@ import sudoku.strategy.StrategyFactory;
 
 import java.io.File;
 import java.util.List;
-import java.util.Scanner;
 /*
  * simple scanner schema used in order the client could communicate with the program via console + step by step
  * principle enabled via second switch
@@ -35,12 +35,12 @@ public class Main {
     private static final String insane = new File(classLoader.getResource("inputs/insaneSudoku.txt").getFile()).getPath();
     private static final String empty = new File(classLoader.getResource("inputs/emptySudoku.txt").getFile()).getPath();
 
-    private Scanner scanner = new Scanner(System.in);
     private StrategyFactory strategyFactory = new StrategyFactory();
     private Resolvable nakedSingleInACell = strategyFactory.createNakedSingleInACellStrategy();
     private Resolvable hiddenSingleInACell = strategyFactory.createHiddenSingleInACellStrategy();
     private Resolvable pointingPairsInCell = strategyFactory.createPointingPairsInCellStrategy();
     private Resolvable backtrackLucia = strategyFactory.createBacktrackStrategy();
+    private ConsoleDisplayer consoleDisplayer = new ConsoleDisplayer();
 
     // TODO impose Command pattern into this application
     public static void main(String[] args) {
@@ -50,20 +50,19 @@ public class Main {
 
     private void menu() {
 
-        Scanner scanner = new Scanner(System.in);
         boolean quit = false;
         printHelp();
         LOGGER.info("Program has stared");
         do {
-            System.out.println("Choose your option");
-            int option = scanner.nextInt();
+            consoleDisplayer.display("Choose your option");
+            int option = consoleDisplayer.inputInt();
             switch (option) {
                 case 0:
                     printHelp();
                     break;
                 case 1:
                     try {
-                        System.out.println("Insert your sudoku:");
+                        consoleDisplayer.display("Insert your sudoku:");
                         Sudoku sudoku = insertYourOwnSudoku();
                         automatedInvokerWithAllSolvingMethods(sudoku);
                         LOGGER.info("Reading sudoku - valid input");
@@ -90,7 +89,7 @@ public class Main {
 
                     break;
                 case 4:
-                    System.out.println("Bye, bye");
+                    consoleDisplayer.display("Bye, bye");
                     LOGGER.info("Program has finished");
                     quit = true;
             }
@@ -98,7 +97,7 @@ public class Main {
     }
 
     private void printHelp() {
-        System.out.println(
+        consoleDisplayer.display(
                 "Insert 0 - to print this help\n" +
                         "Insert 1 - to insert your own sudoku and see solution whole solution with all steps\n" +
                         "         - empty places in sudoku reaplace with number 0\n" +
@@ -114,14 +113,14 @@ public class Main {
         int[][] data = new int[9][9];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                data[i][j] = scanner.nextInt();
+                data[i][j] = consoleDisplayer.inputInt();
             }
         }
         return new Sudoku(data);
     }
 
     private void runDefaultSudokuAutomaticInvoker() throws IllegalSudokuStateException{
-        System.out.println("AutomaticInvoker Used");
+        consoleDisplayer.display("AutomaticInvoker Used");
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
         int[][] data = fileSudokuReader.read(extremelyHard);
         Sudoku sudoku = new Sudoku(data);
@@ -132,7 +131,7 @@ public class Main {
 
     // TODO Step by step NOT WORKING YET
     private void stepByStepSudokuAutomaticInvoker() throws IllegalSudokuStateException {
-        System.out.println("To be implemented");
+        consoleDisplayer.display("To be implemented");
 //        boolean quit = false;
 //        stepByStepPrintHelp();
 //        System.out.println("First insert your sudoku:");
@@ -173,7 +172,7 @@ public class Main {
 
     }
     private void stepByStepPrintHelp() {
-        System.out.println(
+        consoleDisplayer.display(
                 "Insert help - to see NEXT step\n" +
                         "Insert n - to see NEXT step\n" +
                         "Insert p - to see PREVIOUS step\n" +
@@ -185,9 +184,9 @@ public class Main {
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                System.out.print(sudoku.getRows().get(i).getCell(j).getActualValue() + " ");
+                consoleDisplayer.display(sudoku.getRows().get(i).getCell(j).getActualValue() + " ");
             }
-            System.out.println();
+            consoleDisplayer.display("");
         }
     }
 
