@@ -45,14 +45,14 @@ public class AutomatedInvoker implements Invoker {
 
             for (int i = 0; i < strategies.size(); i++) {
 
-                Sudoku oldSudoku = sudoku.copy();
-                Command command = new CommandPicker(strategies.get(i), sudoku);
+//                Sudoku oldSudoku = sudoku.copy();
+                Command command = new CommandPicker(strategies.get(i), sudoku.copy());
 
                 sudoku = command.execute();
 
                 if (strategies.get(i).isUpdated() || sudoku.isSudokuResolved()) {
-                    oldSudoku = sudoku.copy();
-                    ((CommandPicker)command).setSudoku(oldSudoku);
+//                    oldSudoku = sudoku.copy();
+//                    ((CommandPicker)command).setSudoku(oldSudoku);
                     commands.add(command);
                     currentStep++;
                 }
