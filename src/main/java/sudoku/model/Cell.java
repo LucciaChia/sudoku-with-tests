@@ -57,7 +57,7 @@ public class Cell {
     }
 
     /**
-     *
+     * poznamka o Integeri
      * @param possibilityToDelete
      */
     public  void deletePossibility(Integer possibilityToDelete) {
@@ -71,9 +71,9 @@ public class Cell {
 
         for(int i = 0; i < 9; i++) {
             // casting to ensure parameter is treated as value and not an index
-            row.getCell(i).deletePossibility((Integer) actualValue);
-            column.getCell(i).deletePossibility((Integer) actualValue);
-            box.getCellList().get(i).deletePossibility((Integer) actualValue);
+            row.getCell(i).deletePossibility(actualValue);
+            column.getCell(i).deletePossibility(actualValue);
+            box.getCellList().get(i).deletePossibility(actualValue);
         }
     }
 

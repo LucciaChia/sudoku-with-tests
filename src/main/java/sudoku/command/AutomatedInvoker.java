@@ -39,22 +39,19 @@ public class AutomatedInvoker implements Invoker {
         this.sudoku = sudoku;
         // by default only Backtrack Strategy is used
         this.strategies.add(strategyFactory.createBacktrackStrategy());
+        solvingStepsOrder();
     }
 
-     public List<Command> solvingStepsOrder() {
+     protected List<Command> solvingStepsOrder() {
 
             for (int i = 0; i < strategies.size(); i++) {
 
 //                Sudoku oldSudoku = sudoku.copy();
                 Command command = new CommandPicker(strategies.get(i), sudoku.copy());
-
                 sudoku = command.execute();
 
                 if (strategies.get(i).isUpdated() || sudoku.isSudokuResolved()) {
-//                    oldSudoku = sudoku.copy();
-//                    ((CommandPicker)command).setSudoku(oldSudoku);
                     commands.add(command);
-                    currentStep++;
                 }
 
                 if (sudoku.isSudokuResolved()) {
@@ -90,13 +87,4 @@ public class AutomatedInvoker implements Invoker {
         return commands.get(currentStep);
     }
 
-//    @Override
-//    public Step getPreviousStep() {
-//        return null;
-//    }
-
-//    @Override
-//    public Step getNextStep() {
-//        return null;
-//    }
 }

@@ -80,11 +80,11 @@ class HiddenSingleStrategy implements Resolvable {
         for (int i = 0; i < 9; i++) {
             List<Integer> possibility = listOfCells.get(i).getCellPossibilities(); // moznosti v bunke
             if (possibility != null) {
-                for (int j = 0; j < possibility.size(); j++) {
-                    if (!countOfPossibilities.containsKey(possibility.get(j))) {
-                        countOfPossibilities.put(possibility.get(j), 1);
+                for (Integer integer : possibility) {
+                    if (!countOfPossibilities.containsKey(integer)) {
+                        countOfPossibilities.put(integer, 1);
                     } else {
-                        int key = possibility.get(j);
+                        int key = integer;
                         countOfPossibilities.put(key, countOfPossibilities.get(key) + 1);
                     }
                 }
@@ -106,27 +106,19 @@ class HiddenSingleStrategy implements Resolvable {
     private boolean deleteHidden(Cell cell, Map<Integer, Integer> rowPoss, Map<Integer, Integer> columnPoss, Map<Integer, Integer> boxPoss) {
 
         List<Integer> cellPossibilities = cell.getCellPossibilities();
+        for (Integer currentCellPossibility : cellPossibilities) {
+            return checkUniqueOccurence(cell, rowPoss, currentCellPossibility)
+                || checkUniqueOccurence(cell, columnPoss,currentCellPossibility)
+                || checkUniqueOccurence(cell, boxPoss, currentCellPossibility);
+        }
+        return false;
+    }
 
-        for (int i = 0; i < cellPossibilities.size(); i++) {
-            int currentCellPossibility = cellPossibilities.get(i);
-
-            if (rowPoss.get((Integer)currentCellPossibility) == 1) {
-                cell.setActualValue(currentCellPossibility);
-                cell.deletePossibilities();
-                return true;
-            }
-
-            if (columnPoss.get((Integer)currentCellPossibility) == 1) {
-                cell.setActualValue(currentCellPossibility);
-                cell.deletePossibilities();
-                return true;
-            }
-
-            if (boxPoss.get((Integer)currentCellPossibility) == 1) {
-                cell.setActualValue(currentCellPossibility);
-                cell.deletePossibilities();
-                return true;
-            }
+    private boolean checkUniqueOccurence(Cell cell, Map<Integer, Integer> rowPoss, Integer currentCellPossibility) {
+        if (rowPoss.get(currentCellPossibility) == 1) {
+            cell.setActualValue(currentCellPossibility);
+            cell.deletePossibilities();
+            return true;
         }
         return false;
     }

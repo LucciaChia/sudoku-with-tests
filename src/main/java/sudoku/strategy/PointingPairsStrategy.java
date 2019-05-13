@@ -119,12 +119,8 @@ class PointingPairsStrategy implements Resolvable {
                 }
 
                 if (changedInLoop) {
-                    Sudoku sudokuCopy = sudoku.copy();
                     Map<int[], Integer> deletedPossibilitiesWithLocationCopy = new HashMap<>();
                     deletedPossibilitiesWithLocationCopy.putAll(deletedPossibilitiesWithLocation);
-//                    step = new OneChangeStep(sudokuCopy, name, cell, partnerCell, deletedPossibilitiesWithLocationCopy);
-//                    ((OneChangeStep)step).setResolvable(this);
-//                    stepList.add(step);
                     updatedInPointingPair = true;
                     return updatedInPointingPair;
                 }

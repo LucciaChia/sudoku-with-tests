@@ -34,7 +34,6 @@ class BacktrackStrategy implements Resolvable{
 
     @Override
     public Sudoku resolveSudoku(Sudoku sudoku) {
-//        stepList.clear();
         updatedInBacktrackLucia = false;
 
         for (int i = 0; i < 9; i++) {
@@ -46,7 +45,7 @@ class BacktrackStrategy implements Resolvable{
                     continue;
                 }
 
-                if (cellPossibilitiesAmount > 0) {
+                if (cellPossibilitiesAmount > 0 ) {
                     stepCount++;
 
                     for (int k = 0; k < cellPossibilitiesAmount; k++) {
