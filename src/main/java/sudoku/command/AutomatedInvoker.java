@@ -4,7 +4,6 @@ package sudoku.command;
 import lombok.Getter;
 import lombok.Setter;
 import sudoku.model.Sudoku;
-//import sudoku.step.Step;
 import sudoku.strategy.Resolvable;
 import sudoku.strategy.StrategyFactory;
 
@@ -37,7 +36,6 @@ public class AutomatedInvoker implements Invoker {
 
     public AutomatedInvoker(Sudoku sudoku) {
         this.sudoku = sudoku;
-        // by default only Backtrack Strategy is used
         this.strategies.add(strategyFactory.createBacktrackStrategy());
         solvingStepsOrder();
     }
@@ -45,8 +43,6 @@ public class AutomatedInvoker implements Invoker {
      protected List<Command> solvingStepsOrder() {
 
             for (int i = 0; i < strategies.size(); i++) {
-
-//                Sudoku oldSudoku = sudoku.copy();
                 Command command = new CommandPicker(strategies.get(i), sudoku.copy());
                 sudoku = command.execute();
 

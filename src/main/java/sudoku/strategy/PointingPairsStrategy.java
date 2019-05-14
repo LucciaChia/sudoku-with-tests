@@ -3,8 +3,6 @@ package sudoku.strategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sudoku.model.*;
-//import sudoku.step.OneChangeStep;
-//import sudoku.step.Step;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +40,6 @@ class PointingPairsStrategy implements Resolvable {
 
     @Override
     public Sudoku resolveSudoku(Sudoku sudoku) {
-//        stepList.clear();
         updatedInPointingPair = false;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {

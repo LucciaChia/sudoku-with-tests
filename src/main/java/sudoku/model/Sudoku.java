@@ -165,14 +165,6 @@ public class Sudoku {
         return true;
     }
 
-
-
-
-
-
-
-
-
     /**
      * Print actual value of all cells in form 9x9 matrix for an user to see current state.
      */

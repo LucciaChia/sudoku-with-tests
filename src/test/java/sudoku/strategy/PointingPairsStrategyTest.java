@@ -37,19 +37,6 @@ class PointingPairsStrategyTest {
             NakedSingleStrategy nakedSingleStrategy = new NakedSingleStrategy();
             HiddenSingleStrategy hiddenSingleStrategy = new HiddenSingleStrategy();
             PointingPairsStrategy pointingPairsStrategy = new PointingPairsStrategy();
-//            do {
-//                nakedSingleStrategy.resolveSudoku(sudoku);
-//                System.out.println(" N ");
-//                if (!Solver.sudokuWasChanged) {
-//                    hiddenSingleStrategy.resolveSudoku(sudoku);
-//                    System.out.println(" H ");
-//                }
-//
-//                if (!Solver.sudokuWasChanged) {
-//                    pointingPairsStrategy.resolveSudoku(sudoku);
-//                    System.out.println(" P ");
-//                }
-//            } while (Solver.sudokuWasChanged);
 
             do {
                 nakedSingleStrategy.resolveSudoku(sudoku);

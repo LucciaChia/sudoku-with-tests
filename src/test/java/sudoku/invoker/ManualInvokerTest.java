@@ -30,18 +30,6 @@ public class ManualInvokerTest {
 
     private static ClassLoader classLoader = BacktrackStrategyTest.class.getClassLoader();
 
-//    private static final String inp1 = new File(Objects.requireNonNull(classLoader.getResource("inputs/NakedSingleInACell/extremelySimple.txt")).getFile()).getPath();
-//    private static final String out1 = new File(Objects.requireNonNull(classLoader.getResource("outputs/NakedSingleInACell/extremelySimple.txt")).getFile()).getPath();
-
-//    private static final String inp2 = new File(Objects.requireNonNull(classLoader.getResource("inputs/simple1.txt")).getFile()).getPath();
-//    private static final String out2 = new File(Objects.requireNonNull(classLoader.getResource("outputs/simple1.txt")).getFile()).getPath();
-
-//    private static final String inp3 = new File(Objects.requireNonNull(classLoader.getResource("inputs/harder1.txt")).getFile()).getPath();
-//    private static final String out3 = new File(Objects.requireNonNull(classLoader.getResource("outputs/harder1.txt")).getFile()).getPath();
-
-//    private static final String inp4 = new File(Objects.requireNonNull(classLoader.getResource("inputs/extremelyHard1.txt")).getFile()).getPath();
-//    private static final String out4 = new File(Objects.requireNonNull(classLoader.getResource("outputs/extremelyHard1.txt")).getFile()).getPath();
-
     private static final String inp5 = new File(Objects.requireNonNull(classLoader.getResource("inputs/1step.txt")).getFile()).getPath();
     private static final String out5 = new File(Objects.requireNonNull(classLoader.getResource("outputs/simple1.txt")).getFile()).getPath();
 
@@ -160,13 +148,10 @@ public class ManualInvokerTest {
         // GIVEN
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
         int[][] inputData = fileSudokuReader.read(inp7);
-//        int[][] expectedOutput = fileSudokuReader.read(inp7);
         Sudoku sudoku = null;
         Sudoku result;
         Sudoku expectedResult;
         ManualInvoker invoker;
-//        Command command0 = null;
-//        Command command1 = null;
         Command command2;
 
         try {
@@ -178,9 +163,7 @@ public class ManualInvokerTest {
         // WHEN
         invoker = new ManualInvoker(sudoku);
         invoker.setStrategies(resolvable);
-//        command0 = invoker.getNextState();
         invoker.getNextState();
-//        command1 = invoker.getNextState();
         invoker.getNextState();
         command2 = invoker.getPreviousState();
         expectedResult = ((CommandPicker) command2).getSudoku();
@@ -244,9 +227,6 @@ public class ManualInvokerTest {
         Cell resultCell0a;
         Cell resultCell1a;
         Cell resultCell2a;
-//        Cell resultCell0b;
-//        Cell resultCell1b;
-//        Cell resultCell2b;
         ManualInvoker invoker;
 
         try {
@@ -261,31 +241,22 @@ public class ManualInvokerTest {
         command0 = invoker.getNextState();
         resultSudoku0 = ((CommandPicker) command0).getSudoku();
         resultCell0a = resultSudoku0.getRows().get(0).getCell(7);
-//        resultCell0b = resultSudoku0.getRows().get(5).getCell(7);
         command1 = invoker.getNextState();
         resultSudoku1 = ((CommandPicker) command1).getSudoku();
         resultCell1a = resultSudoku1.getRows().get(0).getCell(7);
-//        resultCell1b = resultSudoku1.getRows().get(5).getCell(7);
         command2 = invoker.getPreviousState();
         resultSudoku2 = ((CommandPicker) command2).getSudoku();
         resultCell2a = resultSudoku2.getRows().get(0).getCell(7);
-//        resultCell2b = resultSudoku2.getRows().get(5).getCell(7);
 
         // THEN
         assertFalse(resultCell0a.getCellPossibilities().contains(1));
         assertTrue(resultCell0a.getCellPossibilities().contains(3));
-//        assertThat(resultCell0b.getCellPossibilities(),     contains(7));
-//        assertThat(resultCell0b.getCellPossibilities(),     contains(8));
 
         assertFalse(resultCell1a.getCellPossibilities().contains(new Integer(1)));
         assertFalse(resultCell1a.getCellPossibilities().contains(new Integer(3)));
-//        assertThat(resultCell1b.getCellPossibilities(), not(contains(7)));
-//        assertThat(resultCell1b.getCellPossibilities(), not(contains(8)));
 
         assertFalse(resultCell2a.getCellPossibilities().contains(new Integer(1)));
         assertTrue(resultCell2a.getCellPossibilities().contains(new Integer(3)));
-//        assertThat(resultCell2b.getCellPossibilities(),     contains(7));
-//        assertThat(resultCell2b.getCellPossibilities(),     contains(8));
     }
 
     private static Stream<Arguments> inputStrategies() {

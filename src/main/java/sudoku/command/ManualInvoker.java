@@ -16,10 +16,8 @@ import java.util.List;
  */
 @Getter
 public class ManualInvoker implements Invoker {
-//    private static final Logger LOGGER = LoggerFactory.getLogger(ManualInvoker.class);
     private StrategyFactory strategyFactory = new StrategyFactory();
     private List<Command> commands = new LinkedList<>();
-//    private List<Step> stepListFromAllUsedMethods = new ArrayList<>();
     private List<Resolvable> strategies = new ArrayList<>();
     private int currentStep = 0;
     private Sudoku sudoku;
@@ -31,8 +29,6 @@ public class ManualInvoker implements Invoker {
      */
     public ManualInvoker(Sudoku sudoku) {
         this.sudoku = sudoku;
-////         by default only Backtrack Strategy will be used
-//        this.strategies.add(new BacktrackLucia());
 //      default strategy will be NakedSingleCell
         this.strategies.add(strategyFactory.createNakedSingleInACellStrategy());
     }
@@ -49,25 +45,12 @@ public class ManualInvoker implements Invoker {
      */
     @Override
     public Command getPreviousState() {
-//        CommandPicker command = null;
         Command command = null;
-//        Step step;
-//        Resolvable resolvable;
-//        Sudoku sudoku;
 
         if (currentStep > 0) {
-//            step = stepListFromAllUsedMethods.get(stepListFromAllUsedMethods.size() - 1);
-//            stepListFromAllUsedMethods.remove(stepListFromAllUsedMethods.size() - 1);
             currentStep--;
-//            command = commands.remove(commands.size()-1);
             commands.remove(commands.size()-1);
             command = commands.get(commands.size() - 1);
-//            resolvable = ((OneChangeStep)step).getResolvable();
-//            sudoku = ((OneChangeStep)step).getSudoku();
-//            command = new CommandPicker(resolvable, sudoku);
-        }
-        if (command != null) {
-//            LOGGER.info("getPreviousState: current state is " + command.getStepList().get(0).toString());
         }
 
         return command;
@@ -86,14 +69,10 @@ public class ManualInvoker implements Invoker {
 
         if (!sudoku.isSudokuResolved()) {
             sudoku = command.execute();
-//            Step oneStep = strategies.get(0).getStepList().get(0);
-//            stepListFromAllUsedMethods.add(oneStep);
             currentStep++;
-//            command = new CommandPicker(strategies.get(0), ((OneChangeStep) oneStep).getSudoku());
             command = new CommandPicker(strategies.get(0), sudoku.copy());
             commands.add(command);
         }
-//        LOGGER.info("getNextState: current state is " + command.getStepList().get(0).toString());
 
         return command;
     }
@@ -110,9 +89,4 @@ public class ManualInvoker implements Invoker {
 
         return getNextState();
     }
-
-//    @Override
-//    public Command solvingStepsOrder() {
-//        return null;
-//    }
 }
