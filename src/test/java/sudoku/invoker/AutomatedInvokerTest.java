@@ -164,9 +164,7 @@ public class AutomatedInvokerTest {
             sudoku = new Sudoku(inputData);
             System.out.println("SUDOKU SOLVING STEPS:");
             sudoku.print();
-            automatedInvoker = new AutomatedInvoker(sudoku);
-            automatedInvoker.setStrategies(nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell, backtrack);
-            automatedInvoker.solvingStepsOrder();
+            automatedInvoker = new AutomatedInvoker(sudoku, nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell, backtrack);
             commands = automatedInvoker.getCommands();
             int count = 1;
             for (Command command : commands) {
@@ -205,9 +203,7 @@ public class AutomatedInvokerTest {
             sudoku = new Sudoku(inputData);
             System.out.println("SUDOKU SOLVING STEPS:");
             sudoku.print();
-            automatedInvoker = new AutomatedInvoker(sudoku);
-            automatedInvoker.setStrategies(nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell, backtrack);
-            automatedInvoker.solvingStepsOrder();
+            automatedInvoker = new AutomatedInvoker(sudoku, nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell, backtrack);
             commands = automatedInvoker.getCommands();
             int count = 1;
             for (Command command : commands) {
@@ -240,9 +236,7 @@ public class AutomatedInvokerTest {
             sudoku = new Sudoku(inputData);
             System.out.println("SUDOKU SOLVING STEPS:");
             sudoku.print();
-            AutomatedInvoker automatedInvoker = new AutomatedInvoker(sudoku);
-            automatedInvoker.setStrategies(nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell, backtrack);
-            automatedInvoker.solvingStepsOrder();
+            AutomatedInvoker automatedInvoker = new AutomatedInvoker(sudoku, nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell, backtrack);
             commands = automatedInvoker.getCommands();
             int count = 1;
             for (Command command : commands) {

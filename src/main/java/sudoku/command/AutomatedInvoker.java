@@ -40,6 +40,12 @@ public class AutomatedInvoker implements Invoker {
         solvingStepsOrder();
     }
 
+    public AutomatedInvoker(Sudoku sudoku, Resolvable ... useStrategies) {
+        this.sudoku = sudoku;
+        setStrategies(useStrategies);
+        solvingStepsOrder();
+    }
+
      protected List<Command> solvingStepsOrder() {
 
             for (int i = 0; i < strategies.size(); i++) {
