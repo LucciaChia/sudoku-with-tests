@@ -88,9 +88,12 @@ class HiddenSingleStrategy implements Resolvable {
 
         List<Integer> cellPossibilities = cell.getCellPossibilities();
         for (Integer currentCellPossibility : cellPossibilities) {
-            return checkUniqueOccurence(cell, rowPoss, currentCellPossibility)
+
+            if (checkUniqueOccurence(cell, rowPoss, currentCellPossibility)
                 || checkUniqueOccurence(cell, columnPoss,currentCellPossibility)
-                || checkUniqueOccurence(cell, boxPoss, currentCellPossibility);
+                || checkUniqueOccurence(cell, boxPoss, currentCellPossibility)) {
+                return true;
+            }
         }
         return false;
     }
