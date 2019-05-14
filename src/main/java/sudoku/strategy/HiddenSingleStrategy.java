@@ -100,7 +100,6 @@ class HiddenSingleStrategy implements Resolvable {
     private boolean checkUniqueOccurence(Cell cell, Map<Integer, Integer> rowPoss, Integer currentCellPossibility) {
         if (rowPoss.get(currentCellPossibility) == 1) {
             cell.setActualValue(currentCellPossibility);
-            cell.deletePossibilities();
             return true;
         }
         return false;

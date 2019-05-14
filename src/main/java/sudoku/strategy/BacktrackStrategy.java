@@ -41,7 +41,6 @@ class BacktrackStrategy implements Resolvable{
 
                         int usedPossibility = cell.getCellPossibilities().get(k);
                         newCell.setActualValue(usedPossibility);
-                        newCell.deletePossibilities();
 
                         Sudoku resolvedSudoku = resolveSudoku(newSudoku);
 

@@ -33,7 +33,6 @@ class NakedSingleStrategy implements Resolvable {
                     List<Integer> cellPossibilities = cell.getCellPossibilities();
                     if (cellPossibilities.size() == 1) {
                         cell.setActualValue(cellPossibilities.get(0));
-                        cell.deletePossibilities();
                         updatedInNakedSingle = true;
                         return sudoku;
                     }

@@ -50,10 +50,12 @@ public class Cell {
      * Sets an actual value. If new value is not zero, clears possibilities.
      */
     public void setActualValue(int actualValue) {
+        this.actualValue = actualValue;
         if (actualValue != 0) {
             this.cellPossibilities.clear();
+            deletePossibilities();
         }
-        this.actualValue = actualValue;
+
     }
 
     /**
