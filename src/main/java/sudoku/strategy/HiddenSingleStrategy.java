@@ -16,6 +16,7 @@ import java.util.Map;
 class HiddenSingleStrategy implements Resolvable {
 
     private static final String name = "Hidden Single";
+    private static final StrategyType type = StrategyType.LOW;
 
     private boolean updatedInHiddenSingle = false;
 
@@ -105,5 +106,10 @@ class HiddenSingleStrategy implements Resolvable {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public StrategyType getType() {
+        return type;
     }
 }

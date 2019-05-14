@@ -28,6 +28,7 @@ import static sudoku.ANSIColour.*;
 class PointingPairsStrategy implements Resolvable {
 
     private static final String name = "Pointing Pairs";
+    private static final StrategyType type = StrategyType.MEDIUM;
 
     private Map<int[], Integer> deletedPossibilitiesWithLocation = new HashMap<>();
 
@@ -255,5 +256,10 @@ class PointingPairsStrategy implements Resolvable {
         }
 
         return false;
+    }
+
+    @Override
+    public StrategyType getType() {
+        return type;
     }
 }

@@ -1,6 +1,7 @@
 package sudoku.strategy;
 
 import sudoku.model.Cell;
+import sudoku.model.StrategyType;
 import sudoku.model.Sudoku;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 class NakedSingleStrategy implements Resolvable {
 
     private static final String name = "Naked Single";
+    private static final StrategyType type = StrategyType.LOW;
 
     private boolean updatedInNakedSingle = false;
 
@@ -50,4 +52,8 @@ class NakedSingleStrategy implements Resolvable {
         return updatedInNakedSingle;
     }
 
+    @Override
+    public StrategyType getType() {
+        return type;
+    }
 }

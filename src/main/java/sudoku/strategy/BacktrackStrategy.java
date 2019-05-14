@@ -1,6 +1,7 @@
 package sudoku.strategy;
 
 import sudoku.model.Cell;
+import sudoku.model.StrategyType;
 import sudoku.model.Sudoku;
 
 /*
@@ -10,6 +11,7 @@ import sudoku.model.Sudoku;
 class BacktrackStrategy implements Resolvable{
 
     private static final String name = "Backtracking";
+    private static final StrategyType type = StrategyType.HIGH;
 
     private static long stepCount = 0;
 
@@ -67,5 +69,10 @@ class BacktrackStrategy implements Resolvable{
     @Override
     public boolean isUpdated() {
         return updatedInBacktrackLucia;
+    }
+
+    @Override
+    public StrategyType getType() {
+        return type;
     }
 }

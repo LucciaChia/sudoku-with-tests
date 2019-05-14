@@ -1,5 +1,6 @@
 package sudoku.strategy;
 
+import sudoku.model.StrategyType;
 import sudoku.model.Sudoku;
 
 /**
@@ -25,4 +26,6 @@ public interface Resolvable {
      * @return String
      */
     String getName();
+
+    StrategyType getType();
 }
