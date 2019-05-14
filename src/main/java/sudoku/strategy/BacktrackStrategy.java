@@ -8,10 +8,12 @@ import sudoku.model.Sudoku;
  * this single method is able to resolve any sudoku
  */
 class BacktrackStrategy implements Resolvable{
-    private boolean updatedInBacktrackLucia = false;
+
+    private static final String name = "Backtracking";
 
     private static long stepCount = 0;
-    private String name = "3: Backtrack";
+
+    private boolean updatedInBacktrackLucia = false;
 
     @Override
     public String getName() {

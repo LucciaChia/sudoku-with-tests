@@ -181,6 +181,11 @@ public class ManualInvokerTest {
         Sudoku expectedResult;
         ManualInvoker invoker;
         List<Command> commands = new ArrayList<>();
+        Resolvable nakedSingle = strategyFactory.createNakedSingleInACellStrategy();
+        Resolvable hiddenSingle = strategyFactory.createHiddenSingleInACellStrategy();
+        Resolvable pointingPair = strategyFactory.createPointingPairsInCellStrategy();
+        Resolvable backtrack = strategyFactory.createBacktrackStrategy();
+
         try {
             sudoku = new Sudoku(inputData);
         } catch (IllegalSudokuStateException ex) {
@@ -200,13 +205,13 @@ public class ManualInvokerTest {
 
         // THEN
         assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(result));
-        assertEquals("0: NackedSingleInACell", ((CommandPicker)commands.get(0)).getResolvable().getName());
-        assertEquals("0: NackedSingleInACell", ((CommandPicker)commands.get(1)).getResolvable().getName());
-        assertEquals("1: HiddenSingleInACell", ((CommandPicker)commands.get(2)).getResolvable().getName());
-        assertEquals("0: NackedSingleInACell", ((CommandPicker)commands.get(3)).getResolvable().getName());
-        assertEquals("2: PointingPairsInCell", ((CommandPicker)commands.get(4)).getResolvable().getName());
-        assertEquals("0: NackedSingleInACell", ((CommandPicker)commands.get(5)).getResolvable().getName());
-        assertEquals("3: Backtrack", ((CommandPicker)commands.get(6)).getResolvable().getName());
+        assertEquals(nakedSingle.getName(), ((CommandPicker)commands.get(0)).getResolvable().getName());
+        assertEquals(nakedSingle.getName(), ((CommandPicker)commands.get(1)).getResolvable().getName());
+        assertEquals(hiddenSingle.getName(), ((CommandPicker)commands.get(2)).getResolvable().getName());
+        assertEquals(nakedSingle.getName(), ((CommandPicker)commands.get(3)).getResolvable().getName());
+        assertEquals(pointingPair.getName(), ((CommandPicker)commands.get(4)).getResolvable().getName());
+        assertEquals(nakedSingle.getName(), ((CommandPicker)commands.get(5)).getResolvable().getName());
+        assertEquals(backtrack.getName(), ((CommandPicker)commands.get(6)).getResolvable().getName());
     }
 
     @Test

@@ -13,8 +13,10 @@ import java.util.List;
  * see examples: http://www.sudoku-solutions.com/index.php?page=solvingNakedSubsets
  */
 class NakedSingleStrategy implements Resolvable {
+
+    private static final String name = "Naked Single";
+
     private boolean updatedInNakedSingle = false;
-    private String name = "0: NackedSingleInACell";
 
 
     @Override

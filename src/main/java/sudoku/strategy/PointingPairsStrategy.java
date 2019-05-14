@@ -27,11 +27,12 @@ import static sudoku.ANSIColour.*;
 
 class PointingPairsStrategy implements Resolvable {
 
+    private static final String name = "Pointing Pairs";
+
     private Map<int[], Integer> deletedPossibilitiesWithLocation = new HashMap<>();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PointingPairsStrategy.class);
     private boolean updatedInPointingPair = false;
-    private String name = "2: PointingPairsInCell";
 
     @Override
     public String getName() {
