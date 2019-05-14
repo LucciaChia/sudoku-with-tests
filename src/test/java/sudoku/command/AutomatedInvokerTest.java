@@ -1,9 +1,6 @@
-package sudoku.invoker;
+package sudoku.command;
 
 import org.junit.jupiter.api.Test;
-import sudoku.command.AutomatedInvoker;
-import sudoku.command.Command;
-import sudoku.command.CommandPicker;
 import sudoku.exceptions.IllegalSudokuStateException;
 import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;

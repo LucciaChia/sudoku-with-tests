@@ -1,4 +1,4 @@
-package sudoku.invoker;
+package sudoku.command;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -6,9 +6,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sudoku.command.Command;
-import sudoku.command.CommandPicker;
-import sudoku.command.ManualInvoker;
 import sudoku.exceptions.IllegalSudokuStateException;
 import sudoku.model.Cell;
 import sudoku.model.Sudoku;
