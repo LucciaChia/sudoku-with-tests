@@ -30,21 +30,10 @@ import static sudoku.ANSIColour.*;
 class PointingPairsStrategy implements Resolvable {
 
     private Map<int[], Integer> deletedPossibilitiesWithLocation = new HashMap<>();
-//    private Step step;
-//    private List<Step> stepList = new ArrayList<>();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PointingPairsStrategy.class);
     private boolean updatedInPointingPair = false;
     private String name = "2: PointingPairsInCell";
-
-//    public Step getStep() {
-//        return step;
-//    }
-
-//    @Override
-//    public List<Step> getStepList() {
-//        return stepList;
-//    }
 
     @Override
     public String getName() {
@@ -74,7 +63,6 @@ class PointingPairsStrategy implements Resolvable {
         return updatedInPointingPair;
     }
 
-    //big methods
     private boolean pointingPairInCells(Sudoku sudoku, Cell cell) {
         int cellI = cell.getI();
         int cellJ = cell.getJ();

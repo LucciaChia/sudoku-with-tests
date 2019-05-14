@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//import sudoku.step.OneChangeStep;
-//import sudoku.step.Step;
 /*
  * if cell with value 0, contains multiple possibilities, but one of these possibilities occurs only once in
  * possibilities in whole row / in whole column / whole box, this possibility will be set as a value for this
@@ -18,18 +16,7 @@ import java.util.Map;
 class HiddenSingleStrategy implements Resolvable {
     private Map<int[], Integer> deletedPossibilitiesWithLocation = new HashMap<>();
     private boolean updatedInHiddenSingle = false;
-//    private Step step;
-//    private List<Step> stepList = new ArrayList<>();
     private String name = "1: HiddenSingleInACell";
-
-//    public Step getStep() {
-//        return step;
-//    }
-
-//    @Override
-//    public List<Step> getStepList() {
-//        return stepList;
-//    }
 
     @Override
     public String getName() {
@@ -38,7 +25,6 @@ class HiddenSingleStrategy implements Resolvable {
 
     @Override
     public Sudoku resolveSudoku(Sudoku sudoku) {
-//        stepList.clear();
         updatedInHiddenSingle = false;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -55,11 +41,6 @@ class HiddenSingleStrategy implements Resolvable {
                     Map<Integer, Integer> boxPossibilities = amountOfParticularPossibilities(cellBox);
 
                     if (deleteHidden(cell, rowPossibilities, columnPossibilities, boxPossibilities)) {
-                        Sudoku sudokuCopy = sudoku.copy();
-//                        step = new OneChangeStep(sudokuCopy, name, cell);
-//                        ((OneChangeStep)step).setResolvable(this);
-//                        stepList.add(step);
-                        //step.printStep(cell);
                         updatedInHiddenSingle = true;
                         return sudoku;
                     }
