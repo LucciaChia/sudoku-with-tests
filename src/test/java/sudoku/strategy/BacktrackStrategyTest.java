@@ -4,6 +4,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import sudoku.exceptions.IllegalSudokuStateException;
+import sudoku.exceptions.NoAvailableSolution;
 import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;
 
@@ -14,7 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class BacktrackStrategyTest {
 
-    static ClassLoader classLoader = new BacktrackStrategyTest().getClass().getClassLoader();
+    private static ClassLoader classLoader = new BacktrackStrategyTest().getClass().getClassLoader();
+
 
     private static final String inp1 = new File(classLoader.getResource("inputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
     private static final String out1 = new File(classLoader.getResource("outputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
@@ -43,7 +45,6 @@ public class BacktrackStrategyTest {
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
         int[][] inputData = fileSudokuReader.read(inputSudokuMatrixPath);
         int[][] expectedOutput = fileSudokuReader.read(expectedSudokuOutputPath);
-
         try {
             Sudoku sudoku = new Sudoku(inputData);
             BacktrackStrategy backtrackStrategy = new BacktrackStrategy();
@@ -52,7 +53,9 @@ public class BacktrackStrategyTest {
             System.out.println("=================================");
             assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(sudoku));
         } catch (IllegalSudokuStateException ex) {
-            System.out.println("Test incorrect input");
+            System.out.println(ex.toString());
+        } catch (NoAvailableSolution ne) {
+            System.out.println(ne.toString());
         }
     }
 

@@ -2,6 +2,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import sudoku.exceptions.IllegalSudokuStateException;
+import sudoku.exceptions.NoAvailableSolution;
 import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;
 import sudoku.strategy.*;
@@ -61,7 +62,9 @@ public class MainTest {
 
             assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(sudoku));
         } catch (IllegalSudokuStateException ex) {
-            System.out.println("Test incorrect input");
+            ex.toString();
+        } catch (NoAvailableSolution ne) {
+            ne.toString();
         }
     }
 

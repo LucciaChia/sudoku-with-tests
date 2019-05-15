@@ -1,5 +1,6 @@
 package sudoku.strategy;
 
+import sudoku.exceptions.NoAvailableSolution;
 import sudoku.model.Sudoku;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class Solver {
      * @param sudoku
      * @return Sudoku
      */
-    public Sudoku useStrategies(Sudoku sudoku) {
+    public Sudoku useStrategies(Sudoku sudoku) throws NoAvailableSolution {
         boolean updatedByStrategy;
         do {
             updatedByStrategy = false;

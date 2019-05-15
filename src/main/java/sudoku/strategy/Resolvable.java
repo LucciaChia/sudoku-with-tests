@@ -1,6 +1,7 @@
 package sudoku.strategy;
 
 import sudoku.model.StrategyType;
+import sudoku.exceptions.NoAvailableSolution;
 import sudoku.model.Sudoku;
 
 /**
@@ -13,7 +14,7 @@ public interface Resolvable {
      * @param sudoku
      * @return Sudoku
      */
-    Sudoku resolveSudoku(Sudoku sudoku);
+    Sudoku resolveSudoku(Sudoku sudoku) throws NoAvailableSolution;
 
     /**
      * info if sudoku was changed in particular step with particular method

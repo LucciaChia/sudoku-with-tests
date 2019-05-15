@@ -3,6 +3,7 @@ package sudoku.command;
 
 import lombok.Getter;
 import lombok.Setter;
+import sudoku.exceptions.NoAvailableSolution;
 import sudoku.model.Sudoku;
 import sudoku.strategy.Resolvable;
 import sudoku.strategy.StrategyFactory;
@@ -34,19 +35,19 @@ public class AutomatedInvoker implements Invoker {
 
     private Sudoku sudoku;
 
-    public AutomatedInvoker(Sudoku sudoku) {
+    public AutomatedInvoker(Sudoku sudoku) throws NoAvailableSolution{
         this.sudoku = sudoku;
         this.strategies.add(strategyFactory.createBacktrackStrategy());
         solvingStepsOrder();
     }
 
-    public AutomatedInvoker(Sudoku sudoku, Resolvable ... useStrategies) {
+    public AutomatedInvoker(Sudoku sudoku, Resolvable ... useStrategies) throws NoAvailableSolution{
         this.sudoku = sudoku;
         setStrategies(useStrategies);
         solvingStepsOrder();
     }
 
-     protected List<Command> solvingStepsOrder() {
+     protected List<Command> solvingStepsOrder() throws NoAvailableSolution{
 
             for (int i = 0; i < strategies.size(); i++) {
                 Command command = new CommandPicker(strategies.get(i), sudoku.copy());
@@ -64,7 +65,7 @@ public class AutomatedInvoker implements Invoker {
                 }
             }
         if (!sudoku.isSudokuResolved()) {
-            System.out.println("Sudoku needs more advanced methods to be completely resolved");
+            throw new NoAvailableSolution(sudoku);
         }
 
         return commands;

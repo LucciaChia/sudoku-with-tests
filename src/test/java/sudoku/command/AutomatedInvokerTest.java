@@ -2,6 +2,7 @@ package sudoku.command;
 
 import org.junit.jupiter.api.Test;
 import sudoku.exceptions.IllegalSudokuStateException;
+import sudoku.exceptions.NoAvailableSolution;
 import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;
 import sudoku.strategy.Resolvable;
@@ -10,7 +11,7 @@ import sudoku.strategy.StrategyFactory;
 import java.io.File;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AutomatedInvokerTest {
     static ClassLoader classLoader = new AutomatedInvokerTest().getClass().getClassLoader();
@@ -33,6 +34,7 @@ public class AutomatedInvokerTest {
     private static final String inp_Harder2          = new File(classLoader.getResource("inputs/harder2.txt").getFile()).getPath();
     private static final String inp_ExtremelyHard1   = new File(classLoader.getResource("inputs/extremelyHard1.txt").getFile()).getPath();
     private static final String inp_ExtremelyHard2   = new File(classLoader.getResource("inputs/extremelyHard2.txt").getFile()).getPath();
+    private static final String inp_NoSolution   = new File(classLoader.getResource("inputs/noSolution.txt").getFile()).getPath();
 
     private StrategyFactory strategyFactory = new StrategyFactory();
     private Resolvable nakedSingleInACell = strategyFactory.createNakedSingleInACellStrategy();
@@ -47,9 +49,12 @@ public class AutomatedInvokerTest {
         int[][] inputData = fileSudokuReader.read(inp_ExtremelyHard1);
         List<Command> commands = null;
         Sudoku sudoku = null;
-
-        commands = useAutomatedInvokerFunctionality(inputData, commands);
-
+        try {
+            commands = useAutomatedInvokerFunctionality(inputData, commands);
+        } catch (NoAvailableSolution e) {
+            assertTrue(false);
+            e.toString();
+        }
         Sudoku sudokuStep = ((CommandPicker)commands.get(29)).getSudoku();
         int[][] actualSudokuValues = setArrayAccordingToObjectValues(sudokuStep);
         int[][] extremelyHard1_step30_array = fileSudokuReader.read(out_extremelyHard1_step30);
@@ -66,7 +71,11 @@ public class AutomatedInvokerTest {
         List<Command> commands = null;
         Sudoku sudoku = null;
 
-        commands = useAutomatedInvokerFunctionality(inputData, commands);
+        try {
+            commands = useAutomatedInvokerFunctionality(inputData, commands);
+        } catch (NoAvailableSolution e) {
+            e.toString();
+        }
 
         Sudoku sudokuStep = ((CommandPicker)commands.get(14)).getSudoku();
         int[][] actualSudokuValues = setArrayAccordingToObjectValues(sudokuStep);
@@ -84,7 +93,11 @@ public class AutomatedInvokerTest {
         List<Command> commands = null;
         Sudoku sudoku = null;
 
-        commands = useAutomatedInvokerFunctionality(inputData, commands);
+        try {
+            commands = useAutomatedInvokerFunctionality(inputData, commands);
+        } catch (NoAvailableSolution e) {
+            e.toString();
+        }
 
         Sudoku sudokuStep = ((CommandPicker)commands.get(11)).getSudoku();
         int[][] actualSudokuValues = setArrayAccordingToObjectValues(sudokuStep);
@@ -102,7 +115,11 @@ public class AutomatedInvokerTest {
         List<Command> commands = null;
         Sudoku sudoku = null;
 
-        commands = useAutomatedInvokerFunctionality(inputData, commands);
+        try {
+            commands = useAutomatedInvokerFunctionality(inputData, commands);
+        } catch (NoAvailableSolution e) {
+            e.toString();
+        }
 
         Sudoku sudokuStep = ((CommandPicker)commands.get(11)).getSudoku();
         int[][] actualSudokuValues = setArrayAccordingToObjectValues(sudokuStep);
@@ -120,7 +137,11 @@ public class AutomatedInvokerTest {
         List<Command> commands = null;
         Sudoku sudoku = null;
 
-        commands = useAutomatedInvokerFunctionality(inputData, commands);
+        try {
+            commands = useAutomatedInvokerFunctionality(inputData, commands);
+        } catch (NoAvailableSolution e) {
+            e.toString();
+        }
 
         Sudoku sudokuStep = ((CommandPicker)commands.get(4)).getSudoku();
         int[][] actualSudokuValues = setArrayAccordingToObjectValues(sudokuStep);
@@ -138,7 +159,11 @@ public class AutomatedInvokerTest {
         List<Command> commands = null;
         Sudoku sudoku = null;
 
-        commands = useAutomatedInvokerFunctionality(inputData, commands);
+        try {
+            commands = useAutomatedInvokerFunctionality(inputData, commands);
+        } catch (NoAvailableSolution e) {
+            e.toString();
+        }
 
         Sudoku sudokuStep = ((CommandPicker)commands.get(2)).getSudoku();
         int[][] actualSudokuValues = setArrayAccordingToObjectValues(sudokuStep);
@@ -161,7 +186,11 @@ public class AutomatedInvokerTest {
             sudoku = new Sudoku(inputData);
             System.out.println("SUDOKU SOLVING STEPS:");
             sudoku.print();
-            automatedInvoker = new AutomatedInvoker(sudoku, nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell, backtrack);
+            try {
+                automatedInvoker = new AutomatedInvoker(sudoku, nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell, backtrack);
+            } catch (NoAvailableSolution e) {
+                e.toString();
+            }
             commands = automatedInvoker.getCommands();
             int count = 1;
             for (Command command : commands) {
@@ -200,7 +229,11 @@ public class AutomatedInvokerTest {
             sudoku = new Sudoku(inputData);
             System.out.println("SUDOKU SOLVING STEPS:");
             sudoku.print();
-            automatedInvoker = new AutomatedInvoker(sudoku, nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell, backtrack);
+            try {
+                automatedInvoker = new AutomatedInvoker(sudoku, nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell, backtrack);
+            } catch (NoAvailableSolution e) {
+                e.toString();
+            }
             commands = automatedInvoker.getCommands();
             int count = 1;
             for (Command command : commands) {
@@ -226,28 +259,43 @@ public class AutomatedInvokerTest {
 
     }
 
-    private List<Command> useAutomatedInvokerFunctionality(int[][] inputData, List<Command> commands) {
+    @Test
+    public void exceptionTest() {
+        FileSudokuReader fileSudokuReader = new FileSudokuReader();
+        int[][] inputData = fileSudokuReader.read(inp_NoSolution);
+        List<Command> commands = null;
+        Sudoku sudoku = null;
+        String exception = "";
+        try {
+            commands = useAutomatedInvokerFunctionality(inputData, commands);
+            int lastStep = commands.size()-1;
+            Sudoku sudokuStep = ((CommandPicker)commands.get(lastStep)).getSudoku();
+            int[][] actualSudokuValues = setArrayAccordingToObjectValues(sudokuStep);
+        } catch (NoAvailableSolution e) {
+            exception = e.toString();
+            System.out.println(e.toString());
+        }
+
+
+        assertEquals("No available solution for sudoku", exception);
+
+    }
+
+    private List<Command> useAutomatedInvokerFunctionality(int[][] inputData, List<Command> commands) throws NoAvailableSolution{
         Sudoku sudoku;
+        AutomatedInvoker automatedInvoker = null;
         try {
 
             sudoku = new Sudoku(inputData);
             System.out.println("SUDOKU SOLVING STEPS:");
             sudoku.print();
-            AutomatedInvoker automatedInvoker = new AutomatedInvoker(sudoku, nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell, backtrack);
-            commands = automatedInvoker.getCommands();
-            int count = 1;
-            for (Command command : commands) {
-                System.out.println(count++);
-                String methodName = ((CommandPicker) command).getResolvable().getName();
-                System.out.println(methodName);
-                sudoku = ((CommandPicker) command).getSudoku();
-                sudoku.print();
+            automatedInvoker = new AutomatedInvoker(sudoku, nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell, backtrack);
 
-            }
 
         } catch (IllegalSudokuStateException ex) {
             System.out.println("Invalid sudoku");
         }
+        commands = automatedInvoker.getCommands();
         return commands;
     }
 

@@ -1,5 +1,6 @@
 package sudoku.strategy;
 
+import sudoku.exceptions.NoAvailableSolution;
 import sudoku.model.Cell;
 import sudoku.model.StrategyType;
 import sudoku.model.Sudoku;
@@ -15,7 +16,7 @@ class BacktrackStrategy implements Resolvable{
 
     private static long stepCount = 0;
 
-    private boolean updatedInBacktrackLucia = false;
+    private boolean updatedInBacktrack = false;
 
     @Override
     public String getName() {
@@ -23,17 +24,27 @@ class BacktrackStrategy implements Resolvable{
     }
 
     @Override
-    public Sudoku resolveSudoku(Sudoku sudoku) {
-        updatedInBacktrackLucia = false;
+    public Sudoku resolveSudoku(Sudoku sudoku) throws NoAvailableSolution{
+        Sudoku backtrackSolution = backtrack(sudoku);
+        if (backtrackSolution == null) {
+            throw new NoAvailableSolution(sudoku);
+        } else {
+            updatedInBacktrack = true;
+            return backtrackSolution;
+        }
+    }
 
+    private Sudoku backtrack(Sudoku sudoku) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
 
                 Cell cell = sudoku.getRows().get(i).getCell(j);
-                int cellPossibilitiesAmount = cell.getCellPossibilities().size();
+
                 if (cell.getActualValue() != 0) {
                     continue;
                 }
+
+                int cellPossibilitiesAmount = cell.getCellPossibilities().size();
 
                 if (cellPossibilitiesAmount > 0 ) {
                     stepCount++;
@@ -46,11 +57,9 @@ class BacktrackStrategy implements Resolvable{
                         int usedPossibility = cell.getCellPossibilities().get(k);
                         newCell.setActualValue(usedPossibility);
 
-                        Sudoku resolvedSudoku = resolveSudoku(newSudoku);
+                        Sudoku resolvedSudoku = backtrack(newSudoku);
 
                         if (resolvedSudoku != null) {
-
-                            updatedInBacktrackLucia = false;
 
                             return resolvedSudoku;
                         }
@@ -58,9 +67,10 @@ class BacktrackStrategy implements Resolvable{
                     return null;
                 }
 
-                if (cellPossibilitiesAmount == 0) {
-                    return null;
-                }
+                return null;
+//                if (cellPossibilitiesAmount == 0) {
+//                    return null;
+//                }
             }
         }
         return sudoku;
@@ -68,7 +78,7 @@ class BacktrackStrategy implements Resolvable{
 
     @Override
     public boolean isUpdated() {
-        return updatedInBacktrackLucia;
+        return updatedInBacktrack;
     }
 
     @Override
