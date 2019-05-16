@@ -12,11 +12,9 @@ public class StrategyFactory {
   public Resolvable createHiddenSingleInACellStrategy(){
     return new HiddenSingleStrategy();
   }
-  public Resolvable createPointingPairsInCellStrategy(){
-    return new PointingPairsStrategy();
-  }
-  public Resolvable createBacktrackStrategy(){
-    return new BacktrackStrategy();
-  }
+  public Resolvable createPointingPairsInCellStrategy(){ return new PointingPairsStrategy(); }
+  public Resolvable createPointingPairsRowColumn(){ return new PointingPairsRowColumnStrategy(); }
+  public Resolvable createPointingPairsBox(){ return new PointingPairsBoxStrategy(); }
+  public Resolvable createBacktrackStrategy(){ return new BacktrackStrategy(); }
 
 }

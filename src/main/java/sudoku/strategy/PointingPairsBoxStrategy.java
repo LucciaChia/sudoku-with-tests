@@ -4,29 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sudoku.model.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static sudoku.ANSIColour.*;
 
-/*
- * Variation 1. Reducing row or column
- * if a pair of empty cells (current value is 0 for both) within a box in the same row or column share a given
- * possibility and this possibility doesn't occur anywhere else in the box => this possibility will be removed from
- * all other cell's possibilities lists outside this box within the same row or column
- *
- * Variation 2. Reducing box candidates
- * if a pair of empty cells (current value is 0 for both) within a box in the same row / column share a given
- * possibility and this possibility doesn't occur anywhere else in the row / column outside the box, this possibility
- * will be removed from all other cell's possibilities within the box
- *
- * see example: http://www.sudoku-solutions.com/index.php?page=solvingInteractions
- */
-
-class PointingPairsStrategy implements Resolvable {
-
+public class PointingPairsBoxStrategy extends PointingPairsAbstractStrategy implements Resolvable{
     private static final String name = "Pointing Pairs";
     private static final StrategyType type = StrategyType.MEDIUM;
 
@@ -47,7 +31,7 @@ class PointingPairsStrategy implements Resolvable {
             for (int j = 0; j < 9; j++) {
                 Cell cell = sudoku.getRows().get(i).getCell(j);
                 if (cell.getActualValue() == 0) {
-                    if (pointingPairInCells(sudoku, cell)){
+                    if (pointingPairBox(sudoku, cell)){
                         return sudoku;
                     }
                 }
@@ -62,7 +46,12 @@ class PointingPairsStrategy implements Resolvable {
         return updatedInPointingPair;
     }
 
-    private boolean pointingPairInCells(Sudoku sudoku, Cell cell) {
+    @Override
+    public StrategyType getType() {
+        return type;
+    }
+
+    private boolean pointingPairBox(Sudoku sudoku, Cell cell) {
         int cellI = cell.getI();
         int cellJ = cell.getJ();
         Row cellRow = cell.getRow();
@@ -89,15 +78,7 @@ class PointingPairsStrategy implements Resolvable {
                 }
 
 
-                if (!isPossibilityToCheckPresentSomewhereElseInBox(cell, partnerCell, cellBox.getCellList(), possibilityToCheck)) {
-
-                    // possibilita sa nenachadza inde v boxe => vymazem moznosti z ciel v riadku alebo v stlpci.
-                    // iCase: vymazem z ciel ktore su v tom istom riadku ako je cell a parterCell, ale su v inom boxe ako je cell a partnerCell
-                    // jCase: vymazem z ciel ktore su v tom istom stlpci ako je cell a parterCell, ale su v inom boxe ako je cell a partnerCell
-                    LOGGER.info(ANSI_GREEN + "Possibility " + possibilityToCheck + " presents only in row / column" + ANSI_RESET);
-                    changedInLoop = reduceRowOrColumnCandidates(cell, partnerCell, cellRow, cellColumn, possibilityToCheck, iCase); // ------------------
-
-                } else {
+                if (isPossibilityToCheckPresentSomewhereElseInBox(cell, partnerCell, cellBox.getCellList(), possibilityToCheck)) {
                     // possibilita sa nachadza inde v boxe => vymazem moznosti z ciel v riadkoch a v stlpcoch v tomto boxe
                     // iCase: nevymazavam z ciel ktore su v tom istom riadku ako je cell a parterCell
                     // jCase: nevymazavam z ciel ktore su v tom istom stlpci ako je cell a parterCell
@@ -116,16 +97,6 @@ class PointingPairsStrategy implements Resolvable {
         return updatedInPointingPair;
     }
 
-    private boolean reduceRowOrColumnCandidates(Cell cell, Cell partnerCell, Row cellRow, Column cellColumn, int possibilityToCheck, boolean iCase) {
-        boolean changedInLoop;
-        if (iCase) {
-            changedInLoop = deletePossibilitiesInRowOrColumn(cell, partnerCell, possibilityToCheck, deletedPossibilitiesWithLocation, cellRow);
-        } else {
-            changedInLoop = deletePossibilitiesInRowOrColumn(cell, partnerCell, possibilityToCheck, deletedPossibilitiesWithLocation, cellColumn);
-        }
-        return changedInLoop;
-    }
-
     private boolean reduceBoxCandidates(Cell cell, Row cellRow, Column cellColumn, int possibilityToCheck, Cell partnerCell, boolean changedInLoop, boolean iCase, boolean jCase) {
         if ((iCase && !isPossibilityToCheckPresentSomewhereElseInRowInColumn(cell, possibilityToCheck, cellRow)) ||
                 (jCase && !isPossibilityToCheckPresentSomewhereElseInRowInColumn(cell, possibilityToCheck, cellColumn))) {
@@ -134,50 +105,6 @@ class PointingPairsStrategy implements Resolvable {
         return changedInLoop;
     }
 
-    protected List<Cell> findPartnerCell(Cell cell, int possibilityToCheck) {
-        int cellI = cell.getI();
-        int cellJ = cell.getJ();
-        Box targetBox = cell.getBox();
-        List<Cell> eligiblePartnerCellList = new ArrayList<>();
-
-        for (Cell candidateCell : targetBox.getCellList()) {
-
-            if (cell != candidateCell && candidateCell.getCellPossibilities().contains(possibilityToCheck)) {
-                int candidateCellI = candidateCell.getI();
-                int candidateCellJ = candidateCell.getJ();
-                if ((cellI == candidateCellI || cellJ == candidateCellJ)) {
-                    eligiblePartnerCellList.add(candidateCell);
-                }
-            }
-        }
-
-        return eligiblePartnerCellList;
-    }
-
-    protected boolean isPossibilityToCheckPresentSomewhereElseInBox(Cell cell, Cell partnerCell, List<Cell> cellsInBox, int possibilityToCheck) {
-        int cellI = cell.getI();
-        int cellJ = cell.getJ();
-        int partnerCellI = partnerCell.getI();
-        int partnerCellJ = partnerCell.getJ();
-
-        if (cellI == partnerCellI) {
-            LOGGER.info("i case");
-            for (Cell testedCell : cellsInBox) {
-                if (testedCell.getI() != cellI && testedCell.getCellPossibilities().contains(possibilityToCheck)) {
-                    return true;
-                }
-            }
-        }
-        if (cellJ == partnerCellJ) {
-            LOGGER.info("j case");
-            for (Cell testedCell : cellsInBox) {
-                if (testedCell.getJ() != cellJ && testedCell.getCellPossibilities().contains(possibilityToCheck)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 
     private boolean deletePossibilitiesInBox(Cell cell, Cell partnerCell, int possibilityToCheck) {
         deletedPossibilitiesWithLocation.clear();
@@ -208,36 +135,6 @@ class PointingPairsStrategy implements Resolvable {
     }
 
     /**
-     * Method, used by PointingPairsStrategy strategy, that checks and removes an input possibility from possibilities
-     * of the cells in the same row or column but not th same box as input cell
-     *
-     * @param cell                              a cell whose row or column was searched
-     * @param possibilityToCheck                a value that was searched for
-     * @param deletedPossibilitiesWithLocation  a map containing possibilities that were deleted and their location
-     * @return                                  boolean that says whether a possibility was deleted
-     */
-
-    public boolean deletePossibilitiesInRowOrColumn(Cell cell, Cell partnerCell, int possibilityToCheck, Map<int[], Integer> deletedPossibilitiesWithLocation, SudokuElement sudokuElement) {
-        deletedPossibilitiesWithLocation.clear();
-        boolean somethingWasRemoved = false;
-        Box cellBox = cell.getBox();
-
-        for (Cell testedCell : sudokuElement.getCellList()) {
-            Box testedCellBox = testedCell.getBox();
-            if (cellBox != testedCellBox && testedCell.getCellPossibilities().contains(possibilityToCheck)) {
-                int[] possibilityLocation = {testedCell.getI(), testedCell.getJ()};
-                deletedPossibilitiesWithLocation.put(possibilityLocation, possibilityToCheck);
-                LOGGER.info(ANSI_BLUE + "\tROW-COLUMN CASE: Possibility " + possibilityToCheck + " will be removed from " +
-                        "i=" + testedCell.getI() + " j=" + testedCell.getJ() +
-                        " ~~~ cell: [" + cell.getI() + ", " + cell.getJ() + "]=" + cell.getActualValue()+ " partner cell: "+
-                        "[" + partnerCell.getI()+ ", "+ partnerCell.getJ() + "]=" + partnerCell.getActualValue() +ANSI_RESET);
-                somethingWasRemoved = testedCell.getCellPossibilities().remove((Integer)possibilityToCheck);
-            }
-        }
-        return somethingWasRemoved;
-    }
-
-    /**
      * Method that checks if a cell from different box but same row/column, that has an input possibility
      * among its possibilities, exists. Used by PointingPairsStrategy strategy.
      *
@@ -256,10 +153,5 @@ class PointingPairsStrategy implements Resolvable {
         }
 
         return false;
-    }
-
-    @Override
-    public StrategyType getType() {
-        return type;
     }
 }
