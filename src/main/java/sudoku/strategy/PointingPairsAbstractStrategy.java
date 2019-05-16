@@ -6,19 +6,14 @@ import sudoku.model.Box;
 import sudoku.model.Cell;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 abstract class PointingPairsAbstractStrategy {
 
-    private Map<int[], Integer> deletedPossibilitiesWithLocation = new HashMap<>();
-
     private static final Logger LOGGER = LoggerFactory.getLogger(PointingPairsAbstractStrategy.class);
-    private boolean updatedInPointingPair = false;
 
 
-    protected List<Cell> findPartnerCell(Cell cell, int possibilityToCheck) {
+    List<Cell> findPartnerCell(Cell cell, int possibilityToCheck) {
         int cellI = cell.getI();
         int cellJ = cell.getJ();
         Box targetBox = cell.getBox();
@@ -38,7 +33,7 @@ abstract class PointingPairsAbstractStrategy {
         return eligiblePartnerCellList;
     }
 
-    protected boolean isPossibilityToCheckPresentSomewhereElseInBox(Cell cell, Cell partnerCell, List<Cell> cellsInBox, int possibilityToCheck) {
+    boolean isPossibilityToCheckPresentSomewhereElseInBox(Cell cell, Cell partnerCell, List<Cell> cellsInBox, int possibilityToCheck) {
         int cellI = cell.getI();
         int cellJ = cell.getJ();
         int partnerCellI = partnerCell.getI();
