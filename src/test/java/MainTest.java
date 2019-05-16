@@ -39,7 +39,8 @@ public class MainTest {
     private StrategyFactory strategyFactory = new StrategyFactory();
     private Resolvable nakedSingleInACell = strategyFactory.createNakedSingleInACellStrategy();
     private Resolvable hiddenSingleInACell = strategyFactory.createHiddenSingleInACellStrategy();
-    private Resolvable pointingPairsInCell = strategyFactory.createPointingPairsInCellStrategy();
+    private Resolvable pointingPairBox = strategyFactory.createPointingPairsBoxStrategy();
+    private Resolvable pointingPairRowColumn = strategyFactory.createPointingPairsRowColumnStrategy();
 
 
     @ParameterizedTest
@@ -57,7 +58,7 @@ public class MainTest {
 
             Sudoku sudoku = new Sudoku(inputData);
             Solver solver = new Solver();
-            solver.setStrategies(nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell);
+            solver.setStrategies(nakedSingleInACell, hiddenSingleInACell, pointingPairBox, pointingPairRowColumn);
             solver.useStrategies(sudoku);
 
             assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(sudoku));
