@@ -40,7 +40,8 @@ public class AutomatedInvokerTest implements ANSIColour {
     private StrategyFactory strategyFactory = new StrategyFactory();
     private Resolvable nakedSingleInACell = strategyFactory.createNakedSingleInACellStrategy();
     private Resolvable hiddenSingleInACell = strategyFactory.createHiddenSingleInACellStrategy();
-    private Resolvable pointingPairsInCell = strategyFactory.createPointingPairsInCellStrategy();
+    private Resolvable pointingPairBox = strategyFactory.createPointingPairsBoxStrategy();
+    private Resolvable pointingPairRowColumn = strategyFactory.createPointingPairsRowColumnStrategy();
     private Resolvable backtrack = strategyFactory.createBacktrackStrategy();
 
     @Test
@@ -188,7 +189,7 @@ public class AutomatedInvokerTest implements ANSIColour {
             System.out.println("SUDOKU SOLVING STEPS:");
             sudoku.print();
             try {
-                automatedInvoker = new AutomatedInvoker(sudoku, nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell, backtrack);
+                automatedInvoker = new AutomatedInvoker(sudoku, nakedSingleInACell, hiddenSingleInACell, pointingPairBox, pointingPairRowColumn, backtrack);
             } catch (NoAvailableSolution e) {
                 e.toString();
             }
@@ -231,7 +232,7 @@ public class AutomatedInvokerTest implements ANSIColour {
             System.out.println("SUDOKU SOLVING STEPS:");
             sudoku.print();
             try {
-                automatedInvoker = new AutomatedInvoker(sudoku, nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell, backtrack);
+                automatedInvoker = new AutomatedInvoker(sudoku, nakedSingleInACell, hiddenSingleInACell, pointingPairBox, pointingPairRowColumn, backtrack);
             } catch (NoAvailableSolution e) {
                 e.toString();
             }
@@ -290,7 +291,7 @@ public class AutomatedInvokerTest implements ANSIColour {
             sudoku = new Sudoku(inputData);
             System.out.println("SUDOKU SOLVING STEPS:");
             sudoku.print();
-            automatedInvoker = new AutomatedInvoker(sudoku, nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell, backtrack);
+            automatedInvoker = new AutomatedInvoker(sudoku, nakedSingleInACell, hiddenSingleInACell, pointingPairBox, pointingPairRowColumn, backtrack);
 
 
         } catch (IllegalSudokuStateException ex) {
