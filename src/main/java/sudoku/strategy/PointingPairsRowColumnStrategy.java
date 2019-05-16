@@ -10,13 +10,21 @@ import java.util.Map;
 
 import static sudoku.ANSIColour.*;
 
-public class PointingPairsRowColumnStrategy extends PointingPairsAbstractStrategy implements Resolvable{
+/**
+ * Variation 1. Reducing row or column
+ * if a pair of empty cells (current value is 0 for both) within a box in the same row or column share a given
+ * possibility and this possibility doesn't occur anywhere else in the box => this possibility will be removed from
+ * all other cell's possibilities lists outside this box within the same row or column
+ *
+ * see example: http://www.sudoku-solutions.com/index.php?page=solvingInteractions
+ */
+class PointingPairsRowColumnStrategy extends PointingPairsAbstractStrategy implements Resolvable{
     private static final String name = "Pointing Pairs";
     private static final StrategyType type = StrategyType.MEDIUM;
 
     private Map<int[], Integer> deletedPossibilitiesWithLocation = new HashMap<>();
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PointingPairsStrategy.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PointingPairsRowColumnStrategy.class);
     private boolean updatedInPointingPair = false;
 
     @Override
@@ -84,7 +92,7 @@ public class PointingPairsRowColumnStrategy extends PointingPairsAbstractStrateg
                     // iCase: vymazem z ciel ktore su v tom istom riadku ako je cell a parterCell, ale su v inom boxe ako je cell a partnerCell
                     // jCase: vymazem z ciel ktore su v tom istom stlpci ako je cell a parterCell, ale su v inom boxe ako je cell a partnerCell
                     LOGGER.info(ANSI_GREEN + "Possibility " + possibilityToCheck + " presents only in row / column" + ANSI_RESET);
-                    changedInLoop = reduceRowOrColumnCandidates(cell, partnerCell, cellRow, cellColumn, possibilityToCheck, iCase); // ------------------
+                    changedInLoop = reduceRowOrColumnCandidates(cell, partnerCell, cellRow, cellColumn, possibilityToCheck, iCase);
                 }
 
                 if (changedInLoop) {

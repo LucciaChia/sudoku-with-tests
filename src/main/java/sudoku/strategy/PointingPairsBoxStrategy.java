@@ -10,13 +10,21 @@ import java.util.Map;
 
 import static sudoku.ANSIColour.*;
 
-public class PointingPairsBoxStrategy extends PointingPairsAbstractStrategy implements Resolvable{
+/**
+ * Variation 2. Reducing box candidates
+ * if a pair of empty cells (current value is 0 for both) within a box in the same row / column share a given
+ * possibility and this possibility doesn't occur anywhere else in the row / column outside the box, this possibility
+ * will be removed from all other cell's possibilities within the box
+ *
+ * see example: http://www.sudoku-solutions.com/index.php?page=solvingInteractions
+ */
+class PointingPairsBoxStrategy extends PointingPairsAbstractStrategy implements Resolvable{
     private static final String name = "Pointing Pairs";
     private static final StrategyType type = StrategyType.MEDIUM;
 
     private Map<int[], Integer> deletedPossibilitiesWithLocation = new HashMap<>();
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PointingPairsStrategy.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PointingPairsBoxStrategy.class);
     private boolean updatedInPointingPair = false;
 
     @Override
