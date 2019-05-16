@@ -3,14 +3,12 @@ package sudoku.strategy;
 import org.junit.jupiter.api.Test;
 import sudoku.command.AutomatedInvoker;
 import sudoku.command.AutomatedInvokerTest;
-import sudoku.command.Command;
 import sudoku.exceptions.IllegalSudokuStateException;
 import sudoku.exceptions.NoAvailableSolution;
 import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;
 
 import java.io.File;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
@@ -26,9 +24,8 @@ public class PointingPairsAbstractAndItsChildrenTest {
     private StrategyFactory strategyFactory = new StrategyFactory();
     private Resolvable nakedSingleInACell = strategyFactory.createNakedSingleInACellStrategy();
     private Resolvable hiddenSingleInACell = strategyFactory.createHiddenSingleInACellStrategy();
-    private Resolvable pointingPairs = strategyFactory.createPointingPairsInCellStrategy();
-    private Resolvable pointingPairsRowColumn = strategyFactory.createPointingPairsRowColumn();
-    private Resolvable pointingPairsBox = strategyFactory.createPointingPairsBox();
+    private Resolvable pointingPairsRowColumn = strategyFactory.createPointingPairsRowColumnStrategy();
+    private Resolvable pointingPairsBox = strategyFactory.createPointingPairsBoxStrategy();
     private Resolvable backtrack = strategyFactory.createBacktrackStrategy();
 
     @Test
@@ -36,17 +33,12 @@ public class PointingPairsAbstractAndItsChildrenTest {
 
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
         int[][] inputData = fileSudokuReader.read(inp_ExtremelyHard1);
-        List<Command> commands = null;
         Sudoku sudoku = null;
         AutomatedInvoker automatedInvoker = null;
         try {
             sudoku = new Sudoku(inputData);
             System.out.println("SUDOKU SOLVING STEPS:");
             sudoku.print();
-
-
-            PointingPairsBoxStrategy pb = new PointingPairsBoxStrategy();
-            System.out.println(pointingPairsBox instanceof Resolvable);
 
             automatedInvoker = new AutomatedInvoker(sudoku, nakedSingleInACell, pointingPairsBox, pointingPairsRowColumn, hiddenSingleInACell, backtrack);
 
@@ -59,6 +51,8 @@ public class PointingPairsAbstractAndItsChildrenTest {
         Sudoku solvedSudoku = automatedInvoker.getSudoku();
         int[][] actualSudokuValues = setArrayAccordingToObjectValues(solvedSudoku);
         int[][] expectedSudokuValues = fileSudokuReader.read(out_ExtremelyHard1);
+        System.out.println(sudoku.toString());
+        System.out.println(solvedSudoku.toString());
         assertArrayEquals(expectedSudokuValues, actualSudokuValues);
 
     }
