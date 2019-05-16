@@ -1,9 +1,10 @@
 package sudoku.exceptions;
 
 import lombok.Getter;
+import sudoku.ANSIColour;
 import sudoku.model.Sudoku;
 @Getter
-public class NoAvailableSolution extends Exception {
+public class NoAvailableSolution extends Exception implements ANSIColour {
 
     private Sudoku sudoku;
 
@@ -13,6 +14,6 @@ public class NoAvailableSolution extends Exception {
 
     @Override
     public String toString() {
-        return "No available solution for sudoku";
+        return ANSI_RED + "NoAvailableSolutionException  No available solution for this sudoku" + ANSI_RESET;
     }
 }
