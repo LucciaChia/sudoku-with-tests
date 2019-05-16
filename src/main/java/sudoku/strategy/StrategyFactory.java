@@ -13,8 +13,8 @@ public class StrategyFactory {
     return new HiddenSingleStrategy();
   }
   public Resolvable createPointingPairsInCellStrategy(){ return new PointingPairsStrategy(); }
-  public Resolvable createPointingPairsRowColumn(){ return new PointingPairsRowColumnStrategy(); }
-  public Resolvable createPointingPairsBox(){ return new PointingPairsBoxStrategy(); }
+  public Resolvable createPointingPairsRowColumnStrategy(){ return new PointingPairsRowColumnStrategy(); }
+  public Resolvable createPointingPairsBoxStrategy(){ return new PointingPairsBoxStrategy(); }
   public Resolvable createBacktrackStrategy(){ return new BacktrackStrategy(); }
 
 }
