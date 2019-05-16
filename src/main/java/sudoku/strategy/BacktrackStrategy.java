@@ -14,8 +14,6 @@ class BacktrackStrategy implements Resolvable{
     private static final String name = "Backtracking";
     private static final StrategyType type = StrategyType.HIGH;
 
-    private static long stepCount = 0;
-
     private boolean updatedInBacktrack = false;
 
     @Override
@@ -47,11 +45,9 @@ class BacktrackStrategy implements Resolvable{
                 int cellPossibilitiesAmount = cell.getCellPossibilities().size();
 
                 if (cellPossibilitiesAmount > 0 ) {
-                    stepCount++;
-
                     for (int k = 0; k < cellPossibilitiesAmount; k++) {
-                        Sudoku newSudoku = sudoku.copy();
 
+                        Sudoku newSudoku = sudoku.copy();
                         Cell newCell = newSudoku.getRows().get(i).getCell(j);
 
                         int usedPossibility = cell.getCellPossibilities().get(k);
@@ -60,17 +56,13 @@ class BacktrackStrategy implements Resolvable{
                         Sudoku resolvedSudoku = backtrack(newSudoku);
 
                         if (resolvedSudoku != null) {
-
                             return resolvedSudoku;
                         }
                     }
                     return null;
                 }
-
+                // cellPossibilities == null => return null
                 return null;
-//                if (cellPossibilitiesAmount == 0) {
-//                    return null;
-//                }
             }
         }
         return sudoku;
