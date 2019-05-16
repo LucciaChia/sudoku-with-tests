@@ -40,6 +40,10 @@ class PointingPairsRowColumnStrategy extends PointingPairsAbstractStrategy imple
                 Cell cell = sudoku.getRows().get(i).getCell(j);
                 if (cell.getActualValue() == 0) {
                     if (pointingPairRowColumn(sudoku, cell)){
+                        if (sudoku.getSudokuLevelType().ordinal() < this.getType().ordinal() ) {
+                            sudoku.setSudokuLevelType(this.getType());
+                        }
+
                         return sudoku;
                     }
                 }

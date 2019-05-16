@@ -5,12 +5,13 @@ import sudoku.command.AutomatedInvoker;
 import sudoku.command.AutomatedInvokerTest;
 import sudoku.exceptions.IllegalSudokuStateException;
 import sudoku.exceptions.NoAvailableSolution;
+import sudoku.model.StrategyType;
 import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;
 
 import java.io.File;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PointingPairsAbstractAndItsChildrenTest {
     static ClassLoader classLoader = new AutomatedInvokerTest().getClass().getClassLoader();
@@ -33,10 +34,13 @@ public class PointingPairsAbstractAndItsChildrenTest {
 
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
         int[][] inputData = fileSudokuReader.read(inp_ExtremelyHard1);
+        StrategyType initialSudokuLevelType = StrategyType.LOW;
+        StrategyType endSudokuLevelType;
         Sudoku sudoku = null;
         AutomatedInvoker automatedInvoker = null;
         try {
             sudoku = new Sudoku(inputData);
+            initialSudokuLevelType = sudoku.getSudokuLevelType();
             System.out.println("SUDOKU SOLVING STEPS:");
             sudoku.print();
 
@@ -49,11 +53,14 @@ public class PointingPairsAbstractAndItsChildrenTest {
         }
 
         Sudoku solvedSudoku = automatedInvoker.getSudoku();
+        endSudokuLevelType = solvedSudoku.getSudokuLevelType();
         int[][] actualSudokuValues = setArrayAccordingToObjectValues(solvedSudoku);
         int[][] expectedSudokuValues = fileSudokuReader.read(out_ExtremelyHard1);
         System.out.println(sudoku.toString());
         System.out.println(solvedSudoku.toString());
         assertArrayEquals(expectedSudokuValues, actualSudokuValues);
+        assertEquals(StrategyType.LOW, initialSudokuLevelType);
+        assertFalse(StrategyType.MEDIUM.ordinal() >  endSudokuLevelType.ordinal());
 
     }
 

@@ -4,13 +4,15 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import sudoku.exceptions.IllegalSudokuStateException;
+import sudoku.model.StrategyType;
 import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;
 
 import java.io.File;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class HiddenSingleStrategyTest {
     static ClassLoader classLoader = new HiddenSingleStrategyTest().getClass().getClassLoader();
@@ -30,9 +32,12 @@ class HiddenSingleStrategyTest {
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
         int[][] inputData = fileSudokuReader.read(inputSudokuMatrixPath);
         int[][] expectedOutput = fileSudokuReader.read(expectedSudokuOutputPath);
+        StrategyType initialSudokuLevelType;
+        StrategyType endSudokuLevelType;
 
         try {
             Sudoku sudoku = new Sudoku(inputData);
+            initialSudokuLevelType = sudoku.getSudokuLevelType();
             NakedSingleStrategy nakedSingleStrategy = new NakedSingleStrategy();
             HiddenSingleStrategy hiddenSingleStrategy = new HiddenSingleStrategy();
 
@@ -44,12 +49,13 @@ class HiddenSingleStrategyTest {
                     System.out.println(" H ");
                 }
             } while (nakedSingleStrategy.isUpdated() || hiddenSingleStrategy.isUpdated());
-
-
+            endSudokuLevelType = sudoku.getSudokuLevelType();
 
             printPoss(sudoku);
             System.out.println("=================================");
             assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(sudoku));
+            assertEquals(StrategyType.LOW, initialSudokuLevelType);
+            assertEquals(StrategyType.LOW, endSudokuLevelType);
         } catch (IllegalSudokuStateException ex) {
             System.out.println("Test incorrect input");
         }

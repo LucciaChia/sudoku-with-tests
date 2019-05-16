@@ -38,6 +38,10 @@ class NakedSingleStrategy implements Resolvable {
                     if (cellPossibilities.size() == 1) {
                         cell.setActualValue(cellPossibilities.get(0));
                         updatedInNakedSingle = true;
+                        if (sudoku.getSudokuLevelType().ordinal() < this.getType().ordinal() ) {
+                            sudoku.setSudokuLevelType(this.getType());
+                        }
+
                         return sudoku;
                     }
                 }

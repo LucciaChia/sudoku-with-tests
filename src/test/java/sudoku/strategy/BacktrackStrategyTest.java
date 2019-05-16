@@ -5,6 +5,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import sudoku.exceptions.IllegalSudokuStateException;
 import sudoku.exceptions.NoAvailableSolution;
+import sudoku.model.StrategyType;
 import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;
 
@@ -12,6 +13,7 @@ import java.io.File;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BacktrackStrategyTest {
 
@@ -45,13 +47,20 @@ public class BacktrackStrategyTest {
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
         int[][] inputData = fileSudokuReader.read(inputSudokuMatrixPath);
         int[][] expectedOutput = fileSudokuReader.read(expectedSudokuOutputPath);
+        StrategyType initialSudokuLevelType;
+        StrategyType endSudokuLevelType;
+
         try {
             Sudoku sudoku = new Sudoku(inputData);
+            initialSudokuLevelType = sudoku.getSudokuLevelType();
             BacktrackStrategy backtrackStrategy = new BacktrackStrategy();
             sudoku = backtrackStrategy.resolveSudoku(sudoku);
+            endSudokuLevelType = sudoku.getSudokuLevelType();
             printPoss(sudoku);
             System.out.println("=================================");
             assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(sudoku));
+            assertEquals(StrategyType.LOW, initialSudokuLevelType);
+            assertEquals(StrategyType.HIGH, endSudokuLevelType);
         } catch (IllegalSudokuStateException ex) {
             System.out.println(ex.toString());
         } catch (NoAvailableSolution ne) {

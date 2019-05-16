@@ -5,13 +5,15 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import sudoku.exceptions.IllegalSudokuStateException;
+import sudoku.model.StrategyType;
 import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;
 
 import java.io.File;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PointingPairsBoxRowColumnStrategyTest {
     static ClassLoader classLoader = new PointingPairsBoxRowColumnStrategyTest().getClass().getClassLoader();
@@ -28,12 +30,16 @@ class PointingPairsBoxRowColumnStrategyTest {
     @ParameterizedTest
     @MethodSource("linksToInputs")
     void resolveSudokuBoxStrategy(String inputSudokuMatrixPath, String expectedSudokuOutputPath) {
+
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
+        StrategyType initialSudokuLevelType = StrategyType.LOW;
+        StrategyType endSudokuLevelType;
         int[][] inputData = fileSudokuReader.read(inputSudokuMatrixPath);
         int[][] expectedOutput = fileSudokuReader.read(expectedSudokuOutputPath);
 
         try {
             Sudoku sudoku = new Sudoku(inputData);
+            initialSudokuLevelType = sudoku.getSudokuLevelType();
             NakedSingleStrategy nakedSingleStrategy = new NakedSingleStrategy();
             HiddenSingleStrategy hiddenSingleStrategy = new HiddenSingleStrategy();
             PointingPairsBoxStrategy pointingPairsBoxStrategy = new PointingPairsBoxStrategy();
@@ -51,10 +57,13 @@ class PointingPairsBoxRowColumnStrategyTest {
                     System.out.println(" P ");
                 }
             } while (nakedSingleStrategy.isUpdated() || hiddenSingleStrategy.isUpdated() || pointingPairsBoxStrategy.isUpdated());
+            endSudokuLevelType = sudoku.getSudokuLevelType();
 
             printPoss(sudoku);
             System.out.println("=================================");
             assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(sudoku));
+            assertEquals(StrategyType.LOW, initialSudokuLevelType);
+            assertEquals(StrategyType.MEDIUM, endSudokuLevelType);
         } catch (IllegalSudokuStateException ex) {
             System.out.println("Test incorrect input");
         }
