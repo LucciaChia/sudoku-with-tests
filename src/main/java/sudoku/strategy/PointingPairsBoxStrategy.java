@@ -19,7 +19,7 @@ import static sudoku.ANSIColour.*;
  * see example: http://www.sudoku-solutions.com/index.php?page=solvingInteractions
  */
 class PointingPairsBoxStrategy extends PointingPairsAbstractStrategy implements Resolvable{
-    private static final String name = "Pointing Pairs";
+    private static final String name = "Pointing Pairs Box";
     private static final StrategyType type = StrategyType.MEDIUM;
 
     private Map<int[], Integer> deletedPossibilitiesWithLocation = new HashMap<>();
