@@ -1,6 +1,7 @@
 package sudoku.command;
 
 import org.junit.jupiter.api.Test;
+import sudoku.ANSIColour;
 import sudoku.exceptions.IllegalSudokuStateException;
 import sudoku.exceptions.NoAvailableSolution;
 import sudoku.model.Sudoku;
@@ -13,7 +14,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class AutomatedInvokerTest {
+public class AutomatedInvokerTest implements ANSIColour {
     static ClassLoader classLoader = new AutomatedInvokerTest().getClass().getClassLoader();
 
     private static final String out_extremelySimple1_step3 = new File(classLoader.getResource("outputs/AutomatedInvoker/extremelySimple-AutomatedInv.txt").getFile()).getPath();
@@ -277,7 +278,7 @@ public class AutomatedInvokerTest {
         }
 
 
-        assertEquals("No available solution for sudoku", exception);
+        assertEquals(ANSI_RED + "NoAvailableSolutionException  No available solution for this sudoku" + ANSI_RESET, exception);
 
     }
 
