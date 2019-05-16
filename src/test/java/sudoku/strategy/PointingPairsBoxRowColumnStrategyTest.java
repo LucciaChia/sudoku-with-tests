@@ -13,8 +13,8 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PointingPairsStrategyTest {
-    static ClassLoader classLoader = new PointingPairsStrategyTest().getClass().getClassLoader();
+class PointingPairsBoxRowColumnStrategyTest {
+    static ClassLoader classLoader = new PointingPairsBoxRowColumnStrategyTest().getClass().getClassLoader();
 
     private static final String inp1 = new File(classLoader.getResource("inputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
     private static final String out1 = new File(classLoader.getResource("outputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
@@ -27,7 +27,7 @@ class PointingPairsStrategyTest {
 
     @ParameterizedTest
     @MethodSource("linksToInputs")
-    void resolveSudoku(String inputSudokuMatrixPath, String expectedSudokuOutputPath) {
+    void resolveSudokuBoxStrategy(String inputSudokuMatrixPath, String expectedSudokuOutputPath) {
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
         int[][] inputData = fileSudokuReader.read(inputSudokuMatrixPath);
         int[][] expectedOutput = fileSudokuReader.read(expectedSudokuOutputPath);
@@ -36,7 +36,7 @@ class PointingPairsStrategyTest {
             Sudoku sudoku = new Sudoku(inputData);
             NakedSingleStrategy nakedSingleStrategy = new NakedSingleStrategy();
             HiddenSingleStrategy hiddenSingleStrategy = new HiddenSingleStrategy();
-            PointingPairsStrategy pointingPairsStrategy = new PointingPairsStrategy();
+            PointingPairsBoxStrategy pointingPairsBoxStrategy = new PointingPairsBoxStrategy();
 
             do {
                 nakedSingleStrategy.resolveSudoku(sudoku);
@@ -47,10 +47,45 @@ class PointingPairsStrategyTest {
                 }
 
                 if (!hiddenSingleStrategy.isUpdated()) {
-                    pointingPairsStrategy.resolveSudoku(sudoku);
+                    pointingPairsBoxStrategy.resolveSudoku(sudoku);
                     System.out.println(" P ");
                 }
-            } while (nakedSingleStrategy.isUpdated() || hiddenSingleStrategy.isUpdated() || pointingPairsStrategy.isUpdated());
+            } while (nakedSingleStrategy.isUpdated() || hiddenSingleStrategy.isUpdated() || pointingPairsBoxStrategy.isUpdated());
+
+            printPoss(sudoku);
+            System.out.println("=================================");
+            assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(sudoku));
+        } catch (IllegalSudokuStateException ex) {
+            System.out.println("Test incorrect input");
+        }
+    }
+
+    @ParameterizedTest
+    @MethodSource("linksToInputs")
+    void resolveSudokuRowColumnStrategy(String inputSudokuMatrixPath, String expectedSudokuOutputPath) {
+        FileSudokuReader fileSudokuReader = new FileSudokuReader();
+        int[][] inputData = fileSudokuReader.read(inputSudokuMatrixPath);
+        int[][] expectedOutput = fileSudokuReader.read(expectedSudokuOutputPath);
+
+        try {
+            Sudoku sudoku = new Sudoku(inputData);
+            NakedSingleStrategy nakedSingleStrategy = new NakedSingleStrategy();
+            HiddenSingleStrategy hiddenSingleStrategy = new HiddenSingleStrategy();
+            PointingPairsRowColumnStrategy pointingPairsRowColumnStrategy = new PointingPairsRowColumnStrategy();
+
+            do {
+                nakedSingleStrategy.resolveSudoku(sudoku);
+                System.out.println(" N ");
+                if (!nakedSingleStrategy.isUpdated()) {
+                    hiddenSingleStrategy.resolveSudoku(sudoku);
+                    System.out.println(" H ");
+                }
+
+                if (!hiddenSingleStrategy.isUpdated()) {
+                    pointingPairsRowColumnStrategy.resolveSudoku(sudoku);
+                    System.out.println(" P ");
+                }
+            } while (nakedSingleStrategy.isUpdated() || hiddenSingleStrategy.isUpdated() || pointingPairsRowColumnStrategy.isUpdated());
 
             printPoss(sudoku);
             System.out.println("=================================");
@@ -65,9 +100,9 @@ class PointingPairsStrategyTest {
     }
 
     private static Stream<Arguments> linksToInputs() {
-        return Stream.of(Arguments.of(PointingPairsStrategyTest.inp1, PointingPairsStrategyTest.out1),
-                Arguments.of(PointingPairsStrategyTest.inp2, PointingPairsStrategyTest.out2),
-                Arguments.of(PointingPairsStrategyTest.inp3, PointingPairsStrategyTest.out3)
+        return Stream.of(Arguments.of(PointingPairsBoxRowColumnStrategyTest.inp1, PointingPairsBoxRowColumnStrategyTest.out1),
+                Arguments.of(PointingPairsBoxRowColumnStrategyTest.inp2, PointingPairsBoxRowColumnStrategyTest.out2),
+                Arguments.of(PointingPairsBoxRowColumnStrategyTest.inp3, PointingPairsBoxRowColumnStrategyTest.out3)
         );
     }
 
