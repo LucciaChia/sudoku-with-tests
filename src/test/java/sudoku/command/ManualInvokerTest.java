@@ -196,7 +196,8 @@ public class ManualInvokerTest {
         List<Command> commands = new ArrayList<>();
         Resolvable nakedSingle = strategyFactory.createNakedSingleInACellStrategy();
         Resolvable hiddenSingle = strategyFactory.createHiddenSingleInACellStrategy();
-        Resolvable pointingPair = strategyFactory.createPointingPairsInCellStrategy();
+        Resolvable pointingPairRowColumn = strategyFactory.createPointingPairsRowColumnStrategy();
+        Resolvable pointingPairBox = strategyFactory.createPointingPairsBoxStrategy();
         Resolvable backtrack = strategyFactory.createBacktrackStrategy();
 
         try {
@@ -212,7 +213,8 @@ public class ManualInvokerTest {
             commands.add(invoker.getNextState(strategyFactory.createNakedSingleInACellStrategy()));
             commands.add(invoker.getNextState(strategyFactory.createHiddenSingleInACellStrategy()));
             commands.add(invoker.getNextState(strategyFactory.createNakedSingleInACellStrategy()));
-            commands.add(invoker.getNextState(strategyFactory.createPointingPairsInCellStrategy()));
+            commands.add(invoker.getNextState(strategyFactory.createPointingPairsBoxStrategy()));
+            commands.add(invoker.getNextState(strategyFactory.createPointingPairsRowColumnStrategy()));
             commands.add(invoker.getNextState(strategyFactory.createNakedSingleInACellStrategy()));
             commands.add(invoker.getNextState(strategyFactory.createBacktrackStrategy()));
         } catch (NoAvailableSolution ne) {
@@ -226,9 +228,10 @@ public class ManualInvokerTest {
         assertEquals(nakedSingle.getName(), ((CommandPicker)commands.get(1)).getResolvable().getName());
         assertEquals(hiddenSingle.getName(), ((CommandPicker)commands.get(2)).getResolvable().getName());
         assertEquals(nakedSingle.getName(), ((CommandPicker)commands.get(3)).getResolvable().getName());
-        assertEquals(pointingPair.getName(), ((CommandPicker)commands.get(4)).getResolvable().getName());
-        assertEquals(nakedSingle.getName(), ((CommandPicker)commands.get(5)).getResolvable().getName());
-        assertEquals(backtrack.getName(), ((CommandPicker)commands.get(6)).getResolvable().getName());
+        assertEquals(pointingPairBox.getName(), ((CommandPicker)commands.get(4)).getResolvable().getName());
+        assertEquals(pointingPairRowColumn.getName(), ((CommandPicker)commands.get(5)).getResolvable().getName());
+        assertEquals(nakedSingle.getName(), ((CommandPicker)commands.get(6)).getResolvable().getName());
+        assertEquals(backtrack.getName(), ((CommandPicker)commands.get(7)).getResolvable().getName());
     }
 
     @Test
@@ -257,7 +260,7 @@ public class ManualInvokerTest {
         // WHEN
         try {
             invoker = new ManualInvoker(sudoku);
-            invoker.setStrategies(strategyFactory.createPointingPairsInCellStrategy());
+            invoker.setStrategies(strategyFactory.createPointingPairsRowColumnStrategy());
             command0 = invoker.getNextState();
             resultSudoku0 = ((CommandPicker) command0).getSudoku();
             resultCell0a = resultSudoku0.getRows().get(0).getCell(7);
