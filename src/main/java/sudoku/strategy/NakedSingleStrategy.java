@@ -28,7 +28,6 @@ class NakedSingleStrategy implements Resolvable {
 
     @Override
     public Sudoku resolveSudoku(Sudoku sudoku) {
-//        stepList.clear();
         do {
             updatedInNakedSingle = false;
             for (int i = 0; i < 9; i++) {
