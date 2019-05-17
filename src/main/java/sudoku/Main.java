@@ -151,6 +151,9 @@ public class Main {
                     break;
                 case "n":
                     try {
+                        if(automatedInvokerNullCheck(automatedInvoker)) {
+                            break;
+                        }
                         goNext(automatedInvoker);
                         LOGGER.info("Reading sudoku - valid input");
                     } catch (Exception e) {
@@ -159,6 +162,9 @@ public class Main {
                     break;
                 case "p":
                     try {
+                        if(automatedInvokerNullCheck(automatedInvoker)) {
+                            break;
+                        }
                         goPrevious(automatedInvoker);
                         LOGGER.info("Default sudoku - valid input");
                     } catch (Exception ex) {
@@ -166,6 +172,9 @@ public class Main {
                     }
                     break;
                 case "all":
+                    if(automatedInvokerNullCheck(automatedInvoker)) {
+                        break;
+                    }
                     printAllCommands(automatedInvoker.getCommands());
                     LOGGER.info("Default sudoku - valid input");
                     break;
@@ -175,6 +184,15 @@ public class Main {
                     quit = true;
             }
         } while(!quit);
+    }
+
+    private boolean automatedInvokerNullCheck(AutomatedInvoker automatedInvoker) {
+        if (automatedInvoker == null) {
+            consoleDisplayer.displayLine("There is no solution for this sudoku");
+            LOGGER.info("This sudoku doesn't have any solution");
+            return true;
+        }
+        return false;
     }
 
     private void printHelpStepByStepMenu() {
@@ -230,6 +248,10 @@ public class Main {
     }
 
     private void printAllCommands(List<Command> allSudokuStates) {
+        if (allSudokuStates.isEmpty() || allSudokuStates == null) {
+            consoleDisplayer.displayLine("This sudoku has no solution");
+            return;
+        }
         for (int i = 0; i < allSudokuStates.size(); i++) {
             CommandPicker actualCommand = ((CommandPicker)allSudokuStates.get(i));
             Sudoku actualSudoku = actualCommand.getSudoku();
