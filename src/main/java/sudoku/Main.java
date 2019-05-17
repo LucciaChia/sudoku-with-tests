@@ -134,7 +134,6 @@ public class Main {
         automatedInvokerWithAllSolvingMethods(sudoku);
     }
 
-    // TODO Step by step NOT WORKING YET
     private void stepByStepSudokuAutomaticInvoker() throws IllegalSudokuStateException {
         boolean quit = false;
         printHelpStepByStepMenu();
