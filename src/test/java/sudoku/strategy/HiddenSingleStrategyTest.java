@@ -1,18 +1,23 @@
 package sudoku.strategy;
 
+import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import sudoku.exceptions.IllegalSudokuStateException;
+import sudoku.model.Cell;
+import sudoku.model.Row;
 import sudoku.model.StrategyType;
 import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class HiddenSingleStrategyTest {
     static ClassLoader classLoader = new HiddenSingleStrategyTest().getClass().getClassLoader();
@@ -51,7 +56,8 @@ class HiddenSingleStrategyTest {
             } while (nakedSingleStrategy.isUpdated() || hiddenSingleStrategy.isUpdated());
             endSudokuLevelType = sudoku.getSudokuLevelType();
 
-            printPoss(sudoku);
+            sudoku.printPossibilitiesInSudoku();
+            sudoku.print();
             System.out.println("=================================");
             assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(sudoku));
             assertEquals(StrategyType.LOW, initialSudokuLevelType);
@@ -60,7 +66,75 @@ class HiddenSingleStrategyTest {
             System.out.println("Test incorrect input");
         }
     }
+    @Test
+    public void getName() {
+        HiddenSingleStrategy hiddenSingleStrategy = new HiddenSingleStrategy();
+        assertEquals("Hidden Single", hiddenSingleStrategy.getName());
+    }
 
+    @Test
+    public void getType() {
+        HiddenSingleStrategy hiddenSingleStrategy = new HiddenSingleStrategy();
+        assertEquals("LOW", hiddenSingleStrategy.getType().toString());
+    }
+
+    @Test
+    public void amountOfParticularPossibilities() {
+        FileSudokuReader fileSudokuReader = new FileSudokuReader();
+        int[][] inputData = fileSudokuReader.read(inp3);
+        boolean mapComparison = false;
+        try {
+            Sudoku sudoku = new Sudoku(inputData);
+            sudoku.print();
+//            sudoku.printPossibilitiesInSudoku();
+            Row rowZero = sudoku.getRows().get(0);
+            Map<Integer, Integer> rowZeroPossibilities = new HashMap<>();
+            for (int i = 0; i < 9; i++) {
+                Cell cell = rowZero.getCell(i);
+                if (cell.getActualValue() == 0) {
+                    List<Integer> cellPossibilities = cell.getCellPossibilities();
+                    for (Integer actualPossibility : cellPossibilities) {
+                        if (!rowZeroPossibilities.containsKey(actualPossibility)) {
+                            rowZeroPossibilities.put(actualPossibility, 1);
+                        } else {
+                            int value = rowZeroPossibilities.get(actualPossibility) + 1;
+                            rowZeroPossibilities.put(actualPossibility, value);
+                        }
+                    }
+                }
+            }
+
+            HiddenSingleStrategy hiddenSingleStrategy = new HiddenSingleStrategy();
+            Map<Integer, Integer> possiblities = hiddenSingleStrategy.amountOfParticularPossibilities(sudoku.getRows().get(0));
+            System.out.println("possibility map:");
+            printMap(possiblities);
+            System.out.println("zero possibility map:");
+            printMap(rowZeroPossibilities);
+            mapComparison = possiblities.equals(rowZeroPossibilities);
+        } catch (IllegalSudokuStateException ie) {
+            System.out.println(ie.toString());
+        }
+        assertTrue(mapComparison);
+    }
+    //TODO
+    @Test
+    public void deleteHidden() {
+
+    }
+    //TODO
+    @Test
+    public void checkUniqueOccurence() {
+
+    }
+
+    private void printMap(Map<Integer, Integer> countOfPossibilities) {
+        for (Integer possibility : countOfPossibilities.keySet()) {
+            String key = possibility.toString();
+            String value = countOfPossibilities.get(possibility).toString();
+            System.out.println("key: " + key + " -> value: " + value);
+        }
+
+    }
     private static Stream<Arguments> linksToInputs() {
         return Stream.of(Arguments.of(HiddenSingleStrategyTest.inp1, HiddenSingleStrategyTest.out1),
                 Arguments.of(HiddenSingleStrategyTest.inp2, HiddenSingleStrategyTest.out2),
