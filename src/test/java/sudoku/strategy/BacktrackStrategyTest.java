@@ -1,5 +1,6 @@
 package sudoku.strategy;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -66,6 +67,17 @@ public class BacktrackStrategyTest {
         } catch (NoAvailableSolution ne) {
             System.out.println(ne.toString());
         }
+    }
+    @Test
+    public void getName() {
+        BacktrackStrategy backtrackStrategy = new BacktrackStrategy();
+        assertEquals("Backtracking", backtrackStrategy.getName());
+    }
+
+    @Test
+    public void getType() {
+        BacktrackStrategy backtrackStrategy = new BacktrackStrategy();
+        assertEquals("HIGH", backtrackStrategy.getType().toString());
     }
 
     private static Stream<Arguments> linksToInputs() {
