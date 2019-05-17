@@ -3,6 +3,7 @@ package sudoku.strategy;
 import org.junit.jupiter.api.Test;
 import sudoku.command.AutomatedInvoker;
 import sudoku.command.AutomatedInvokerTest;
+import sudoku.console.ConsoleDisplayer;
 import sudoku.exceptions.IllegalSudokuStateException;
 import sudoku.exceptions.NoAvailableSolution;
 import sudoku.model.StrategyType;
@@ -15,6 +16,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class PointingPairsAbstractAndItsChildrenTest {
     static ClassLoader classLoader = new AutomatedInvokerTest().getClass().getClassLoader();
+
+    private static final ConsoleDisplayer consoleDisplayer = new ConsoleDisplayer();
 
     private static final String inp_ExtremelyHard1   = new File(classLoader.getResource("inputs/extremelyHard1.txt").getFile()).getPath();
     private static final String inp_ExtremelyHard2   = new File(classLoader.getResource("inputs/extremelyHard2.txt").getFile()).getPath();
@@ -41,23 +44,23 @@ public class PointingPairsAbstractAndItsChildrenTest {
         try {
             sudoku = new Sudoku(inputData);
             initialSudokuLevelType = sudoku.getSudokuLevelType();
-            System.out.println("SUDOKU SOLVING STEPS:");
+            consoleDisplayer.displayLine("SUDOKU SOLVING STEPS:");
             sudoku.print();
 
             automatedInvoker = new AutomatedInvoker(sudoku, nakedSingleInACell, pointingPairsBox, pointingPairsRowColumn, hiddenSingleInACell, backtrack);
 
         } catch (NoAvailableSolution e) {
-            System.out.println(e.toString());
+            consoleDisplayer.displayLine(e.toString());
         } catch (IllegalSudokuStateException ie) {
-            System.out.println(ie.toString());
+            consoleDisplayer.displayLine(ie.toString());
         }
 
         Sudoku solvedSudoku = automatedInvoker.getSudoku();
         endSudokuLevelType = solvedSudoku.getSudokuLevelType();
         int[][] actualSudokuValues = setArrayAccordingToObjectValues(solvedSudoku);
         int[][] expectedSudokuValues = fileSudokuReader.read(out_ExtremelyHard1);
-        System.out.println(sudoku.toString());
-        System.out.println(solvedSudoku.toString());
+        consoleDisplayer.displayLine(sudoku.toString());
+        consoleDisplayer.displayLine(solvedSudoku.toString());
         assertArrayEquals(expectedSudokuValues, actualSudokuValues);
         assertEquals(StrategyType.LOW, initialSudokuLevelType);
         assertFalse(StrategyType.MEDIUM.ordinal() >  endSudokuLevelType.ordinal());

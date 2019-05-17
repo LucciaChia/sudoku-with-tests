@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import sudoku.console.ConsoleDisplayer;
 import sudoku.exceptions.IllegalSudokuStateException;
 import sudoku.model.Cell;
 import sudoku.model.Row;
@@ -21,6 +22,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HiddenSingleStrategyTest {
     static ClassLoader classLoader = new HiddenSingleStrategyTest().getClass().getClassLoader();
+
+    private static final ConsoleDisplayer consoleDisplayer = new ConsoleDisplayer();
 
     private static final String inp1 = new File(classLoader.getResource("inputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
     private static final String out1 = new File(classLoader.getResource("outputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
@@ -48,22 +51,22 @@ class HiddenSingleStrategyTest {
 
             do {
                 nakedSingleStrategy.resolveSudoku(sudoku);
-                System.out.println(" N ");
+                consoleDisplayer.displayLine(" N ");
                 if (!nakedSingleStrategy.isUpdated()) {
                     hiddenSingleStrategy.resolveSudoku(sudoku);
-                    System.out.println(" H ");
+                    consoleDisplayer.displayLine(" H ");
                 }
             } while (nakedSingleStrategy.isUpdated() || hiddenSingleStrategy.isUpdated());
             endSudokuLevelType = sudoku.getSudokuLevelType();
 
             sudoku.printPossibilitiesInSudoku();
             sudoku.print();
-            System.out.println("=================================");
+            consoleDisplayer.displayLine("=================================");
             assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(sudoku));
             assertEquals(StrategyType.LOW, initialSudokuLevelType);
             assertEquals(StrategyType.LOW, endSudokuLevelType);
         } catch (IllegalSudokuStateException ex) {
-            System.out.println("Test incorrect input");
+            consoleDisplayer.displayLine("Test incorrect input");
         }
     }
     @Test
@@ -106,13 +109,13 @@ class HiddenSingleStrategyTest {
 
             HiddenSingleStrategy hiddenSingleStrategy = new HiddenSingleStrategy();
             Map<Integer, Integer> possiblities = hiddenSingleStrategy.amountOfParticularPossibilities(sudoku.getRows().get(0));
-            System.out.println("possibility map:");
+            consoleDisplayer.displayLine("possibility map:");
             printMap(possiblities);
-            System.out.println("zero possibility map:");
+            consoleDisplayer.displayLine("zero possibility map:");
             printMap(rowZeroPossibilities);
             mapComparison = possiblities.equals(rowZeroPossibilities);
         } catch (IllegalSudokuStateException ie) {
-            System.out.println(ie.toString());
+            consoleDisplayer.displayLine(ie.toString());
         }
         assertTrue(mapComparison);
     }
@@ -131,7 +134,7 @@ class HiddenSingleStrategyTest {
         for (Integer possibility : countOfPossibilities.keySet()) {
             String key = possibility.toString();
             String value = countOfPossibilities.get(possibility).toString();
-            System.out.println("key: " + key + " -> value: " + value);
+            consoleDisplayer.displayLine("key: " + key + " -> value: " + value);
         }
 
     }

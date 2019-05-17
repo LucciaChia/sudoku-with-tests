@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import sudoku.console.ConsoleDisplayer;
 import sudoku.exceptions.IllegalSudokuStateException;
 import sudoku.model.StrategyType;
 import sudoku.model.Sudoku;
@@ -18,6 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class NakedSingleStrategyTest {
 
     static ClassLoader classLoader = new NakedSingleStrategyTest().getClass().getClassLoader();
+
+    private static final ConsoleDisplayer consoleDisplayer = new ConsoleDisplayer();
 
     private static final String inp1 = new File(classLoader.getResource("inputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
     private static final String out1 = new File(classLoader.getResource("outputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
@@ -52,12 +55,12 @@ class NakedSingleStrategyTest {
             endSudokuLevelType = sudoku.getSudokuLevelType();
 
             printPoss(sudoku);
-            System.out.println("=================================");
+            consoleDisplayer.displayLine("=================================");
             assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(sudoku));
             assertEquals(StrategyType.LOW, initialSudokuLevelType);
             assertEquals(StrategyType.LOW, endSudokuLevelType);
         } catch (IllegalSudokuStateException ex) {
-            System.out.println("Test incorrect input");
+            consoleDisplayer.displayLine("Test incorrect input");
         }
     }
     @Test
@@ -91,16 +94,16 @@ class NakedSingleStrategyTest {
     private void printPoss(Sudoku sudoku) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                System.out.println(sudoku.getRows().get(i).getCell(j).toString());
+                consoleDisplayer.displayLine(sudoku.getRows().get(i).getCell(j).toString());
             }
-            System.out.println("*");
+            consoleDisplayer.displayLine("*");
         }
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                System.out.print(sudoku.getRows().get(i).getCell(j).getActualValue() + " ");
+                consoleDisplayer.display(sudoku.getRows().get(i).getCell(j).getActualValue() + " ");
             }
-            System.out.println();
+            consoleDisplayer.displayLine("");
         }
     }
 }

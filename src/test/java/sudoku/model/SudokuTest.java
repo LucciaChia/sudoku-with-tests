@@ -1,11 +1,10 @@
+package sudoku.model;
+
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import sudoku.console.ConsoleDisplayer;
 import sudoku.exceptions.IllegalSudokuStateException;
-import sudoku.model.Box;
-import sudoku.model.Column;
-import sudoku.model.Row;
-import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;
 
 import java.io.File;
@@ -18,6 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class SudokuTest {
 
     static ClassLoader classLoader = new SudokuTest().getClass().getClassLoader();
+
+    private static final ConsoleDisplayer consoleDisplayer = new ConsoleDisplayer();
 
     private static final String inp1 = new File(classLoader.getResource("inputs/simple1.txt").getFile()).getPath();
     private static final String inp2 = new File(classLoader.getResource("inputs/simple2.txt").getFile()).getPath();
@@ -49,7 +50,7 @@ public class SudokuTest {
             }
 
         } catch (IllegalSudokuStateException ex) {
-            System.out.println("Invalid sudoku");
+            consoleDisplayer.displayLine("Invalid sudoku");
             assertFalse(true);
         }
 
