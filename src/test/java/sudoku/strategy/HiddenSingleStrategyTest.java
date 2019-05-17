@@ -151,20 +151,4 @@ class HiddenSingleStrategyTest {
         }
         return output;
     }
-
-    private void printPoss(Sudoku sudoku) {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                System.out.println(sudoku.getRows().get(i).getCell(j).toString());
-            }
-            System.out.println("*");
-        }
-
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                System.out.print(sudoku.getRows().get(i).getCell(j).getActualValue() + " ");
-            }
-            System.out.println();
-        }
-    }
 }
