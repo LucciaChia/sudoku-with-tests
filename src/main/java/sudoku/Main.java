@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import sudoku.command.AutomatedInvoker;
 import sudoku.command.Command;
 import sudoku.command.CommandPicker;
+import sudoku.command.ManualInvoker;
 import sudoku.console.ConsoleDisplayer;
 import sudoku.exceptions.IllegalSudokuStateException;
 import sudoku.exceptions.NoAvailableSolution;
@@ -86,14 +87,24 @@ public class Main {
                     break;
                 case 3:
                     try {
+                        consoleDisplayer.displayLine("Please enter your sudoku");
                         stepByStepSudokuAutomaticInvoker();
                         LOGGER.info("Default sudoku - valid input");
                     } catch (IllegalSudokuStateException ex) {
                         LOGGER.warn("Reading sudoku - incorrect input");
                     }
 
-                    break;
                 case 4:
+                    try {
+                        consoleDisplayer.displayLine("Please enter your sudoku");
+                        stepByStepSudokuManualInvoker();
+                        LOGGER.info("Default sudoku - valid input");
+                    } catch (IllegalSudokuStateException ex) {
+                        LOGGER.warn("Reading sudoku - incorrect input");
+                    }
+
+                    break;
+                case 5:
                     consoleDisplayer.displayLine("Bye, bye");
                     LOGGER.info("Program has finished");
                     quit = true;
@@ -106,11 +117,13 @@ public class Main {
                 "MAIN MENU\n" +
                 "Insert 0 - to print this help\n" +
                         "Insert 1 - to insert your sudoku and see solution with all steps\n" +
-                        "         - empty places in sudoku reaplace with number 0\n" +
+                        "         - empty places in sudoku replace with number 0\n" +
                         "Insert 2 - to see some example solution of sudoku with all steps\n" +
                         "Insert 3 - to insert your own sudoku and see solution solution STEP BY STEP\n" +
-                        "         - empty places in sudoku reaplace with number 0\n" +
-                        "Insert 4 - to quit program"
+                        "         - empty places in sudoku replace with number 0\n" +
+                        "Insert 4 - to insert your own sudoku and see solution solution STEP BY STEP choosing strategy each step\n" +
+                        "         - empty places in sudoku replace with number 0\n" +
+                        "Insert 5 - to quit program"
         );
     }
     // TODO pouzit mock test na simulaciu Scannera
@@ -203,6 +216,111 @@ public class Main {
                         "Insert p - to see PREVIOUS step\n" +
                         "Insert all - to see ALL steps\n" +
                         "Insert end - to EXIT\n"
+        );
+    }
+
+    private void stepByStepSudokuManualInvoker() throws IllegalSudokuStateException {
+        boolean quit = false;
+        Sudoku sudoku = insertYourOwnSudoku();
+        ManualInvoker manualInvoker = new ManualInvoker(sudoku);
+        CommandPicker command;
+        StrategyFactory strategyFactory = new StrategyFactory();
+        Resolvable nakedSingle = strategyFactory.createNakedSingleInACellStrategy();
+        Resolvable hiddenSingle = strategyFactory.createHiddenSingleInACellStrategy();
+        Resolvable pointingPair1 = strategyFactory.createPointingPairsRowColumnStrategy();
+        Resolvable pointingPair2 = strategyFactory.createPointingPairsBoxStrategy();
+        Resolvable backtrack = strategyFactory.createBacktrackStrategy();
+
+        printHelpStepByStepMenuForManualInvoker();
+        LOGGER.info("STEP BY STEP module has stared");
+        consoleDisplayer.displayLine("Insert your sudoku:");
+        do {
+            consoleDisplayer.displayLine("Choose your option");
+            String option = consoleDisplayer.inputString();
+            switch (option) {
+                case "help":
+                    printHelpStepByStepMenuForManualInvoker();
+                    break;
+                case "n":
+                    printHelpStepByStepStrategyMenu();
+                    LOGGER.info("STEP BY STEP STRATEGY CHOICE module has stared");
+                    consoleDisplayer.displayLine("Choose your strategy option");
+                    String strategyOption = consoleDisplayer.inputString();
+                    switch (strategyOption) {
+                        case "help":
+                            printHelpStepByStepStrategyMenu();
+                            break;
+                        case "n" :
+                            manualInvoker.setStrategies(nakedSingle);
+                            break;
+                        case "h" :
+                            manualInvoker.setStrategies(hiddenSingle);
+                            break;
+                        case "p1" :
+                            manualInvoker.setStrategies(pointingPair1);
+                            break;
+                        case "p2" :
+                            manualInvoker.setStrategies(pointingPair2);
+                            break;
+                        case "b" :
+                            manualInvoker.setStrategies(backtrack);
+                            break;
+                        case "end" :
+                            consoleDisplayer.displayLine("Bye, bye STEP BY STEP STRATEGY CHOICE");
+                            LOGGER.info("STEP BY STEP STRATEGY CHOICE has finished");
+                            break;
+                    }
+
+                    try {
+                        command = (CommandPicker) manualInvoker.getNextState();
+                        printCommandPicker(command);
+                        LOGGER.info("Reading sudoku - valid input");
+                    } catch (Exception e) {
+                        LOGGER.warn("Reading sudoku - incorrect input");
+                    }
+                    break;
+                case "p":
+                    try {
+                        // TODO initial step needed
+                        if (manualInvoker.getCurrentStep() > 1) {
+                            command = (CommandPicker) manualInvoker.getPreviousState();
+                            printCommandPicker(command);
+                        } else {
+                            LOGGER.info("There is no previous state");
+                            consoleDisplayer.displayLine("There is no previous state");
+                        }
+                    } catch (Exception ex) {
+                        LOGGER.warn("Reading sudoku - incorrect input");
+                    }
+                    break;
+                case "end":
+                    consoleDisplayer.displayLine("Bye, bye STEP BY STEP");
+                    LOGGER.info("STEP BY STEP has finished");
+                    quit = true;
+            }
+        } while(!quit);
+    }
+
+    private void printHelpStepByStepMenuForManualInvoker() {
+        consoleDisplayer.displayLine(
+            "STEP BY STEP\n" +
+                "Insert help - to see this menu step\n" +
+                "Insert n - to see NEXT step\n" +
+                "Insert p - to see PREVIOUS step\n" +
+                "Insert end - to EXIT\n"
+        );
+    }
+
+    private void printHelpStepByStepStrategyMenu() {
+        consoleDisplayer.displayLine(
+            "STRATEGY OPTIONS\n" +
+                "Insert help - to see this menu step\n" +
+                "Insert n - to see NEXT step after Naked Single strategy is used\n" +
+                "Insert h - to see NEXT step after Hidden Single strategy is used\n" +
+                "Insert p1 - to see NEXT step after Pointing Pair strategy for column and row is used\n" +
+                "Insert p2 - to see NEXT step after Pointing Pair strategy for box is used\n" +
+                "Insert b - to solve sudoku using backtrack\n" +
+                "Insert end - to EXIT\n"
         );
     }
 
