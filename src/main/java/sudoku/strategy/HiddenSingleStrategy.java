@@ -44,6 +44,10 @@ class HiddenSingleStrategy implements Resolvable {
 
                     if (deleteHidden(cell, rowPossibilities, columnPossibilities, boxPossibilities)) {
                         updatedInHiddenSingle = true;
+                        if (sudoku.getSudokuLevelType().ordinal() < this.getType().ordinal() ) {
+                            sudoku.setSudokuLevelType(this.getType());
+                        }
+
                         return sudoku;
                     }
                 }

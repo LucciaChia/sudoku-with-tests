@@ -40,6 +40,10 @@ class PointingPairsBoxStrategy extends PointingPairsAbstractStrategy implements 
                 Cell cell = sudoku.getRows().get(i).getCell(j);
                 if (cell.getActualValue() == 0) {
                     if (pointingPairBox(sudoku, cell)){
+                        if (sudoku.getSudokuLevelType().ordinal() < this.getType().ordinal() ) {
+                            sudoku.setSudokuLevelType(this.getType());
+                        }
+
                         return sudoku;
                     }
                 }

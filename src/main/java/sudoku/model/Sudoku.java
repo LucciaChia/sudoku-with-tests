@@ -2,6 +2,7 @@ package sudoku.model;
 
 
 import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sudoku.exceptions.IllegalSudokuStateException;
@@ -25,6 +26,11 @@ public class Sudoku {
     private List<Box> boxes = new ArrayList<>();
     private List<Column> columns = new ArrayList<>();
     private List<Row> rows = new ArrayList<>();
+
+    // highest strategy type used to reach current sudoku
+    // set to LOW by default
+    @Setter
+    private StrategyType sudokuLevelType = StrategyType.LOW;
 
     public Sudoku() {
 
@@ -70,6 +76,7 @@ public class Sudoku {
 
             return new Sudoku();
         }
+        result.setSudokuLevelType(this.sudokuLevelType);
 
         return result;
     }

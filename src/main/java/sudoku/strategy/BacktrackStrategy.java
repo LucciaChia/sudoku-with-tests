@@ -28,6 +28,10 @@ class BacktrackStrategy implements Resolvable{
             throw new NoAvailableSolution(sudoku);
         } else {
             updatedInBacktrack = true;
+            if (backtrackSolution.getSudokuLevelType().ordinal() < this.getType().ordinal() ) {
+                backtrackSolution.setSudokuLevelType(this.getType());
+            }
+
             return backtrackSolution;
         }
     }
