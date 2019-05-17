@@ -22,4 +22,9 @@ public class ConsoleDisplayer implements Displayer {
     public int inputInt() {
         return scanner.nextInt();
     }
+
+    @Override
+    public String inputString() {
+        return scanner.next();
+    }
 }

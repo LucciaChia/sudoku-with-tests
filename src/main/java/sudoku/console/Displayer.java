@@ -5,4 +5,6 @@ public interface Displayer {
     void display(String message);
 
     int inputInt();
+
+    String inputString();
 }

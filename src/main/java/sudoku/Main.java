@@ -3,9 +3,12 @@ package sudoku;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sudoku.command.AutomatedInvoker;
 import sudoku.command.Command;
+import sudoku.command.CommandPicker;
 import sudoku.console.ConsoleDisplayer;
 import sudoku.exceptions.IllegalSudokuStateException;
+import sudoku.exceptions.NoAvailableSolution;
 import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;
 import sudoku.strategy.Resolvable;
@@ -100,9 +103,9 @@ public class Main {
     private void printHelp() {
         consoleDisplayer.display(
                 "Insert 0 - to print this help\n" +
-                        "Insert 1 - to insert your own sudoku and see solution whole solution with all steps\n" +
+                        "Insert 1 - to insert your sudoku and see solution with all steps\n" +
                         "         - empty places in sudoku reaplace with number 0\n" +
-                        "Insert 2 - to see some example solutions of sudokus with all steps\n" +
+                        "Insert 2 - to see some example solution of sudoku with all steps\n" +
                         "Insert 3 - to insert your own sudoku and see solution solution STEP BY STEP\n" +
                         "         - empty places in sudoku reaplace with number 0\n" +
                         "Insert 4 - to quit program"
@@ -125,13 +128,57 @@ public class Main {
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
         int[][] data = fileSudokuReader.read(extremelyHard);
         Sudoku sudoku = new Sudoku(data);
-
-        printSudoku(sudoku);
+        consoleDisplayer.display(sudoku.toString());
         automatedInvokerWithAllSolvingMethods(sudoku);
     }
 
     // TODO Step by step NOT WORKING YET
     private void stepByStepSudokuAutomaticInvoker() throws IllegalSudokuStateException {
+        boolean quit = false;
+        printHelp();
+        LOGGER.info("STEP BY STEP module has stared");
+        do {
+            consoleDisplayer.display("Choose your option");
+            String option = consoleDisplayer.inputString();
+            switch (option) {
+                case "help":
+                    printHelp();
+                    break;
+                case "n":
+                    try {
+                        consoleDisplayer.display("Insert your sudoku:");
+                        Sudoku sudoku = insertYourOwnSudoku();
+                        automatedInvokerWithAllSolvingMethods(sudoku);
+                        LOGGER.info("Reading sudoku - valid input");
+                    } catch (Exception e) {
+                        LOGGER.warn("Reading sudoku - incorrect input");
+                    }
+                    break;
+                case "p":
+                    try {
+                        runDefaultSudokuAutomaticInvoker();
+                        LOGGER.info("Default sudoku - valid input");
+                    } catch (IllegalSudokuStateException ex) {
+                        LOGGER.warn("Reading sudoku - incorrect input");
+                    }
+
+                    break;
+                case "all":
+                    try {
+                        stepByStepSudokuAutomaticInvoker();
+                        LOGGER.info("Default sudoku - valid input");
+                    } catch (IllegalSudokuStateException ex) {
+                        LOGGER.warn("Reading sudoku - incorrect input");
+                    }
+
+                    break;
+                case "end":
+                    consoleDisplayer.display("Bye, bye STEP BY STEP");
+                    LOGGER.info("STEP BY STEP has finished");
+                    quit = true;
+            }
+        } while(!quit);
+
         consoleDisplayer.display("To be implemented");
     }
 
@@ -155,7 +202,29 @@ public class Main {
         }
     }
 
-    private List<Command> automatedInvokerWithAllSolvingMethods(Sudoku sudoku) {
-        return null;
+    private void automatedInvokerWithAllSolvingMethods(Sudoku sudoku) {
+        try {
+            AutomatedInvoker automatedInvoker = new AutomatedInvoker(sudoku, nakedSingleInACell, hiddenSingleInACell, pointingPairBox, pointingPairRowColumn, backtrackLucia);
+            List<Command> allStates = automatedInvoker.getCommands();
+            printAllCommands(allStates);
+        } catch (NoAvailableSolution ne) {
+            LOGGER.error(ne.toString());
+        }
+    }
+
+    private void printAllCommands(List<Command> allSudokuStates) {
+        for (Command command : allSudokuStates) {
+
+            Sudoku actualSudoku = ((CommandPicker)command).getSudoku();
+            String strategyName = ((CommandPicker)command).getResolvable().getName();
+            consoleDisplayer.display(strategyName + "\n" + actualSudoku.toString());
+        }
+
+        for (int i = 0; i < allSudokuStates.size(); i++) {
+
+//            Sudoku actualSudoku = ((CommandPicker)allSudokuStates)
+//            String strategyName = ((CommandPicker)command).getResolvable().getName();
+//            consoleDisplayer.display(strategyName + "\n" + actualSudoku.toString());
+        }
     }
 }
