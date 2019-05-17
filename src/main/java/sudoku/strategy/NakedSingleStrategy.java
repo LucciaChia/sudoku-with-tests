@@ -20,7 +20,6 @@ class NakedSingleStrategy implements Resolvable {
 
     private boolean updatedInNakedSingle = false;
 
-
     @Override
     public String getName() {
         return name;
