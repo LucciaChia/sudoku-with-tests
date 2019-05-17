@@ -1,5 +1,6 @@
 package sudoku.strategy;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -59,7 +60,17 @@ class NakedSingleStrategyTest {
             System.out.println("Test incorrect input");
         }
     }
+    @Test
+    public void getName() {
+        NakedSingleStrategy nakedSingleStrategy = new NakedSingleStrategy();
+        assertEquals("Naked Single", nakedSingleStrategy.getName());
+    }
 
+    @Test
+    public void getType() {
+        NakedSingleStrategy nakedSingleStrategy = new NakedSingleStrategy();
+        assertEquals("LOW", nakedSingleStrategy.getType().toString());
+    }
     private static Stream<Arguments> linksToInputs() {
         return Stream.of(Arguments.of(NakedSingleStrategyTest.inp1, NakedSingleStrategyTest.out1),
                 Arguments.of(NakedSingleStrategyTest.inp2, NakedSingleStrategyTest.out2),
