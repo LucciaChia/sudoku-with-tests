@@ -30,6 +30,8 @@ public class Main {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
+    private static final ConsoleDisplayer consoleDisplayer = new ConsoleDisplayer();
+
     private static final String extremelySimple = new File(classLoader.getResource("inputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
     private static final String simple = new File(classLoader.getResource("inputs/simple1.txt").getFile()).getPath();
     private static final String harder = new File(classLoader.getResource("inputs/harder1.txt").getFile()).getPath();
@@ -44,7 +46,6 @@ public class Main {
     private Resolvable pointingPairBox = strategyFactory.createPointingPairsBoxStrategy();
     private Resolvable pointingPairRowColumn = strategyFactory.createPointingPairsRowColumnStrategy();
     private Resolvable backtrackLucia = strategyFactory.createBacktrackStrategy();
-    private ConsoleDisplayer consoleDisplayer = new ConsoleDisplayer();
 
     // TODO impose Command pattern into this application
     public static void main(String[] args) {

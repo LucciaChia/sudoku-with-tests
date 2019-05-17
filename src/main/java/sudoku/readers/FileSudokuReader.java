@@ -1,5 +1,7 @@
 package sudoku.readers;
 
+import sudoku.console.ConsoleDisplayer;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -8,6 +10,8 @@ import java.io.FileReader;
  * Implementation of SudokuReader that will read an input file and set values of matrix for sudoku
  */
 public class FileSudokuReader implements SudokuReader {
+
+    private static final ConsoleDisplayer consoleDisplayer = new ConsoleDisplayer();
 
     /**
      * Method that reads the input file and setsvalues af the matrix to values that are in the input file.
@@ -37,7 +41,7 @@ public class FileSudokuReader implements SudokuReader {
                 }
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            consoleDisplayer.displayLine(e.getMessage());
         }
 
         return data;

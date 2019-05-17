@@ -14,6 +14,16 @@ public class ConsoleDisplayer implements Displayer {
         if (console != null) {
             console.printf(message);
         } else {
+            System.out.print(message);
+        }
+    }
+
+    @Override
+    public void displayLine(String message) {
+
+        if (console != null) {
+            console.printf(message);
+        } else {
             System.out.println(message);
         }
     }

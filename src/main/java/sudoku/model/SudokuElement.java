@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sudoku.console.ConsoleDisplayer;
 import sudoku.exceptions.IllegalSudokuStateException;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import java.util.Map;
 public abstract class SudokuElement {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SudokuElement.class);
+    private static final ConsoleDisplayer consoleDisplayer = new ConsoleDisplayer();
 
     private List<Cell> cellList = new ArrayList<>();
 
@@ -40,7 +42,7 @@ public abstract class SudokuElement {
             if ((key != 0) && !(repetition.containsKey(key))) {
                 repetition.put(key, 1);
             } else if (repetition.containsKey(key)) {
-                System.out.println("Row");
+                consoleDisplayer.displayLine("Row");
                 throw new IllegalSudokuStateException(key,cell.getI(),cell.getJ());
             }
         }
