@@ -10,7 +10,12 @@ public class ConsoleDisplayer implements Displayer {
 
     @Override
     public void display(String message) {
-        console.printf(message);
+
+        if (console != null) {
+            console.printf(message);
+        } else {
+            System.out.println(message);
+        }
     }
 
     @Override
