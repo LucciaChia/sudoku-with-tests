@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/*
- * solver sets desired strategies to be used while solving a sudoku a decides in what order they will be used
+/**
+ * Solver sets desired strategies to be used while solving a sudoku a decides in what order they will be used
+ * Solver has the same function like Invokers
  */
 
-//zbytocny - invoker ho nahradzaju
 public class Solver {
     private List<Resolvable> strategies;
 
@@ -24,7 +24,7 @@ public class Solver {
 
     /**
      * arbitrary amount of strategies setter
-     * @param useStrategies
+     * @param useStrategies - particular strategies
      */
     public void setStrategies(Resolvable ... useStrategies) {
         this.strategies = new ArrayList<>();
@@ -36,7 +36,7 @@ public class Solver {
     /**
      * makes decision when particular solving strategy will be used and if the sudoku can be resolved with
      * set methods
-     * @param sudoku
+     * @param sudoku - sudoku before using strategy
      * @return Sudoku
      */
     public Sudoku useStrategies(Sudoku sudoku) throws NoAvailableSolution {
@@ -56,5 +56,4 @@ public class Solver {
         }
         return sudoku;
     }
-
 }

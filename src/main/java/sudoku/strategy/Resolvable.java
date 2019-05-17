@@ -11,7 +11,7 @@ public interface Resolvable {
 
     /**
      * this method should contain solving logic
-     * @param sudoku
+     * @param sudoku - sudoku beofre using a strategy
      * @return Sudoku
      */
     Sudoku resolveSudoku(Sudoku sudoku) throws NoAvailableSolution;
