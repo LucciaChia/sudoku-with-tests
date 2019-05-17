@@ -43,7 +43,6 @@ class PointingPairsBoxStrategy extends PointingPairsAbstractStrategy implements 
                         if (sudoku.getSudokuLevelType().ordinal() < this.getType().ordinal() ) {
                             sudoku.setSudokuLevelType(this.getType());
                         }
-
                         return sudoku;
                     }
                 }
@@ -101,8 +100,7 @@ class PointingPairsBoxStrategy extends PointingPairsAbstractStrategy implements 
                 if (changedInLoop) {
                     Map<int[], Integer> deletedPossibilitiesWithLocationCopy = new HashMap<>();
                     deletedPossibilitiesWithLocationCopy.putAll(deletedPossibilitiesWithLocation);
-                    updatedInPointingPair = true;
-                    return updatedInPointingPair;
+                    return updatedInPointingPair = true;
                 }
             }
         }
