@@ -2,6 +2,8 @@ package sudoku.command;
 
 //import sudoku.step.Step;
 
+import sudoku.exceptions.NoAvailableSolution;
+
 /**
  * An interface which is part of the strategy pattern. Invoker chooses strategy that will be used in next step
  */
@@ -19,5 +21,5 @@ public interface Invoker {
      *
      * @return      command containing information about next state
      */
-    Command getNextState();
+    Command getNextState() throws NoAvailableSolution;
 }

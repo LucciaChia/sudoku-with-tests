@@ -1,5 +1,6 @@
 package sudoku.command;
 
+import sudoku.exceptions.NoAvailableSolution;
 import sudoku.model.Sudoku;
 
 /**
@@ -12,5 +13,5 @@ public interface Command {
      *
      * @return      Sudoku that is next state achieved by applying chosen strategy
      */
-    Sudoku execute();
+    Sudoku execute() throws NoAvailableSolution;
 }

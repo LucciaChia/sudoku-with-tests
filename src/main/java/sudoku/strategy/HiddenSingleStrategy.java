@@ -44,6 +44,10 @@ class HiddenSingleStrategy implements Resolvable {
 
                     if (deleteHidden(cell, rowPossibilities, columnPossibilities, boxPossibilities)) {
                         updatedInHiddenSingle = true;
+                        if (sudoku.getSudokuLevelType().ordinal() < this.getType().ordinal() ) {
+                            sudoku.setSudokuLevelType(this.getType());
+                        }
+
                         return sudoku;
                     }
                 }
@@ -57,11 +61,11 @@ class HiddenSingleStrategy implements Resolvable {
      *
      * @return      a map containing a number of occurrence of each possibility
      */
-    public Map<Integer, Integer> amountOfParticularPossibilities(SudokuElement sudokuElement) {
+    Map<Integer, Integer> amountOfParticularPossibilities(SudokuElement sudokuElement) {
         Map<Integer, Integer> countOfPossibilities = new HashMap<>();
         List<Cell> listOfCells = sudokuElement.getCellList();
         for (int i = 0; i < 9; i++) {
-            List<Integer> possibility = listOfCells.get(i).getCellPossibilities(); // moznosti v bunke
+            List<Integer> possibility = listOfCells.get(i).getCellPossibilities();
             if (possibility != null) {
                 for (Integer integer : possibility) {
                     if (!countOfPossibilities.containsKey(integer)) {
@@ -86,7 +90,7 @@ class HiddenSingleStrategy implements Resolvable {
  * if amount of particular possibility in whole row / column / box is only one, this possibility will be set
  * as actual value for this cell
  */
-    private boolean deleteHidden(Cell cell, Map<Integer, Integer> rowPoss, Map<Integer, Integer> columnPoss, Map<Integer, Integer> boxPoss) {
+    boolean deleteHidden(Cell cell, Map<Integer, Integer> rowPoss, Map<Integer, Integer> columnPoss, Map<Integer, Integer> boxPoss) {
 
         List<Integer> cellPossibilities = cell.getCellPossibilities();
         for (Integer currentCellPossibility : cellPossibilities) {
@@ -100,7 +104,7 @@ class HiddenSingleStrategy implements Resolvable {
         return false;
     }
 
-    private boolean checkUniqueOccurence(Cell cell, Map<Integer, Integer> rowPoss, Integer currentCellPossibility) {
+    boolean checkUniqueOccurence(Cell cell, Map<Integer, Integer> rowPoss, Integer currentCellPossibility) {
         if (rowPoss.get(currentCellPossibility) == 1) {
             cell.setActualValue(currentCellPossibility);
             return true;

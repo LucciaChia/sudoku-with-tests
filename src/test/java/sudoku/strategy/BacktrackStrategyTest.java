@@ -1,9 +1,13 @@
 package sudoku.strategy;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import sudoku.console.ConsoleDisplayer;
 import sudoku.exceptions.IllegalSudokuStateException;
+import sudoku.exceptions.NoAvailableSolution;
+import sudoku.model.StrategyType;
 import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;
 
@@ -11,10 +15,13 @@ import java.io.File;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BacktrackStrategyTest {
 
-    static ClassLoader classLoader = new BacktrackStrategyTest().getClass().getClassLoader();
+    private static ClassLoader classLoader = new BacktrackStrategyTest().getClass().getClassLoader();
+
+    private static final ConsoleDisplayer consoleDisplayer = new ConsoleDisplayer();
 
     private static final String inp1 = new File(classLoader.getResource("inputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
     private static final String out1 = new File(classLoader.getResource("outputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
@@ -43,17 +50,36 @@ public class BacktrackStrategyTest {
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
         int[][] inputData = fileSudokuReader.read(inputSudokuMatrixPath);
         int[][] expectedOutput = fileSudokuReader.read(expectedSudokuOutputPath);
+        StrategyType initialSudokuLevelType;
+        StrategyType endSudokuLevelType;
 
         try {
             Sudoku sudoku = new Sudoku(inputData);
+            initialSudokuLevelType = sudoku.getSudokuLevelType();
             BacktrackStrategy backtrackStrategy = new BacktrackStrategy();
             sudoku = backtrackStrategy.resolveSudoku(sudoku);
+            endSudokuLevelType = sudoku.getSudokuLevelType();
             printPoss(sudoku);
-            System.out.println("=================================");
+            consoleDisplayer.displayLine("=================================");
             assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(sudoku));
+            assertEquals(StrategyType.LOW, initialSudokuLevelType);
+            assertEquals(StrategyType.HIGH, endSudokuLevelType);
         } catch (IllegalSudokuStateException ex) {
-            System.out.println("Test incorrect input");
+            consoleDisplayer.displayLine(ex.toString());
+        } catch (NoAvailableSolution ne) {
+            consoleDisplayer.displayLine(ne.toString());
         }
+    }
+    @Test
+    public void getName() {
+        BacktrackStrategy backtrackStrategy = new BacktrackStrategy();
+        assertEquals("Backtracking", backtrackStrategy.getName());
+    }
+
+    @Test
+    public void getType() {
+        BacktrackStrategy backtrackStrategy = new BacktrackStrategy();
+        assertEquals("HIGH", backtrackStrategy.getType().toString());
     }
 
     private static Stream<Arguments> linksToInputs() {
@@ -80,16 +106,16 @@ public class BacktrackStrategyTest {
     private void printPoss(Sudoku sudoku) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                System.out.println(sudoku.getRows().get(i).getCell(j).toString());
+                consoleDisplayer.displayLine(sudoku.getRows().get(i).getCell(j).toString());
             }
-            System.out.println("*");
+            consoleDisplayer.displayLine("*");
         }
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                System.out.print(sudoku.getRows().get(i).getCell(j).getActualValue() + " ");
+                consoleDisplayer.display(sudoku.getRows().get(i).getCell(j).getActualValue() + " ");
             }
-            System.out.println();
+            consoleDisplayer.displayLine("");
         }
     }
 }

@@ -2,6 +2,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import sudoku.exceptions.IllegalSudokuStateException;
+import sudoku.exceptions.NoAvailableSolution;
 import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;
 import sudoku.strategy.*;
@@ -38,7 +39,8 @@ public class MainTest {
     private StrategyFactory strategyFactory = new StrategyFactory();
     private Resolvable nakedSingleInACell = strategyFactory.createNakedSingleInACellStrategy();
     private Resolvable hiddenSingleInACell = strategyFactory.createHiddenSingleInACellStrategy();
-    private Resolvable pointingPairsInCell = strategyFactory.createPointingPairsInCellStrategy();
+    private Resolvable pointingPairBox = strategyFactory.createPointingPairsBoxStrategy();
+    private Resolvable pointingPairRowColumn = strategyFactory.createPointingPairsRowColumnStrategy();
 
 
     @ParameterizedTest
@@ -56,12 +58,14 @@ public class MainTest {
 
             Sudoku sudoku = new Sudoku(inputData);
             Solver solver = new Solver();
-            solver.setStrategies(nakedSingleInACell, hiddenSingleInACell, pointingPairsInCell);
+            solver.setStrategies(nakedSingleInACell, hiddenSingleInACell, pointingPairBox, pointingPairRowColumn);
             solver.useStrategies(sudoku);
 
             assertArrayEquals(expectedOutput, setArrayAccordingToObjectValues(sudoku));
         } catch (IllegalSudokuStateException ex) {
-            System.out.println("Test incorrect input");
+            ex.toString();
+        } catch (NoAvailableSolution ne) {
+            ne.toString();
         }
     }
 

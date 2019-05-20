@@ -2,8 +2,10 @@ package sudoku.model;
 
 
 import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sudoku.console.ConsoleDisplayer;
 import sudoku.exceptions.IllegalSudokuStateException;
 
 import java.util.ArrayList;
@@ -21,10 +23,16 @@ import java.util.List;
 public class Sudoku {
     //TODO tests for Sudoku
     private static final Logger LOGGER = LoggerFactory.getLogger(Sudoku.class);
+    private static final ConsoleDisplayer consoleDisplayer = new ConsoleDisplayer();
 
     private List<Box> boxes = new ArrayList<>();
     private List<Column> columns = new ArrayList<>();
     private List<Row> rows = new ArrayList<>();
+
+    // highest strategy type used to reach current sudoku
+    // set to LOW by default
+    @Setter
+    private StrategyType sudokuLevelType = StrategyType.LOW;
 
     public Sudoku() {
 
@@ -66,10 +74,11 @@ public class Sudoku {
                 }
             }
         } catch (IllegalSudokuStateException ex) {
-            System.out.printf("Empty sudoku");
+            consoleDisplayer.displayLine("Empty sudoku");
 
             return new Sudoku();
         }
+        result.setSudokuLevelType(this.sudokuLevelType);
 
         return result;
     }
@@ -171,11 +180,11 @@ public class Sudoku {
     public void print() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                System.out.print(this.getRows().get(i).getCell(j).getActualValue() + " ");
+                consoleDisplayer.display(this.getRows().get(i).getCell(j).getActualValue() + " ");
             }
-            System.out.println();
+            consoleDisplayer.displayLine("");
         }
-        System.out.println("******************");
+        consoleDisplayer.displayLine("******************");
     }
 
     /**
@@ -185,9 +194,9 @@ public class Sudoku {
     public void printPossibilitiesInSudoku() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                System.out.println(this.getRows().get(i).getCell(j).toString());
+                consoleDisplayer.displayLine(this.getRows().get(i).getCell(j).toString());
             }
-            System.out.println();
+            consoleDisplayer.displayLine("");
         }
     }
 

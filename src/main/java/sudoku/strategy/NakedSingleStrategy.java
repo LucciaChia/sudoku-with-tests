@@ -20,7 +20,6 @@ class NakedSingleStrategy implements Resolvable {
 
     private boolean updatedInNakedSingle = false;
 
-
     @Override
     public String getName() {
         return name;
@@ -28,7 +27,6 @@ class NakedSingleStrategy implements Resolvable {
 
     @Override
     public Sudoku resolveSudoku(Sudoku sudoku) {
-//        stepList.clear();
         do {
             updatedInNakedSingle = false;
             for (int i = 0; i < 9; i++) {
@@ -38,6 +36,10 @@ class NakedSingleStrategy implements Resolvable {
                     if (cellPossibilities.size() == 1) {
                         cell.setActualValue(cellPossibilities.get(0));
                         updatedInNakedSingle = true;
+                        if (sudoku.getSudokuLevelType().ordinal() < this.getType().ordinal() ) {
+                            sudoku.setSudokuLevelType(this.getType());
+                        }
+
                         return sudoku;
                     }
                 }
