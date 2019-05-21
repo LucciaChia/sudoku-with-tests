@@ -2,6 +2,7 @@ package sudoku.command;
 
 import sudoku.exceptions.NoAvailableSolution;
 import sudoku.model.Sudoku;
+import sudoku.strategy.Resolvable;
 
 /**
  * Command runs given strategy on sudoku to achieve next state
@@ -18,4 +19,6 @@ public interface Command {
     void setSudoku(Sudoku sudoku);
 
     Sudoku getSudoku();
+
+    Resolvable getResolvable();
 }
