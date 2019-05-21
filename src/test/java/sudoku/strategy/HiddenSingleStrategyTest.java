@@ -14,15 +14,16 @@ import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class HiddenSingleStrategyTest {
-    static ClassLoader classLoader = new HiddenSingleStrategyTest().getClass().getClassLoader();
+    private static ClassLoader classLoader = new HiddenSingleStrategyTest().getClass().getClassLoader();
 
     private static final Displayer consoleDisplayer = new ConsoleDisplayer();
 
@@ -71,19 +72,19 @@ class HiddenSingleStrategyTest {
         }
     }
     @Test
-    public void getName() {
+    void getName() {
         HiddenSingleStrategy hiddenSingleStrategy = new HiddenSingleStrategy();
         assertEquals("Hidden Single", hiddenSingleStrategy.getName());
     }
 
     @Test
-    public void getType() {
+    void getType() {
         HiddenSingleStrategy hiddenSingleStrategy = new HiddenSingleStrategy();
         assertEquals("LOW", hiddenSingleStrategy.getType().toString());
     }
 
     @Test
-    public void amountOfParticularPossibilities() {
+    void amountOfParticularPossibilities() {
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
         int[][] inputData = fileSudokuReader.read(inp3);
         boolean mapComparison = false;
@@ -93,20 +94,14 @@ class HiddenSingleStrategyTest {
 //            sudoku.printPossibilitiesInSudoku();
             Row rowZero = sudoku.getRows().get(0);
             Map<Integer, Integer> rowZeroPossibilities = new HashMap<>();
-            for (int i = 0; i < 9; i++) {
-                Cell cell = rowZero.getCell(i);
-                if (cell.getActualValue() == 0) {
-                    List<Integer> cellPossibilities = cell.getCellPossibilities();
-                    for (Integer actualPossibility : cellPossibilities) {
-                        if (!rowZeroPossibilities.containsKey(actualPossibility)) {
-                            rowZeroPossibilities.put(actualPossibility, 1);
-                        } else {
-                            int value = rowZeroPossibilities.get(actualPossibility) + 1;
-                            rowZeroPossibilities.put(actualPossibility, value);
-                        }
-                    }
+            IntStream.range(0, 9).mapToObj(rowZero::getCell).filter(cell -> cell.getActualValue() == 0).map(Cell::getCellPossibilities).flatMap(Collection::stream).forEach(actualPossibility -> {
+                if (!rowZeroPossibilities.containsKey(actualPossibility)) {
+                    rowZeroPossibilities.put(actualPossibility, 1);
+                } else {
+                    int value = rowZeroPossibilities.get(actualPossibility) + 1;
+                    rowZeroPossibilities.put(actualPossibility, value);
                 }
-            }
+            });
 
             HiddenSingleStrategy hiddenSingleStrategy = new HiddenSingleStrategy();
             Map<Integer, Integer> possiblities = hiddenSingleStrategy.amountOfParticularPossibilities(sudoku.getRows().get(0));
@@ -122,12 +117,12 @@ class HiddenSingleStrategyTest {
     }
     //TODO
     @Test
-    public void deleteHidden() {
+    void deleteHidden() {
 
     }
     //TODO
     @Test
-    public void checkUniqueOccurence() {
+    void checkUniqueOccurence() {
 
     }
 
