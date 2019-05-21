@@ -8,6 +8,7 @@ import sudoku.command.Command;
 import sudoku.command.CommandPicker;
 import sudoku.command.ManualInvoker;
 import sudoku.console.ConsoleDisplayer;
+import sudoku.console.Displayer;
 import sudoku.exceptions.IllegalSudokuStateException;
 import sudoku.exceptions.NoAvailableSolution;
 import sudoku.model.Sudoku;
@@ -32,7 +33,7 @@ public class Main {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
-    private static final ConsoleDisplayer consoleDisplayer = new ConsoleDisplayer();
+    private static final Displayer consoleDisplayer = new ConsoleDisplayer();
 
     private static final String extremelySimple = new File(classLoader.getResource("inputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
     private static final String simple = new File(classLoader.getResource("inputs/simple1.txt").getFile()).getPath();

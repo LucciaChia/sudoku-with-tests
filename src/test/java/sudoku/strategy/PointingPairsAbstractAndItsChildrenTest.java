@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import sudoku.command.AutomatedInvoker;
 import sudoku.command.AutomatedInvokerTest;
 import sudoku.console.ConsoleDisplayer;
+import sudoku.console.Displayer;
 import sudoku.exceptions.IllegalSudokuStateException;
 import sudoku.exceptions.NoAvailableSolution;
 import sudoku.model.StrategyType;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PointingPairsAbstractAndItsChildrenTest {
     static ClassLoader classLoader = new AutomatedInvokerTest().getClass().getClassLoader();
 
-    private static final ConsoleDisplayer consoleDisplayer = new ConsoleDisplayer();
+    private static final Displayer consoleDisplayer = new ConsoleDisplayer();
 
     private static final String inp_ExtremelyHard1   = new File(classLoader.getResource("inputs/extremelyHard1.txt").getFile()).getPath();
     private static final String inp_ExtremelyHard2   = new File(classLoader.getResource("inputs/extremelyHard2.txt").getFile()).getPath();
