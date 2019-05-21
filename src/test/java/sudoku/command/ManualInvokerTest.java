@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ManualInvokerTest {
+class ManualInvokerTest {
     private static final Logger extAppLogFile = LoggerFactory.getLogger(ManualInvoker.class);
 
     private static ClassLoader classLoader = BacktrackStrategyTest.class.getClassLoader();
@@ -53,7 +53,7 @@ public class ManualInvokerTest {
 
     @ParameterizedTest
     @MethodSource("inputStrategies")
-    public void testOneStepSolvingSudoku(Resolvable resolvable) {
+    void testOneStepSolvingSudoku(Resolvable resolvable) {
 
         // GIVEN
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
@@ -85,7 +85,7 @@ public class ManualInvokerTest {
 
     @ParameterizedTest
     @MethodSource("inputStrategies")
-    public void testTwoStepsSolvingSudoku(Resolvable resolvable) {
+    void testTwoStepsSolvingSudoku(Resolvable resolvable) {
 
         // GIVEN
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
@@ -118,7 +118,7 @@ public class ManualInvokerTest {
 
     @ParameterizedTest
     @MethodSource("inputStrategies")
-    public  void testFirstFromLastTwoStepSolvingSudoku(Resolvable resolvable) {
+    void testFirstFromLastTwoStepSolvingSudoku(Resolvable resolvable) {
 
         // GIVEN
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
@@ -150,7 +150,7 @@ public class ManualInvokerTest {
 
     @ParameterizedTest
     @MethodSource("inputStrategies")
-    public void testPreviousStep(Resolvable resolvable) {
+    void testPreviousStep(Resolvable resolvable) {
 
         // GIVEN
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
@@ -184,14 +184,13 @@ public class ManualInvokerTest {
     }
 
     @Test
-    public void testGetNextStateUsingChosenStrategy() {
+    void testGetNextStateUsingChosenStrategy() {
         // GIVEN
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
         int[][] inputData = fileSudokuReader.read(inp7);
         int[][] expectedOutput = fileSudokuReader.read(out7);
         Sudoku sudoku = null;
         Sudoku result;
-        Sudoku expectedResult;
         ManualInvoker invoker;
         List<Command> commands = new ArrayList<>();
         Resolvable nakedSingle = strategyFactory.createNakedSingleInACellStrategy();
@@ -235,7 +234,7 @@ public class ManualInvokerTest {
     }
 
     @Test
-    public void testNextAndPreviousOnPointingPairsInCellStrategy() {
+    void testNextAndPreviousOnPointingPairsInCellStrategy() {
         // GIVEN
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
         int[][] inputData = fileSudokuReader.read(inpPair);
@@ -274,14 +273,17 @@ public class ManualInvokerTest {
             extAppLogFile.error(ne.toString());
         }
         // THEN
+        assertNotNull(resultCell0a);
         assertFalse(resultCell0a.getCellPossibilities().contains(1));
         assertTrue(resultCell0a.getCellPossibilities().contains(3));
 
-        assertFalse(resultCell1a.getCellPossibilities().contains(new Integer(1)));
-        assertFalse(resultCell1a.getCellPossibilities().contains(new Integer(3)));
+        assertNotNull(resultCell1a);
+        assertFalse(resultCell1a.getCellPossibilities().contains(1));
+        assertFalse(resultCell1a.getCellPossibilities().contains(3));
 
-        assertFalse(resultCell2a.getCellPossibilities().contains(new Integer(1)));
-        assertTrue(resultCell2a.getCellPossibilities().contains(new Integer(3)));
+        assertNotNull(resultCell2a);
+        assertFalse(resultCell2a.getCellPossibilities().contains(1));
+        assertTrue(resultCell2a.getCellPossibilities().contains(3));
     }
 
     private static Stream<Arguments> inputStrategies() {
