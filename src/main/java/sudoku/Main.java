@@ -18,6 +18,8 @@ import sudoku.strategy.StrategyFactory;
 
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
+
 /*
  * simple scanner schema used in order the client could communicate with the program via console + step by step
  * principle enabled via second switch
@@ -28,13 +30,13 @@ public class Main {
     // TODO okomentovat vsetky metody, ktore obsahuju nejaku logiku
     // TODO do refactoring, remove duplicate code
 
-    private static ClassLoader classLoader = new Main().getClass().getClassLoader();
+    private static ClassLoader classLoader = Main.class.getClassLoader();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
     private static final Displayer consoleDisplayer = new ConsoleDisplayer();
 
-    private static final String extremelyHard = new File(classLoader.getResource("inputs/extremelyHard.txt").getFile()).getPath();
+    private static final String extremelyHard = new File(Objects.requireNonNull(classLoader.getResource("inputs/extremelyHard.txt")).getFile()).getPath();
 
     private StrategyFactory strategyFactory = new StrategyFactory();
     private Resolvable nakedSingleInACell = strategyFactory.createNakedSingleInACellStrategy();
@@ -352,7 +354,7 @@ public class Main {
             return;
         }
         for (int i = 0; i < allSudokuStates.size(); i++) {
-            CommandPicker actualCommand = ((CommandPicker)allSudokuStates.get(i));
+            Command actualCommand = allSudokuStates.get(i);
             Sudoku actualSudoku = actualCommand.getSudoku();
             String strategyName = actualCommand.getResolvable().getName();
             consoleDisplayer.displayLine(i + ". " + strategyName + "\n" + actualSudoku.toString());
