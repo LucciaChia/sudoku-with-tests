@@ -39,7 +39,7 @@ class PointingPairsBoxStrategy extends PointingPairsAbstractStrategy implements 
             for (int j = 0; j < 9; j++) {
                 Cell cell = sudoku.getRows().get(i).getCell(j);
                 if (cell.getActualValue() == 0) {
-                    if (pointingPairBox(sudoku, cell)){
+                    if (pointingPairBox(cell)){
                         if (sudoku.getSudokuLevelType().ordinal() < this.getType().ordinal() ) {
                             sudoku.setSudokuLevelType(this.getType());
                         }
@@ -62,7 +62,7 @@ class PointingPairsBoxStrategy extends PointingPairsAbstractStrategy implements 
         return type;
     }
 
-    private boolean pointingPairBox(Sudoku sudoku, Cell cell) {
+    private boolean pointingPairBox(Cell cell) {
         int cellI = cell.getI();
         int cellJ = cell.getJ();
         Row cellRow = cell.getRow();
@@ -98,8 +98,7 @@ class PointingPairsBoxStrategy extends PointingPairsAbstractStrategy implements 
                 }
 
                 if (changedInLoop) {
-                    Map<int[], Integer> deletedPossibilitiesWithLocationCopy = new HashMap<>();
-                    deletedPossibilitiesWithLocationCopy.putAll(deletedPossibilitiesWithLocation);
+                    Map<int[], Integer> deletedPossibilitiesWithLocationCopy = new HashMap<>(deletedPossibilitiesWithLocation);
                     return updatedInPointingPair = true;
                 }
             }
