@@ -94,7 +94,7 @@ public class Main {
                     } catch (IllegalSudokuStateException ex) {
                         LOGGER.warn("Reading sudoku - incorrect input");
                     }
-
+                    break;
                 case 4:
                     try {
                         consoleDisplayer.displayLine("Please enter your sudoku");
