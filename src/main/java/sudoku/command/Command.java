@@ -14,4 +14,8 @@ public interface Command {
      * @return      Sudoku that is next state achieved by applying chosen strategy
      */
     Sudoku execute() throws NoAvailableSolution;
+
+    void setSudoku(Sudoku sudoku);
+
+    Sudoku getSudoku();
 }

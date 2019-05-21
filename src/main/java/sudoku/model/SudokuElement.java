@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sudoku.console.ConsoleDisplayer;
+import sudoku.console.Displayer;
 import sudoku.exceptions.IllegalSudokuStateException;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ import java.util.Map;
 public abstract class SudokuElement {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SudokuElement.class);
-    private static final ConsoleDisplayer consoleDisplayer = new ConsoleDisplayer();
+    private static final Displayer consoleDisplayer = new ConsoleDisplayer();
 
     private List<Cell> cellList = new ArrayList<>();
 

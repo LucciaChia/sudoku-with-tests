@@ -5,6 +5,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import sudoku.console.ConsoleDisplayer;
+import sudoku.console.Displayer;
 import sudoku.exceptions.IllegalSudokuStateException;
 import sudoku.model.StrategyType;
 import sudoku.model.Sudoku;
@@ -19,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class PointingPairsBoxRowColumnStrategyTest {
     static ClassLoader classLoader = new PointingPairsBoxRowColumnStrategyTest().getClass().getClassLoader();
 
-    private static final ConsoleDisplayer consoleDisplayer = new ConsoleDisplayer();
+    private static final Displayer consoleDisplayer = new ConsoleDisplayer();
 
     private static final String inp1 = new File(classLoader.getResource("inputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
     private static final String out1 = new File(classLoader.getResource("outputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();

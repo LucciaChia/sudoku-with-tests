@@ -59,8 +59,10 @@ public class Cell {
     }
 
     /**
-     * poznamka o Integeri
-     * @param possibilityToDelete
+     * method that tells cell that there is one less candidate to actual value thus it is deleted
+     * from list of candidates (possibilities)
+     *
+     * @param possibilityToDelete Integer value that is to be deleted from list of possibilities
      */
     public  void deletePossibility(Integer possibilityToDelete) {
         cellPossibilities.remove(possibilityToDelete);
@@ -88,9 +90,9 @@ public class Cell {
     @Override
     public String toString() {
 
-        String s = "";
+        StringBuilder s = new StringBuilder();
         for (Integer cellPossibility : cellPossibilities) {
-            s += cellPossibility + ", ";
+            s.append(cellPossibility).append(", ");
         }
         return "value: " + actualValue + ", i=" + i + ", j=" + j + " possibilities: " + s;
     }

@@ -4,6 +4,7 @@ import sudoku.exceptions.NoAvailableSolution;
 import sudoku.model.Sudoku;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -28,9 +29,7 @@ public class Solver {
      */
     public void setStrategies(Resolvable ... useStrategies) {
         this.strategies = new ArrayList<>();
-        for (Resolvable strategy: useStrategies) {
-            this.strategies.add(strategy);
-        }
+        Collections.addAll(this.strategies, useStrategies);
     }
 
     /**

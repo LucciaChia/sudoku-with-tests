@@ -8,6 +8,7 @@ import sudoku.command.Command;
 import sudoku.command.CommandPicker;
 import sudoku.command.ManualInvoker;
 import sudoku.console.ConsoleDisplayer;
+import sudoku.console.Displayer;
 import sudoku.exceptions.IllegalSudokuStateException;
 import sudoku.exceptions.NoAvailableSolution;
 import sudoku.model.Sudoku;
@@ -16,7 +17,6 @@ import sudoku.strategy.Resolvable;
 import sudoku.strategy.StrategyFactory;
 
 import java.io.File;
-import java.util.LinkedList;
 import java.util.List;
 /*
  * simple scanner schema used in order the client could communicate with the program via console + step by step
@@ -32,15 +32,9 @@ public class Main {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
-    private static final ConsoleDisplayer consoleDisplayer = new ConsoleDisplayer();
+    private static final Displayer consoleDisplayer = new ConsoleDisplayer();
 
-    private static final String extremelySimple = new File(classLoader.getResource("inputs/NakedSingleInACell/extremelySimple.txt").getFile()).getPath();
-    private static final String simple = new File(classLoader.getResource("inputs/simple1.txt").getFile()).getPath();
-    private static final String harder = new File(classLoader.getResource("inputs/harder1.txt").getFile()).getPath();
-    private static final String extremelyHardOnlyBacktrackUsed = new File(classLoader.getResource("outputs/extremelyHardTmp.txt").getFile()).getPath();
     private static final String extremelyHard = new File(classLoader.getResource("inputs/extremelyHard.txt").getFile()).getPath();
-    private static final String insane = new File(classLoader.getResource("inputs/insaneSudoku.txt").getFile()).getPath();
-    private static final String empty = new File(classLoader.getResource("inputs/emptySudoku.txt").getFile()).getPath();
 
     private StrategyFactory strategyFactory = new StrategyFactory();
     private Resolvable nakedSingleInACell = strategyFactory.createNakedSingleInACellStrategy();
@@ -87,13 +81,12 @@ public class Main {
                     break;
                 case 3:
                     try {
-                        consoleDisplayer.displayLine("Please enter your sudoku");
                         stepByStepSudokuAutomaticInvoker();
                         LOGGER.info("Default sudoku - valid input");
                     } catch (IllegalSudokuStateException ex) {
                         LOGGER.warn("Reading sudoku - incorrect input");
                     }
-
+                    break;
                 case 4:
                     try {
                         consoleDisplayer.displayLine("Please enter your sudoku");
@@ -150,23 +143,24 @@ public class Main {
     private void stepByStepSudokuAutomaticInvoker() throws IllegalSudokuStateException {
         boolean quit = false;
         printHelpStepByStepMenu();
-        List<Command> allStates = new LinkedList<>();
         LOGGER.info("STEP BY STEP module has stared");
         consoleDisplayer.displayLine("Insert your sudoku:");
         Sudoku sudoku = insertYourOwnSudoku();
-        AutomatedInvoker automatedInvoker = automatedInvokerWithAllSolvingMethodsStepByStep(sudoku, allStates);
+        AutomatedInvoker automatedInvoker = automatedInvokerWithAllSolvingMethodsStepByStep(sudoku);
         do {
-            consoleDisplayer.displayLine("Choose your option");
-            String option = consoleDisplayer.inputString();
+            String option = "end";
+            if (automatedInvoker == null) {
+                consoleDisplayer.displayLine("There's no available solution for this sudoku");
+            }else {
+                consoleDisplayer.displayLine("Choose your option");
+                option = consoleDisplayer.inputString();
+            }
             switch (option) {
                 case "help":
                     printHelpStepByStepMenu();
                     break;
                 case "n":
                     try {
-                        if(automatedInvokerNullCheck(automatedInvoker)) {
-                            break;
-                        }
                         goNext(automatedInvoker);
                         LOGGER.info("Reading sudoku - valid input");
                     } catch (Exception e) {
@@ -175,9 +169,6 @@ public class Main {
                     break;
                 case "p":
                     try {
-                        if(automatedInvokerNullCheck(automatedInvoker)) {
-                            break;
-                        }
                         goPrevious(automatedInvoker);
                         LOGGER.info("Default sudoku - valid input");
                     } catch (Exception ex) {
@@ -185,9 +176,6 @@ public class Main {
                     }
                     break;
                 case "all":
-                    if(automatedInvokerNullCheck(automatedInvoker)) {
-                        break;
-                    }
                     printAllCommands(automatedInvoker.getCommands());
                     LOGGER.info("Default sudoku - valid input");
                     break;
@@ -197,15 +185,6 @@ public class Main {
                     quit = true;
             }
         } while(!quit);
-    }
-
-    private boolean automatedInvokerNullCheck(AutomatedInvoker automatedInvoker) {
-        if (automatedInvoker == null) {
-            consoleDisplayer.displayLine("There is no solution for this sudoku");
-            LOGGER.info("This sudoku doesn't have any solution");
-            return true;
-        }
-        return false;
     }
 
     private void printHelpStepByStepMenu() {
@@ -224,16 +203,9 @@ public class Main {
         Sudoku sudoku = insertYourOwnSudoku();
         ManualInvoker manualInvoker = new ManualInvoker(sudoku);
         CommandPicker command;
-        StrategyFactory strategyFactory = new StrategyFactory();
-        Resolvable nakedSingle = strategyFactory.createNakedSingleInACellStrategy();
-        Resolvable hiddenSingle = strategyFactory.createHiddenSingleInACellStrategy();
-        Resolvable pointingPair1 = strategyFactory.createPointingPairsRowColumnStrategy();
-        Resolvable pointingPair2 = strategyFactory.createPointingPairsBoxStrategy();
-        Resolvable backtrack = strategyFactory.createBacktrackStrategy();
 
         printHelpStepByStepMenuForManualInvoker();
         LOGGER.info("STEP BY STEP module has stared");
-        consoleDisplayer.displayLine("Insert your sudoku:");
         do {
             consoleDisplayer.displayLine("Choose your option");
             String option = consoleDisplayer.inputString();
@@ -242,42 +214,7 @@ public class Main {
                     printHelpStepByStepMenuForManualInvoker();
                     break;
                 case "n":
-                    printHelpStepByStepStrategyMenu();
-                    LOGGER.info("STEP BY STEP STRATEGY CHOICE module has stared");
-                    consoleDisplayer.displayLine("Choose your strategy option");
-                    String strategyOption = consoleDisplayer.inputString();
-                    switch (strategyOption) {
-                        case "help":
-                            printHelpStepByStepStrategyMenu();
-                            break;
-                        case "n" :
-                            manualInvoker.setStrategies(nakedSingle);
-                            break;
-                        case "h" :
-                            manualInvoker.setStrategies(hiddenSingle);
-                            break;
-                        case "p1" :
-                            manualInvoker.setStrategies(pointingPair1);
-                            break;
-                        case "p2" :
-                            manualInvoker.setStrategies(pointingPair2);
-                            break;
-                        case "b" :
-                            manualInvoker.setStrategies(backtrack);
-                            break;
-                        case "end" :
-                            consoleDisplayer.displayLine("Bye, bye STEP BY STEP STRATEGY CHOICE");
-                            LOGGER.info("STEP BY STEP STRATEGY CHOICE has finished");
-                            break;
-                    }
-
-                    try {
-                        command = (CommandPicker) manualInvoker.getNextState();
-                        printCommandPicker(command);
-                        LOGGER.info("Reading sudoku - valid input");
-                    } catch (Exception e) {
-                        LOGGER.warn("Reading sudoku - incorrect input");
-                    }
+                    stepByStepSudokuManualInvokerNext(sudoku);
                     break;
                 case "p":
                     try {
@@ -299,6 +236,62 @@ public class Main {
                     quit = true;
             }
         } while(!quit);
+    }
+
+    private void stepByStepSudokuManualInvokerNext(Sudoku sudoku) {
+        ManualInvoker manualInvoker = new ManualInvoker(sudoku);
+        CommandPicker command;
+        StrategyFactory strategyFactory = new StrategyFactory();
+        Resolvable nakedSingle = strategyFactory.createNakedSingleInACellStrategy();
+        Resolvable hiddenSingle = strategyFactory.createHiddenSingleInACellStrategy();
+        Resolvable pointingPair1 = strategyFactory.createPointingPairsRowColumnStrategy();
+        Resolvable pointingPair2 = strategyFactory.createPointingPairsBoxStrategy();
+        Resolvable backtrack = strategyFactory.createBacktrackStrategy();
+        boolean relevantChoise = false;
+
+        printHelpStepByStepStrategyMenu();
+        LOGGER.info("STEP BY STEP STRATEGY CHOICE module has stared");
+        consoleDisplayer.displayLine("Choose your strategy option");
+        String strategyOption = consoleDisplayer.inputString();
+        switch (strategyOption) {
+            case "help":
+                printHelpStepByStepStrategyMenu();
+                break;
+            case "n" :
+                relevantChoise = true;
+                manualInvoker.setStrategies(nakedSingle);
+                break;
+            case "h" :
+                relevantChoise = true;
+                manualInvoker.setStrategies(hiddenSingle);
+                break;
+            case "p1" :
+                relevantChoise = true;
+                manualInvoker.setStrategies(pointingPair1);
+                break;
+            case "p2" :
+                relevantChoise = true;
+                manualInvoker.setStrategies(pointingPair2);
+                break;
+            case "b" :
+                relevantChoise = true;
+                manualInvoker.setStrategies(backtrack);
+                break;
+            case "end" :
+                consoleDisplayer.displayLine("Bye, bye STEP BY STEP STRATEGY CHOICE");
+                LOGGER.info("STEP BY STEP STRATEGY CHOICE has finished");
+                break;
+        }
+
+        if (relevantChoise) {
+            try {
+                command = (CommandPicker) manualInvoker.getNextState();
+                printCommandPicker(command);
+                LOGGER.info("Reading sudoku - valid input");
+            } catch (Exception e) {
+                LOGGER.warn("Reading sudoku - incorrect input");
+            }
+        }
     }
 
     private void printHelpStepByStepMenuForManualInvoker() {
@@ -324,16 +317,6 @@ public class Main {
         );
     }
 
-    private void printSudoku(Sudoku sudoku) {
-
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                consoleDisplayer.displayLine(sudoku.getRows().get(i).getCell(j).getActualValue() + " ");
-            }
-            consoleDisplayer.displayLine("");
-        }
-    }
-
     private void goNext(AutomatedInvoker automatedInvoker) {
         CommandPicker commandPicker = (CommandPicker) automatedInvoker.getNextState();
         printCommandPicker(commandPicker);
@@ -344,11 +327,9 @@ public class Main {
         printCommandPicker(commandPicker);
     }
 
-    private AutomatedInvoker automatedInvokerWithAllSolvingMethodsStepByStep(Sudoku sudoku, List<Command> allStates ) {
+    private AutomatedInvoker automatedInvokerWithAllSolvingMethodsStepByStep(Sudoku sudoku) {
         try {
-            AutomatedInvoker automatedInvoker = new AutomatedInvoker(sudoku, nakedSingleInACell, hiddenSingleInACell, pointingPairBox, pointingPairRowColumn, backtrackLucia);
-            allStates = automatedInvoker.getCommands();
-            return automatedInvoker;
+            return new AutomatedInvoker(sudoku, nakedSingleInACell, hiddenSingleInACell, pointingPairBox, pointingPairRowColumn, backtrackLucia);
         } catch (NoAvailableSolution ne) {
             LOGGER.error(ne.toString());
             return null;
@@ -366,7 +347,7 @@ public class Main {
     }
 
     private void printAllCommands(List<Command> allSudokuStates) {
-        if (allSudokuStates.isEmpty() || allSudokuStates == null) {
+        if (allSudokuStates == null) {
             consoleDisplayer.displayLine("This sudoku has no solution");
             return;
         }

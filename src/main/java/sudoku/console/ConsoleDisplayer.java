@@ -1,9 +1,14 @@
 package sudoku.console;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.Console;
 import java.util.Scanner;
 
 public class ConsoleDisplayer implements Displayer {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConsoleDisplayer.class);
 
     private static final Scanner scanner = new Scanner(System.in);
     private static final Console console = System.console();
@@ -30,7 +35,13 @@ public class ConsoleDisplayer implements Displayer {
 
     @Override
     public int inputInt() {
-        return scanner.nextInt();
+        try {
+            return scanner.nextInt();
+        } catch (Exception e) {
+            LOGGER.debug("ConsoleDisplayer.inputInt: Type mismatch");
+            scanner.next();
+            return -1;
+        }
     }
 
     @Override

@@ -1,6 +1,7 @@
 package sudoku.readers;
 
 import sudoku.console.ConsoleDisplayer;
+import sudoku.console.Displayer;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,7 +12,7 @@ import java.io.FileReader;
  */
 public class FileSudokuReader implements SudokuReader {
 
-    private static final ConsoleDisplayer consoleDisplayer = new ConsoleDisplayer();
+    private static final Displayer consoleDisplayer = new ConsoleDisplayer();
 
     /**
      * Method that reads the input file and setsvalues af the matrix to values that are in the input file.

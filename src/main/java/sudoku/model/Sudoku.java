@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sudoku.console.ConsoleDisplayer;
+import sudoku.console.Displayer;
 import sudoku.exceptions.IllegalSudokuStateException;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ import java.util.List;
 public class Sudoku {
     //TODO tests for Sudoku
     private static final Logger LOGGER = LoggerFactory.getLogger(Sudoku.class);
-    private static final ConsoleDisplayer consoleDisplayer = new ConsoleDisplayer();
+    private static final Displayer consoleDisplayer = new ConsoleDisplayer();
 
     private List<Box> boxes = new ArrayList<>();
     private List<Column> columns = new ArrayList<>();
@@ -69,8 +70,8 @@ public class Sudoku {
                 for (int j = 0; j < 9; j++) {
                     result.getRows().get(i).getCellList().get(j).getCellPossibilities().clear();
                     for (Integer value: this.getRows().get(i).getCellList().get(j).getCellPossibilities()) {
-                        result.getRows().get(i).getCellList().get(j).getCellPossibilities().add(new Integer(value));
-                    };
+                        result.getRows().get(i).getCellList().get(j).getCellPossibilities().add(value);
+                    }
                 }
             }
         } catch (IllegalSudokuStateException ex) {
@@ -207,16 +208,16 @@ public class Sudoku {
      */
     @Override
     public String toString() {
-        String s = "";
+        StringBuilder s = new StringBuilder();
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                s += this.getRows().get(i).getCell(j).getActualValue() + " ";
+                s.append(this.getRows().get(i).getCell(j).getActualValue()).append(" ");
             }
-            s += "\n";
+            s.append("\n");
         }
-        s += "******************";
+        s.append("******************");
 
-        return s;
+        return s.toString();
     }
 }
