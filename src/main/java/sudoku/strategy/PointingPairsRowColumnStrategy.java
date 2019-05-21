@@ -39,7 +39,7 @@ class PointingPairsRowColumnStrategy extends PointingPairsAbstractStrategy imple
             for (int j = 0; j < 9; j++) {
                 Cell cell = sudoku.getRows().get(i).getCell(j);
                 if (cell.getActualValue() == 0) {
-                    if (pointingPairRowColumn(sudoku, cell)){
+                    if (pointingPairRowColumn(cell)){
                         if (sudoku.getSudokuLevelType().ordinal() < this.getType().ordinal() ) {
                             sudoku.setSudokuLevelType(this.getType());
                         }
@@ -62,7 +62,7 @@ class PointingPairsRowColumnStrategy extends PointingPairsAbstractStrategy imple
         return type;
     }
 
-    private boolean pointingPairRowColumn(Sudoku sudoku, Cell cell) {
+    private boolean pointingPairRowColumn(Cell cell) {
         int cellI = cell.getI();
         int cellJ = cell.getJ();
         Row cellRow = cell.getRow();
@@ -77,7 +77,6 @@ class PointingPairsRowColumnStrategy extends PointingPairsAbstractStrategy imple
 
                 boolean changedInLoop = false;
                 boolean iCase = cellI == partnerCell.getI();
-                boolean jCase = cellJ == partnerCell.getJ();
 
                 LOGGER.info("Partner cell for cell possibility: " + possibilityToCheck + " in cell  i = " + cellI + " j = " + cellJ + " IS: i = " +
                         partnerCell.getI() + " j = " + partnerCell.getJ());
@@ -99,8 +98,7 @@ class PointingPairsRowColumnStrategy extends PointingPairsAbstractStrategy imple
                 }
 
                 if (changedInLoop) {
-                    Map<int[], Integer> deletedPossibilitiesWithLocationCopy = new HashMap<>();
-                    deletedPossibilitiesWithLocationCopy.putAll(deletedPossibilitiesWithLocation);
+                    Map<int[], Integer> deletedPossibilitiesWithLocationCopy = new HashMap<>(deletedPossibilitiesWithLocation);
                     return updatedInPointingPair = true;
                 }
             }
