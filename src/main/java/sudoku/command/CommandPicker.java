@@ -45,8 +45,5 @@ public class CommandPicker implements Command {
         return resolvable.getName() + "\n" + sudoku.toString();
     }
 
-    public Sudoku getSudoku() {
-        return sudoku;
-    }
 }
 
