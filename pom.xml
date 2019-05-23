@@ -16,7 +16,19 @@
         <junit.jupiter.version>5.4.0</junit.jupiter.version>
     </properties>
 
+    <!-- Inherit defaults from Spring Boot, CONVERSION TO SPRING -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.4.7.RELEASE</version>
+    </parent>
+
     <dependencies>
+        <!-- Add typical dependencies for a web application, CONVERSION TO SPRING -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -75,6 +87,11 @@
 
     <build>
         <plugins>
+            <!-- Package as an executable jar, CONVERSION TO SPRING-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
             <!-- JUnit 5 requires Surefire version 2.22.1 or higher -->
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
