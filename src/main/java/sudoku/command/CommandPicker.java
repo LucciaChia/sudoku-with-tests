@@ -2,7 +2,7 @@ package sudoku.command;
 
 import lombok.Getter;
 import lombok.Setter;
-import sudoku.exceptions.NoAvailableSolution;
+import sudoku.exceptions.NoAvailableSolutionException;
 import sudoku.model.Sudoku;
 import sudoku.strategy.Resolvable;
 
@@ -31,7 +31,7 @@ public class CommandPicker implements Command {
      * @return      Sudoku that is next state achieved by applying chosen strategy
      */
     @Override
-    public Sudoku execute() throws NoAvailableSolution {
+    public Sudoku execute() throws NoAvailableSolutionException {
         return resolvable.resolveSudoku(sudoku);
     }
 

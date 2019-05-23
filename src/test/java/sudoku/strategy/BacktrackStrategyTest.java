@@ -7,7 +7,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import sudoku.console.ConsoleDisplayer;
 import sudoku.console.Displayer;
 import sudoku.exceptions.IllegalSudokuStateException;
-import sudoku.exceptions.NoAvailableSolution;
+import sudoku.exceptions.NoAvailableSolutionException;
 import sudoku.model.StrategyType;
 import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;
@@ -67,7 +67,7 @@ public class BacktrackStrategyTest {
             assertEquals(StrategyType.HIGH, endSudokuLevelType);
         } catch (IllegalSudokuStateException ex) {
             consoleDisplayer.displayLine(ex.toString());
-        } catch (NoAvailableSolution ne) {
+        } catch (NoAvailableSolutionException ne) {
             consoleDisplayer.displayLine(ne.toString());
         }
     }

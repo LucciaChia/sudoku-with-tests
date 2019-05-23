@@ -7,7 +7,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sudoku.exceptions.IllegalSudokuStateException;
-import sudoku.exceptions.NoAvailableSolution;
+import sudoku.exceptions.NoAvailableSolutionException;
 import sudoku.model.Cell;
 import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;
@@ -76,7 +76,7 @@ class ManualInvokerTest {
             invoker.setStrategies(resolvable);
             command = invoker.getNextState();
             result = ((CommandPicker) command).getSudoku();
-        } catch (NoAvailableSolution ne) {
+        } catch (NoAvailableSolutionException ne) {
             extAppLogFile.error(ne.toString());
         }
         // THEN
@@ -109,7 +109,7 @@ class ManualInvokerTest {
             invoker.getNextState();
             command = invoker.getNextState();
             result = ((CommandPicker) command).getSudoku();
-        } catch (NoAvailableSolution ne) {
+        } catch (NoAvailableSolutionException ne) {
             extAppLogFile.error(ne.toString());
         }
         // THEN
@@ -141,7 +141,7 @@ class ManualInvokerTest {
             invoker.setStrategies(resolvable);
             command = invoker.getNextState();
             result = ((CommandPicker) command).getSudoku();
-        } catch (NoAvailableSolution ne) {
+        } catch (NoAvailableSolutionException ne) {
             extAppLogFile.error(ne.toString());
         }
         // THEN
@@ -176,7 +176,7 @@ class ManualInvokerTest {
             command2 = invoker.getPreviousState();
             expectedResult = ((CommandPicker) command2).getSudoku();
             result = ((CommandPicker) command2).getSudoku();
-        } catch (NoAvailableSolution ne) {
+        } catch (NoAvailableSolutionException ne) {
             extAppLogFile.error(ne.toString());
         }
         // THEN
@@ -216,7 +216,7 @@ class ManualInvokerTest {
             commands.add(invoker.getNextState(strategyFactory.createPointingPairsRowColumnStrategy()));
             commands.add(invoker.getNextState(strategyFactory.createNakedSingleInACellStrategy()));
             commands.add(invoker.getNextState(strategyFactory.createBacktrackStrategy()));
-        } catch (NoAvailableSolution ne) {
+        } catch (NoAvailableSolutionException ne) {
             extAppLogFile.error(ne.toString());
         }
         result = ((CommandPicker) commands.get(commands.size() - 1)).getSudoku();
@@ -269,7 +269,7 @@ class ManualInvokerTest {
             command2 = invoker.getPreviousState();
             resultSudoku2 = ((CommandPicker) command2).getSudoku();
             resultCell2a = resultSudoku2.getRows().get(0).getCell(7);
-        } catch (NoAvailableSolution ne) {
+        } catch (NoAvailableSolutionException ne) {
             extAppLogFile.error(ne.toString());
         }
         // THEN

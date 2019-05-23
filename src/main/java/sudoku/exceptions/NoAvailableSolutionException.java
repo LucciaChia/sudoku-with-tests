@@ -4,11 +4,11 @@ import lombok.Getter;
 import sudoku.ANSIColour;
 import sudoku.model.Sudoku;
 @Getter
-public class NoAvailableSolution extends Exception implements ANSIColour {
+public class NoAvailableSolutionException extends Exception implements ANSIColour {
 
     private Sudoku sudoku;
 
-    public NoAvailableSolution(Sudoku sudoku) {
+    public NoAvailableSolutionException(Sudoku sudoku) {
         this.sudoku = sudoku;
     }
 

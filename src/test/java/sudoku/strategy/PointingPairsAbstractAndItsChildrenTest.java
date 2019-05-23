@@ -6,7 +6,7 @@ import sudoku.command.AutomatedInvokerTest;
 import sudoku.console.ConsoleDisplayer;
 import sudoku.console.Displayer;
 import sudoku.exceptions.IllegalSudokuStateException;
-import sudoku.exceptions.NoAvailableSolution;
+import sudoku.exceptions.NoAvailableSolutionException;
 import sudoku.model.StrategyType;
 import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;
@@ -50,7 +50,7 @@ public class PointingPairsAbstractAndItsChildrenTest {
 
             automatedInvoker = new AutomatedInvoker(sudoku, nakedSingleInACell, pointingPairsBox, pointingPairsRowColumn, hiddenSingleInACell, backtrack);
 
-        } catch (NoAvailableSolution e) {
+        } catch (NoAvailableSolutionException e) {
             consoleDisplayer.displayLine(e.toString());
         } catch (IllegalSudokuStateException ie) {
             consoleDisplayer.displayLine(ie.toString());

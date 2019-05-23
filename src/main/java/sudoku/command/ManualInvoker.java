@@ -1,7 +1,7 @@
 package sudoku.command;
 
 import lombok.Getter;
-import sudoku.exceptions.NoAvailableSolution;
+import sudoku.exceptions.NoAvailableSolutionException;
 import sudoku.model.Sudoku;
 import sudoku.strategy.Resolvable;
 import sudoku.strategy.StrategyFactory;
@@ -64,7 +64,7 @@ public class ManualInvoker implements Invoker {
      * @return      command containing information about next state
      */
     @Override
-    public Command getNextState() throws NoAvailableSolution {
+    public Command getNextState() throws NoAvailableSolutionException {
 
         CommandPicker command = new CommandPicker(strategies.get(0), sudoku);
 
@@ -85,7 +85,7 @@ public class ManualInvoker implements Invoker {
      * @param strategy  resolvable that is strategy chosen by user to be used to get the next state
      * @return          a command containing the next state achieved by using chosen strategy
      */
-    public Command getNextState(Resolvable strategy) throws NoAvailableSolution{
+    public Command getNextState(Resolvable strategy) throws NoAvailableSolutionException {
         setStrategies(strategy);
 
         return getNextState();

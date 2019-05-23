@@ -5,7 +5,7 @@ import sudoku.ANSIColour;
 import sudoku.console.ConsoleDisplayer;
 import sudoku.console.Displayer;
 import sudoku.exceptions.IllegalSudokuStateException;
-import sudoku.exceptions.NoAvailableSolution;
+import sudoku.exceptions.NoAvailableSolutionException;
 import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;
 import sudoku.strategy.Resolvable;
@@ -57,7 +57,7 @@ public class AutomatedInvokerTest implements ANSIColour {
         List<Command> commands = null;
         try {
             commands = useAutomatedInvokerFunctionality(inputData);
-        } catch (NoAvailableSolution e) {
+        } catch (NoAvailableSolutionException e) {
             fail();
             consoleDisplayer.displayLine(e.toString());
         }
@@ -78,7 +78,7 @@ public class AutomatedInvokerTest implements ANSIColour {
 
         try {
             commands = useAutomatedInvokerFunctionality(inputData);
-        } catch (NoAvailableSolution e) {
+        } catch (NoAvailableSolutionException e) {
             consoleDisplayer.displayLine(e.toString());
         }
 
@@ -100,7 +100,7 @@ public class AutomatedInvokerTest implements ANSIColour {
 
         try {
             commands = useAutomatedInvokerFunctionality(inputData);
-        } catch (NoAvailableSolution e) {
+        } catch (NoAvailableSolutionException e) {
             consoleDisplayer.displayLine(e.toString());
         }
 
@@ -122,7 +122,7 @@ public class AutomatedInvokerTest implements ANSIColour {
 
         try {
             commands = useAutomatedInvokerFunctionality(inputData);
-        } catch (NoAvailableSolution e) {
+        } catch (NoAvailableSolutionException e) {
             consoleDisplayer.displayLine(e.toString());
         }
 
@@ -144,7 +144,7 @@ public class AutomatedInvokerTest implements ANSIColour {
 
         try {
             commands = useAutomatedInvokerFunctionality(inputData);
-        } catch (NoAvailableSolution e) {
+        } catch (NoAvailableSolutionException e) {
             consoleDisplayer.displayLine(e.toString());
         }
 
@@ -166,7 +166,7 @@ public class AutomatedInvokerTest implements ANSIColour {
 
         try {
             commands = useAutomatedInvokerFunctionality(inputData);
-        } catch (NoAvailableSolution e) {
+        } catch (NoAvailableSolutionException e) {
             consoleDisplayer.displayLine(e.toString());
         }
 
@@ -194,7 +194,7 @@ public class AutomatedInvokerTest implements ANSIColour {
             sudoku.print();
             try {
                 automatedInvoker = new AutomatedInvoker(sudoku, nakedSingleInACell, hiddenSingleInACell, pointingPairBox, pointingPairRowColumn, backtrack);
-            } catch (NoAvailableSolution e) {
+            } catch (NoAvailableSolutionException e) {
                 consoleDisplayer.displayLine(e.toString());
             }
 
@@ -240,7 +240,7 @@ public class AutomatedInvokerTest implements ANSIColour {
             sudoku.print();
             try {
                 automatedInvoker = new AutomatedInvoker(sudoku, nakedSingleInACell, hiddenSingleInACell, pointingPairBox, pointingPairRowColumn, backtrack);
-            } catch (NoAvailableSolution e) {
+            } catch (NoAvailableSolutionException e) {
                 consoleDisplayer.displayLine(e.toString());
             }
             assertNotNull(automatedInvoker);
@@ -281,7 +281,7 @@ public class AutomatedInvokerTest implements ANSIColour {
             int lastStep = commands.size()-1;
             Sudoku sudokuStep = ((CommandPicker)commands.get(lastStep)).getSudoku();
             setArrayAccordingToObjectValues(sudokuStep);
-        } catch (NoAvailableSolution e) {
+        } catch (NoAvailableSolutionException e) {
             exception = e.toString();
             consoleDisplayer.displayLine(e.toString());
         }
@@ -291,7 +291,7 @@ public class AutomatedInvokerTest implements ANSIColour {
 
     }
 
-    private List<Command> useAutomatedInvokerFunctionality(int[][] inputData) throws NoAvailableSolution{
+    private List<Command> useAutomatedInvokerFunctionality(int[][] inputData) throws NoAvailableSolutionException {
         Sudoku sudoku;
         AutomatedInvoker automatedInvoker = null;
         try {

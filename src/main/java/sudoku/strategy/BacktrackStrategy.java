@@ -1,6 +1,6 @@
 package sudoku.strategy;
 
-import sudoku.exceptions.NoAvailableSolution;
+import sudoku.exceptions.NoAvailableSolutionException;
 import sudoku.model.Cell;
 import sudoku.model.StrategyType;
 import sudoku.model.Sudoku;
@@ -22,10 +22,10 @@ class BacktrackStrategy implements Resolvable{
     }
 
     @Override
-    public Sudoku resolveSudoku(Sudoku sudoku) throws NoAvailableSolution{
+    public Sudoku resolveSudoku(Sudoku sudoku) throws NoAvailableSolutionException {
         Sudoku backtrackSolution = backtrack(sudoku);
         if (backtrackSolution == null) {
-            throw new NoAvailableSolution(sudoku);
+            throw new NoAvailableSolutionException(sudoku);
         } else {
             updatedInBacktrack = true;
             if (backtrackSolution.getSudokuLevelType().ordinal() < this.getType().ordinal() ) {

@@ -10,7 +10,7 @@ import sudoku.command.ManualInvoker;
 import sudoku.console.ConsoleDisplayer;
 import sudoku.console.Displayer;
 import sudoku.exceptions.IllegalSudokuStateException;
-import sudoku.exceptions.NoAvailableSolution;
+import sudoku.exceptions.NoAvailableSolutionException;
 import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;
 import sudoku.strategy.Resolvable;
@@ -332,7 +332,7 @@ public class Main {
     private AutomatedInvoker automatedInvokerWithAllSolvingMethodsStepByStep(Sudoku sudoku) {
         try {
             return new AutomatedInvoker(sudoku, nakedSingleInACell, hiddenSingleInACell, pointingPairBox, pointingPairRowColumn, backtrackLucia);
-        } catch (NoAvailableSolution ne) {
+        } catch (NoAvailableSolutionException ne) {
             LOGGER.error(ne.toString());
             return null;
         }
@@ -343,7 +343,7 @@ public class Main {
             AutomatedInvoker automatedInvoker = new AutomatedInvoker(sudoku, nakedSingleInACell, hiddenSingleInACell, pointingPairBox, pointingPairRowColumn, backtrackLucia);
             List<Command> allStates = automatedInvoker.getCommands();
             printAllCommands(allStates);
-        } catch (NoAvailableSolution ne) {
+        } catch (NoAvailableSolutionException ne) {
             LOGGER.error(ne.toString());
         }
     }
