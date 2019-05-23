@@ -35,12 +35,6 @@ public class AutomatedInvoker implements Invoker {
 
     private Sudoku sudoku;
 
-    public AutomatedInvoker(Sudoku sudoku) throws NoAvailableSolutionException {
-        this.sudoku = sudoku;
-        this.strategies.add(strategyFactory.createBacktrackStrategy());
-        solvingStepsOrder();
-    }
-
     public AutomatedInvoker(Sudoku sudoku, Resolvable ... useStrategies) throws NoAvailableSolutionException {
         this.sudoku = sudoku;
         setStrategies(useStrategies);
@@ -49,21 +43,21 @@ public class AutomatedInvoker implements Invoker {
 
      protected List<Command> solvingStepsOrder() throws NoAvailableSolutionException {
 
-            for (int i = 0; i < strategies.size(); i++) {
-                Command command = new CommandPicker(strategies.get(i), sudoku.copy());
-                sudoku = command.execute();
-                command.setSudoku(sudoku);
-                if (strategies.get(i).isUpdated() || sudoku.isSudokuResolved()) {
-                    commands.add(command);
-                }
+        int strategyNumber = -1;
+         do {
+             strategyNumber++;
+             Command command = new CommandPicker(strategies.get(strategyNumber), sudoku.copy());
+             sudoku = command.execute();
+             command.setSudoku(sudoku);
+             if (strategies.get(strategyNumber).isUpdated() || sudoku.isSudokuResolved()) {
+                 commands.add(command);
+             }
+             if (strategies.get(strategyNumber).isUpdated() && !sudoku.isSudokuResolved()) {
+                 // choosing first strategy
+                 strategyNumber=-1;
+             }
+         } while (!sudoku.isSudokuResolved());
 
-                if (sudoku.isSudokuResolved()) {
-                    break;
-                }
-                if (strategies.get(i).isUpdated() && !sudoku.isSudokuResolved()) {
-                    i=-1;
-                }
-            }
         if (!sudoku.isSudokuResolved()) {
             throw new NoAvailableSolutionException(sudoku);
         }
