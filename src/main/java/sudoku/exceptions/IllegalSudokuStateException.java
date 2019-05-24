@@ -1,8 +1,9 @@
 package sudoku.exceptions;
 
 /*
- * custom exception to be invoked when sudoku is in illegal state - inappropriate numbers outside the range <0;9>
- * multiple numbers of one kind in the same row / column / box
+ * custom exception to be invoked when sudoku is in illegal state
+ * - inappropriate numbers outside the range <0;9>
+ * - multiple numbers of one kind in the same row / column / box
  */
 
 public class IllegalSudokuStateException extends Exception {

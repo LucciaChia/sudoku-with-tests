@@ -9,6 +9,19 @@ import java.util.List;
 
 public class newFunctTests {
     public static void main(String[] args) {
+
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(22);
+        list.add(35);
+        list.add(3);
+
+        System.out.println("contains 22: " + list.contains(22));
+        System.out.println("contains 35: " + list.contains(35));
+        System.out.println("contains 3: " + list.contains(3));
+        System.out.println("contains 0: " + list.contains(0));
+        System.out.println("contains 1: " + list.contains(1));
+        System.out.println("contains 2: " + list.contains(2));
+
 //        for (int i = 0; i < 9; i++) {
 //            for (int j = 0; j < 9; j++) {
 //                int box = (i/3)*3 + j/3;

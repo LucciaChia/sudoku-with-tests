@@ -2,8 +2,11 @@ package sudoku.model;
 
 
 import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sudoku.console.ConsoleDisplayer;
+import sudoku.console.Displayer;
 import sudoku.exceptions.IllegalSudokuStateException;
 
 import java.util.ArrayList;
@@ -21,10 +24,16 @@ import java.util.List;
 public class Sudoku {
     //TODO tests for Sudoku
     private static final Logger LOGGER = LoggerFactory.getLogger(Sudoku.class);
+    private static final Displayer consoleDisplayer = new ConsoleDisplayer();
 
     private List<Box> boxes = new ArrayList<>();
     private List<Column> columns = new ArrayList<>();
     private List<Row> rows = new ArrayList<>();
+
+    // highest strategy type used to reach current sudoku
+    // set to LOW by default
+    @Setter
+    private StrategyType sudokuLevelType = StrategyType.LOW;
 
     public Sudoku() {
 
@@ -48,6 +57,7 @@ public class Sudoku {
 
     public Sudoku copy(){
         int[][] data = new int[9][9];
+        Sudoku result;
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -55,12 +65,23 @@ public class Sudoku {
             }
         }
         try {
-            return new Sudoku(data);
+            result =  new Sudoku(data);
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    result.getRows().get(i).getCellList().get(j).getCellPossibilities().clear();
+                    for (Integer value: this.getRows().get(i).getCellList().get(j).getCellPossibilities()) {
+                        result.getRows().get(i).getCellList().get(j).getCellPossibilities().add(value);
+                    }
+                }
+            }
         } catch (IllegalSudokuStateException ex) {
-            System.out.printf("Empty sudoku");
+            consoleDisplayer.displayLine("Empty sudoku");
+
             return new Sudoku();
         }
+        result.setSudokuLevelType(this.sudokuLevelType);
 
+        return result;
     }
 
     /**
@@ -71,6 +92,7 @@ public class Sudoku {
      * @see sudoku.model.Column
      * @see sudoku.model.Row
      */
+    //nazov zly
     private void createSudokuElementObjectsService(int[][] data) {
 
         for (int i = 0; i < 9; i++) {
@@ -127,42 +149,14 @@ public class Sudoku {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 Cell cell = rows.get(i).getCell(j);
-                if (cell.getActualValue() == 0) {
-                    deletePossibilities(cell);
+                if (cell.getActualValue() > 0) {
+                    cell.deletePossibilities();
                 }
             }
         }
     }
 
-    /**
-     * Method That reduces possibilities for empty cells (actual value is zero). Possibilities represents actual values
-     * that can legally be set in that cell without breaking rules. Any value in same row, column and box is removed
-     * from possibilities
-     */
-    private Cell deletePossibilities(Cell cell) {
 
-        List<Integer> cellPossibilities = cell.getCellPossibilities();
-        Row cellRow = cell.getRow();
-        Column cellColumn = cell.getColumn();
-        Box cellBox = cell.getBox();
-
-        for (int i = 0; i < 9; i++) {
-            int rowValue = cellRow.getCell(i).getActualValue();
-            int colValue = cellColumn.getCell(i).getActualValue();
-            int boxValue = cellBox.getCellList().get(i).getActualValue();
-
-            if (rowValue != 0 && cellPossibilities.contains(rowValue)) {
-                cellPossibilities.remove((Integer)rowValue);
-            }
-            if (colValue != 0 && cellPossibilities.contains(colValue)) {
-                cellPossibilities.remove((Integer)colValue);
-            }
-            if (boxValue != 0 && cellPossibilities.contains(boxValue)) {
-                cellPossibilities.remove((Integer)boxValue);
-            }
-        }
-        return cell;
-    }
 
     /**
      * Checks if all cells have set a non zero actual value. If there is no cell with actual value zero
@@ -187,11 +181,11 @@ public class Sudoku {
     public void print() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                System.out.print(this.getRows().get(i).getCell(j).getActualValue() + " ");
+                consoleDisplayer.display(this.getRows().get(i).getCell(j).getActualValue() + " ");
             }
-            System.out.println();
+            consoleDisplayer.displayLine("");
         }
-        System.out.println("******************");
+        consoleDisplayer.displayLine("******************");
     }
 
     /**
@@ -201,9 +195,9 @@ public class Sudoku {
     public void printPossibilitiesInSudoku() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                System.out.println(this.getRows().get(i).getCell(j).toString());
+                consoleDisplayer.displayLine(this.getRows().get(i).getCell(j).toString());
             }
-            System.out.println();
+            consoleDisplayer.displayLine("");
         }
     }
 
@@ -214,16 +208,16 @@ public class Sudoku {
      */
     @Override
     public String toString() {
-        String s = "";
+        StringBuilder s = new StringBuilder();
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                s += this.getRows().get(i).getCell(j).getActualValue() + " ";
+                s.append(this.getRows().get(i).getCell(j).getActualValue()).append(" ");
             }
-            s += "\n";
+            s.append("\n");
         }
-        s += "******************";
+        s.append("******************");
 
-        return s;
+        return s.toString();
     }
 }

@@ -1,36 +1,38 @@
+package sudoku.model;
+
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import sudoku.console.ConsoleDisplayer;
+import sudoku.console.Displayer;
 import sudoku.exceptions.IllegalSudokuStateException;
-import sudoku.model.Box;
-import sudoku.model.Column;
-import sudoku.model.Row;
-import sudoku.model.Sudoku;
 import sudoku.readers.FileSudokuReader;
 
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class SudokuTest {
+class SudokuTest {
 
-    static ClassLoader classLoader = new SudokuTest().getClass().getClassLoader();
+    private static ClassLoader classLoader = SudokuTest.class.getClassLoader();
 
-    private static final String inp1 = new File(classLoader.getResource("inputs/simple1.txt").getFile()).getPath();
-    private static final String inp2 = new File(classLoader.getResource("inputs/simple2.txt").getFile()).getPath();
-    private static final String inp3 = new File(classLoader.getResource("inputs/simple3.txt").getFile()).getPath();
-    private static final String inp4 = new File(classLoader.getResource("inputs/simple4.txt").getFile()).getPath();
-    private static final String inp5 = new File(classLoader.getResource("inputs/harder1.txt").getFile()).getPath();
-    private static final String inp6 = new File(classLoader.getResource("inputs/harder2.txt").getFile()).getPath();
-    private static final String inp7 = new File(classLoader.getResource("inputs/harder3.txt").getFile()).getPath();
-    private static final String inp8 = new File(classLoader.getResource("inputs/harder4.txt").getFile()).getPath();
+    private static final Displayer consoleDisplayer = new ConsoleDisplayer();
+
+    private static final String inp1 = new File(Objects.requireNonNull(classLoader.getResource("inputs/simple1.txt")).getFile()).getPath();
+    private static final String inp2 = new File(Objects.requireNonNull(classLoader.getResource("inputs/simple2.txt")).getFile()).getPath();
+    private static final String inp3 = new File(Objects.requireNonNull(classLoader.getResource("inputs/simple3.txt")).getFile()).getPath();
+    private static final String inp4 = new File(Objects.requireNonNull(classLoader.getResource("inputs/simple4.txt")).getFile()).getPath();
+    private static final String inp5 = new File(Objects.requireNonNull(classLoader.getResource("inputs/harder1.txt")).getFile()).getPath();
+    private static final String inp6 = new File(Objects.requireNonNull(classLoader.getResource("inputs/harder2.txt")).getFile()).getPath();
+    private static final String inp7 = new File(Objects.requireNonNull(classLoader.getResource("inputs/harder3.txt")).getFile()).getPath();
+    private static final String inp8 = new File(Objects.requireNonNull(classLoader.getResource("inputs/harder4.txt")).getFile()).getPath();
 
     @ParameterizedTest
     @MethodSource("linksToInputs")
-    public void createSudokuElementObjects(String inputSudokuMatrixPath) {
+    void createSudokuElementObjects(String inputSudokuMatrixPath) {
         FileSudokuReader fileSudokuReader = new FileSudokuReader();
         int[][] inputData = fileSudokuReader.read(inputSudokuMatrixPath);
         Sudoku sudoku;
@@ -49,8 +51,8 @@ public class SudokuTest {
             }
 
         } catch (IllegalSudokuStateException ex) {
-            System.out.println("Invalid sudoku");
-            assertFalse(true);
+            consoleDisplayer.displayLine("Invalid sudoku");
+            fail();
         }
 
     }

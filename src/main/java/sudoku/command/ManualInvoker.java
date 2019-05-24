@@ -1,11 +1,10 @@
 package sudoku.command;
 
 import lombok.Getter;
+import sudoku.exceptions.NoAvailableSolutionException;
 import sudoku.model.Sudoku;
-import sudoku.step.OneChangeStep;
-import sudoku.step.Step;
-import sudoku.strategy.NakedSingleInACell;
 import sudoku.strategy.Resolvable;
+import sudoku.strategy.StrategyFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,10 +17,8 @@ import java.util.List;
  */
 @Getter
 public class ManualInvoker implements Invoker {
-//    private static final Logger LOGGER = LoggerFactory.getLogger(ManualInvoker.class);
-
+    private StrategyFactory strategyFactory = new StrategyFactory();
     private List<Command> commands = new LinkedList<>();
-    private List<Step> stepListFromAllUsedMethods = new ArrayList<>();
     private List<Resolvable> strategies = new ArrayList<>();
     private int currentStep = 0;
     private Sudoku sudoku;
@@ -33,10 +30,8 @@ public class ManualInvoker implements Invoker {
      */
     public ManualInvoker(Sudoku sudoku) {
         this.sudoku = sudoku;
-////         by default only Backtrack Strategy will be used
-//        this.strategies.add(new BacktrackLucia());
 //      default strategy will be NakedSingleCell
-        this.strategies.add(new NakedSingleInACell());
+        this.strategies.add(strategyFactory.createNakedSingleInACellStrategy());
     }
 
     public void setStrategies(Resolvable ... useStrategies) {
@@ -51,21 +46,12 @@ public class ManualInvoker implements Invoker {
      */
     @Override
     public Command getPreviousState() {
-        CommandPicker command = null;
-        Step step;
-        Resolvable resolvable;
-        Sudoku sudoku;
+        Command command = null;
 
         if (currentStep > 0) {
-            step = stepListFromAllUsedMethods.get(stepListFromAllUsedMethods.size() - 1);
-            stepListFromAllUsedMethods.remove(stepListFromAllUsedMethods.size() - 1);
             currentStep--;
-            resolvable = ((OneChangeStep)step).getResolvable();
-            sudoku = ((OneChangeStep)step).getSudoku();
-            command = new CommandPicker(resolvable, sudoku);
-        }
-        if (command != null) {
-//            LOGGER.info("getPreviousState: current state is " + command.getStepList().get(0).toString());
+            commands.remove(commands.size()-1);
+            command = commands.get(commands.size() - 1);
         }
 
         return command;
@@ -78,19 +64,16 @@ public class ManualInvoker implements Invoker {
      * @return      command containing information about next state
      */
     @Override
-    public Command getNextState() {
+    public Command getNextState() throws NoAvailableSolutionException {
 
         CommandPicker command = new CommandPicker(strategies.get(0), sudoku);
 
         if (!sudoku.isSudokuResolved()) {
             sudoku = command.execute();
-            Step oneStep = strategies.get(0).getStepList().get(0);
-            stepListFromAllUsedMethods.add(oneStep);
             currentStep++;
-            command = new CommandPicker(strategies.get(0), ((OneChangeStep) oneStep).getSudoku());
+            command = new CommandPicker(strategies.get(0), sudoku.copy());
             commands.add(command);
         }
-//        LOGGER.info("getNextState: current state is " + command.getStepList().get(0).toString());
 
         return command;
     }
@@ -102,14 +85,9 @@ public class ManualInvoker implements Invoker {
      * @param strategy  resolvable that is strategy chosen by user to be used to get the next state
      * @return          a command containing the next state achieved by using chosen strategy
      */
-    public Command getNextState(Resolvable strategy) {
+    public Command getNextState(Resolvable strategy) throws NoAvailableSolutionException {
         setStrategies(strategy);
 
         return getNextState();
     }
-
-//    @Override
-//    public Command solvingStepsOrder() {
-//        return null;
-//    }
 }

@@ -11,25 +11,25 @@ import java.util.List;
  */
 @Getter @Setter
 public class Cell {
+
     private int i;
     private int j;
     private int actualValue;
     private List<Integer> cellPossibilities;
+
     private Row row;
     private Column column;
     private Box box;
 
     /**
-     * Constructor method that sets variables to input parameters. If an actual value is zero, adds numbers 1 to 9
-     * to possibilities.
+     * Constructor method that sets variables to input parameters. If an actual value is zero, adds numbers 1 to 9 to possibilities.
      *
-     * @param actualValue   represents final number 1 to 9 in sudoku. Zero represents that this cells final number
-     *                      is still unknown
-     * @param i             cell's coordinate
-     * @param j             cell's coordinate
-     * @param row           a row which this cell belongs to
-     * @param column        a column which this cell belongs to
-     * @param box           a box which this cell belongs to
+     * @param actualValue represents final number 1 to 9 in sudoku. Zero represents that this cells final number is still unknown
+     * @param i cell's coordinate
+     * @param j cell's coordinate
+     * @param row a row which this cell belongs to
+     * @param column a column which this cell belongs to
+     * @param box a box which this cell belongs to
      */
     public Cell(int actualValue, int i, int j, Row row, Column column, Box box) {
         this.i = i;
@@ -50,35 +50,49 @@ public class Cell {
      * Sets an actual value. If new value is not zero, clears possibilities.
      */
     public void setActualValue(int actualValue) {
+        this.actualValue = actualValue;
         if (actualValue != 0) {
             this.cellPossibilities.clear();
+            deletePossibilities();
         }
-        this.actualValue = actualValue;
+
     }
 
-    public List<Integer> getCellPossibilities() {
-        return cellPossibilities;
+    /**
+     * method that tells cell that there is one less candidate to actual value thus it is deleted
+     * from list of candidates (possibilities)
+     *
+     * @param possibilityToDelete Integer value that is to be deleted from list of possibilities
+     */
+    public  void deletePossibility(Integer possibilityToDelete) {
+        cellPossibilities.remove(possibilityToDelete);
     }
 
-    public void setCellPossibilities(List<Integer> cellPossibilities) {
-        this.cellPossibilities = cellPossibilities;
+    /**
+     *
+     */
+    public void deletePossibilities() {
+
+        for(int i = 0; i < 9; i++) {
+            row.getCell(i).deletePossibility(actualValue);
+            column.getCell(i).deletePossibility(actualValue);
+            box.getCellList().get(i).deletePossibility(actualValue);
+        }
     }
 
-    public int getActualValue() {
-        return actualValue;
-    }
+
 
     /**
      * Print actual value of all cells in a box to a string.
      *
-     * @return      string containing actual values of all cells in a box
+     * @return string containing actual values of all cells in a box
      */
     @Override
     public String toString() {
 
-        String s = "";
+        StringBuilder s = new StringBuilder();
         for (Integer cellPossibility : cellPossibilities) {
-            s += cellPossibility + ", ";
+            s.append(cellPossibility).append(", ");
         }
         return "value: " + actualValue + ", i=" + i + ", j=" + j + " possibilities: " + s;
     }

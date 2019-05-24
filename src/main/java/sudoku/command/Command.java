@@ -1,6 +1,8 @@
 package sudoku.command;
 
+import sudoku.exceptions.NoAvailableSolutionException;
 import sudoku.model.Sudoku;
+import sudoku.strategy.Resolvable;
 
 /**
  * Command runs given strategy on sudoku to achieve next state
@@ -12,5 +14,11 @@ public interface Command {
      *
      * @return      Sudoku that is next state achieved by applying chosen strategy
      */
-    Sudoku execute();
+    Sudoku execute() throws NoAvailableSolutionException;
+
+    void setSudoku(Sudoku sudoku);
+
+    Sudoku getSudoku();
+
+    Resolvable getResolvable();
 }
