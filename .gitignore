@@ -9,6 +9,8 @@ out/
 target/
 .idea/
 
+/sudoku-with-tests.iml
+
 # JIRA plugin
 atlassian-ide-plugin.xml
 
@@ -17,4 +19,6 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
+*.log
+logs/
 
