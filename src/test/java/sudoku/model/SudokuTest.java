@@ -1,5 +1,6 @@
 package sudoku.model;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -29,6 +30,7 @@ class SudokuTest {
     private static final String inp6 = new File(Objects.requireNonNull(classLoader.getResource("inputs/harder2.txt")).getFile()).getPath();
     private static final String inp7 = new File(Objects.requireNonNull(classLoader.getResource("inputs/harder3.txt")).getFile()).getPath();
     private static final String inp8 = new File(Objects.requireNonNull(classLoader.getResource("inputs/harder4.txt")).getFile()).getPath();
+    private static final String invalidInputFile = new File(Objects.requireNonNull(classLoader.getResource("inputs/invalidInput.txt")).getFile()).getPath();
 
     @ParameterizedTest
     @MethodSource("linksToInputs")
@@ -55,6 +57,13 @@ class SudokuTest {
             fail();
         }
 
+    }
+
+    @Test
+    void invalidInput() {
+        FileSudokuReader fileSudokuReader = new FileSudokuReader();
+        int[][] inputData = fileSudokuReader.read(invalidInputFile);
+        assertThrows(IllegalSudokuStateException.class, () -> new Sudoku(inputData));
     }
 
     private static Stream<Arguments> linksToInputs() {
