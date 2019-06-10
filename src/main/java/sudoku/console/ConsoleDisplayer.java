@@ -10,8 +10,21 @@ public class ConsoleDisplayer implements Displayer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConsoleDisplayer.class);
 
-    private static final Scanner scanner = new Scanner(System.in);
-    private static final Console console = System.console();
+//    private static final Scanner scanner = new Scanner(System.in);
+//    private static final Console console = System.console();
+
+    protected Scanner scanner;
+    protected Console console;
+
+    public ConsoleDisplayer() {
+        this.scanner = new Scanner(System.in);
+        this.console = System.console();
+    }
+
+    public ConsoleDisplayer(Scanner scanner , Console console) {
+        this.scanner = scanner;
+        this.console = console;
+    }
 
     @Override
     public void display(String message) {
